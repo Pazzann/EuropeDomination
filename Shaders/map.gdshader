@@ -1,9 +1,10 @@
 shader_type canvas_item;
 
 
-uniform lowp vec3 colors[14];
+uniform vec3 colors[14];
 uniform int selectedID: hint_range(1,14);
 const vec4 emptycolor = vec4(0.0f, 0.0f, 0.0f, 1.0f);
+const vec4 whiteColor = vec4(1.0f, 1.0f, 1.0f, 0.3f);
 const float thickness = 1.0f;
 
 
@@ -46,7 +47,12 @@ void fragment() {
         }
     }
 	if(color1 != emptycolor && color1.a > 0.0f){
-		COLOR = mix(mix(colorForProvince(color.rgb), colorForProvince(color1.xyz), 0.5f), emptycolor, 0.2f);
+		if(colorForProvince(color.rgb) == colorForProvince(color1.rgb)){
+			COLOR = vec4(0.5f, 0.5f, 0.5f, 1.0f);
+		}else{
+			COLOR = mix(mix(colorForProvince(color.rgb), colorForProvince(color1.xyz), 0.5f), emptycolor, 0.2f);
+		}
+		
 	}else if(color1 != emptycolor && color.a > 0.0f){
 		COLOR = mix(colorForProvince(color.rgb), emptycolor, 0.4f);
 	}
