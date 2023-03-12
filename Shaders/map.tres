@@ -4,5 +4,5 @@
 
 [resource]
 shader = ExtResource("1_8xvcp")
-shader_parameter/colors = PackedVector3Array(1, 0, 0, 0, 1, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, 0, 0.5, 0.2, 0.2, 0, 0.2, 0, 0.2, 0.2, 0.2, 0.2, 1, 1, 0, 0, 1, 1, 1, 0.5, 1, 0.7, 0.7, 0, 0, 0.7, 0.7)
-shader_parameter/selectedID = 4
+shader_parameter/colors = PackedVector3Array()
+shader_parameter/selectedID = 7
