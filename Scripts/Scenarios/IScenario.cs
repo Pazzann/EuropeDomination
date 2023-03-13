@@ -1,12 +1,13 @@
-﻿using Godot;
+﻿using System.Collections.Generic;
+using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
 
 public abstract class IScenario
 {
-    public enum Countries{};
+    public Dictionary<string, int> Countries;
     public Vector3[] CountriesColors;
     public string[] CountriesNames;
-    public abstract int ProvinceCount { get; set; }
-    public abstract ProvinceData[] Map { get; set; }
+    public int ProvinceCount { get; set; }
+    public ProvinceData[] Map { get; set; }
 }

@@ -1,16 +1,17 @@
-﻿using Godot;
+﻿using System.Collections.Generic;
+using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 
 public class DemoScenario : IScenario
 {
 
-    public enum Countries
+    public Dictionary<string, int> Countries = new Dictionary<string, int>()
     {
-        Green = 0,
-        Blue = 1,
-        Red = 2,
-    }
+        { "Green", 0 },
+        { "Blue", 1 },
+        { "Red", 2 }
+    };
 
     public Vector3[] CountriesColors = new Vector3[3]
     {
@@ -25,28 +26,35 @@ public class DemoScenario : IScenario
         "Blue",
         "Red"
     };
-    public override int ProvinceCount { get; set; }
-    public override ProvinceData[] Map { get; set; }
+
+    public int ProvinceCount
+    {
+        get
+        {
+            return 14;
+        }
+    }
+
+    public ProvinceData[] Map { get; set; }
 
     public DemoScenario()
     {
-        ProvinceCount = 14;
         Map = new ProvinceData[14]
         {
-            new ProvinceData(0, (int)Countries.Blue, "Rekyavik"),
-            new ProvinceData(1,  (int)Countries.Blue, "Rekyavik"),
-            new ProvinceData(2,  (int)Countries.Blue, "Rekyavik"),
-            new ProvinceData(3,  (int)Countries.Blue, "Rekyavik"),
-            new ProvinceData(4,  (int)Countries.Red, "Rekyavik"),
-            new ProvinceData(5,  (int)Countries.Red, "Rekyavik"),
-            new ProvinceData(6,  (int)Countries.Red, "Rekyavik"),
-            new ProvinceData(7,  (int)Countries.Red, "Rekyavik"),
-            new ProvinceData(8,  (int)Countries.Red, "Rekyavik"),
-            new ProvinceData(9,  (int)Countries.Green, "Rekyavik"),
-            new ProvinceData(10, (int)Countries.Green, "Rekyavik"),
-            new ProvinceData(11, (int)Countries.Green, "Rekyavik"),
-            new ProvinceData(12,  (int)Countries.Green, "Rekyavik"),
-            new ProvinceData(13, (int)Countries.Green, "Rekyavik"),
+            new ProvinceData(0, Countries["Blue"], "Rekyavik"),
+            new ProvinceData(1,  Countries["Blue"], "Rekyavik"),
+            new ProvinceData(2,  Countries["Blue"], "Rekyavik"),
+            new ProvinceData(3,  Countries["Blue"], "Rekyavik"),
+            new ProvinceData(4,  Countries["Red"], "Rekyavik"),
+            new ProvinceData(5,  Countries["Red"], "Rekyavik"),
+            new ProvinceData(6,  Countries["Red"], "Rekyavik"),
+            new ProvinceData(7,  Countries["Red"], "Rekyavik"),
+            new ProvinceData(8,  Countries["Red"], "Rekyavik"),
+            new ProvinceData(9,  Countries["Green"], "Rekyavik"),
+            new ProvinceData(10, Countries["Green"], "Rekyavik"),
+            new ProvinceData(11, Countries["Green"], "Rekyavik"),
+            new ProvinceData(12,  Countries["Green"], "Rekyavik"),
+            new ProvinceData(13, Countries["Green"], "Rekyavik"),
         };
     }
 }
