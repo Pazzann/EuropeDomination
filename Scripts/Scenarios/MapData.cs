@@ -15,7 +15,7 @@ public class MapData
            Vector3[] colors =  new Vector3[Scenario.ProvinceCount];
            for (int i = 0; i < Scenario.ProvinceCount; i++)
            {
-               colors[i] = Scenario.Map[i].Color;
+               colors[i] = Scenario.CountriesColors[Scenario.Map[i].Owner];
            }
            return colors;
         }

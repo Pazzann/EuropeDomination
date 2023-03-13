@@ -38,7 +38,7 @@ public partial class MapHandler : Sprite2D
 			if(tileId < 0  || tileId >= _mapData.Scenario.ProvinceCount)
 				return;
 			mapMaterial.SetShaderParameter("selectedID", tileId);
-			_mapData.Scenario.Map[tileId].Color = new Vector3(0.0f, 0.0f, 0.0f);
+				//_mapData.Scenario.Map[tileId].Owner = (int)_mapData.Scenario.Countries.Green;
 			mapMaterial.SetShaderParameter("colors", _mapData.MapColors);
 		}
 	}

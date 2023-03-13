@@ -33,20 +33,20 @@ public class DemoScenario : IScenario
         ProvinceCount = 14;
         Map = new ProvinceData[14]
         {
-            new ProvinceData(0, CountriesColors, (int)Countries.Blue, "Rekyavik"),
-            new ProvinceData(1, CountriesColors, (int)Countries.Blue, "Rekyavik"),
-            new ProvinceData(2, CountriesColors, (int)Countries.Blue, "Rekyavik"),
-            new ProvinceData(3, CountriesColors, (int)Countries.Blue, "Rekyavik"),
-            new ProvinceData(4, CountriesColors, (int)Countries.Red, "Rekyavik"),
-            new ProvinceData(5, CountriesColors, (int)Countries.Red, "Rekyavik"),
-            new ProvinceData(6, CountriesColors, (int)Countries.Red, "Rekyavik"),
-            new ProvinceData(7, CountriesColors, (int)Countries.Red, "Rekyavik"),
-            new ProvinceData(8, CountriesColors, (int)Countries.Red, "Rekyavik"),
-            new ProvinceData(9, CountriesColors, (int)Countries.Green, "Rekyavik"),
-            new ProvinceData(10, CountriesColors, (int)Countries.Green, "Rekyavik"),
-            new ProvinceData(11, CountriesColors, (int)Countries.Green, "Rekyavik"),
-            new ProvinceData(12, CountriesColors, (int)Countries.Green, "Rekyavik"),
-            new ProvinceData(13, CountriesColors, (int)Countries.Green, "Rekyavik"),
+            new ProvinceData(0, (int)Countries.Blue, "Rekyavik"),
+            new ProvinceData(1,  (int)Countries.Blue, "Rekyavik"),
+            new ProvinceData(2,  (int)Countries.Blue, "Rekyavik"),
+            new ProvinceData(3,  (int)Countries.Blue, "Rekyavik"),
+            new ProvinceData(4,  (int)Countries.Red, "Rekyavik"),
+            new ProvinceData(5,  (int)Countries.Red, "Rekyavik"),
+            new ProvinceData(6,  (int)Countries.Red, "Rekyavik"),
+            new ProvinceData(7,  (int)Countries.Red, "Rekyavik"),
+            new ProvinceData(8,  (int)Countries.Red, "Rekyavik"),
+            new ProvinceData(9,  (int)Countries.Green, "Rekyavik"),
+            new ProvinceData(10, (int)Countries.Green, "Rekyavik"),
+            new ProvinceData(11, (int)Countries.Green, "Rekyavik"),
+            new ProvinceData(12,  (int)Countries.Green, "Rekyavik"),
+            new ProvinceData(13, (int)Countries.Green, "Rekyavik"),
         };
     }
 }
