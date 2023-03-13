@@ -67,7 +67,7 @@ public partial class CameraBehaviour : Camera2D
 					}
 				}
 
-				if (_zoom.X < 1.5f)
+				if (_zoom.X < 1.0f)
 				{
 					_mapMaterial.SetShaderParameter("viewMod", 1);
 				}

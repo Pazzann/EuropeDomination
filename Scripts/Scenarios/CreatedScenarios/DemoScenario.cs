@@ -6,27 +6,9 @@ namespace EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 public class DemoScenario : IScenario
 {
 
-    public Dictionary<string, int> Countries = new Dictionary<string, int>()
-    {
-        { "Green", 0 },
-        { "Blue", 1 },
-        { "Red", 2 }
-    };
-
-    public Vector3[] CountriesColors = new Vector3[3]
-    {
-        new Vector3(0.0f, 1.0f, 0.0f),
-        new Vector3(0.0f, 0.0f, 1.0f),
-        new Vector3(1.0f, 0.0f, 0.0f),
-    };
-
-    public string[] CountriesNames = new string[3]
-    {
-        "Green",
-        "Blue",
-        "Red"
-    };
-
+    public Dictionary<string, int> Countries { get; }
+    public Vector3[] CountriesColors { get; }
+    public string[] CountriesNames { get; }
     public int ProvinceCount
     {
         get
@@ -39,6 +21,24 @@ public class DemoScenario : IScenario
 
     public DemoScenario()
     {
+        Countries = new Dictionary<string, int>()
+        {
+            { "Green", 0 },
+            { "Blue", 1 },
+            { "Red", 2 }
+        };
+        CountriesColors = new Vector3[3]
+        {
+            new Vector3(0.0f, 1.0f, 0.0f),
+            new Vector3(0.0f, 0.0f, 1.0f),
+            new Vector3(1.0f, 0.0f, 0.0f),
+        };
+        CountriesNames = new string[3]
+        {
+            "Green",
+            "Blue",
+            "Red"
+        };
         Map = new ProvinceData[14]
         {
             new ProvinceData(0, Countries["Blue"], "Rekyavik"),

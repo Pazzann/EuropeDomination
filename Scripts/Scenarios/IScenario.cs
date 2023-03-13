@@ -3,11 +3,11 @@ using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
 
-public abstract class IScenario
+public interface IScenario
 {
-    public Dictionary<string, int> Countries;
-    public Vector3[] CountriesColors;
-    public string[] CountriesNames;
-    public int ProvinceCount { get; set; }
+    public Dictionary<string, int> Countries { get; }
+    public Vector3[] CountriesColors { get; }
+    public string[] CountriesNames { get; }
+    public int ProvinceCount { get; }
     public ProvinceData[] Map { get; set; }
 }
