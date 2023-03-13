@@ -8,10 +8,10 @@ public class ProvinceData
     public readonly string Name;
     public Vector3 Color;
 
-    public ProvinceData(int id, Vector3 color, string name)
+    public ProvinceData(int id, Vector3[] countryColors, int countryId, string name)
     {
         this.Id = id;
-        this.Color = color;
+        this.Color = countryColors[countryId];
         this.Name = name;
     }
 }

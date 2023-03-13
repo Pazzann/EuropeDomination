@@ -1,13 +1,16 @@
-﻿using Godot;
+using Godot;
 
 namespace EuropeDominationDemo.Scripts;
 
 public partial class CameraBehaviour : Camera2D
-	{
+{
+
+		private ShaderMaterial _mapMaterial;
+		
 		private Vector2 _zoom;
 		private Vector2 _cameraPosition;
 		private float _maxZoom = 5f;
-		private float _minZoom = 1.0f;
+		private float _minZoom = 0.3f;
 		private float _zoomChangeSpeed = 0.05f;
 		private float _zoomMovement = 20.0f;
 
@@ -23,6 +26,7 @@ public partial class CameraBehaviour : Camera2D
 			_zoom = this.Zoom;
 			_cameraPosition = this.Position;
 			Enabled = true;
+			_mapMaterial = GetNode<Sprite2D>("../Map").Material as ShaderMaterial;
 		}
 
 		public override void _PhysicsProcess(double delta)
@@ -44,7 +48,7 @@ public partial class CameraBehaviour : Camera2D
 		{
 			if (@event is InputEventMouseButton mbe)
 			{
-				if (mbe.ButtonIndex == MouseButton.WheelUp)
+				if (mbe.ButtonIndex == MouseButton.WheelDown)
 				{
 					if (_zoom.X - _zoomChangeSpeed > _minZoom)
 					{
@@ -52,17 +56,8 @@ public partial class CameraBehaviour : Camera2D
 						_zoom.Y -= _zoomChangeSpeed;
 						this.Zoom = _zoom;
 					}
-
-					// Vector2 distanceToCenter = new Vector2(
-					// 	mbe.Position.x - GetViewport().Size.x,
-					// 	mbe.Position.y - GetViewport().Size.y
-					// 	);
-					// GD.Print(_cameraPosition.x  + " " + distanceToCenter.x);
-					// _cameraPosition.x -= distanceToCenter.x / 10.0f;
-					// _cameraPosition.y -= distanceToCenter.y / 10.0f;
-					// this.Position = _cameraPosition;
 				}
-				if (mbe.ButtonIndex == MouseButton.WheelDown)
+				if (mbe.ButtonIndex == MouseButton.WheelUp)
 				{
 					if (_zoom.X + _zoomChangeSpeed < _maxZoom)
 					{
@@ -70,6 +65,15 @@ public partial class CameraBehaviour : Camera2D
 						_zoom.Y += _zoomChangeSpeed;
 						this.Zoom = _zoom;
 					}
+				}
+
+				if (_zoom.X < 1.5f)
+				{
+					_mapMaterial.SetShaderParameter("viewMod", 1);
+				}
+				else
+				{
+					_mapMaterial.SetShaderParameter("viewMod", 0);
 				}
 			}
 			if (@event is InputEventKey eventKey)

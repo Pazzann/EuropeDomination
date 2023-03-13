@@ -1,7 +1,12 @@
-﻿namespace EuropeDominationDemo.Scripts.Scenarios;
+﻿using Godot;
 
-public interface IScenario
+namespace EuropeDominationDemo.Scripts.Scenarios;
+
+public abstract class IScenario
 {
-    public int ProvinceCount { get; set; }
-    public ProvinceData[] Map { get; set; }
+    public enum Countries{};
+    public Vector3[] CountriesColors;
+    public string[] CountriesNames;
+    public abstract int ProvinceCount { get; set; }
+    public abstract ProvinceData[] Map { get; set; }
 }

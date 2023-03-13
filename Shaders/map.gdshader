@@ -2,6 +2,7 @@ shader_type canvas_item;
 
 
 uniform vec3 colors[14];
+uniform int viewMod: hint_range(0, 1);
 uniform int selectedID: hint_range(1,14);
 const vec4 emptycolor = vec4(0.0f, 0.0f, 0.0f, 1.0f);
 const vec4 whiteColor = vec4(1.0f, 1.0f, 1.0f, 0.3f);
@@ -46,15 +47,17 @@ void fragment() {
 			break;
         }
     }
+	vec4 colorFind = colorForProvince(color.rgb);
+	vec4 color1Find = colorForProvince(color1.rgb);
 	if(color1 != emptycolor && color1.a > 0.0f){
-		if(colorForProvince(color.rgb) == colorForProvince(color1.rgb)){
+		if(colorFind == color1Find && viewMod == 0){
 			COLOR = vec4(0.5f, 0.5f, 0.5f, 1.0f);
-		}else{
-			COLOR = mix(mix(colorForProvince(color.rgb), colorForProvince(color1.xyz), 0.5f), emptycolor, 0.2f);
+		}else if (colorFind != color1Find){
+			COLOR = mix(mix(colorFind, color1Find, 0.5f), emptycolor, 0.2f);
 		}
 		
 	}else if(color1 != emptycolor && color.a > 0.0f){
-		COLOR = mix(colorForProvince(color.rgb), emptycolor, 0.4f);
+		COLOR = mix(colorFind, emptycolor, 0.4f);
 	}
 	if(selectedID == provinceID(color.rgb) && color.a > 0.0f){
 		COLOR = mix(COLOR, vec4(1.0f, 1.0f, 1.0f, 1.0f), cos(TIME*2.0f)/3.0f);

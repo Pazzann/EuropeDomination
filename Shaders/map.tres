@@ -5,4 +5,5 @@
 [resource]
 shader = ExtResource("1_8xvcp")
 shader_parameter/colors = PackedVector3Array()
+shader_parameter/viewMod = 1
 shader_parameter/selectedID = 7

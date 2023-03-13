@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using EuropeDominationDemo.Scripts.Enums;
+using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
 
@@ -28,6 +29,8 @@ public class MapData
                 case MapTypes.Political:
                     return _mapColors;
                 case MapTypes.Terrain:
+                    return _mapColors;
+                case MapTypes.Resources:
                     return _mapColors;
                 default:
                     return _mapColors;
