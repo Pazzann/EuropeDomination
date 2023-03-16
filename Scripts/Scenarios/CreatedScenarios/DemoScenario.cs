@@ -3,41 +3,40 @@ using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 
-public class DemoScenario : IScenario
+public class DemoScenario : Scenario
 {
-
-    public Dictionary<string, int> Countries { get; }
-    public Vector3[] CountriesColors { get; }
-    public string[] CountriesNames { get; }
-    public int ProvinceCount
+    public override Dictionary<string, int> Countries { get; }
+    public override Vector3[] CountriesColors { get; }
+    public override string[] CountriesNames { get; }
+    public override int ProvinceCount { get; }
+    public override CountryData[] CountriesData { get; set; }
+    public override ProvinceData[] Map { get; set; }
+    public DemoScenario(Image mapTexture)
     {
-        get
-        {
-            return 14;
-        }
-    }
-
-    public ProvinceData[] Map { get; set; }
-
-    public DemoScenario()
-    {
+        ProvinceCount = 14;
         Countries = new Dictionary<string, int>()
         {
             { "Green", 0 },
             { "Blue", 1 },
             { "Red", 2 }
         };
-        CountriesColors = new Vector3[3]
+        CountriesColors = new Vector3[]
         {
             new Vector3(0.0f, 1.0f, 0.0f),
             new Vector3(0.0f, 0.0f, 1.0f),
             new Vector3(1.0f, 0.0f, 0.0f),
         };
-        CountriesNames = new string[3]
+        CountriesNames = new string[]
         {
             "Green",
             "Blue",
             "Red"
+        };
+        CountriesData = new CountryData[]
+        {
+            new CountryData(),
+            new CountryData(),
+            new CountryData()
         };
         Map = new ProvinceData[14]
         {
@@ -56,5 +55,11 @@ public class DemoScenario : IScenario
             new ProvinceData(12,  Countries["Green"], "Rekyavik"),
             new ProvinceData(13, Countries["Green"], "Rekyavik"),
         };
+
+        var centers = GameMath.GameMath.CalculateCenterOfProvinceWeight(mapTexture, ProvinceCount);
+        for (int i = 0; i < ProvinceCount; i++)
+        {
+            Map[i].CenterOfWeight = centers[i];
+        }
     }
 }

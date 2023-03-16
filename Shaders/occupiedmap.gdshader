@@ -9,7 +9,7 @@ int provinceID(vec3 color){
 }
 
 vec4 colorForProvince(vec3 color){
-	return vec4(colors[provinceID(color.rgb)], 1); 
+	return vec4(colors[provinceID(color.rgb)], 0.5f); 
 }
 
 

@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Scenarios;
+using EuropeDominationDemo.Scripts.GameMath;
 using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 using Godot;
 
@@ -10,12 +12,34 @@ public partial class MapHandler : Sprite2D
 	private Image mapMap;
 	private ShaderMaterial mapMaterial;
 	private MapData _mapData;
+
+	private PackedScene _textScene;
+	private Node2D _textSpawner;
 	public override void _Ready()
 	{
 		mapMap = this.Texture.GetImage();
 		mapMaterial = this.Material as ShaderMaterial;
-		_mapData = new MapData(new DemoScenario());
+		_mapData = new MapData(new DemoScenario(mapMap));
+		_textScene = (PackedScene)GD.Load("res://Prefabs/Text.tscn");
+		_textSpawner = GetNode<Node2D>("../TextHandler");
+		
 		mapMaterial.SetShaderParameter("colors", _mapData.MapColors);
+
+		foreach (var data in _mapData.Scenario.Countries)
+		{
+			var provinces = _mapData.Scenario.CountryProvinces(data.Value);
+			HashSet<int> provincesId = new HashSet<int>();
+			foreach (var province in provinces)
+			{
+				provincesId.Add(province.Id);
+			}
+			var centerOfCountry = GameMath.GameMath.CalculateCenterOfStateWeight(mapMap, provincesId);
+			var idOfCenter = GameMath.GameMath.ClosestIdCenterToPoint(provinces, centerOfCountry);
+			Node2D obj = _textScene.Instantiate() as Node2D;
+			obj.Position = _mapData.Scenario.Map[idOfCenter].CenterOfWeight;
+			(obj.GetChild(0) as Label).Text = data.Key;
+			_textSpawner.AddChild(obj);
+		}
 
 	}
 

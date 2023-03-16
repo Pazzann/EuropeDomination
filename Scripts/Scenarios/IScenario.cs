@@ -10,4 +10,7 @@ public interface IScenario
     public string[] CountriesNames { get; }
     public int ProvinceCount { get; }
     public ProvinceData[] Map { get; set; }
+    public CountryData[] CountriesData { get; set; }
+    public ProvinceData[] CountryProvinces(int countryId);
+
 }

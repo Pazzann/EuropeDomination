@@ -7,6 +7,7 @@ public class ProvinceData
     public readonly int Id;
     public readonly string Name;
     public int Owner;
+    public Vector2 CenterOfWeight;
 
     public ProvinceData(int id, int countryId, string name)
     {

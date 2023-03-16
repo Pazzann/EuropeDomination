@@ -6,7 +6,7 @@ namespace EuropeDominationDemo.Scripts.Scenarios;
 
 public class MapData
 {
-    public IScenario Scenario;
+    public Scenario Scenario;
     public MapTypes CurrentMapMode = MapTypes.Political;
 
     private Vector3[] _mapColors
@@ -39,7 +39,7 @@ public class MapData
         }
     }
 
-    public MapData(IScenario scenario)
+    public MapData(Scenario scenario)
     {
         Scenario = scenario;
     }
