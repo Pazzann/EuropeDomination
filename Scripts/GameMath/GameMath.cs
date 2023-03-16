@@ -76,8 +76,8 @@ public class GameMath
         int res = 0;
         for (int i = 0; i < countryProvinces.Length; i++)
         {
-            if ((center + countryProvinces[res].CenterOfWeight).Length() >
-                (center + countryProvinces[i].CenterOfWeight).Length())
+            if ((center - countryProvinces[res].CenterOfWeight).Length() >
+                (center - countryProvinces[i].CenterOfWeight).Length())
             {
                 res = i;
             }
