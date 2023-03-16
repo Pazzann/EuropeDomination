@@ -37,9 +37,17 @@ public partial class MapHandler : Sprite2D
 			var idOfCenter = GameMath.GameMath.ClosestIdCenterToPoint(provinces, centerOfCountry);
 			Node2D obj = _textScene.Instantiate() as Node2D;
 			obj.Position = _mapData.Scenario.Map[idOfCenter].CenterOfWeight;
+			// obj.Position = centerOfCountry;
 			(obj.GetChild(0) as Label).Text = data.Key;
 			_textSpawner.AddChild(obj);
 		}
+		// foreach (var prov in _mapData.Scenario.Map)
+		// {
+		// 	Node2D obj = _textScene.Instantiate() as Node2D;
+		// 	obj.Position = prov.CenterOfWeight;
+		// 	(obj.GetChild(0) as Label).Text = prov.Name;
+		// 	_textSpawner.AddChild(obj);
+		// }
 
 	}
 

@@ -3,6 +3,10 @@
 [node name="Text" type="Node2D"]
 
 [node name="Label" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = -64.0
+offset_top = -14.0
+offset_right = 64.0
+offset_bottom = 12.0
 text = "sadsa"
+horizontal_alignment = 1
+vertical_alignment = 1
