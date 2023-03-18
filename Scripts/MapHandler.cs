@@ -15,6 +15,37 @@ public partial class MapHandler : Sprite2D
 
 	private PackedScene _textScene;
 	private Node2D _textSpawner;
+
+	private async void _drawText()
+	{
+		var texts = _textSpawner.GetChildren();
+		foreach (var text in texts)
+			text.Free();
+
+		foreach (var data in _mapData.Scenario.Countries)
+		{
+			var provinces = _mapData.Scenario.CountryProvinces(data.Value);
+			// var ids = GameMath.FindSquarePointsInsideState(provinces, mapMap, 30);
+			// var curve = GameMath.FindBezierCurveFromPoints(ids);
+			var curve = GameMath.FindBezierCurve(provinces);
+			Node2D obj = _textScene.Instantiate() as Node2D;
+			Node2D obj1 = _textScene.Instantiate() as Node2D;
+			Node2D obj2 = _textScene.Instantiate() as Node2D;
+			obj.Position = curve.Segment1;
+			obj1.Position = curve.Segment2;
+			obj2.Position = curve.Vertex;
+			(obj.GetChild(0) as Label).Text = "1"; 
+			(obj1.GetChild(0) as Label).Text = "2"; 
+			(obj2.GetChild(0) as Label).Text = "3"; 
+			_textSpawner.AddChild(obj);
+			_textSpawner.AddChild(obj1);
+			_textSpawner.AddChild(obj2);
+		}
+	}
+	
+	
+	
+	
 	public override void _Ready()
 	{
 		mapMap = this.Texture.GetImage();
@@ -25,41 +56,8 @@ public partial class MapHandler : Sprite2D
 		
 		mapMaterial.SetShaderParameter("colors", _mapData.MapColors);
 
-		foreach (var data in _mapData.Scenario.Countries)
-		{
-			var provinces = _mapData.Scenario.CountryProvinces(data.Value);
-			var ids = GameMath.FindSquarePointsInsideState(provinces, mapMap, 10);
-			var curve = GameMath.FindBezierCurveFromPoints(ids);
-			// HashSet<int> provincesId = new HashSet<int>();
-			// foreach (var province in provinces)
-			// {
-			// 	provincesId.Add(province.Id);
-			// }
-			// var centerOfCountry = GameMath.GameMath.CalculateCenterOfStateWeight(mapMap, provincesId);
-			// var idOfCenter = GameMath.GameMath.ClosestIdCenterToPoint(provinces, centerOfCountry);
-			Node2D obj = _textScene.Instantiate() as Node2D;
-			Node2D obj1 = _textScene.Instantiate() as Node2D;
-			Node2D obj2 = _textScene.Instantiate() as Node2D;
-			obj.Position = curve.Segment1;
-			obj1.Position = curve.Segment2;
-			obj2.Position = curve.Vertex;
-			// obj.Position = _mapData.Scenario.Map[idOfCenter].CenterOfWeight;
-			// obj.Position = centerOfCountry;
-			// (obj.GetChild(0) as Label).Text = data.Key;
-			(obj.GetChild(0) as Label).Text = "1"; 
-			(obj1.GetChild(0) as Label).Text = "2"; 
-			(obj2.GetChild(0) as Label).Text = "3"; 
-			_textSpawner.AddChild(obj);
-			_textSpawner.AddChild(obj1);
-			_textSpawner.AddChild(obj2);
-		}
-		// foreach (var prov in _mapData.Scenario.Map)
-		// {
-		// 	Node2D obj = _textScene.Instantiate() as Node2D;
-		// 	obj.Position = prov.CenterOfWeight;
-		// 	(obj.GetChild(0) as Label).Text = prov.Name;
-		// 	_textSpawner.AddChild(obj);
-		// }
+		_drawText();
+
 
 	}
 
@@ -73,17 +71,19 @@ public partial class MapHandler : Sprite2D
 	{
 		
 		if (@event is not InputEventMouseButton mbe || mbe.ButtonIndex != MouseButton.Left || !mbe.Pressed) return;
-		
 		var mousePos = this.GetLocalMousePosition();
-		var iMousePos = new Vector2I((int)(mousePos.X + this.Texture.GetSize().X/2), (int)(mousePos.Y + this.Texture.GetSize().Y/2));
+		var iMousePos = new Vector2I((int)(mousePos.X), (int)(mousePos.Y));
+		GD.Print(iMousePos.X);
 		if (mapMap.GetUsedRect().HasPoint(iMousePos))
 		{
 			var tileId = GameMath.GetProvinceID(mapMap.GetPixelv(iMousePos));
+				
 			if(tileId < 0  || tileId >= _mapData.Scenario.ProvinceCount)
 				return;
 			mapMaterial.SetShaderParameter("selectedID", tileId);
 			_mapData.Scenario.Map[tileId].Owner = _mapData.Scenario.Countries["Green"];
 			mapMaterial.SetShaderParameter("colors", _mapData.MapColors);
+			_drawText();
 		}
 	}
 }

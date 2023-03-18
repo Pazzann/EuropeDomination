@@ -118,8 +118,7 @@ public class GameMath
                     angles[1] = GeometryMath.VertexAngleCos(sides[0], sides[2], sides[1]);
                     angles[2] = GeometryMath.VertexAngleCos(sides[1], sides[2], sides[0]);
 
-                    if (CheckLongest(sides[0], sides[1], sides[2], angles[0], angles[2], angles[1],
-                            maxAdjacentSidesSum))
+                    if (sides[0] + sides[1] > maxAdjacentSidesSum && angles[0] <= 0)
                     {
                         bezierCurve.Segment1 = countryProvinces[j].CenterOfWeight;
                         bezierCurve.Segment2 = countryProvinces[k].CenterOfWeight;
@@ -128,8 +127,7 @@ public class GameMath
                         continue;
                     }
 
-                    if (CheckLongest(sides[0], sides[2], sides[1], angles[0], angles[1], angles[2],
-                            maxAdjacentSidesSum))
+                    if (sides[0] + sides[2] > maxAdjacentSidesSum && angles[1] <= 0)
                     {
                         bezierCurve.Segment1 = countryProvinces[i].CenterOfWeight;
                         bezierCurve.Segment2 = countryProvinces[k].CenterOfWeight;
@@ -138,8 +136,7 @@ public class GameMath
                         continue;
                     }
 
-                    if (CheckLongest(sides[1], sides[2], sides[0], angles[1], angles[0], angles[2],
-                            maxAdjacentSidesSum))
+                    if (sides[1] + sides[2] > maxAdjacentSidesSum && angles[2] <= 0)
                     {
                         bezierCurve.Segment1 = countryProvinces[j].CenterOfWeight;
                         bezierCurve.Segment2 = countryProvinces[i].CenterOfWeight;
@@ -195,8 +192,7 @@ public class GameMath
                     angles[1] = GeometryMath.VertexAngleCos(sides[0], sides[2], sides[1]);
                     angles[2] = GeometryMath.VertexAngleCos(sides[1], sides[2], sides[0]);
 
-                    if (CheckLongest(sides[0], sides[1], sides[2], angles[0], angles[2], angles[1],
-                            maxAdjacentSidesSum))
+                    if (sides[0] + sides[1] > maxAdjacentSidesSum && angles[0] <= 0)
                     {
                         bezierCurve.Segment1 = points[j];
                         bezierCurve.Segment2 = points[k];
@@ -205,8 +201,7 @@ public class GameMath
                         continue;
                     }
 
-                    if (CheckLongest(sides[0], sides[2], sides[1], angles[0], angles[1], angles[2],
-                            maxAdjacentSidesSum))
+                    if (sides[0] + sides[2] > maxAdjacentSidesSum && angles[1] <= 0)
                     {
                         bezierCurve.Segment1 = points[i];
                         bezierCurve.Segment2 = points[k];
@@ -215,8 +210,7 @@ public class GameMath
                         continue;
                     }
 
-                    if (CheckLongest(sides[1], sides[2], sides[0], angles[1], angles[0], angles[2],
-                            maxAdjacentSidesSum))
+                    if (sides[1] + sides[2] > maxAdjacentSidesSum && angles[2] <= 0)
                     {
                         bezierCurve.Segment1 = points[j];
                         bezierCurve.Segment2 = points[i];
@@ -237,23 +231,7 @@ public class GameMath
         {
             ids.Add(provinces[i].Id);
         }
-
         return ids;
     }
-
-    public static bool CheckLongest(
-        float a, float b, float c,
-        float abCos, float bcCos, float acCos,
-        float maxCurrLength)
-    {
-        if (abCos > 0)
-            return false;
-        if (a + b < maxCurrLength)
-            return false;
-        if (a + b < b + c && bcCos < 0)
-            return false;
-        if (a + b < a + c && acCos < 0)
-            return false;
-        return true;
-    }
+    
 }

@@ -32,13 +32,13 @@ public partial class CameraBehaviour : Camera2D
 		public override void _PhysicsProcess(double delta)
 		{
 			if (_moveUp)
-				_cameraPosition.Y -= _moveSpeed * _zoom.X * 10;
+				_cameraPosition.Y -= _moveSpeed * _zoom.X * 10 / _maxZoom;
 			if (_moveRight)
-				_cameraPosition.X += _moveSpeed * _zoom.X * 10;
+				_cameraPosition.X += _moveSpeed * _zoom.X * 10 / _maxZoom;
 			if (_moveDown)
-				_cameraPosition.Y += _moveSpeed * _zoom.X * 10;
+				_cameraPosition.Y += _moveSpeed * _zoom.X * 10 / _maxZoom;
 			if (_moveLeft)
-				_cameraPosition.X -= _moveSpeed * _zoom.X * 10;
+				_cameraPosition.X -= _moveSpeed * _zoom.X * 10 / _maxZoom;
 			if(_moveUp || _moveDown || _moveLeft || _moveRight)
 				this.Position = _cameraPosition;
 		}
