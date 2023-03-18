@@ -1,8 +1,14 @@
-[gd_scene format=3 uid="uid://cfhjx86a1prto"]
+[gd_scene load_steps=3 format=3 uid="uid://cfhjx86a1prto"]
+
+[ext_resource type="Shader" path="res://Shaders/curvedText.gdshader" id="1_a3dbt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4d1s1"]
+shader = ExtResource("1_a3dbt")
 
 [node name="Text" type="Node2D"]
 
 [node name="Label" type="Label" parent="."]
+material = SubResource("ShaderMaterial_4d1s1")
 offset_left = -64.0
 offset_top = -14.0
 offset_right = 64.0

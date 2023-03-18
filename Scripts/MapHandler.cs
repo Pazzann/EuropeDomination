@@ -28,7 +28,8 @@ public partial class MapHandler : Sprite2D
 		foreach (var data in _mapData.Scenario.Countries)
 		{
 			var provinces = _mapData.Scenario.CountryProvinces(data.Value);
-			var curve = GameMath.FindBezierCurve(provinces);
+			var ids = GameMath.FindSquarePointsInsideState(provinces, mapMap, 10);
+			var curve = GameMath.FindBezierCurveFromPoints(ids);
 			// HashSet<int> provincesId = new HashSet<int>();
 			// foreach (var province in provinces)
 			// {

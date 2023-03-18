@@ -117,17 +117,19 @@ public class GameMath
                     angles[0] = GeometryMath.VertexAngleCos(sides[0], sides[1], sides[2]);
                     angles[1] = GeometryMath.VertexAngleCos(sides[0], sides[2], sides[1]);
                     angles[2] = GeometryMath.VertexAngleCos(sides[1], sides[2], sides[0]);
-                    
-                    if (CheckLongest(sides[0], sides[1], sides[2], angles[0], angles[2], angles[1], maxAdjacentSidesSum))
+
+                    if (CheckLongest(sides[0], sides[1], sides[2], angles[0], angles[2], angles[1],
+                            maxAdjacentSidesSum))
                     {
                         bezierCurve.Segment1 = countryProvinces[j].CenterOfWeight;
                         bezierCurve.Segment2 = countryProvinces[k].CenterOfWeight;
                         bezierCurve.Vertex = countryProvinces[i].CenterOfWeight;
                         maxAdjacentSidesSum = sides[0] + sides[1];
-                        GD.Print(bezierCurve);
                         continue;
                     }
-                    if (CheckLongest(sides[0], sides[2], sides[1], angles[0], angles[1], angles[2], maxAdjacentSidesSum))
+
+                    if (CheckLongest(sides[0], sides[2], sides[1], angles[0], angles[1], angles[2],
+                            maxAdjacentSidesSum))
                     {
                         bezierCurve.Segment1 = countryProvinces[i].CenterOfWeight;
                         bezierCurve.Segment2 = countryProvinces[k].CenterOfWeight;
@@ -135,7 +137,9 @@ public class GameMath
                         maxAdjacentSidesSum = sides[0] + sides[2];
                         continue;
                     }
-                    if (CheckLongest(sides[1], sides[2], sides[0], angles[1], angles[0], angles[2], maxAdjacentSidesSum))
+
+                    if (CheckLongest(sides[1], sides[2], sides[0], angles[1], angles[0], angles[2],
+                            maxAdjacentSidesSum))
                     {
                         bezierCurve.Segment1 = countryProvinces[j].CenterOfWeight;
                         bezierCurve.Segment2 = countryProvinces[i].CenterOfWeight;
@@ -147,6 +151,94 @@ public class GameMath
         }
 
         return bezierCurve;
+    }
+
+    public static Vector2[] FindSquarePointsInsideState(ProvinceData[] countryProvinces, Image mapTexture,
+        int squareSide)
+    {
+        List<Vector2> points = new List<Vector2>();
+        var ids = ListIdsFromProvinces(countryProvinces);
+        for (int y = squareSide; y < mapTexture.GetHeight(); y += squareSide)
+        {
+            for (int x = squareSide; x < mapTexture.GetWidth(); x += squareSide)
+            {
+                Color pixel = mapTexture.GetPixelv(new Vector2I(x, y));
+                if (pixel.A < 1.0f)
+                    continue;
+                var tileId = GetProvinceID(pixel);
+                if (ids.Contains(tileId))
+                    points.Add(new Vector2(x, y));
+            }
+        }
+
+        return points.ToArray();
+    }
+
+    public static BezierCurve FindBezierCurveFromPoints(Vector2[] points)
+    {
+        var bezierCurve = new BezierCurve();
+        float maxAdjacentSidesSum = 0.0f;
+
+        for (int i = 0; i < points.Length; i++)
+        {
+            for (int j = i + 1; j < points.Length; j++)
+            {
+                for (int k = j + 1; k < points.Length; k++)
+                {
+                    var sides = new float[3];
+                    sides[0] = (points[i]- points[j]).Length();
+                    sides[1] = (points[i] - points[k]).Length();
+                    sides[2] = (points[j] - points[k]).Length();
+
+                    var angles = new float[3];
+                    angles[0] = GeometryMath.VertexAngleCos(sides[0], sides[1], sides[2]);
+                    angles[1] = GeometryMath.VertexAngleCos(sides[0], sides[2], sides[1]);
+                    angles[2] = GeometryMath.VertexAngleCos(sides[1], sides[2], sides[0]);
+
+                    if (CheckLongest(sides[0], sides[1], sides[2], angles[0], angles[2], angles[1],
+                            maxAdjacentSidesSum))
+                    {
+                        bezierCurve.Segment1 = points[j];
+                        bezierCurve.Segment2 = points[k];
+                        bezierCurve.Vertex = points[i];
+                        maxAdjacentSidesSum = sides[0] + sides[1];
+                        continue;
+                    }
+
+                    if (CheckLongest(sides[0], sides[2], sides[1], angles[0], angles[1], angles[2],
+                            maxAdjacentSidesSum))
+                    {
+                        bezierCurve.Segment1 = points[i];
+                        bezierCurve.Segment2 = points[k];
+                        bezierCurve.Vertex = points[j];
+                        maxAdjacentSidesSum = sides[0] + sides[2];
+                        continue;
+                    }
+
+                    if (CheckLongest(sides[1], sides[2], sides[0], angles[1], angles[0], angles[2],
+                            maxAdjacentSidesSum))
+                    {
+                        bezierCurve.Segment1 = points[j];
+                        bezierCurve.Segment2 = points[i];
+                        bezierCurve.Vertex = points[k];
+                        maxAdjacentSidesSum = sides[1] + sides[2];
+                    }
+                }
+            }
+        }
+
+        return bezierCurve;
+    }
+
+    public static List<int> ListIdsFromProvinces(ProvinceData[] provinces)
+    {
+        var ids = new List<int>();
+        for (int i = 0; i < provinces.Length; i++)
+        {
+            ids.Add(provinces[i].Id);
+        }
+
+        return ids;
     }
 
     public static bool CheckLongest(
