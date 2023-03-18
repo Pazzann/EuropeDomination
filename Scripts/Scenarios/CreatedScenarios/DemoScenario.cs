@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using EuropeDominationDemo.Scripts.Math;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
@@ -56,7 +57,7 @@ public class DemoScenario : Scenario
             new ProvinceData(13, Countries["Green"], "Rekyavik"),
         };
 
-        var centers = GameMath.GameMath.CalculateCenterOfProvinceWeight(mapTexture, ProvinceCount);
+        var centers = GameMath.CalculateCenterOfProvinceWeight(mapTexture, ProvinceCount);
         for (int i = 0; i < ProvinceCount; i++)
         {
             Map[i].CenterOfWeight = centers[i];

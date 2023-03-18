@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Scenarios;
 using Godot;
 
-namespace EuropeDominationDemo.Scripts.GameMath;
+namespace EuropeDominationDemo.Scripts.Math;
 
 public class GameMath
 {
@@ -125,6 +124,7 @@ public class GameMath
                         bezierCurve.Segment2 = countryProvinces[k].CenterOfWeight;
                         bezierCurve.Vertex = countryProvinces[i].CenterOfWeight;
                         maxAdjacentSidesSum = sides[0] + sides[1];
+                        GD.Print(bezierCurve);
                         continue;
                     }
                     if (CheckLongest(sides[0], sides[2], sides[1], angles[0], angles[1], angles[2], maxAdjacentSidesSum))

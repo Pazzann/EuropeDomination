@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
-using EuropeDominationDemo.Scripts.GameMath;
 using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 using Godot;
 
@@ -28,7 +28,7 @@ public partial class MapHandler : Sprite2D
 		foreach (var data in _mapData.Scenario.Countries)
 		{
 			var provinces = _mapData.Scenario.CountryProvinces(data.Value);
-			var curve = GameMath.GameMath.FindBezierCurve(provinces);
+			var curve = GameMath.FindBezierCurve(provinces);
 			// HashSet<int> provincesId = new HashSet<int>();
 			// foreach (var province in provinces)
 			// {
@@ -77,7 +77,7 @@ public partial class MapHandler : Sprite2D
 		var iMousePos = new Vector2I((int)(mousePos.X + this.Texture.GetSize().X/2), (int)(mousePos.Y + this.Texture.GetSize().Y/2));
 		if (mapMap.GetUsedRect().HasPoint(iMousePos))
 		{
-			var tileId = GameMath.GameMath.GetProvinceID(mapMap.GetPixelv(iMousePos));
+			var tileId = GameMath.GetProvinceID(mapMap.GetPixelv(iMousePos));
 			if(tileId < 0  || tileId >= _mapData.Scenario.ProvinceCount)
 				return;
 			mapMaterial.SetShaderParameter("selectedID", tileId);

@@ -1,4 +1,4 @@
-﻿namespace EuropeDominationDemo.Scripts.GameMath;
+﻿namespace EuropeDominationDemo.Scripts.Math;
 
 public class GeometryMath
 {
