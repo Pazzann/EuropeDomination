@@ -28,18 +28,29 @@ public partial class MapHandler : Sprite2D
 		foreach (var data in _mapData.Scenario.Countries)
 		{
 			var provinces = _mapData.Scenario.CountryProvinces(data.Value);
-			HashSet<int> provincesId = new HashSet<int>();
-			foreach (var province in provinces)
-			{
-				provincesId.Add(province.Id);
-			}
-			var centerOfCountry = GameMath.GameMath.CalculateCenterOfStateWeight(mapMap, provincesId);
-			var idOfCenter = GameMath.GameMath.ClosestIdCenterToPoint(provinces, centerOfCountry);
+			var curve = GameMath.GameMath.FindBezierCurve(provinces);
+			// HashSet<int> provincesId = new HashSet<int>();
+			// foreach (var province in provinces)
+			// {
+			// 	provincesId.Add(province.Id);
+			// }
+			// var centerOfCountry = GameMath.GameMath.CalculateCenterOfStateWeight(mapMap, provincesId);
+			// var idOfCenter = GameMath.GameMath.ClosestIdCenterToPoint(provinces, centerOfCountry);
 			Node2D obj = _textScene.Instantiate() as Node2D;
-			obj.Position = _mapData.Scenario.Map[idOfCenter].CenterOfWeight;
+			Node2D obj1 = _textScene.Instantiate() as Node2D;
+			Node2D obj2 = _textScene.Instantiate() as Node2D;
+			obj.Position = curve.Segment1;
+			obj1.Position = curve.Segment2;
+			obj2.Position = curve.Vertex;
+			// obj.Position = _mapData.Scenario.Map[idOfCenter].CenterOfWeight;
 			// obj.Position = centerOfCountry;
-			(obj.GetChild(0) as Label).Text = data.Key;
+			// (obj.GetChild(0) as Label).Text = data.Key;
+			(obj.GetChild(0) as Label).Text = "1"; 
+			(obj1.GetChild(0) as Label).Text = "2"; 
+			(obj2.GetChild(0) as Label).Text = "3"; 
 			_textSpawner.AddChild(obj);
+			_textSpawner.AddChild(obj1);
+			_textSpawner.AddChild(obj2);
 		}
 		// foreach (var prov in _mapData.Scenario.Map)
 		// {
