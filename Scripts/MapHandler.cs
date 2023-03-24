@@ -25,9 +25,13 @@ public partial class MapHandler : Sprite2D
 		foreach (var data in _mapData.Scenario.Countries)
 		{
 			var provinces = _mapData.Scenario.CountryProvinces(data.Value);
-			// var ids = GameMath.FindSquarePointsInsideState(provinces, mapMap, 30);
-			// var curve = GameMath.FindBezierCurveFromPoints(ids);
 			var curve = GameMath.FindBezierCurve(provinces);
+			if (curve.IsDefault)
+			{
+				var ids = GameMath.FindSquarePointsInsideState(provinces, mapMap, 10);
+				curve = GameMath.FindBezierCurveFromPoints(ids);
+			}
+			
 			Node2D obj = _textScene.Instantiate() as Node2D;
 			Node2D obj1 = _textScene.Instantiate() as Node2D;
 			Node2D obj2 = _textScene.Instantiate() as Node2D;

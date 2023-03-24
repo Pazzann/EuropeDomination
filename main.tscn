@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://cmar3qcquyv2s"]
 
 [ext_resource type="Texture2D" uid="uid://bup0lap08gpmv" path="res://Sprites/map.png" id="1_oy7f7"]
-[ext_resource type="Script" path="res://Scripts/CameraBehaviour.cs" id="1_rb65a"]
+[ext_resource type="PackedScene" uid="uid://db5dbn7ovemhi" path="res://Prefabs/Camera.tscn" id="1_r2m0f"]
 [ext_resource type="Material" uid="uid://bsh6h6v5qetxa" path="res://Shaders/map.tres" id="1_vjql8"]
 [ext_resource type="Script" path="res://Scripts/MapHandler.cs" id="3_kk5wj"]
 [ext_resource type="Shader" path="res://Shaders/occupiedmap.gdshader" id="5_q4tx4"]
@@ -12,8 +12,7 @@ shader_parameter/colors = null
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource("1_rb65a")
+[node name="Camera" parent="." instance=ExtResource("1_r2m0f")]
 
 [node name="Map" type="Sprite2D" parent="."]
 texture_filter = 3

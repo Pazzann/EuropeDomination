@@ -90,17 +90,10 @@ public class GameMath
         var bezierCurve = new BezierCurve();
         float maxAdjacentSidesSum = 0.0f;
         if (countryProvinces.Length == 1)
-        {
             return bezierCurve;
-        }
-
         if (countryProvinces.Length == 2)
-        {
-            bezierCurve.Segment1 = countryProvinces[0].CenterOfWeight;
-            bezierCurve.Segment1 = countryProvinces[1].CenterOfWeight;
-            bezierCurve.Vertex = (countryProvinces[0].CenterOfWeight - countryProvinces[1].CenterOfWeight) / 2;
             return bezierCurve;
-        }
+
 
         for (int i = 0; i < countryProvinces.Length; i++)
         {

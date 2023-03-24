@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5xon3gt4py0a"]
+
+[ext_resource type="FontFile" uid="uid://ft4ay1jb3o8h" path="res://Fonts/VeniceClassic.ttf" id="1_vdck4"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1p04g"]
+font = ExtResource("1_vdck4")
+font_size = 32
+
+[node name="Letter" type="Label"]
+texture_filter = 1
+offset_right = 12.0
+offset_bottom = 36.0
+pivot_offset = Vector2(5, 21)
+text = "s"
+label_settings = SubResource("LabelSettings_1p04g")
+horizontal_alignment = 1
+vertical_alignment = 1

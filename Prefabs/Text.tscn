@@ -1,18 +1,13 @@
 [gd_scene load_steps=3 format=3 uid="uid://cfhjx86a1prto"]
 
-[ext_resource type="Shader" path="res://Shaders/curvedText.gdshader" id="1_a3dbt"]
+[ext_resource type="Script" path="res://Scripts/Text/TextBezierCurve.cs" id="1_kfk1h"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4d1s1"]
-shader = ExtResource("1_a3dbt")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_drjep"]
 
 [node name="Text" type="Node2D"]
+material = SubResource("ShaderMaterial_drjep")
+script = ExtResource("1_kfk1h")
 
-[node name="Label" type="Label" parent="."]
-material = SubResource("ShaderMaterial_4d1s1")
-offset_left = -64.0
-offset_top = -14.0
-offset_right = 64.0
-offset_bottom = 12.0
-text = "sadsa"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, 58)
+zoom = Vector2(5.262, 5.262)
