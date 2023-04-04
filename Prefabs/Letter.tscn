@@ -4,7 +4,7 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_1p04g"]
 font = ExtResource("1_vdck4")
-font_size = 32
+font_size = 30
 
 [node name="Letter" type="Label"]
 texture_filter = 1
