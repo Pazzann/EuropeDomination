@@ -7,16 +7,18 @@
 script = ExtResource("1_oytrb")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
+editor_description = "																										"
+offset_left = -578.0
+offset_top = -323.0
+offset_right = 578.0
+offset_bottom = 321.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
-layout_mode = 2
-
-[node name="Sprite2D" type="Sprite2D" parent="MarginContainer/HBoxContainer"]
-position = Vector2(-467, -214)
+[node name="Sprite2D" type="Sprite2D" parent="MarginContainer"]
+position = Vector2(130, 127)
 texture = ExtResource("2_5rlq2")

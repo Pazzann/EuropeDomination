@@ -31,6 +31,7 @@ public partial class MapHandler : Sprite2D
 			{
 				var ids = GameMath.FindSquarePointsInsideState(provinces, mapMap, 10);
 				curve = GameMath.FindBezierCurveFromPoints(ids);
+				curve.Sort();
 			}
 			
 			TextBezierCurve obj = _textScene.Instantiate() as TextBezierCurve;
