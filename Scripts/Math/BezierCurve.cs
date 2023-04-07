@@ -17,7 +17,7 @@ public class BezierCurve
 
     public void Sort()
     {
-        if (Segment1.X < Segment2.X)
+        if (Segment1.X > Segment2.X)
         {
             (Segment1, Segment2) = (Segment2, Segment1);
         }

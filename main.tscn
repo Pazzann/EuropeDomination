@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cmar3qcquyv2s"]
+[gd_scene load_steps=8 format=3 uid="uid://cmar3qcquyv2s"]
 
 [ext_resource type="Texture2D" uid="uid://bup0lap08gpmv" path="res://Sprites/map.png" id="1_oy7f7"]
 [ext_resource type="PackedScene" uid="uid://db5dbn7ovemhi" path="res://Prefabs/Camera.tscn" id="1_r2m0f"]
 [ext_resource type="Material" uid="uid://bsh6h6v5qetxa" path="res://Shaders/map.tres" id="1_vjql8"]
+[ext_resource type="PackedScene" uid="uid://dx2y3s8dsllua" path="res://Prefabs/GUI.tscn" id="2_dggd8"]
 [ext_resource type="Script" path="res://Scripts/MapHandler.cs" id="3_kk5wj"]
 [ext_resource type="Shader" path="res://Shaders/occupiedmap.gdshader" id="5_q4tx4"]
 
@@ -11,6 +12,19 @@ shader = ExtResource("5_q4tx4")
 shader_parameter/colors = null
 
 [node name="Node2D" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="Control" parent="CanvasLayer" instance=ExtResource("2_dggd8")]
+anchors_preset = -1
+anchor_left = -0.5
+anchor_top = -0.497
+anchor_right = 0.5
+anchor_bottom = 0.498
+offset_top = 0.0559998
+offset_right = 1.0
+offset_bottom = 1.29599
 
 [node name="Camera" parent="." instance=ExtResource("1_r2m0f")]
 

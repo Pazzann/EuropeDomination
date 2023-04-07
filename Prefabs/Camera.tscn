@@ -1,24 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://db5dbn7ovemhi"]
+[gd_scene load_steps=2 format=3 uid="uid://db5dbn7ovemhi"]
 
 [ext_resource type="Script" path="res://Scripts/CameraBehaviour.cs" id="1_oytrb"]
-[ext_resource type="Texture2D" uid="uid://bup0lap08gpmv" path="res://Sprites/map.png" id="2_5rlq2"]
 
 [node name="Camera" type="Camera2D"]
 script = ExtResource("1_oytrb")
-
-[node name="MarginContainer" type="MarginContainer" parent="."]
-editor_description = "																										"
-offset_left = -578.0
-offset_top = -323.0
-offset_right = 578.0
-offset_bottom = 321.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="Sprite2D" type="Sprite2D" parent="MarginContainer"]
-position = Vector2(130, 127)
-texture = ExtResource("2_5rlq2")

@@ -1,3 +1,38 @@
-[gd_scene format=3 uid="uid://b54nvnea4f0u2"]
+[gd_scene load_steps=3 format=3 uid="uid://dx2y3s8dsllua"]
 
-[node name="GUI" type="Node2D"]
+[ext_resource type="Script" path="res://Scripts/GUI.cs" id="1_02c0n"]
+[ext_resource type="Texture2D" uid="uid://bup0lap08gpmv" path="res://Sprites/map.png" id="1_oy1q1"]
+
+[node name="Control" type="Control"]
+layout_direction = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+script = ExtResource("1_02c0n")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+editor_description = "																										"
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="BoxContainer" type="BoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="MarginContainer/BoxContainer"]
+position = Vector2(110, 107)
+texture = ExtResource("1_oy1q1")
