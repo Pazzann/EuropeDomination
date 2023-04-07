@@ -17,10 +17,11 @@ public partial class TextBezierCurve : Node
 
 	public void DrawText()
 	{
-
 		var labelSettings = new LabelSettings();
 		labelSettings.FontSize = 20;
-
+		
+		if (Curve.Segment1.X > Curve.Segment2.X)
+			(Curve.Segment1, Curve.Segment2) = (Curve.Segment2, Curve.Segment1);
 
 		for (int i = 0; i < TextOnCurve.Length; i++)
 		{
