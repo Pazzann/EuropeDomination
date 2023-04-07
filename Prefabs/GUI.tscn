@@ -1,7 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://dx2y3s8dsllua"]
+[gd_scene load_steps=8 format=3 uid="uid://dx2y3s8dsllua"]
 
 [ext_resource type="Script" path="res://Scripts/GUI.cs" id="1_02c0n"]
 [ext_resource type="Texture2D" uid="uid://bup0lap08gpmv" path="res://Sprites/map.png" id="1_oy1q1"]
+[ext_resource type="Texture2D" uid="uid://cl6ct65sf2h4y" path="res://Sprites/GameDate.png" id="2_uo0y8"]
+[ext_resource type="Texture2D" uid="uid://brnibn5nj2tns" path="res://Sprites/MainUI.png" id="3_tci2t"]
+[ext_resource type="Texture2D" uid="uid://b25poom405rc8" path="res://Sprites/MapScreen.png" id="4_2silr"]
+[ext_resource type="Texture2D" uid="uid://ix2vyxk6n14t" path="res://Sprites/MapTypes.png" id="6_kxo73"]
+[ext_resource type="Texture2D" uid="uid://cnih0d5o2swp6" path="res://Sprites/MainUIRes.png" id="7_un5nr"]
 
 [node name="Control" type="Control"]
 layout_direction = 1
@@ -9,31 +14,174 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = -5.0
+offset_left = -1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("1_02c0n")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-editor_description = "																										"
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = 1
+anchor_left = 1.0
 anchor_right = 1.0
+grow_horizontal = 0
+size_flags_horizontal = 4
+alignment = 2
+
+[node name="GameDate" type="Sprite2D" parent="HBoxContainer2"]
+texture_filter = 1
+position = Vector2(-98, 47)
+scale = Vector2(0.987315, 0.987315)
+texture = ExtResource("2_uo0y8")
+
+[node name="Label" type="Label" parent="HBoxContainer2/GameDate"]
+texture_filter = 1
+offset_left = -67.0
+offset_top = -19.0
+offset_right = -49.0
+offset_bottom = 7.0
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label2" type="Label" parent="HBoxContainer2/GameDate"]
+texture_filter = 1
+offset_left = -48.0
+offset_top = -21.0
+offset_right = -5.0
+offset_bottom = 5.0
+text = "move"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label3" type="Label" parent="HBoxContainer2/GameDate"]
+texture_filter = 1
+offset_left = 23.0
+offset_top = -36.0
+offset_right = 74.0
+offset_bottom = 16.0
+text = "end
+turn"
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 1.0
+offset_left = -556.5
+offset_right = 556.5
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
+size_flags_vertical = 8
+alignment = 2
+
+[node name="MainUi" type="Sprite2D" parent="HBoxContainer"]
+texture_filter = 1
+position = Vector2(584.5, -112)
+scale = Vector2(0.909072, 0.909072)
+texture = ExtResource("3_tci2t")
+
+[node name="MainUiRes" type="Sprite2D" parent="HBoxContainer/MainUi"]
+texture_filter = 1
+position = Vector2(-1, -1)
+texture = ExtResource("7_un5nr")
+
+[node name="Label" type="Label" parent="HBoxContainer/MainUi/MainUiRes"]
+texture_filter = 1
+offset_left = -234.0
+offset_top = 51.0
+offset_right = -194.0
+offset_bottom = 74.0
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label2" type="Label" parent="HBoxContainer/MainUi/MainUiRes"]
+texture_filter = 1
+offset_left = -237.0
+offset_top = 20.0
+offset_right = -197.0
+offset_bottom = 43.0
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label3" type="Label" parent="HBoxContainer/MainUi/MainUiRes"]
+texture_filter = 1
+offset_left = -236.0
+offset_top = -9.0
+offset_right = -196.0
+offset_bottom = 14.0
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label4" type="Label" parent="HBoxContainer/MainUi/MainUiRes"]
+texture_filter = 1
+offset_left = -235.0
+offset_top = -44.0
+offset_right = -195.0
+offset_bottom = -21.0
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label5" type="Label" parent="HBoxContainer/MainUi/MainUiRes"]
+texture_filter = 1
+offset_left = -239.0
+offset_top = -81.0
+offset_right = -199.0
+offset_bottom = -58.0
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="HBoxContainer/MainUi"]
+texture_filter = 1
+offset_left = -379.0
+offset_top = 87.0
+offset_right = -339.0
+offset_bottom = 110.0
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label2" type="Label" parent="HBoxContainer/MainUi"]
+texture_filter = 1
+offset_left = -305.0
+offset_top = 86.0
+offset_right = -265.0
+offset_bottom = 112.0
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label3" type="Label" parent="HBoxContainer/MainUi"]
+texture_filter = 1
+offset_left = -152.0
+offset_top = 87.0
+offset_right = -112.0
+offset_bottom = 110.0
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="."]
+layout_mode = 1
 size_flags_horizontal = 0
 size_flags_vertical = 0
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
+alignment = 2
 
-[node name="BoxContainer" type="BoxContainer" parent="MarginContainer"]
-layout_mode = 2
+[node name="MapScreen" type="Sprite2D" parent="HBoxContainer3"]
+texture_filter = 1
+position = Vector2(79, 60)
+scale = Vector2(0.769188, 0.769188)
+texture = ExtResource("4_2silr")
 
-[node name="Sprite2D" type="Sprite2D" parent="MarginContainer/BoxContainer"]
-position = Vector2(110, 107)
+[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer3/MapScreen"]
+texture_filter = 1
+position = Vector2(-16, -1.5)
+scale = Vector2(0.640625, 0.628906)
 texture = ExtResource("1_oy1q1")
+
+[node name="MapTypes" type="Sprite2D" parent="HBoxContainer3/MapScreen"]
+texture_filter = 1
+position = Vector2(302, -49)
+texture = ExtResource("6_kxo73")

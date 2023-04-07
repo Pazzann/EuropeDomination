@@ -26,6 +26,8 @@ public partial class MapHandler : Sprite2D
 		foreach (var data in _mapData.Scenario.Countries)
 		{
 			var provinces = _mapData.Scenario.CountryProvinces(data.Value);
+			if(provinces.Length == 0)
+				continue;
 			var curve = GameMath.FindBezierCurve(provinces);
 			if (curve.IsDefault)
 			{
@@ -66,7 +68,7 @@ public partial class MapHandler : Sprite2D
 		
 	}
 	
-	public override void _UnhandledInput(InputEvent @event)
+	public override void _Input(InputEvent @event)
 	{
 		
 		if (@event is not InputEventMouseButton mbe || mbe.ButtonIndex != MouseButton.Left || !mbe.Pressed) return;

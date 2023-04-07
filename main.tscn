@@ -17,15 +17,6 @@ shader_parameter/colors = null
 layer = 2
 
 [node name="Control" parent="CanvasLayer" instance=ExtResource("2_dggd8")]
-anchors_preset = -1
-anchor_left = -0.5
-anchor_top = -0.497
-anchor_right = 0.5
-anchor_bottom = 0.498
-offset_left = 576.0
-offset_top = 322.056
-offset_right = 572.0
-offset_bottom = 359.296
 
 [node name="Camera" parent="." instance=ExtResource("1_r2m0f")]
 
@@ -37,7 +28,6 @@ centered = false
 script = ExtResource("3_kk5wj")
 
 [node name="Map2" type="Sprite2D" parent="."]
-visible = false
 texture_filter = 3
 material = SubResource("ShaderMaterial_hr6fk")
 texture = ExtResource("1_oy7f7")
