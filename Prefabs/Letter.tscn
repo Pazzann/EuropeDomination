@@ -8,7 +8,7 @@ font_size = 30
 
 [node name="Letter" type="Label"]
 texture_filter = 1
-offset_right = 12.0
+offset_right = 30.0
 offset_bottom = 36.0
 pivot_offset = Vector2(5, 21)
 text = "s"

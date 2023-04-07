@@ -4,10 +4,21 @@ namespace EuropeDominationDemo.Scripts.Math;
 
 public class BezierCurve
 {
-	public Vector2 Vertex = new Vector2(0.0f, 0.0f);
-	public Vector2 Segment1 = new Vector2(0.0f, 0.0f);
-	public Vector2 Segment2 = new Vector2(0.0f, 0.0f);
+	public Vector2 Vertex;
+	public Vector2 Segment1;
+	public Vector2 Segment2;
 
+	public BezierCurve(Vector2 p1, Vector2 p0, Vector2 p2)
+	{
+		Segment1 = p0;
+		Segment2 = p2;
+		Vertex = p1;
+	}
+
+	public static BezierCurve GetDefault()
+	{
+		return new BezierCurve(new Vector2(0.0f, 0.0f), new Vector2(0.0f, 0.0f), new Vector2(0.0f, 0.0f));
+	}
 	public bool IsDefault => (Vertex.IsZeroApprox() && Segment1.IsZeroApprox() && Segment2.IsZeroApprox());
 
 	public float TgOnPoint(float t)

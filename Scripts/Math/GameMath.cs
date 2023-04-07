@@ -87,7 +87,7 @@ public class GameMath
 
 	public static BezierCurve FindBezierCurve(ProvinceData[] countryProvinces)
 	{
-		var bezierCurve = new BezierCurve();
+		var bezierCurve = BezierCurve.GetDefault();
 		float maxAdjacentSidesSum = 0.0f;
 		if (countryProvinces.Length == 1)
 			return bezierCurve;
@@ -166,7 +166,7 @@ public class GameMath
 
 	public static BezierCurve FindBezierCurveFromPoints(Vector2[] points)
 	{
-		var bezierCurve = new BezierCurve();
+		var bezierCurve = BezierCurve.GetDefault();
 		float maxAdjacentSidesSum = 0.0f;
 
 		for (int i = 0; i < points.Length; i++)

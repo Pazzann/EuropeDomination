@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
+using EuropeDominationDemo.Scripts.Text;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts;
@@ -32,18 +33,11 @@ public partial class MapHandler : Sprite2D
 				curve = GameMath.FindBezierCurveFromPoints(ids);
 			}
 			
-			Node2D obj = _textScene.Instantiate() as Node2D;
-			Node2D obj1 = _textScene.Instantiate() as Node2D;
-			Node2D obj2 = _textScene.Instantiate() as Node2D;
-			obj.Position = curve.Segment1;
-			obj1.Position = curve.Segment2;
-			obj2.Position = curve.Vertex;
-			(obj.GetChild(0) as Label).Text = "1"; 
-			(obj1.GetChild(0) as Label).Text = "2"; 
-			(obj2.GetChild(0) as Label).Text = "3"; 
+			TextBezierCurve obj = _textScene.Instantiate() as TextBezierCurve;
+			obj.Curve = curve;
+			obj.TextOnCurve = _mapData.Scenario.CountriesNames[data.Value];
 			_textSpawner.AddChild(obj);
-			_textSpawner.AddChild(obj1);
-			_textSpawner.AddChild(obj2);
+		
 		}
 	}
 	
