@@ -40,30 +40,25 @@ texture = ExtResource("2_uo0y8")
 
 [node name="Label" type="Label" parent="HBoxContainer2/GameDate"]
 texture_filter = 1
-offset_left = -67.0
-offset_top = -19.0
-offset_right = -49.0
-offset_bottom = 7.0
-text = "0"
-metadata/_edit_use_anchors_ = true
-
-[node name="Label2" type="Label" parent="HBoxContainer2/GameDate"]
-texture_filter = 1
-offset_left = -48.0
-offset_top = -21.0
-offset_right = -5.0
-offset_bottom = 5.0
-text = "move"
+anchors_preset = -1
+anchor_left = -0.000952759
+anchor_top = 0.00282654
+anchor_right = 0.244047
+anchor_bottom = 0.00282654
+offset_left = -75.7731
+offset_top = -22.5653
+offset_right = -42.7731
+offset_bottom = 3.43469
+text = "01.01.1800"
 metadata/_edit_use_anchors_ = true
 
 [node name="Label3" type="Label" parent="HBoxContainer2/GameDate"]
 texture_filter = 1
-offset_left = 23.0
-offset_top = -36.0
-offset_right = 74.0
-offset_bottom = 16.0
-text = "end
-turn"
+offset_left = 20.257
+offset_top = -23.2955
+offset_right = 71.257
+offset_bottom = 28.7045
+text = "Pause"
 metadata/_edit_use_anchors_ = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
@@ -170,18 +165,106 @@ size_flags_vertical = 0
 alignment = 2
 
 [node name="MapScreen" type="Sprite2D" parent="HBoxContainer3"]
+z_index = 1
 texture_filter = 1
 position = Vector2(79, 60)
 scale = Vector2(0.769188, 0.769188)
 texture = ExtResource("4_2silr")
 
 [node name="Sprite2D" type="Sprite2D" parent="HBoxContainer3/MapScreen"]
+z_index = 1
 texture_filter = 1
 position = Vector2(-16, -1.5)
 scale = Vector2(0.640625, 0.628906)
 texture = ExtResource("1_oy1q1")
 
-[node name="MapTypes" type="Sprite2D" parent="HBoxContainer3/MapScreen"]
+[node name="MapTypes" type="Sprite2D" parent="HBoxContainer3"]
 texture_filter = 1
-position = Vector2(302, -49)
+position = Vector2(310, 19)
+scale = Vector2(0.769188, 0.769188)
 texture = ExtResource("6_kxo73")
+
+[node name="TerrainTypes" type="Button" parent="HBoxContainer3/MapTypes"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = -1
+anchor_right = 0.16
+anchor_bottom = 1.0
+offset_left = -199.294
+offset_top = 24.2986
+offset_right = -255.294
+offset_bottom = -17.7014
+scale = Vector2(7.9675, -6.10111)
+
+[node name="PoliticalTypes" type="Button" parent="HBoxContainer3/MapTypes"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = -1
+anchor_right = 0.16
+anchor_bottom = 1.0
+offset_left = -135.591
+offset_top = 24.2986
+offset_right = -191.591
+offset_bottom = -17.7014
+scale = Vector2(7.9675, -6.10111)
+
+[node name="GoodsTypes" type="Button" parent="HBoxContainer3/MapTypes"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = -1
+anchor_right = 0.16
+anchor_bottom = 1.0
+offset_left = -71.8872
+offset_top = 24.2986
+offset_right = -127.887
+offset_bottom = -17.7014
+scale = Vector2(7.9675, -6.10111)
+
+[node name="TradeTypes" type="Button" parent="HBoxContainer3/MapTypes"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = -1
+anchor_right = 0.16
+anchor_bottom = 1.0
+offset_left = -8.18365
+offset_top = 24.2986
+offset_right = -64.1837
+offset_bottom = -17.7014
+scale = Vector2(7.9675, -6.10111)
+
+[node name="DevelopmentTypes" type="Button" parent="HBoxContainer3/MapTypes"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = -1
+anchor_right = 0.16
+anchor_bottom = 1.0
+offset_left = 56.82
+offset_top = 24.2986
+offset_right = 0.819977
+offset_bottom = -17.7014
+scale = Vector2(7.9675, -6.10111)
+
+[node name="FactoriesTypes" type="Button" parent="HBoxContainer3/MapTypes"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = -1
+anchor_right = 0.16
+anchor_bottom = 1.0
+offset_left = 120.523
+offset_top = 24.2986
+offset_right = 64.5235
+offset_bottom = -17.7014
+scale = Vector2(7.9675, -6.10111)
+
+[node name="CloseTypes" type="Button" parent="HBoxContainer3/MapTypes"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = -1
+anchor_right = 0.16
+anchor_bottom = 1.0
+offset_left = 184.227
+offset_top = 24.2986
+offset_right = 128.227
+offset_bottom = -17.7014
+scale = Vector2(1.88316, -6.10111)
+
+[connection signal="pressed" from="HBoxContainer3/MapTypes/TerrainTypes" to="." method="_on_terrain_types_pressed"]
+[connection signal="pressed" from="HBoxContainer3/MapTypes/PoliticalTypes" to="." method="_on_political_types_pressed"]
+[connection signal="pressed" from="HBoxContainer3/MapTypes/GoodsTypes" to="." method="_on_goods_types_pressed"]
+[connection signal="pressed" from="HBoxContainer3/MapTypes/TradeTypes" to="." method="_on_trade_types_pressed"]
+[connection signal="pressed" from="HBoxContainer3/MapTypes/DevelopmentTypes" to="." method="_on_development_types_pressed"]
+[connection signal="pressed" from="HBoxContainer3/MapTypes/FactoriesTypes" to="." method="_on_factories_types_pressed"]
+[connection signal="pressed" from="HBoxContainer3/MapTypes/CloseTypes" to="." method="_on_close_types_pressed"]

@@ -12,7 +12,7 @@ public partial class MapHandler : Sprite2D
 	// Called when the node enters the scene tree for the first time.
 	private Image mapMap;
 	private ShaderMaterial mapMaterial;
-	private MapData _mapData;
+	public MapData MapData { get; set; }
 
 	private PackedScene _textScene;
 	private Node2D _textSpawner;
@@ -23,9 +23,9 @@ public partial class MapHandler : Sprite2D
 		foreach (var text in texts)
 			text.Free();
 
-		foreach (var data in _mapData.Scenario.Countries)
+		foreach (var data in MapData.Scenario.Countries)
 		{
-			var provinces = _mapData.Scenario.CountryProvinces(data.Value);
+			var provinces = MapData.Scenario.CountryProvinces(data.Value);
 			if(provinces.Length == 0)
 				continue;
 			var curve = GameMath.FindBezierCurve(provinces);
@@ -38,7 +38,7 @@ public partial class MapHandler : Sprite2D
 			
 			TextBezierCurve obj = _textScene.Instantiate() as TextBezierCurve;
 			obj.Curve = curve;
-			obj.TextOnCurve = _mapData.Scenario.CountriesNames[data.Value];
+			obj.TextOnCurve = MapData.Scenario.CountriesNames[data.Value];
 			_textSpawner.AddChild(obj);
 		
 		}
@@ -51,11 +51,11 @@ public partial class MapHandler : Sprite2D
 	{
 		mapMap = this.Texture.GetImage();
 		mapMaterial = this.Material as ShaderMaterial;
-		_mapData = new MapData(new DemoScenario(mapMap));
+		MapData = new MapData(new DemoScenario(mapMap));
 		_textScene = (PackedScene)GD.Load("res://Prefabs/Text.tscn");
 		_textSpawner = GetNode<Node2D>("../TextHandler");
 		
-		mapMaterial.SetShaderParameter("colors", _mapData.MapColors);
+		mapMaterial.SetShaderParameter("colors", MapData.MapColors);
 
 		_drawText();
 
@@ -79,11 +79,11 @@ public partial class MapHandler : Sprite2D
 		{
 			var tileId = GameMath.GetProvinceID(mapMap.GetPixelv(iMousePos));
 				
-			if(tileId < 0  || tileId >= _mapData.Scenario.ProvinceCount)
+			if(tileId < 0  || tileId >= MapData.Scenario.ProvinceCount)
 				return;
 			mapMaterial.SetShaderParameter("selectedID", tileId);
-			_mapData.Scenario.Map[tileId].Owner = _mapData.Scenario.Countries["Green"];
-			mapMaterial.SetShaderParameter("colors", _mapData.MapColors);
+			MapData.Scenario.Map[tileId].Owner = MapData.Scenario.Countries["Green"];
+			mapMaterial.SetShaderParameter("colors", MapData.MapColors);
 			_drawText();
 		}
 	}

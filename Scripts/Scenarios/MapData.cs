@@ -33,6 +33,12 @@ public class MapData
                     return _mapColors;
                 case MapTypes.Resources:
                     return _mapColors;
+                case MapTypes.Trade:
+                    return _mapColors;
+                case MapTypes.Development:
+                    return _mapColors;
+                case MapTypes.Factories:
+                    return _mapColors;
                 default:
                     return _mapColors;
             }
