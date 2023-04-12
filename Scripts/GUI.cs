@@ -9,12 +9,15 @@ public partial class GUI : Control
 
 	private bool _isMapTypesClosed = false;
 	private Sprite2D _mapTypes;
+	private Sprite2D _provinceData;
 	
 	private MapData _mapData; 
+	
 	public override void _Ready()
 	{
 		_mapData = ((MapHandler)GetNode("../../Map")).MapData;
 		_mapTypes = GetChild(2).GetChild(1) as Sprite2D;
+		_provinceData = GetChild(3).GetChild(0) as Sprite2D;
 	}
 
 	
@@ -75,4 +78,21 @@ public partial class GUI : Control
 		(_mapTypes.GetChild(4) as Button).Visible = !_isMapTypesClosed;
 		(_mapTypes.GetChild(5) as Button).Visible = !_isMapTypesClosed;
 	}
+	private void _on_close_button_pressed()
+	 {
+		 Tween tween = GetTree().CreateTween();
+		 tween.TweenProperty(_provinceData, "position",new Vector2(-280.0f, 20.0f) , 0.4f);
+	 }
+	public void ShowProvinceData(ProvinceData data){
+		if (_provinceData.Position != new Vector2(200.0f, 0.0f))
+		{
+			Tween tween = GetTree().CreateTween(); 
+			tween.TweenProperty(_provinceData, "position",new Vector2(280.0f, 20.0f) , 0.4f);
+			(_provinceData.GetChild(1) as Label).Text = data.Name;
+		}
+		
+	}
+
 }
+
+

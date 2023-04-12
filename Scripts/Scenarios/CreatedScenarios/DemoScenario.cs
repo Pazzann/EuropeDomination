@@ -56,7 +56,7 @@ public class DemoScenario : Scenario
             new ProvinceData(12,  Countries["Green"], "Rekyavik"),
             new ProvinceData(13, Countries["Green"], "Rekyavik"),
         };
-
+        Map = GameMath.CalculateBorderProvinces(Map, mapTexture);
         var centers = GameMath.CalculateCenterOfProvinceWeight(mapTexture, ProvinceCount);
         for (int i = 0; i < ProvinceCount; i++)
         {

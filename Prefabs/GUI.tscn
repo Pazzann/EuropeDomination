@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dx2y3s8dsllua"]
+[gd_scene load_steps=11 format=3 uid="uid://dx2y3s8dsllua"]
 
 [ext_resource type="Script" path="res://Scripts/GUI.cs" id="1_02c0n"]
 [ext_resource type="Texture2D" uid="uid://bup0lap08gpmv" path="res://Sprites/map.png" id="1_oy1q1"]
@@ -7,6 +7,12 @@
 [ext_resource type="Texture2D" uid="uid://b25poom405rc8" path="res://Sprites/MapScreen.png" id="4_2silr"]
 [ext_resource type="Texture2D" uid="uid://ix2vyxk6n14t" path="res://Sprites/MapTypes.png" id="6_kxo73"]
 [ext_resource type="Texture2D" uid="uid://cnih0d5o2swp6" path="res://Sprites/MainUIRes.png" id="7_un5nr"]
+[ext_resource type="Texture2D" uid="uid://ckhuxliwwap7v" path="res://Sprites/ProvinceControl.png" id="8_b7yj1"]
+[ext_resource type="FontFile" uid="uid://ft4ay1jb3o8h" path="res://Fonts/VeniceClassic.ttf" id="9_osd3s"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_d667l"]
+font = ExtResource("9_osd3s")
+font_size = 38
 
 [node name="Control" type="Control"]
 layout_direction = 1
@@ -261,6 +267,37 @@ offset_right = 128.227
 offset_bottom = -17.7014
 scale = Vector2(1.88316, -6.10111)
 
+[node name="HBoxContainer4" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4"]
+texture_filter = 1
+position = Vector2(-280, 20)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("8_b7yj1")
+
+[node name="closeButton" type="Button" parent="HBoxContainer4/Sprite2D"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 278.0
+offset_top = -493.0
+offset_right = 318.0
+offset_bottom = -475.0
+
+[node name="ProvinceName" type="Label" parent="HBoxContainer4/Sprite2D"]
+offset_left = -292.0
+offset_top = -465.0
+offset_right = 68.0
+offset_bottom = -427.0
+text = "fdgfdgfdgdfgdfgdf"
+label_settings = SubResource("LabelSettings_d667l")
+
 [connection signal="pressed" from="HBoxContainer3/MapTypes/TerrainTypes" to="." method="_on_terrain_types_pressed"]
 [connection signal="pressed" from="HBoxContainer3/MapTypes/PoliticalTypes" to="." method="_on_political_types_pressed"]
 [connection signal="pressed" from="HBoxContainer3/MapTypes/GoodsTypes" to="." method="_on_goods_types_pressed"]
@@ -268,3 +305,4 @@ scale = Vector2(1.88316, -6.10111)
 [connection signal="pressed" from="HBoxContainer3/MapTypes/DevelopmentTypes" to="." method="_on_development_types_pressed"]
 [connection signal="pressed" from="HBoxContainer3/MapTypes/FactoriesTypes" to="." method="_on_factories_types_pressed"]
 [connection signal="pressed" from="HBoxContainer3/MapTypes/CloseTypes" to="." method="_on_close_types_pressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/closeButton" to="." method="_on_close_button_pressed"]
