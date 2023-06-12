@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://upcl6eoioqff"]
+
+[ext_resource type="Texture2D" uid="uid://bv8ai81boxxm8" path="res://Sprites/Good/Iron.png" id="1_obhoq"]
+[ext_resource type="Texture2D" uid="uid://ita1qm2e07x0" path="res://Sprites/Good/Wheat.png" id="2_5jthl"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3irhj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_obhoq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_5jthl")
+}],
+"loop": true,
+"name": &"goods",
+"speed": 0.0
+}]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+texture_filter = 3
+scale = Vector2(0.4, 0.4)
+sprite_frames = SubResource("SpriteFrames_3irhj")
+animation = &"goods"

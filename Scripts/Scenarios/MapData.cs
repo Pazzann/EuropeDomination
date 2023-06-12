@@ -12,7 +12,7 @@ public class MapData
     private Vector3[] _mapColors
     {
         get
-        {
+        { 
             Vector3[] colors =  new Vector3[Scenario.ProvinceCount];
            for (int i = 0; i < Scenario.ProvinceCount; i++)
            {
@@ -30,9 +30,23 @@ public class MapData
                 case MapTypes.Political:
                     return _mapColors;
                 case MapTypes.Terrain:
-                    return _mapColors;
-                case MapTypes.Resources:
-                    return _mapColors;
+                {
+                    Vector3[] colors =  new Vector3[Scenario.ProvinceCount];
+                    for (int i = 0; i < Scenario.ProvinceCount; i++)
+                    {
+                        colors[i] = TerrainColors.Colors[(int)Scenario.Map[i].Terrain];
+                    }
+                    return colors;
+                }
+                case MapTypes.Goods:
+                {
+                    Vector3[] colors =  new Vector3[Scenario.ProvinceCount];
+                    for (int i = 0; i < Scenario.ProvinceCount; i++)
+                    {
+                        colors[i] = GoodsColors.Colors[(int)Scenario.Map[i].Good];
+                    }
+                    return colors;
+                }
                 case MapTypes.Trade:
                     return _mapColors;
                 case MapTypes.Development:

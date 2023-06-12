@@ -35,3 +35,5 @@ texture = ExtResource("1_oy7f7")
 centered = false
 
 [node name="TextHandler" type="Node2D" parent="."]
+
+[node name="GoodsHandler" type="Node2D" parent="."]

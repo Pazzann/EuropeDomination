@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
@@ -18,6 +18,9 @@ public partial class MapHandler : Sprite2D
 	private PackedScene _textScene;
 	private Node2D _textSpawner;
 
+	private PackedScene _goodsScene;
+	private Node2D _goodsSpawner;
+
 	
 	public override void _Ready()
 	{
@@ -26,22 +29,54 @@ public partial class MapHandler : Sprite2D
 		MapData = new MapData(new DemoScenario(mapMap));
 		_textScene = (PackedScene)GD.Load("res://Prefabs/Text.tscn");
 		_textSpawner = GetNode<Node2D>("../TextHandler");
+
+		_goodsScene = (PackedScene)GD.Load("res://Prefabs/Good.tscn");
+		_goodsSpawner = GetNode<Node2D>("../GoodsHandler");
 		
 		mapMaterial.SetShaderParameter("colors", MapData.MapColors);
 		mapMaterial.SetShaderParameter("selectedID", -1);
 
 		_drawText();
+		_addGoods();
 
 		_gui = GetNode<GUI>("../CanvasLayer/Control");
 	}
 
-	
-	private async void _drawText()
+	public void MapUpdate()
+	{
+		switch (MapData.CurrentMapMode)
+		{
+			case MapTypes.Political:
+			{
+				_drawText();
+				_goodsSpawner.Visible = false;
+				break;
+			}
+			case MapTypes.Goods:
+			{
+				_clearText();
+				_goodsSpawner.Visible = true;
+				break;
+			}
+			case MapTypes.Terrain:
+			{
+				_clearText();
+				_goodsSpawner.Visible = false;
+				break;
+			}
+		}
+		mapMaterial.SetShaderParameter("colors", MapData.MapColors);
+	}
+
+	private void _clearText()
 	{
 		var texts = _textSpawner.GetChildren();
 		foreach (var text in texts)
 			text.Free();
-
+	}
+	private void _drawText()
+	{
+		_clearText();
 		foreach (var data in MapData.Scenario.Countries)
 		{
 			var provinces = MapData.Scenario.CountryProvinces(data.Value);
@@ -60,6 +95,18 @@ public partial class MapHandler : Sprite2D
 			obj.TextOnCurve = MapData.Scenario.CountriesNames[data.Value];
 			_textSpawner.AddChild(obj);
 		
+		}
+	}
+
+
+	private void _addGoods()
+	{
+		foreach (var data in MapData.Scenario.Map)
+		{
+			AnimatedSprite2D obj = _goodsScene.Instantiate() as AnimatedSprite2D;
+			obj.Frame = (int)data.Good;
+			obj.Position = data.CenterOfWeight;
+			_goodsSpawner.AddChild(obj);
 		}
 	}
 	

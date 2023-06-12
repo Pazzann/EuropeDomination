@@ -266,8 +266,7 @@ public class GameMath
 
         foreach (KeyValuePair<int, List<int>> entry in borders)
         {
-            map[entry.Key].borderProvinces = entry.Value.ToArray();
-            GD.Print(entry.Value.ToArray().Length);
+            map[entry.Key].BorderProvinces = entry.Value.ToArray();
         }
 
         return map;

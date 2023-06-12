@@ -2,13 +2,13 @@
 
 namespace EuropeDominationDemo.Scripts.Enums;
 
-public enum Resources
+public enum Good
 {
     Iron = 0,
     Wheat = 1,
 }
 
-public class ResourcesColors
+public class GoodsColors
 {
     public static Vector3[] Colors = new Vector3[2]
     {

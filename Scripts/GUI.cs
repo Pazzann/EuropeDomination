@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using EuropeDominationDemo.Scripts;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Scenarios;
@@ -10,12 +9,11 @@ public partial class GUI : Control
 	private bool _isMapTypesClosed = false;
 	private Sprite2D _mapTypes;
 	private Sprite2D _provinceData;
-	
-	private MapData _mapData; 
-	
+	private MapHandler _mapHandler;
+
 	public override void _Ready()
 	{
-		_mapData = ((MapHandler)GetNode("../../Map")).MapData;
+		_mapHandler = GetParent().GetParent().GetNode<MapHandler>("Map");
 		_mapTypes = GetChild(2).GetChild(1) as Sprite2D;
 		_provinceData = GetChild(3).GetChild(0) as Sprite2D;
 	}
@@ -23,37 +21,33 @@ public partial class GUI : Control
 	
 	private void _on_terrain_types_pressed()
 	{
-		_mapData.CurrentMapMode = MapTypes.Terrain;
+		_mapHandler.MapData.CurrentMapMode = MapTypes.Terrain;
+		_mapHandler.MapUpdate();
 	}
-
-
 	private void _on_political_types_pressed()
 	{
-		_mapData.CurrentMapMode = MapTypes.Political;
+		_mapHandler.MapData.CurrentMapMode = MapTypes.Political;
+		_mapHandler.MapUpdate();
 	}
-
-
 	private void _on_goods_types_pressed()
 	{
-		_mapData.CurrentMapMode = MapTypes.Resources;
+		_mapHandler.MapData.CurrentMapMode = MapTypes.Goods;
+		_mapHandler.MapUpdate();
 	}
-
-
 	private void _on_trade_types_pressed()
 	{
-		_mapData.CurrentMapMode = MapTypes.Trade;
+		_mapHandler.MapData.CurrentMapMode = MapTypes.Trade;
+		_mapHandler.MapUpdate();
 	}
-
-
 	private void _on_development_types_pressed()
 	{
-		_mapData.CurrentMapMode = MapTypes.Development;
+		_mapHandler.MapData.CurrentMapMode = MapTypes.Development;
+		_mapHandler.MapUpdate();
 	}
-
-
 	private void _on_factories_types_pressed()
 	{
-		_mapData.CurrentMapMode = MapTypes.Factories;
+		_mapHandler.MapData.CurrentMapMode = MapTypes.Factories;
+		_mapHandler.MapUpdate();
 	}
 
 
