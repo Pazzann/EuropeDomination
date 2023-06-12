@@ -18,7 +18,12 @@ public partial class GUI : Control
 		_provinceData = GetChild(3).GetChild(0) as Sprite2D;
 	}
 
-	
+	public void DeselectProvinceBar()
+	{
+		Tween tween = GetTree().CreateTween();
+		tween.TweenProperty(_provinceData, "position",new Vector2(-280.0f, 20.0f) , 0.4f);
+	}
+
 	private void _on_terrain_types_pressed()
 	{
 		_mapHandler.MapData.CurrentMapMode = MapTypes.Terrain;
@@ -74,8 +79,7 @@ public partial class GUI : Control
 	}
 	private void _on_close_button_pressed()
 	 {
-		 Tween tween = GetTree().CreateTween();
-		 tween.TweenProperty(_provinceData, "position",new Vector2(-280.0f, 20.0f) , 0.4f);
+		 _mapHandler.DeselectProvince();
 	 }
 	public void ShowProvinceData(ProvinceData data){
 		if (_provinceData.Position != new Vector2(200.0f, 0.0f))

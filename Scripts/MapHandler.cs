@@ -11,7 +11,7 @@ public partial class MapHandler : Sprite2D
 {
 	// Called when the node enters the scene tree for the first time.
 	private Image mapMap;
-	private ShaderMaterial mapMaterial;
+	public ShaderMaterial MapMaterial;
 	public MapData MapData { get; set; }
 
 	private GUI _gui;
@@ -21,11 +21,13 @@ public partial class MapHandler : Sprite2D
 	private PackedScene _goodsScene;
 	private Node2D _goodsSpawner;
 
+	private int _selectedTileId = -2;
+
 	
 	public override void _Ready()
 	{
 		mapMap = this.Texture.GetImage();
-		mapMaterial = this.Material as ShaderMaterial;
+		MapMaterial = this.Material as ShaderMaterial;
 		MapData = new MapData(new DemoScenario(mapMap));
 		_textScene = (PackedScene)GD.Load("res://Prefabs/Text.tscn");
 		_textSpawner = GetNode<Node2D>("../TextHandler");
@@ -33,11 +35,12 @@ public partial class MapHandler : Sprite2D
 		_goodsScene = (PackedScene)GD.Load("res://Prefabs/Good.tscn");
 		_goodsSpawner = GetNode<Node2D>("../GoodsHandler");
 		
-		mapMaterial.SetShaderParameter("colors", MapData.MapColors);
-		mapMaterial.SetShaderParameter("selectedID", -1);
+		MapMaterial.SetShaderParameter("colors", MapData.MapColors);
+		MapMaterial.SetShaderParameter("selectedID", -1);
 
 		_drawText();
 		_addGoods();
+		_goodsSpawner.Visible = false;
 
 		_gui = GetNode<GUI>("../CanvasLayer/Control");
 	}
@@ -65,7 +68,7 @@ public partial class MapHandler : Sprite2D
 				break;
 			}
 		}
-		mapMaterial.SetShaderParameter("colors", MapData.MapColors);
+		MapMaterial.SetShaderParameter("colors", MapData.MapColors);
 	}
 
 	private void _clearText()
@@ -74,6 +77,25 @@ public partial class MapHandler : Sprite2D
 		foreach (var text in texts)
 			text.Free();
 	}
+
+	public void HideText()
+	{
+		_textSpawner.Visible = false;
+	}
+
+	public void ShowText()
+	{
+		_textSpawner.Visible = true;
+	}
+
+	public void DeselectProvince()
+	{
+		_gui.DeselectProvinceBar();
+		MapMaterial.SetShaderParameter("selectedID", -1);
+	}
+	
+	
+	
 	private void _drawText()
 	{
 		_clearText();
@@ -132,7 +154,17 @@ public partial class MapHandler : Sprite2D
 				
 			if(tileId < 0  || tileId >= MapData.Scenario.ProvinceCount)
 				return;
-			mapMaterial.SetShaderParameter("selectedID", tileId);
+
+			if (tileId == _selectedTileId)
+			{
+				DeselectProvince();
+				_selectedTileId = -2;
+				return;
+			}
+			
+			_selectedTileId = tileId;
+			
+			MapMaterial.SetShaderParameter("selectedID", tileId);
 			_gui.ShowProvinceData(MapData.Scenario.Map[tileId]);
 			// mapMaterial.SetShaderParameter("colors", MapData.MapColors);
 			// _drawText();

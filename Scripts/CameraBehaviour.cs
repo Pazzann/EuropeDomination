@@ -5,7 +5,7 @@ namespace EuropeDominationDemo.Scripts;
 public partial class CameraBehaviour : Camera2D
 {
 
-		private ShaderMaterial _mapMaterial;
+		private MapHandler _mapHandler;
 		
 		private Vector2 _zoom;
 		private Vector2 _cameraPosition;
@@ -26,7 +26,7 @@ public partial class CameraBehaviour : Camera2D
 			_zoom = this.Zoom;
 			_cameraPosition = this.Position;
 			Enabled = true;
-			_mapMaterial = GetNode<Sprite2D>("../Map").Material as ShaderMaterial;
+			_mapHandler = GetNode<Sprite2D>("../Map") as MapHandler;
 		}
 
 		public override void _PhysicsProcess(double delta)
@@ -67,13 +67,15 @@ public partial class CameraBehaviour : Camera2D
 					}
 				}
 
-				if (_zoom.X < 1.0f)
+				if (_zoom.X < 3.0f)
 				{
-					_mapMaterial.SetShaderParameter("viewMod", 1);
+					_mapHandler.MapMaterial.SetShaderParameter("viewMod", 1);
+					_mapHandler.ShowText();
 				}
 				else
 				{
-					_mapMaterial.SetShaderParameter("viewMod", 0);
+					_mapHandler.MapMaterial.SetShaderParameter("viewMod", 0);
+					_mapHandler.HideText();
 				}
 			}
 			if (@event is InputEventKey eventKey)
