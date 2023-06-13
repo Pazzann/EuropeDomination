@@ -87,6 +87,8 @@ public partial class GUI : Control
 			Tween tween = GetTree().CreateTween(); 
 			tween.TweenProperty(_provinceData, "position",new Vector2(280.0f, 20.0f) , 0.4f);
 			(_provinceData.GetChild(1) as Label).Text = data.Name;
+			(_provinceData.GetChild(2) as AnimatedSprite2D).Frame = (int)data.Good;
+			(_provinceData.GetChild(3) as AnimatedSprite2D).Frame = data.Owner;
 		}
 		
 	}

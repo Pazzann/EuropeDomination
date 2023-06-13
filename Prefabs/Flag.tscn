@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://dkgvwnddhvy7n"]
+
+[ext_resource type="Texture2D" uid="uid://behrgfw5t15pc" path="res://Sprites/Flags/France.png" id="1_hsa1p"]
+[ext_resource type="Texture2D" uid="uid://bbtb1gbvmby81" path="res://Sprites/Flags/GreatBritian.png" id="2_cyuos"]
+[ext_resource type="Texture2D" uid="uid://cnlkjdmydxcqv" path="res://Sprites/Flags/Sweden.png" id="3_05iom"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q6g4r"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_cyuos")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_hsa1p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_05iom")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_q6g4r")
