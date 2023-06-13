@@ -51,7 +51,7 @@ void fragment() {
 	vec4 color1Find = colorForProvince(color1.rgb);
 	if(color1 != emptycolor && color1.a > 0.0f){
 		if(colorFind == color1Find && viewMod == 0){
-			COLOR = vec4(0.5f, 0.5f, 0.5f, 1.0f);
+			COLOR = mix(colorFind, emptycolor, 0.3f);
 		}else if (colorFind != color1Find){
 			COLOR = mix(mix(colorFind, color1Find, 0.5f), emptycolor, 0.2f);
 		}
