@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctauw3mt5l7cf"]
+
+[ext_resource type="Texture2D" uid="uid://m4v38lj08edm" path="res://Sprites/Terrain/Forest.png" id="1_1r5tm"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6paam"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_1r5tm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_6paam")

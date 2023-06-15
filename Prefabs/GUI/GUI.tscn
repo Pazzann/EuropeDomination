@@ -1,6 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://dx2y3s8dsllua"]
+[gd_scene load_steps=16 format=3 uid="uid://dx2y3s8dsllua"]
 
-[ext_resource type="Script" path="res://Scripts/GUI.cs" id="1_02c0n"]
+[ext_resource type="Script" path="res://Scripts/UI/GUI.cs" id="1_itu4p"]
 [ext_resource type="Texture2D" uid="uid://bup0lap08gpmv" path="res://Sprites/map.png" id="1_oy1q1"]
 [ext_resource type="Texture2D" uid="uid://cl6ct65sf2h4y" path="res://Sprites/GameDate.png" id="2_uo0y8"]
 [ext_resource type="Texture2D" uid="uid://brnibn5nj2tns" path="res://Sprites/MainUI.png" id="3_tci2t"]
@@ -11,6 +11,9 @@
 [ext_resource type="FontFile" uid="uid://ft4ay1jb3o8h" path="res://Fonts/VeniceClassic.ttf" id="9_osd3s"]
 [ext_resource type="PackedScene" uid="uid://upcl6eoioqff" path="res://Prefabs/Good.tscn" id="10_3a4ss"]
 [ext_resource type="PackedScene" uid="uid://dkgvwnddhvy7n" path="res://Prefabs/Flag.tscn" id="11_0epxr"]
+[ext_resource type="PackedScene" uid="uid://ctauw3mt5l7cf" path="res://Prefabs/Terrain.tscn" id="12_sgvm6"]
+[ext_resource type="PackedScene" uid="uid://uway7gdlqq10" path="res://Prefabs/GUI/GUIResources.tscn" id="13_qosue"]
+[ext_resource type="PackedScene" uid="uid://c7e35stp0tbi2" path="res://Prefabs/GUI/ProvinceTypeSelection.tscn" id="14_wrmh6"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_d667l"]
 font = ExtResource("9_osd3s")
@@ -29,7 +32,7 @@ offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
-script = ExtResource("1_02c0n")
+script = ExtResource("1_itu4p")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -274,14 +277,15 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_top = -20.0
-offset_right = 40.0
-offset_bottom = 20.0
+offset_left = -555.0
+offset_top = -340.0
+offset_right = -25.0
+offset_bottom = 430.0
 grow_vertical = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4"]
 texture_filter = 1
-position = Vector2(-280, 20)
+position = Vector2(255, 399)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("8_b7yj1")
 
@@ -308,6 +312,26 @@ scale = Vector2(1.02031, 1.02031)
 position = Vector2(112.5, -444.25)
 scale = Vector2(1.04167, 0.96875)
 
+[node name="Terrain" parent="HBoxContainer4/Sprite2D" instance=ExtResource("12_sgvm6")]
+position = Vector2(234.875, -420)
+scale = Vector2(1.00141, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer4/Sprite2D"]
+offset_left = -297.0
+offset_top = 183.0
+offset_right = 142.0
+offset_bottom = 448.0
+
+[node name="Control" parent="HBoxContainer4/Sprite2D/ScrollContainer" instance=ExtResource("13_qosue")]
+layout_mode = 2
+
+[node name="ProvinceTypeSelection" parent="HBoxContainer4/Sprite2D" instance=ExtResource("14_wrmh6")]
+offset_left = -298.75
+offset_top = -418.75
+offset_right = -698.75
+offset_bottom = -1178.75
+scale = Vector2(1, 1)
+
 [connection signal="pressed" from="HBoxContainer3/MapTypes/TerrainTypes" to="." method="_on_terrain_types_pressed"]
 [connection signal="pressed" from="HBoxContainer3/MapTypes/PoliticalTypes" to="." method="_on_political_types_pressed"]
 [connection signal="pressed" from="HBoxContainer3/MapTypes/GoodsTypes" to="." method="_on_goods_types_pressed"]
@@ -315,4 +339,10 @@ scale = Vector2(1.04167, 0.96875)
 [connection signal="pressed" from="HBoxContainer3/MapTypes/DevelopmentTypes" to="." method="_on_development_types_pressed"]
 [connection signal="pressed" from="HBoxContainer3/MapTypes/FactoriesTypes" to="." method="_on_factories_types_pressed"]
 [connection signal="pressed" from="HBoxContainer3/MapTypes/CloseTypes" to="." method="_on_close_types_pressed"]
+[connection signal="mouse_entered" from="HBoxContainer4" to="." method="_on_h_box_container_4_mouse_entered"]
+[connection signal="mouse_exited" from="HBoxContainer4" to="." method="_on_h_box_container_4_mouse_exited"]
 [connection signal="pressed" from="HBoxContainer4/Sprite2D/closeButton" to="." method="_on_close_button_pressed"]
+[connection signal="mouse_entered" from="HBoxContainer4/Sprite2D/ScrollContainer/Control" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="HBoxContainer4/Sprite2D/ScrollContainer/Control" to="." method="_on_control_mouse_exited"]
+[connection signal="mouse_entered" from="HBoxContainer4/Sprite2D/ProvinceTypeSelection" to="." method="_on_province_type_selection_mouse_entered"]
+[connection signal="mouse_exited" from="HBoxContainer4/Sprite2D/ProvinceTypeSelection" to="." method="_on_province_type_selection_mouse_exited"]

@@ -19,6 +19,23 @@ public partial class CameraBehaviour : Camera2D
 		private bool _moveLeft = false;
 		private bool _moveRight = false;
 		private float _moveSpeed = 1.0f;
+
+
+		private bool _zoomable = true;
+
+
+		public void SetZoomable(bool zoomable)
+		{
+			_zoomable = zoomable;
+			GD.Print(_zoomable);
+		}
+		
+		public bool IsZoomed()
+		{
+			return _zoom.X < 3.0f;
+		}
+
+		
 		
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
@@ -44,11 +61,11 @@ public partial class CameraBehaviour : Camera2D
 		}
 
 
-		public override void _Input(InputEvent @event)
+		public override void _UnhandledInput(InputEvent @event)
 		{
 			if (@event is InputEventMouseButton mbe)
 			{
-				if (mbe.ButtonIndex == MouseButton.WheelDown)
+				if (mbe.ButtonIndex == MouseButton.WheelDown && _zoomable)
 				{
 					if (_zoom.X - _zoomChangeSpeed > _minZoom)
 					{
@@ -57,7 +74,7 @@ public partial class CameraBehaviour : Camera2D
 						this.Zoom = _zoom;
 					}
 				}
-				if (mbe.ButtonIndex == MouseButton.WheelUp)
+				if (mbe.ButtonIndex == MouseButton.WheelUp && _zoomable)
 				{
 					if (_zoom.X + _zoomChangeSpeed < _maxZoom)
 					{
@@ -70,12 +87,12 @@ public partial class CameraBehaviour : Camera2D
 				if (_zoom.X < 3.0f)
 				{
 					_mapHandler.MapMaterial.SetShaderParameter("viewMod", 1);
-					_mapHandler.ShowText();
+					_mapHandler.HideObjectsOnMap();
 				}
 				else
 				{
 					_mapHandler.MapMaterial.SetShaderParameter("viewMod", 0);
-					_mapHandler.HideText();
+					_mapHandler.ShowObjectsOnMap();
 				}
 			}
 			if (@event is InputEventKey eventKey)

@@ -3,6 +3,7 @@ using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 using EuropeDominationDemo.Scripts.Text;
+using EuropeDominationDemo.Scripts.UI;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts;
@@ -20,6 +21,14 @@ public partial class MapHandler : Sprite2D
 
 	private PackedScene _goodsScene;
 	private Node2D _goodsSpawner;
+	
+	private PackedScene _devScene;
+	private Node2D _devSpawner;
+
+	private CameraBehaviour _camera;
+	private Timer _timer;
+	private int _previousMonth;
+
 
 	private int _selectedTileId = -2;
 
@@ -35,14 +44,24 @@ public partial class MapHandler : Sprite2D
 		_goodsScene = (PackedScene)GD.Load("res://Prefabs/Good.tscn");
 		_goodsSpawner = GetNode<Node2D>("../GoodsHandler");
 		
+		_devScene = (PackedScene)GD.Load("res://Prefabs/Development.tscn");
+		_devSpawner = GetNode<Node2D>("../DevHandler");
+		
+		_camera = (CameraBehaviour)GetNode<Camera2D>("../Camera");
+		_timer = (Timer)GetChild(0);
+		
 		MapMaterial.SetShaderParameter("colors", MapData.MapColors);
 		MapMaterial.SetShaderParameter("selectedID", -1);
 
 		_drawText();
 		_addGoods();
+		_addDev();
 		_goodsSpawner.Visible = false;
+		_devSpawner.Visible = false;
 
 		_gui = GetNode<GUI>("../CanvasLayer/Control");
+		_gui.SetTime(MapData.Scenario.Date);
+		_previousMonth = MapData.Scenario.Date.Month;
 	}
 
 	public void MapUpdate()
@@ -53,18 +72,30 @@ public partial class MapHandler : Sprite2D
 			{
 				_drawText();
 				_goodsSpawner.Visible = false;
+
+				if (_camera.IsZoomed())
+				{
+					HideObjectsOnMap();
+				}
+				else
+				{
+					ShowObjectsOnMap();
+				}
+				
 				break;
 			}
 			case MapTypes.Goods:
 			{
 				_clearText();
 				_goodsSpawner.Visible = true;
+				_devSpawner.Visible = false;
 				break;
 			}
 			case MapTypes.Terrain:
 			{
 				_clearText();
 				_goodsSpawner.Visible = false;
+				_devSpawner.Visible = false;
 				break;
 			}
 		}
@@ -78,14 +109,22 @@ public partial class MapHandler : Sprite2D
 			text.Free();
 	}
 
-	public void HideText()
+	public void HideObjectsOnMap()
 	{
-		_textSpawner.Visible = false;
+		if (MapData.CurrentMapMode == MapTypes.Political)
+		{
+			_textSpawner.Visible = true;
+			_devSpawner.Visible = false;
+		}
 	}
 
-	public void ShowText()
+	public void ShowObjectsOnMap()
 	{
-		_textSpawner.Visible = true;
+		if (MapData.CurrentMapMode == MapTypes.Political)
+		{
+			_textSpawner.Visible = false;
+			_devSpawner.Visible = true;
+		}
 	}
 
 	public void DeselectProvince()
@@ -120,6 +159,46 @@ public partial class MapHandler : Sprite2D
 		}
 	}
 
+	private void _dayTick()
+	{
+		MapData.Scenario.Date = MapData.Scenario.Date.Add(MapData.Scenario.Ts);
+		if (_previousMonth != MapData.Scenario.Date.Month)
+		{
+			_monthTick();
+			_previousMonth = MapData.Scenario.Date.Month;
+		}
+		//calcs before
+		
+
+
+		
+		_gui.SetTime(MapData.Scenario.Date);
+	}
+
+	private void _monthTick()
+	{
+
+		foreach (var data in MapData.Scenario.Map)
+		{
+			data.Resources[(int)data.Good] += 1;
+		}
+
+		if (_selectedTileId > -1)
+		{
+			_gui.ShowProvinceData(MapData.Scenario.Map[_selectedTileId]);
+		}
+		
+
+	}
+	private void _on_timer_timeout()
+	{
+		
+		_dayTick();
+		_timer.Start();
+
+	}
+
+
 
 	private void _addGoods()
 	{
@@ -131,8 +210,26 @@ public partial class MapHandler : Sprite2D
 			_goodsSpawner.AddChild(obj);
 		}
 	}
-	
-	
+
+	private void _addDev()
+	{
+		foreach (var data in MapData.Scenario.Map)
+		{
+			AnimatedSprite2D obj = _devScene.Instantiate() as AnimatedSprite2D;
+			obj.Frame = data.Development - 1;
+			obj.Position = data.CenterOfWeight;
+			_devSpawner.AddChild(obj);
+		}
+	}
+
+	public void FreezeZoom()
+	{
+		_camera.SetZoomable(false);
+	}
+	public void UnFreezeZoom()
+	{
+		_camera.SetZoomable(true);
+	}
 	
 	
 	
@@ -171,3 +268,5 @@ public partial class MapHandler : Sprite2D
 		}
 	}
 }
+
+

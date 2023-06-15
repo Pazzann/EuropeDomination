@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bup0lap08gpmv" path="res://Sprites/map.png" id="1_oy7f7"]
 [ext_resource type="PackedScene" uid="uid://db5dbn7ovemhi" path="res://Prefabs/Camera.tscn" id="1_r2m0f"]
 [ext_resource type="Material" uid="uid://bsh6h6v5qetxa" path="res://Shaders/map.tres" id="1_vjql8"]
-[ext_resource type="PackedScene" uid="uid://dx2y3s8dsllua" path="res://Prefabs/GUI.tscn" id="2_dggd8"]
+[ext_resource type="PackedScene" uid="uid://dx2y3s8dsllua" path="res://Prefabs/GUI/GUI.tscn" id="2_dggd8"]
 [ext_resource type="Script" path="res://Scripts/MapHandler.cs" id="3_kk5wj"]
 [ext_resource type="Shader" path="res://Shaders/occupiedmap.gdshader" id="5_q4tx4"]
 
@@ -27,6 +27,11 @@ texture = ExtResource("1_oy7f7")
 centered = false
 script = ExtResource("3_kk5wj")
 
+[node name="Timer" type="Timer" parent="Map"]
+wait_time = 0.221
+one_shot = true
+autostart = true
+
 [node name="Map2" type="Sprite2D" parent="."]
 visible = false
 texture_filter = 3
@@ -37,3 +42,7 @@ centered = false
 [node name="TextHandler" type="Node2D" parent="."]
 
 [node name="GoodsHandler" type="Node2D" parent="."]
+
+[node name="DevHandler" type="Node2D" parent="."]
+
+[connection signal="timeout" from="Map/Timer" to="Map" method="_on_timer_timeout"]

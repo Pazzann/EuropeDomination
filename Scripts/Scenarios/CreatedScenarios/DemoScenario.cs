@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Math;
 using Godot;
@@ -13,8 +14,11 @@ public class DemoScenario : Scenario
     public override int ProvinceCount { get; }
     public override CountryData[] CountriesData { get; set; }
     public override ProvinceData[] Map { get; set; }
+    public override DateTime Date { get; set; }
     public DemoScenario(Image mapTexture)
     {
+        Date = new DateTime(1444, 11, 12);
+        
         ProvinceCount = 14;
         Countries = new Dictionary<string, int>()
         {
@@ -42,20 +46,20 @@ public class DemoScenario : Scenario
         };
         Map = new ProvinceData[14]
         {
-            new ProvinceData(0, Countries["Great Britian"], "Rekyavik", Terrain.Coast, Good.Iron),
-            new ProvinceData(1,  Countries["Great Britian"], "Rekyavik", Terrain.Field, Good.Iron),
-            new ProvinceData(2,  Countries["Great Britian"], "Rekyavik", Terrain.Field, Good.Iron),
-            new ProvinceData(3,  Countries["Great Britian"], "Rekyavik", Terrain.Forest, Good.Iron),
-            new ProvinceData(4,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Iron),
-            new ProvinceData(5,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Iron),
-            new ProvinceData(6,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Iron),
-            new ProvinceData(7,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Wheat),
-            new ProvinceData(8,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Wheat),
-            new ProvinceData(9,  Countries["Sweden"], "Rekyavik", Terrain.Mountains, Good.Wheat),
-            new ProvinceData(10, Countries["Sweden"], "Rekyavik", Terrain.Mountains, Good.Wheat),
-            new ProvinceData(11, Countries["Sweden"], "Rekyavik", Terrain.Mountains, Good.Wheat),
-            new ProvinceData(12,  Countries["Sweden"], "Rekyavik", Terrain.Coast, Good.Wheat),
-            new ProvinceData(13, Countries["Sweden"], "Rekyavik", Terrain.Coast, Good.Wheat),
+            new ProvinceData(0, Countries["Great Britian"], "Rekyavik", Terrain.Coast, Good.Iron, 1, new float[] {0, 2}),
+            new ProvinceData(1,  Countries["Great Britian"], "Rekyavik", Terrain.Field, Good.Iron, 2, new float[] {0, 1}),
+            new ProvinceData(2,  Countries["Great Britian"], "Rekyavik", Terrain.Field, Good.Iron, 1, new float[] {2, 0}),
+            new ProvinceData(3,  Countries["Great Britian"], "Rekyavik", Terrain.Forest, Good.Iron, 1, new float[] {0, 3}),
+            new ProvinceData(4,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Iron, 1, new float[] {4, 0}),
+            new ProvinceData(5,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Iron, 2, new float[] {0, 4}),
+            new ProvinceData(6,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Iron, 2, new float[] {3, 0}),
+            new ProvinceData(7,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Wheat, 1, new float[] {1, 0}),
+            new ProvinceData(8,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Wheat, 2, new float[] {0, 5}),
+            new ProvinceData(9,  Countries["Sweden"], "Rekyavik", Terrain.Mountains, Good.Wheat, 1, new float[] {5, 0}),
+            new ProvinceData(10, Countries["Sweden"], "Rekyavik", Terrain.Mountains, Good.Wheat, 1, new float[] {6, 0}),
+            new ProvinceData(11, Countries["Sweden"], "Rekyavik", Terrain.Mountains, Good.Wheat, 1, new float[] {0, 6}),
+            new ProvinceData(12,  Countries["Sweden"], "Rekyavik", Terrain.Coast, Good.Wheat, 1, new float[] {7, 0}),
+            new ProvinceData(13, Countries["Sweden"], "Rekyavik", Terrain.Coast, Good.Wheat, 1, new float[] {0, 7}),
         };
         Map = GameMath.CalculateBorderProvinces(Map, mapTexture);
         var centers = GameMath.CalculateCenterOfProvinceWeight(mapTexture, ProvinceCount);
