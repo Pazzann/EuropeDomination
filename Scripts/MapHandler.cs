@@ -167,6 +167,22 @@ public partial class MapHandler : Sprite2D
 			_monthTick();
 			_previousMonth = MapData.Scenario.Date.Month;
 		}
+		
+		foreach (var data in MapData.Scenario.Map)
+		{
+			foreach (var building in data.Buildings)
+			{
+				if (!building.IsFinished)
+				{
+					building.BuildingTime++;
+					if (building.BuildingTime == building.TimeToBuild)
+					{
+						building.IsFinished = true;
+					}
+				}
+			}
+		}
+		
 		//calcs before
 		
 
@@ -180,7 +196,12 @@ public partial class MapHandler : Sprite2D
 
 		foreach (var data in MapData.Scenario.Map)
 		{
-			data.Resources[(int)data.Good] += 1;
+			var resourceProduced = 1.0f;
+			foreach (var building in data.Buildings)
+			{
+				resourceProduced *= building.Multipliers.ProductionEfficiency;
+			}
+			data.Resources[(int)data.Good] += resourceProduced;
 		}
 
 		if (_selectedTileId > -1)
@@ -229,6 +250,16 @@ public partial class MapHandler : Sprite2D
 	public void UnFreezeZoom()
 	{
 		_camera.SetZoomable(true);
+	}
+
+	public void Pause()
+	{
+		_timer.Stop();
+	}
+
+	public void UnPause()
+	{
+		_timer.Start();
 	}
 	
 	

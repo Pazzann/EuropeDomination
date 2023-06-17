@@ -1,4 +1,6 @@
-﻿using EuropeDominationDemo.Scripts.Enums;
+﻿using System.Collections.Generic;
+using EuropeDominationDemo.Scripts.Enums;
+using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
@@ -13,11 +15,12 @@ public class ProvinceData
     public int Development;
 
     public float[] Resources;
+    public List<Building> Buildings;
     
     public readonly Terrain Terrain;
     public readonly Good Good;
 
-    public ProvinceData(int id, int countryId, string name, Terrain terrain, Good good, int development, float[] resources)
+    public ProvinceData(int id, int countryId, string name, Terrain terrain, Good good, int development, float[] resources, List<Building> buildings)
     {
         this.Id = id;
         this.Owner = countryId;
@@ -26,6 +29,7 @@ public class ProvinceData
         this.Development = development;
 
         this.Resources = resources;
+        this.Buildings = buildings;
         
         this.BorderProvinces = new int[] { };
         this.Good = good;

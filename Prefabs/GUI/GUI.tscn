@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://dx2y3s8dsllua"]
+[gd_scene load_steps=17 format=3 uid="uid://dx2y3s8dsllua"]
 
 [ext_resource type="Script" path="res://Scripts/UI/GUI.cs" id="1_itu4p"]
 [ext_resource type="Texture2D" uid="uid://bup0lap08gpmv" path="res://Sprites/map.png" id="1_oy1q1"]
 [ext_resource type="Texture2D" uid="uid://cl6ct65sf2h4y" path="res://Sprites/GameDate.png" id="2_uo0y8"]
+[ext_resource type="Texture2D" uid="uid://dlb81vrmrgbsi" path="res://Sprites/Pause.png" id="3_7umtd"]
 [ext_resource type="Texture2D" uid="uid://brnibn5nj2tns" path="res://Sprites/MainUI.png" id="3_tci2t"]
 [ext_resource type="Texture2D" uid="uid://b25poom405rc8" path="res://Sprites/MapScreen.png" id="4_2silr"]
 [ext_resource type="Texture2D" uid="uid://ix2vyxk6n14t" path="res://Sprites/MapTypes.png" id="6_kxo73"]
@@ -71,6 +72,25 @@ offset_right = 71.257
 offset_bottom = 28.7045
 text = "Pause"
 metadata/_edit_use_anchors_ = true
+
+[node name="Pause" type="Sprite2D" parent="HBoxContainer2/GameDate"]
+visible = false
+texture_filter = 1
+position = Vector2(-862.947, 107.362)
+scale = Vector2(2.01778, 2.32639)
+texture = ExtResource("3_7umtd")
+
+[node name="PauseButton" type="Button" parent="HBoxContainer2/GameDate"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = -1
+anchor_left = 0.565
+anchor_top = 0.211
+anchor_right = 0.869
+anchor_bottom = 0.635
+offset_left = -100.0
+offset_top = -54.1
+offset_right = -98.8
+offset_bottom = -48.5
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -332,6 +352,14 @@ offset_right = -698.75
 offset_bottom = -1178.75
 scale = Vector2(1, 1)
 
+[node name="Label" type="Label" parent="HBoxContainer4/Sprite2D"]
+offset_left = -294.0
+offset_top = 146.0
+offset_right = 131.0
+offset_bottom = 169.0
+text = "Max resourse in storage: 20"
+
+[connection signal="pressed" from="HBoxContainer2/GameDate/PauseButton" to="." method="_on_pause_button_pressed"]
 [connection signal="pressed" from="HBoxContainer3/MapTypes/TerrainTypes" to="." method="_on_terrain_types_pressed"]
 [connection signal="pressed" from="HBoxContainer3/MapTypes/PoliticalTypes" to="." method="_on_political_types_pressed"]
 [connection signal="pressed" from="HBoxContainer3/MapTypes/GoodsTypes" to="." method="_on_goods_types_pressed"]

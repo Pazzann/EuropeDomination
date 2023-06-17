@@ -1,6 +1,5 @@
 using System;
 using Godot;
-using EuropeDominationDemo.Scripts;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Scenarios;
 
@@ -13,6 +12,9 @@ public partial class GUI : Control
 	private Sprite2D _provinceData;
 	private MapHandler _mapHandler;
 	private Label _dateLabel;
+	private Sprite2D _pauseSprite;
+
+	private bool _pause = false;
 
 	
 	
@@ -22,6 +24,7 @@ public partial class GUI : Control
 		_mapTypes = GetChild(2).GetChild(1) as Sprite2D;
 		_provinceData = GetChild(3).GetChild(0) as Sprite2D;
 		_dateLabel = GetChild(0).GetChild(0).GetChild(0) as Label;
+		_pauseSprite = GetChild(0).GetChild(0).GetChild(2) as Sprite2D;
 	}
 
 	public void SetTime(DateTime date)
@@ -121,6 +124,23 @@ public partial class GUI : Control
 		_mapHandler.UnFreezeZoom();
 	}
 
+	private void _on_pause_button_pressed()
+	{
+		GD.Print(1);
+		_pause = !_pause;
+		if (_pause)
+		{
+			_pauseSprite.Visible = true;
+			_mapHandler.Pause();
+		}
+		else
+		{
+			_pauseSprite.Visible = false;
+			_mapHandler.UnPause();
+		}
+	}
+
+
 	
 	
 	
@@ -143,6 +163,10 @@ public partial class GUI : Control
 	}
 
 }
+
+
+
+
 
 
 
