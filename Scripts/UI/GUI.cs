@@ -163,13 +163,3 @@ public partial class GUI : Control
 	}
 
 }
-
-
-
-
-
-
-
-
-
-

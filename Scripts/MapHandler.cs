@@ -1,6 +1,7 @@
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
+using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 using EuropeDominationDemo.Scripts.Text;
 using EuropeDominationDemo.Scripts.UI;
@@ -21,7 +22,7 @@ public partial class MapHandler : Sprite2D
 
 	private PackedScene _goodsScene;
 	private Node2D _goodsSpawner;
-	
+
 	private PackedScene _devScene;
 	private Node2D _devSpawner;
 
@@ -32,7 +33,7 @@ public partial class MapHandler : Sprite2D
 
 	private int _selectedTileId = -2;
 
-	
+
 	public override void _Ready()
 	{
 		mapMap = this.Texture.GetImage();
@@ -43,13 +44,13 @@ public partial class MapHandler : Sprite2D
 
 		_goodsScene = (PackedScene)GD.Load("res://Prefabs/Good.tscn");
 		_goodsSpawner = GetNode<Node2D>("../GoodsHandler");
-		
+
 		_devScene = (PackedScene)GD.Load("res://Prefabs/Development.tscn");
 		_devSpawner = GetNode<Node2D>("../DevHandler");
-		
+
 		_camera = (CameraBehaviour)GetNode<Camera2D>("../Camera");
 		_timer = (Timer)GetChild(0);
-		
+
 		MapMaterial.SetShaderParameter("colors", MapData.MapColors);
 		MapMaterial.SetShaderParameter("selectedID", -1);
 
@@ -81,7 +82,7 @@ public partial class MapHandler : Sprite2D
 				{
 					ShowObjectsOnMap();
 				}
-				
+
 				break;
 			}
 			case MapTypes.Goods:
@@ -99,6 +100,7 @@ public partial class MapHandler : Sprite2D
 				break;
 			}
 		}
+
 		MapMaterial.SetShaderParameter("colors", MapData.MapColors);
 	}
 
@@ -132,16 +134,15 @@ public partial class MapHandler : Sprite2D
 		_gui.DeselectProvinceBar();
 		MapMaterial.SetShaderParameter("selectedID", -1);
 	}
-	
-	
-	
+
+
 	private void _drawText()
 	{
 		_clearText();
 		foreach (var data in MapData.Scenario.Countries)
 		{
 			var provinces = MapData.Scenario.CountryProvinces(data.Value);
-			if(provinces.Length == 0)
+			if (provinces.Length == 0)
 				continue;
 			var curve = GameMath.FindBezierCurve(provinces);
 			if (curve.IsDefault)
@@ -150,28 +151,23 @@ public partial class MapHandler : Sprite2D
 				curve = GameMath.FindBezierCurveFromPoints(ids);
 				curve.Sort();
 			}
-			
+
 			TextBezierCurve obj = _textScene.Instantiate() as TextBezierCurve;
 			obj.Curve = curve;
 			obj.TextOnCurve = MapData.Scenario.CountriesNames[data.Value];
 			_textSpawner.AddChild(obj);
-		
 		}
 	}
 
 	private void _dayTick()
 	{
 		MapData.Scenario.Date = MapData.Scenario.Date.Add(MapData.Scenario.Ts);
-		if (_previousMonth != MapData.Scenario.Date.Month)
-		{
-			_monthTick();
-			_previousMonth = MapData.Scenario.Date.Month;
-		}
-		
+
 		foreach (var data in MapData.Scenario.Map)
 		{
-			foreach (var building in data.Buildings)
+			foreach (var buildingId in data.BuildingsIds)
 			{
+				var building = Building.Buildings[buildingId];
 				if (!building.IsFinished)
 				{
 					building.BuildingTime++;
@@ -182,25 +178,32 @@ public partial class MapHandler : Sprite2D
 				}
 			}
 		}
-		
+
+
+		if (_previousMonth != MapData.Scenario.Date.Month)
+		{
+			_monthTick();
+			_previousMonth = MapData.Scenario.Date.Month;
+		}
+
+
 		//calcs before
-		
 
 
-		
 		_gui.SetTime(MapData.Scenario.Date);
 	}
 
 	private void _monthTick()
 	{
-
 		foreach (var data in MapData.Scenario.Map)
 		{
 			var resourceProduced = 1.0f;
-			foreach (var building in data.Buildings)
+			foreach (var buildingId in data.BuildingsIds)
 			{
+				var building = Building.Buildings[buildingId];
 				resourceProduced *= building.Multipliers.ProductionEfficiency;
 			}
+
 			data.Resources[(int)data.Good] += resourceProduced;
 		}
 
@@ -208,17 +211,13 @@ public partial class MapHandler : Sprite2D
 		{
 			_gui.ShowProvinceData(MapData.Scenario.Map[_selectedTileId]);
 		}
-		
-
 	}
+
 	private void _on_timer_timeout()
 	{
-		
 		_dayTick();
 		_timer.Start();
-
 	}
-
 
 
 	private void _addGoods()
@@ -247,6 +246,7 @@ public partial class MapHandler : Sprite2D
 	{
 		_camera.SetZoomable(false);
 	}
+
 	public void UnFreezeZoom()
 	{
 		_camera.SetZoomable(true);
@@ -261,26 +261,23 @@ public partial class MapHandler : Sprite2D
 	{
 		_timer.Start();
 	}
-	
-	
-	
+
+
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		
 	}
-	
+
 	public override void _Input(InputEvent @event)
 	{
-		
 		if (@event is not InputEventMouseButton mbe || mbe.ButtonIndex != MouseButton.Left || !mbe.Pressed) return;
 		var mousePos = this.GetLocalMousePosition();
 		var iMousePos = new Vector2I((int)(mousePos.X), (int)(mousePos.Y));
 		if (mapMap.GetUsedRect().HasPoint(iMousePos))
 		{
 			var tileId = GameMath.GetProvinceID(mapMap.GetPixelv(iMousePos));
-				
-			if(tileId < 0  || tileId >= MapData.Scenario.ProvinceCount)
+
+			if (tileId < 0 || tileId >= MapData.Scenario.ProvinceCount)
 				return;
 
 			if (tileId == _selectedTileId)
@@ -289,9 +286,9 @@ public partial class MapHandler : Sprite2D
 				_selectedTileId = -2;
 				return;
 			}
-			
+
 			_selectedTileId = tileId;
-			
+
 			MapMaterial.SetShaderParameter("selectedID", tileId);
 			_gui.ShowProvinceData(MapData.Scenario.Map[tileId]);
 			// mapMaterial.SetShaderParameter("colors", MapData.MapColors);
@@ -299,5 +296,3 @@ public partial class MapHandler : Sprite2D
 		}
 	}
 }
-
-

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dx2y3s8dsllua"]
+[gd_scene load_steps=20 format=3 uid="uid://dx2y3s8dsllua"]
 
 [ext_resource type="Script" path="res://Scripts/UI/GUI.cs" id="1_itu4p"]
 [ext_resource type="Texture2D" uid="uid://bup0lap08gpmv" path="res://Sprites/map.png" id="1_oy1q1"]
@@ -15,6 +15,9 @@
 [ext_resource type="PackedScene" uid="uid://ctauw3mt5l7cf" path="res://Prefabs/Terrain.tscn" id="12_sgvm6"]
 [ext_resource type="PackedScene" uid="uid://uway7gdlqq10" path="res://Prefabs/GUI/GUIResources.tscn" id="13_qosue"]
 [ext_resource type="PackedScene" uid="uid://c7e35stp0tbi2" path="res://Prefabs/GUI/ProvinceTypeSelection.tscn" id="14_wrmh6"]
+[ext_resource type="Texture2D" uid="uid://dkdupthlvtc12" path="res://Sprites/ProvinceTypeSelection/bg.png" id="16_4vj56"]
+[ext_resource type="PackedScene" uid="uid://clf8v6lyqbsx6" path="res://Prefabs/Buildings.tscn" id="17_w2auv"]
+[ext_resource type="Script" path="res://Scripts/UI/GUIBuildings.cs" id="18_kdy4t"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_d667l"]
 font = ExtResource("9_osd3s")
@@ -359,6 +362,174 @@ offset_right = 131.0
 offset_bottom = 169.0
 text = "Max resourse in storage: 20"
 
+[node name="BuildingMenu" type="Sprite2D" parent="HBoxContainer4/Sprite2D"]
+position = Vector2(594.813, -11.3125)
+scale = Vector2(6, 6)
+texture = ExtResource("16_4vj56")
+
+[node name="Workshop" parent="HBoxContainer4/Sprite2D/BuildingMenu" instance=ExtResource("17_w2auv")]
+position = Vector2(-24.1354, -24.3646)
+scale = Vector2(0.15, 0.15)
+frame = 1
+
+[node name="Label" type="Label" parent="HBoxContainer4/Sprite2D/BuildingMenu/Workshop"]
+offset_left = -18.0556
+offset_top = 31.9447
+offset_right = 21.9444
+offset_bottom = 54.9447
+text = "100"
+
+[node name="WorkshopButton" type="Button" parent="HBoxContainer4/Sprite2D/BuildingMenu/Workshop"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 33.0
+offset_right = -21.0
+offset_bottom = 44.0
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Bg" type="Sprite2D" parent="HBoxContainer4/Sprite2D/BuildingMenu"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(29.4062, -29.5729)
+scale = Vector2(0.0585938, 0.0585938)
+texture = ExtResource("16_4vj56")
+
+[node name="ExitButton" type="Button" parent="HBoxContainer4/Sprite2D/BuildingMenu/Bg"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" type="Node2D" parent="HBoxContainer4/Sprite2D"]
+position = Vector2(237.5, -52.5)
+script = ExtResource("18_kdy4t")
+
+[node name="0" type="Button" parent="HBoxContainer4/Sprite2D/Buildings"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -75.0
+offset_top = -225.0
+offset_right = -67.0
+offset_bottom = -217.0
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" parent="HBoxContainer4/Sprite2D/Buildings/0" instance=ExtResource("17_w2auv")]
+position = Vector2(3.88231, 4.0733)
+scale = Vector2(0.118129, -0.12394)
+
+[node name="1" type="Button" parent="HBoxContainer4/Sprite2D/Buildings"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 20.0
+offset_top = -223.75
+offset_right = 28.0
+offset_bottom = -215.75
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" parent="HBoxContainer4/Sprite2D/Buildings/1" instance=ExtResource("17_w2auv")]
+position = Vector2(4.08664, 4.07324)
+scale = Vector2(0.118129, -0.12394)
+
+[node name="2" type="Button" parent="HBoxContainer4/Sprite2D/Buildings"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -76.25
+offset_top = -161.25
+offset_right = -68.25
+offset_bottom = -153.25
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" parent="HBoxContainer4/Sprite2D/Buildings/2" instance=ExtResource("17_w2auv")]
+position = Vector2(3.88231, 4.0733)
+scale = Vector2(0.118129, -0.12394)
+
+[node name="3" type="Button" parent="HBoxContainer4/Sprite2D/Buildings"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 21.25
+offset_top = -160.0
+offset_right = 29.25
+offset_bottom = -152.0
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" parent="HBoxContainer4/Sprite2D/Buildings/3" instance=ExtResource("17_w2auv")]
+position = Vector2(3.88231, 4.0733)
+scale = Vector2(0.118129, -0.12394)
+
+[node name="4" type="Button" parent="HBoxContainer4/Sprite2D/Buildings"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -75.0
+offset_top = -96.2501
+offset_right = -67.0
+offset_bottom = -88.2501
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" parent="HBoxContainer4/Sprite2D/Buildings/4" instance=ExtResource("17_w2auv")]
+position = Vector2(3.88231, 4.0733)
+scale = Vector2(0.118129, -0.12394)
+
+[node name="5" type="Button" parent="HBoxContainer4/Sprite2D/Buildings"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 21.25
+offset_top = -96.2501
+offset_right = 29.25
+offset_bottom = -88.2501
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" parent="HBoxContainer4/Sprite2D/Buildings/5" instance=ExtResource("17_w2auv")]
+position = Vector2(3.88231, 4.0733)
+scale = Vector2(0.118129, -0.12394)
+
+[node name="6" type="Button" parent="HBoxContainer4/Sprite2D/Buildings"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -75.0
+offset_top = -32.5001
+offset_right = -67.0
+offset_bottom = -24.5001
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" parent="HBoxContainer4/Sprite2D/Buildings/6" instance=ExtResource("17_w2auv")]
+position = Vector2(3.88231, 4.0733)
+scale = Vector2(0.118129, -0.12394)
+
+[node name="7" type="Button" parent="HBoxContainer4/Sprite2D/Buildings"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 21.25
+offset_top = -32.5001
+offset_right = 29.25
+offset_bottom = -24.5001
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" parent="HBoxContainer4/Sprite2D/Buildings/7" instance=ExtResource("17_w2auv")]
+position = Vector2(3.88231, 4.0733)
+scale = Vector2(0.118129, -0.12394)
+
+[node name="8" type="Button" parent="HBoxContainer4/Sprite2D/Buildings"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -75.0
+offset_top = 31.2499
+offset_right = -67.0
+offset_bottom = 39.2499
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" parent="HBoxContainer4/Sprite2D/Buildings/8" instance=ExtResource("17_w2auv")]
+position = Vector2(3.88231, 4.0733)
+scale = Vector2(0.118129, -0.12394)
+
+[node name="9" type="Button" parent="HBoxContainer4/Sprite2D/Buildings"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 21.25
+offset_top = 31.2499
+offset_right = 29.25
+offset_bottom = 39.2499
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" parent="HBoxContainer4/Sprite2D/Buildings/9" instance=ExtResource("17_w2auv")]
+position = Vector2(3.88231, 4.0733)
+scale = Vector2(0.118129, -0.12394)
+
+[node name="Temp" type="Sprite2D" parent="HBoxContainer4/Sprite2D"]
+position = Vector2(233.375, 179.625)
+scale = Vector2(2.74609, 6.06641)
+texture = ExtResource("16_4vj56")
+
 [connection signal="pressed" from="HBoxContainer2/GameDate/PauseButton" to="." method="_on_pause_button_pressed"]
 [connection signal="pressed" from="HBoxContainer3/MapTypes/TerrainTypes" to="." method="_on_terrain_types_pressed"]
 [connection signal="pressed" from="HBoxContainer3/MapTypes/PoliticalTypes" to="." method="_on_political_types_pressed"]
@@ -374,3 +545,14 @@ text = "Max resourse in storage: 20"
 [connection signal="mouse_exited" from="HBoxContainer4/Sprite2D/ScrollContainer/Control" to="." method="_on_control_mouse_exited"]
 [connection signal="mouse_entered" from="HBoxContainer4/Sprite2D/ProvinceTypeSelection" to="." method="_on_province_type_selection_mouse_entered"]
 [connection signal="mouse_exited" from="HBoxContainer4/Sprite2D/ProvinceTypeSelection" to="." method="_on_province_type_selection_mouse_exited"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/BuildingMenu/Bg/ExitButton" to="HBoxContainer4/Sprite2D/Buildings" method="_on_exit_button_pressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/0" to="HBoxContainer4/Sprite2D/Buildings" method="_on_0_pressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/1" to="HBoxContainer4/Sprite2D/Buildings" method="_on_1_pressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/2" to="HBoxContainer4/Sprite2D/Buildings" method="_on_2_pressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/3" to="HBoxContainer4/Sprite2D/Buildings" method="_on_3_pressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/4" to="HBoxContainer4/Sprite2D/Buildings" method="_on_4_pressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/5" to="HBoxContainer4/Sprite2D/Buildings" method="_on_5_pressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/6" to="HBoxContainer4/Sprite2D/Buildings" method="_on_6_pressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/7" to="HBoxContainer4/Sprite2D/Buildings" method="_on_7_pressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/8" to="HBoxContainer4/Sprite2D/Buildings" method="_on_8_pressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/9" to="HBoxContainer4/Sprite2D/Buildings" method="_on_9_pressed"]

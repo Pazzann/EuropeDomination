@@ -15,21 +15,21 @@ public class ProvinceData
     public int Development;
 
     public float[] Resources;
-    public List<Building> Buildings;
+    public List<int> BuildingsIds;
     
     public readonly Terrain Terrain;
     public readonly Good Good;
 
-    public ProvinceData(int id, int countryId, string name, Terrain terrain, Good good, int development, float[] resources, List<Building> buildings)
+    public ProvinceData(int id, int countryId, string name, Terrain terrain, Good good, int development, float[] resources, List<int> buildingsIds)
     {
         this.Id = id;
         this.Owner = countryId;
         this.Name = name;
         this.Terrain = terrain;
         this.Development = development;
-
+        
         this.Resources = resources;
-        this.Buildings = buildings;
+        this.BuildingsIds = buildingsIds;
         
         this.BorderProvinces = new int[] { };
         this.Good = good;
