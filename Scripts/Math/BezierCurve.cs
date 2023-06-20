@@ -23,6 +23,10 @@ public class BezierCurve
 		}
 	}
 
+	public Vector2 GetExtremum() {
+		return ((Segment1 + Vertex) / 2 + (Segment2 + Vertex) / 2) / 2;
+	}
+
 	public static BezierCurve GetDefault()
 	{
 		return new BezierCurve(new Vector2(0.0f, 0.0f), new Vector2(0.0f, 0.0f), new Vector2(0.0f, 0.0f));

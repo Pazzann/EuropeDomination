@@ -154,6 +154,7 @@ public partial class MapHandler : Sprite2D
 
 			TextBezierCurve obj = _textScene.Instantiate() as TextBezierCurve;
 			obj.Curve = curve;
+			obj.TextPath = new Arc(curve.Segment1, curve.Vertex, curve.Segment2);
 			obj.TextOnCurve = MapData.Scenario.CountriesNames[data.Value];
 			_textSpawner.AddChild(obj);
 		}

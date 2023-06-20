@@ -94,7 +94,6 @@ public class GameMath
         if (countryProvinces.Length == 2)
             return bezierCurve;
 
-
         for (int i = 0; i < countryProvinces.Length; i++)
         {
             for (int j = i + 1; j < countryProvinces.Length; j++)
@@ -111,7 +110,7 @@ public class GameMath
                     angles[1] = GeometryMath.VertexAngleCos(sides[0], sides[2], sides[1]);
                     angles[2] = GeometryMath.VertexAngleCos(sides[1], sides[2], sides[0]);
 
-                    if (sides[0] + sides[1] > maxAdjacentSidesSum && angles[0] <= 0)
+                    if (sides[0] + sides[1] > maxAdjacentSidesSum && angles[0] <= -0.5)
                     {
                         bezierCurve.Segment1 = countryProvinces[j].CenterOfWeight;
                         bezierCurve.Segment2 = countryProvinces[k].CenterOfWeight;
@@ -120,7 +119,7 @@ public class GameMath
                         continue;
                     }
 
-                    if (sides[0] + sides[2] > maxAdjacentSidesSum && angles[1] <= 0)
+                    if (sides[0] + sides[2] > maxAdjacentSidesSum && angles[1] <= -0.5)
                     {
                         bezierCurve.Segment1 = countryProvinces[i].CenterOfWeight;
                         bezierCurve.Segment2 = countryProvinces[k].CenterOfWeight;
@@ -129,7 +128,7 @@ public class GameMath
                         continue;
                     }
 
-                    if (sides[1] + sides[2] > maxAdjacentSidesSum && angles[2] <= 0)
+                    if (sides[1] + sides[2] > maxAdjacentSidesSum && angles[2] <= -0.5)
                     {
                         bezierCurve.Segment1 = countryProvinces[j].CenterOfWeight;
                         bezierCurve.Segment2 = countryProvinces[i].CenterOfWeight;

@@ -1,5 +1,7 @@
 ﻿namespace EuropeDominationDemo.Scripts.Math;
 
+using Godot;
+
 public class GeometryMath
 {
     public static float VertexAngleCos(float a, float b, float c)
