@@ -15,6 +15,7 @@ public partial class GUI : Control
 	private Sprite2D _pauseSprite;
 
 	private bool _pause = false;
+	private GUIBuildings _buildings;
 
 	
 	
@@ -25,6 +26,7 @@ public partial class GUI : Control
 		_provinceData = GetChild(3).GetChild(0) as Sprite2D;
 		_dateLabel = GetChild(0).GetChild(0).GetChild(0) as Label;
 		_pauseSprite = GetChild(0).GetChild(0).GetChild(2) as Sprite2D;
+		_buildings = GetChild(3).GetChild(0).GetNode<GUIBuildings>("Buildings");
 	}
 
 	public void SetTime(DateTime date)
@@ -139,15 +141,13 @@ public partial class GUI : Control
 			_mapHandler.UnPause();
 		}
 	}
-
-
-	
 	
 	
 	public void DeselectProvinceBar()
 	{
 		Tween tween = GetTree().CreateTween();
 		tween.TweenProperty(_provinceData.GetParent(), "position",new Vector2(-550.0f, 200.0f) , 0.4f);
+		_buildings.CloseBuildingMenu();
 	}
 	public void ShowProvinceData(ProvinceData data){
 		if ((_provinceData.GetParent() as HBoxContainer).Position != new Vector2(20.0f, 200.0f))
@@ -160,6 +160,7 @@ public partial class GUI : Control
 		(_provinceData.GetChild(3) as AnimatedSprite2D).Frame = data.Owner;
 		//terrain here GetChild(4);
 		(_provinceData.GetChild(5).GetChild(0) as GUIResources).DrawResources(data.Resources);
+		_buildings.ShowBuildings(data.BuildingsIds);
 	}
 
 }

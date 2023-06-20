@@ -159,6 +159,18 @@ public partial class MapHandler : Sprite2D
 			_textSpawner.AddChild(obj);
 		}
 	}
+	
+	public void AddBuilding(int buildingId)
+	{
+		if (_selectedTileId >= 0)
+		{
+			if (MapData.Scenario.Map[_selectedTileId].BuildingsIds.Count < 10)
+			{
+				MapData.Scenario.Map[_selectedTileId].BuildingsIds.Add(buildingId);
+				_gui.ShowProvinceData(MapData.Scenario.Map[_selectedTileId]);
+			}
+		}
+	}
 
 	private void _dayTick()
 	{

@@ -545,6 +545,7 @@ texture = ExtResource("16_4vj56")
 [connection signal="mouse_exited" from="HBoxContainer4/Sprite2D/ScrollContainer/Control" to="." method="_on_control_mouse_exited"]
 [connection signal="mouse_entered" from="HBoxContainer4/Sprite2D/ProvinceTypeSelection" to="." method="_on_province_type_selection_mouse_entered"]
 [connection signal="mouse_exited" from="HBoxContainer4/Sprite2D/ProvinceTypeSelection" to="." method="_on_province_type_selection_mouse_exited"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/BuildingMenu/Workshop/WorkshopButton" to="HBoxContainer4/Sprite2D/Buildings" method="_on_workshop_button_pressed"]
 [connection signal="pressed" from="HBoxContainer4/Sprite2D/BuildingMenu/Bg/ExitButton" to="HBoxContainer4/Sprite2D/Buildings" method="_on_exit_button_pressed"]
 [connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/0" to="HBoxContainer4/Sprite2D/Buildings" method="_on_0_pressed"]
 [connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/1" to="HBoxContainer4/Sprite2D/Buildings" method="_on_1_pressed"]

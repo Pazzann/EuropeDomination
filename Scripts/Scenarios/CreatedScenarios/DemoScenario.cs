@@ -47,10 +47,10 @@ public class DemoScenario : Scenario
         };
         Map = new ProvinceData[14]
         {
-            new ProvinceData(0, Countries["Great Britian"], "Rekyavik", Terrain.Coast, Good.Iron, 1, new float[] {0, 2}, new List<int>()),
-            new ProvinceData(1,  Countries["Great Britian"], "Rekyavik", Terrain.Field, Good.Iron, 2, new float[] {0, 1}, new List<int>()),
-            new ProvinceData(2,  Countries["Great Britian"], "Rekyavik", Terrain.Field, Good.Iron, 1, new float[] {2, 0}, new List<int>()),
-            new ProvinceData(3,  Countries["Great Britian"], "Rekyavik", Terrain.Forest, Good.Iron, 1, new float[] {0, 3}, new List<int>()),
+            new ProvinceData(0, Countries["Great Britian"], "Rekyavik", Terrain.Coast, Good.Iron, 1, new float[] {0, 2}, new List<int>(){1, 1, 1}),
+            new ProvinceData(1,  Countries["Great Britian"], "Rekyavik", Terrain.Field, Good.Iron, 2, new float[] {0, 1}, new List<int>(){1, 1, 1}),
+            new ProvinceData(2,  Countries["Great Britian"], "Rekyavik", Terrain.Field, Good.Iron, 1, new float[] {2, 0}, new List<int>(){1, 1, 1}),
+            new ProvinceData(3,  Countries["Great Britian"], "Rekyavik", Terrain.Forest, Good.Iron, 1, new float[] {0, 3}, new List<int>(){1, 1, 1, 1, 1, 1}),
             new ProvinceData(4,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Iron, 1, new float[] {4, 0}, new List<int>()),
             new ProvinceData(5,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Iron, 2, new float[] {0, 4}, new List<int>()),
             new ProvinceData(6,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Iron, 2, new float[] {3, 0}, new List<int>()),
