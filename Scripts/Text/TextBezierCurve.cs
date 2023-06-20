@@ -21,8 +21,6 @@ public partial class TextBezierCurve : Node
 		if (Curve.Segment1.X > Curve.Segment2.X)
 			(Curve.Segment1, Curve.Segment2) = (Curve.Segment2, Curve.Segment1);
 
-		GD.Print($"Bezier curve: [{Curve.GetPoint(0)}, {Curve.GetPoint(0.5f)}]; Arc: [{TextPath.GetPoint(0)}, {TextPath.GetPoint(0.5f)}];");
-
 		for (int i = 0; i < TextOnCurve.Length; i++)
 		{
 			var t = (float)i / ((float)(TextOnCurve.Length - 1));
@@ -30,8 +28,6 @@ public partial class TextBezierCurve : Node
 
 			obj.Size = new Vector2((float)obj.LabelSettings.FontSize / obj.Size.Y * obj.Size.X,
 				(float)obj.LabelSettings.FontSize);
-				
-			GD.Print("Size: " + obj.Size);
 
 			obj.Position = TextPath.GetPoint(t) - obj.Size / 2;
 			obj.PivotOffset = obj.Size / 2;

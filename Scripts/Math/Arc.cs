@@ -78,7 +78,6 @@ public readonly struct Arc {
     }
 
     private Vector2 getPointFromAngle(float angle) {
-        GD.Print($"Angle: {angle}; Point: {Center + Radius * new Vector2(Cos(angle), Sin(angle))}");
         return Center + Radius * new Vector2(Cos(angle), Sin(angle));
     }
 
