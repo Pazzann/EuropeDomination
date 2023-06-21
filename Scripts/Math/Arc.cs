@@ -1,9 +1,9 @@
- using Godot;
+using Godot;
 using static System.MathF;
 
 namespace EuropeDominationDemo.Scripts.Math;
 
-public readonly struct Arc {
+public class Arc {
     public readonly Vector2 Center;
     public readonly float Radius, Point0, Point1, Point2;
 
@@ -26,6 +26,18 @@ public readonly struct Arc {
             (Point0, Point2) = (Point2, Point0);
     }
 
+    private Arc(float radius, float point0, float point1, float point2, Vector2 center) {
+        Radius = radius;
+        Point0 = point0;
+        Point1 = point1;
+        Point2 = point2;
+        Center = center;
+    }
+
+    public Arc offset(Vector2 delta) {
+        return new Arc(Radius, Point0, Point1, Point2, Center + delta);
+    }
+
     public Vector2 GetPoint(float t) {
         if (t < 0 || t > 1)
             throw new System.ArgumentException();
@@ -34,8 +46,14 @@ public readonly struct Arc {
 
         if (getX(p0) > getX(p1))
            (p0, p1) = (p1, p0);
+
+        if (Point1 < Point0 && Point1 > Point2)
+            t = 1 - t;
         
         float a = p0 * (1 - t) + p1 * t;
+
+        if (Point1 < Point0 && Point1 > Point2)
+            a += PI;
 
         return getPointFromAngle(a);
     }
@@ -49,24 +67,36 @@ public readonly struct Arc {
         if (getX(p0) > getX(p1))
             (p0, p1) = (p1, p0);
 
+        if (Point1 < Point0 && Point1 > Point2)
+            t = 1 - t;
+
         float a = p0 * (1 - t) + p1 * t;
+
+        if (Point1 < Point0 && Point1 > Point2)
+            a += PI;
+
         return (-p0 + p1) * Radius * new Vector2(-Sin(a), Cos(a));
     }
 
     public bool Intersects(Segment segment) {
-        float a = (segment.Line.K * segment.Line.K + 1);
-        float b = 2 * (segment.Line.B * segment.Line.K - Center.X - segment.Line.K * Center.Y);
-        float c = segment.Line.B * segment.Line.B + Center.X * Center.X - 2 * segment.Line.B * Center.Y + Center.Y * Center.Y - Radius * Radius;
+        var p0 = segment.Point0 - Center;
+        var p1 = segment.Point1 - Center;
 
-        float d = b * b - 4 * a * c;
+        var delta = p1 - p0;
+        var delta_len2 = delta.LengthSquared();
+        var D = Utils.det(p0.X, p1.X, p0.Y, p1.Y);
 
-        if (d < 0)
+        var discriminant = Radius * Radius * delta_len2 - D * D;
+
+        if (discriminant < 0.001)
             return false;
 
-        float x1 = (-b + System.MathF.Sqrt(d)) / (2 * a);
-        float x2 = (-b - System.MathF.Sqrt(d)) / (2 * a);
+        var sgn = Sign(delta.Y);
 
-        return (containsPoint(x1) && x1 >= segment.MinX && x1 <= segment.MaxX) || (containsPoint(x2) && x2 >= segment.MinX && x2 <= segment.MaxX);
+        var ip0 = new Vector2(D * delta.Y + sgn * delta.X * Sqrt(discriminant), -D * delta.X + Abs(delta.Y) * Sqrt(discriminant));
+        var ip1 = new Vector2(D * delta.Y - sgn * delta.X * Sqrt(discriminant), -D * delta.X - Abs(delta.Y) * Sqrt(discriminant));
+
+        return (containsPoint(ip0.X) && segment.ContainsPoint(ip0)) || (containsPoint(ip1.X) && segment.ContainsPoint(ip1));
     }
 
     private Vector2 getPointOnCircle(float x) {
