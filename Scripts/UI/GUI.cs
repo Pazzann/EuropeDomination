@@ -96,34 +96,34 @@ public partial class GUI : Control
 	
 	private void _on_h_box_container_4_mouse_entered()
 	{
-		_mapHandler.FreezeZoom();
+		_mapHandler.FreezeMap();
 	}
 	
 	private void _on_control_mouse_entered()
 	{
-		_mapHandler.FreezeZoom();
+		_mapHandler.FreezeMap();
 	}
 
 
 	private void _on_province_type_selection_mouse_entered()
 	{
-		_mapHandler.FreezeZoom();
+		_mapHandler.FreezeMap();
 	}
 	
 	private void _on_h_box_container_4_mouse_exited()
 	{
-		_mapHandler.UnFreezeZoom();
+		_mapHandler.UnFreezeMap();
 	}
 	
 	private void _on_control_mouse_exited()
 	{
-		_mapHandler.UnFreezeZoom();
+		_mapHandler.UnFreezeMap();
 	}
 
 
 	private void _on_province_type_selection_mouse_exited()
 	{
-		_mapHandler.UnFreezeZoom();
+		_mapHandler.UnFreezeMap();
 	}
 
 	private void _on_pause_button_pressed()
@@ -159,8 +159,8 @@ public partial class GUI : Control
 		(_provinceData.GetChild(2) as AnimatedSprite2D).Frame = (int)data.Good;
 		(_provinceData.GetChild(3) as AnimatedSprite2D).Frame = data.Owner;
 		//terrain here GetChild(4);
-		(_provinceData.GetChild(5).GetChild(0) as GUIResources).DrawResources(data.Resources);
-		_buildings.ShowBuildings(data.BuildingsIds);
+		(_provinceData.GetChild(5).GetChild(0) as GUIResources).DrawResources(data);
+		_buildings.ShowBuildings(data.Buildings);
 	}
 
 }

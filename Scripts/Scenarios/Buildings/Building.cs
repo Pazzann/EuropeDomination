@@ -7,6 +7,7 @@ public abstract class Building
     public int BuildingTime = 0;
     public bool IsFinished = false;
     public abstract int Cost { get; }
+    public abstract int ID { get; }
 
     public abstract BuildingBonuses Multipliers { get; }
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
@@ -29,8 +30,9 @@ public partial class MapHandler : Sprite2D
 	private CameraBehaviour _camera;
 	private Timer _timer;
 	private int _previousMonth;
-
-
+	
+	private bool _freezed = false;
+	
 	private int _selectedTileId = -2;
 
 
@@ -159,17 +161,23 @@ public partial class MapHandler : Sprite2D
 			_textSpawner.AddChild(obj);
 		}
 	}
-	
-	public void AddBuilding(int buildingId)
+	//TODO: add buildings slots variable
+	public void AddBuilding(Building building)
 	{
 		if (_selectedTileId >= 0)
 		{
-			if (MapData.Scenario.Map[_selectedTileId].BuildingsIds.Count < 10)
+			if (MapData.Scenario.Map[_selectedTileId].Buildings.Count < 10 && !MapData.Scenario.Map[_selectedTileId].Buildings.Exists(i => i.ID == 1) && MapData.Scenario.Map[_selectedTileId].Buildings.Count < 4)
 			{
-				MapData.Scenario.Map[_selectedTileId].BuildingsIds.Add(buildingId);
+				MapData.Scenario.Map[_selectedTileId].Buildings.Add(building);
 				_gui.ShowProvinceData(MapData.Scenario.Map[_selectedTileId]);
 			}
 		}
+	}
+
+	public void RemoveBuilding(List<Building> buildings)
+	{
+		MapData.Scenario.Map[_selectedTileId].Buildings = buildings;
+		_gui.ShowProvinceData(MapData.Scenario.Map[_selectedTileId]);
 	}
 
 	private void _dayTick()
@@ -178,9 +186,8 @@ public partial class MapHandler : Sprite2D
 
 		foreach (var data in MapData.Scenario.Map)
 		{
-			foreach (var buildingId in data.BuildingsIds)
+			foreach (var building in data.Buildings)
 			{
-				var building = Building.Buildings[buildingId];
 				if (!building.IsFinished)
 				{
 					building.BuildingTime++;
@@ -191,12 +198,18 @@ public partial class MapHandler : Sprite2D
 				}
 			}
 		}
+		
+		
 
 
 		if (_previousMonth != MapData.Scenario.Date.Month)
 		{
 			_monthTick();
 			_previousMonth = MapData.Scenario.Date.Month;
+		}
+		else if (_selectedTileId > -1)
+		{
+			_gui.ShowProvinceData(MapData.Scenario.Map[_selectedTileId]);
 		}
 
 
@@ -210,14 +223,7 @@ public partial class MapHandler : Sprite2D
 	{
 		foreach (var data in MapData.Scenario.Map)
 		{
-			var resourceProduced = 1.0f;
-			foreach (var buildingId in data.BuildingsIds)
-			{
-				var building = Building.Buildings[buildingId];
-				resourceProduced *= building.Multipliers.ProductionEfficiency;
-			}
-
-			data.Resources[(int)data.Good] += resourceProduced;
+			data.Resources[(int)data.Good] += data.ProductionRate;
 		}
 
 		if (_selectedTileId > -1)
@@ -255,13 +261,15 @@ public partial class MapHandler : Sprite2D
 		}
 	}
 
-	public void FreezeZoom()
+	public void FreezeMap()
 	{
+		_freezed = true;
 		_camera.SetZoomable(false);
 	}
 
-	public void UnFreezeZoom()
+	public void UnFreezeMap()
 	{
+		_freezed = false;
 		_camera.SetZoomable(true);
 	}
 
@@ -283,7 +291,7 @@ public partial class MapHandler : Sprite2D
 
 	public override void _Input(InputEvent @event)
 	{
-		if (@event is not InputEventMouseButton mbe || mbe.ButtonIndex != MouseButton.Left || !mbe.Pressed) return;
+		if (@event is not InputEventMouseButton mbe || mbe.ButtonIndex != MouseButton.Left || !mbe.Pressed || _freezed) return;
 		var mousePos = this.GetLocalMousePosition();
 		var iMousePos = new Vector2I((int)(mousePos.X), (int)(mousePos.Y));
 		if (mapMap.GetUsedRect().HasPoint(iMousePos))
