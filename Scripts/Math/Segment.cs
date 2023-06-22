@@ -10,14 +10,14 @@ public readonly struct Segment {
     }
 
     public Vector2 Point1 {
-        get => Line.Point1;
+        get => Line.Point0 + Line.Dir;
     }
 
     public Segment(Vector2 p0, Vector2 p1) {
         if (p0.X > p1.X)
             (p0, p1) = (p1, p0);
         
-        Line = new Line(p0, p1);
+        Line = new Line(p0, p1 - p0);
     }
 
     public Line GetPerpendicularBisector() {
@@ -25,6 +25,10 @@ public readonly struct Segment {
     }
 
     public bool ContainsPoint(Vector2 p) {
-        return System.MathF.Abs(((p - Point0).Length() + (Point1 - p).Length()) - (Point1 - Point0).Length()) < 0.01;
+        return Godot.Geometry2D.GetClosestPointToSegment(p, Point0, Point1).IsEqualApprox(p);
+    }
+
+    public bool Intersects(Segment other) {
+        return Godot.Geometry2D.SegmentIntersectsSegment(Point0, Point1, other.Point0, other.Point1).VariantType != Godot.Variant.Type.Nil;
     }
 }

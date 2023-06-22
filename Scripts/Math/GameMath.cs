@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Scenarios;
+using EuropeDominationDemo.Scripts;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Math;
@@ -83,6 +84,64 @@ public class GameMath
         }
 
         return res;
+    }
+
+    public static (ThickArc, float) FindSuitableTextPath(int stateId, StateMap map, float letterAspectRatio, int letterCount) {
+        return (null, 30f);
+        var border = map.GetStateBorder(stateId);
+        var vertices = border.Vertices;
+        var center = new Vector2();
+
+        var bestTextSize = 0f;
+        ThickArc bestPath = null;
+
+        var findPath = (Vector2 p0, Vector2 p1, Vector2 p2) => {
+            var arc = new Arc(p0, p1, p2);
+
+            var test = (float letterHeight) => {
+                var path = ThickArc.fitText(arc, letterCount, new Vector2(letterHeight * letterAspectRatio, letterHeight));
+                return path != null && !border.Intersects(path);
+            };
+
+            float left = 1f, right = 100f;
+
+            while (right - left > 0.01f) {
+                float mid = (left + right) / 2;
+
+                if (test(mid))
+                    left = mid;
+                else
+                    right = mid;
+            }
+
+            var fontSize = left;
+            var path = ThickArc.fitText(arc, letterCount, new Vector2(fontSize * letterAspectRatio, fontSize));
+
+            if ((fontSize > bestTextSize && path != null) || bestPath == null) {
+                bestPath = path;
+                bestTextSize = fontSize;
+            }
+        };
+
+        for (int i = 0; i < vertices.Count; ++i) {
+            for (int j = 0; j < vertices.Count; ++j) {
+                if (i == j)
+                    continue;
+
+                var p0 = vertices[i];
+                var p1 = vertices[j];
+                var p2 = center;
+
+                if (p0.IsEqualApprox(p1) || p1.IsEqualApprox(p2) || p0.IsEqualApprox(p2))
+                    continue;
+
+                findPath(p0, p1, p2);
+                findPath(p0, p2, p1);
+                findPath(p1, p0, p2);
+            }
+        }
+
+        return (bestPath, bestTextSize);
     }
 
     public static BezierCurve FindBezierCurve(ProvinceData[] countryProvinces)
@@ -271,9 +330,9 @@ public class GameMath
         return map;
     }
 
-    public static List<int> ListIdsFromProvinces(ProvinceData[] provinces)
+    public static HashSet<int> ListIdsFromProvinces(ProvinceData[] provinces)
     {
-        var ids = new List<int>();
+        var ids = new HashSet<int>();
         for (int i = 0; i < provinces.Length; i++)
         {
             ids.Add(provinces[i].Id);

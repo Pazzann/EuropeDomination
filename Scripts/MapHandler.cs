@@ -135,10 +135,12 @@ public partial class MapHandler : Sprite2D
 		MapMaterial.SetShaderParameter("selectedID", -1);
 	}
 
-
 	private void _drawText()
 	{
 		_clearText();
+
+		var stateMap = new StateMap(MapData, mapMap);
+
 		foreach (var data in MapData.Scenario.Countries)
 		{
 			var provinces = MapData.Scenario.CountryProvinces(data.Value);
@@ -154,7 +156,8 @@ public partial class MapHandler : Sprite2D
 
 			TextBezierCurve obj = _textScene.Instantiate() as TextBezierCurve;
 			obj.Curve = curve;
-			obj.TextPath = new Arc(curve.Segment1, curve.Vertex, curve.Segment2);
+			//(obj.TextPath, obj.FontSize) = GameMath.FindSuitableTextPath(data.Value, stateMap, 1f, MapData.Scenario.CountriesNames[data.Value].Length);
+			obj.TextPath = Arc.withAngle(curve.Segment1, curve.Segment2, Mathf.Pi / 6f).Item2;
 			obj.TextOnCurve = MapData.Scenario.CountriesNames[data.Value];
 			_textSpawner.AddChild(obj);
 		}
@@ -190,8 +193,8 @@ public partial class MapHandler : Sprite2D
 
 		//calcs before
 
-
-		_gui.SetTime(MapData.Scenario.Date);
+		if (_gui != null)
+			_gui.SetTime(MapData.Scenario.Date);
 	}
 
 	private void _monthTick()

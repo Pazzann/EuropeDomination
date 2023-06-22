@@ -19,6 +19,7 @@ animations = [{
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D"]
 texture_filter = 3
+position = Vector2(1, 0)
 scale = Vector2(0.4, 0.4)
 sprite_frames = SubResource("SpriteFrames_3irhj")
 animation = &"goods"
