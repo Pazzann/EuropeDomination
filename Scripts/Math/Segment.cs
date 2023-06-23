@@ -25,7 +25,10 @@ public readonly struct Segment {
     }
 
     public bool ContainsPoint(Vector2 p) {
-        return Godot.Geometry2D.GetClosestPointToSegment(p, Point0, Point1).IsEqualApprox(p);
+        // if (Mathf.Abs(((p - Point0).Length() + (p - Point1).Length() - (Point1 - Point0).Length())) < 0.01f) {
+        //     GD.Print("77");
+        // }
+        return Mathf.Abs(((p - Point0).Length() + (p - Point1).Length() - (Point1 - Point0).Length())) < 0.00001f;
     }
 
     public bool Intersects(Segment other) {

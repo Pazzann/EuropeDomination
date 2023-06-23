@@ -9,7 +9,7 @@ namespace EuropeDominationDemo.Scripts;
 
 public class  StateMap
 {
-	private const int MAX_CONTROL_VERTICES = 10;
+	private const int MAX_CONTROL_VERTICES = 100;
 
 	private IDictionary<int, Polygon> stateHulls = new Dictionary<int, Polygon>(); 
 
@@ -19,7 +19,6 @@ public class  StateMap
 
 		var stateProvinces = new Dictionary<int, HashSet<int>>();
 		var provinceStates = new Dictionary<int, int>();
-		var stateBorders = new Dictionary<int, List<Vector2I>>();
 
 		foreach (var entry in countries)
 			stateProvinces.Add(entry.Value, GameMath.ListIdsFromProvinces(data.Scenario.CountryProvinces(entry.Value)));
@@ -50,11 +49,16 @@ public class  StateMap
 		};
 
 		var getStateIdChecked = (int x, int y, int def) => {
-			if (x > 0 || x >= mapWidth || y < 0 || y >= mapHeight)
+			if (x < 0 || x >= mapWidth || y < 0 || y >= mapHeight)
 				return def;
 			else
 				return getStateId(x, y, def);
 		};
+
+		bool[,] isOnBorder = new bool[mapWidth, mapHeight];
+		int[,] stateId = new int[mapWidth, mapHeight];
+
+		var firstStateCell = new Dictionary<int, Vector2I>();
 
 		for (int i = 0; i < map.GetHeight(); ++i) {
 			for (int j = 0; j < map.GetWidth(); ++j) {
@@ -68,26 +72,62 @@ public class  StateMap
 					new Vector2I(j, i + 1),
 					new Vector2I(j - 1, i),
 					new Vector2I(j, i - 1),
-					// new Vector2I(j + 1, i - 1),
-					// new Vector2I(j - 1, i + 1),
-					// new Vector2I(j + 1, i + 1),
-					// new Vector2I(j - 1, i - 1)
+					new Vector2I(j + 1, i - 1),
+					new Vector2I(j - 1, i + 1),
+					new Vector2I(j + 1, i + 1),
+					new Vector2I(j - 1, i - 1)
 				};
 
-				var isOnBorder = false;
+				int borderDegree = 0;
 				
 				foreach (var neighbor in neighbors) {
 					if (getStateIdChecked(neighbor.X, neighbor.Y, curState) != curState || getStateId(neighbor.X, neighbor.Y, -1) == -1) {
-						isOnBorder = true;
-						break;
+						borderDegree++;
 					}
 				}
 
-				if (isOnBorder) {
-					if (!stateBorders.ContainsKey(curState))
-						stateBorders.Add(curState, new List<Vector2I>());
+				if (borderDegree >= 1) {
+					isOnBorder[j, i] = true;
+					stateId[j, i] = curState;
 
-					stateBorders[curState].Add(new Vector2I(j, i));
+					if (!firstStateCell.ContainsKey(curState))
+						firstStateCell.Add(curState, new Vector2I(j, i));
+				}
+			}
+		}
+
+		var stateBorders = new Dictionary<int, List<Vector2I>>();
+
+		bool[,] visited = new bool[mapWidth, mapHeight];
+
+		foreach (var entry in firstStateCell) {
+			stateBorders.Add(entry.Key, new List<Vector2I>());
+
+			var queue = new Stack<Vector2I>();
+			queue.Push(entry.Value);
+
+			while (queue.Count != 0) {
+				var (x, y) = queue.Pop();
+
+				stateBorders[entry.Key].Add(new Vector2I(x, y));
+				visited[x, y] = true;
+
+				Vector2I[] neighbors = {
+					new Vector2I(x + 1, y),
+					new Vector2I(x, y + 1),
+					new Vector2I(x - 1, y),
+					new Vector2I(x, y - 1),
+					new Vector2I(x + 1, y - 1),
+					new Vector2I(x - 1, y + 1),
+					new Vector2I(x + 1, y + 1),
+					new Vector2I(x - 1, y - 1)
+				};
+
+				foreach (var neighbor in neighbors) {
+					var (nx, ny) = neighbor;
+
+					if (nx >= 0 && nx < mapWidth && ny >= 0 && ny < mapHeight && !visited[nx, ny] && isOnBorder[nx, ny] && stateId[x, y] == stateId[nx, ny])
+						queue.Push(new Vector2I(nx, ny));
 				}
 			}
 		}

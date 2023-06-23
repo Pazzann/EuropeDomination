@@ -7,7 +7,7 @@ public partial class TextBezierCurve : Node
 {
 	private PackedScene _textScene;
 	public BezierCurve Curve;
-	public Arc TextPath;
+	public ThickArc TextPath;
 	public float FontSize;
 	public string TextOnCurve;
 
@@ -24,7 +24,7 @@ public partial class TextBezierCurve : Node
 
 		for (int i = 0; i < TextOnCurve.Length; i++)
 		{
-			var t = (float)i / ((float)(TextOnCurve.Length - 1));
+			var t = (TextOnCurve.Length == 1 ? 0.5f : (float)i / ((float)(TextOnCurve.Length - 1)));
 			var obj = (Label)_textScene.Instantiate();
 
 			//obj.LabelSettings.FontSize = Mathf.RoundToInt(FontSize);
@@ -32,7 +32,7 @@ public partial class TextBezierCurve : Node
 			obj.Size = new Vector2((float)obj.LabelSettings.FontSize / obj.Size.Y * obj.Size.X,
 				(float)obj.LabelSettings.FontSize);
 
-			//obj.Scale = new Vector2(FontSize / (float)obj.LabelSettings.FontSize, FontSize / (float)obj.LabelSettings.FontSize);
+			obj.Scale = new Vector2(FontSize / (float)obj.LabelSettings.FontSize, FontSize / (float)obj.LabelSettings.FontSize);
 
 			obj.Position = TextPath.GetPoint(t) - obj.Size / 2;
 			obj.PivotOffset = obj.Size / 2;

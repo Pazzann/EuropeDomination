@@ -87,25 +87,21 @@ public class GameMath
     }
 
     public static (ThickArc, float) FindSuitableTextPath(int stateId, StateMap map, float letterAspectRatio, int letterCount) {
-        return (null, 30f);
         var border = map.GetStateBorder(stateId);
         var vertices = border.Vertices;
-        var center = new Vector2();
 
         var bestTextSize = 0f;
         ThickArc bestPath = null;
 
-        var findPath = (Vector2 p0, Vector2 p1, Vector2 p2) => {
-            var arc = new Arc(p0, p1, p2);
-
+        var findPath = (Arc arc) => {
             var test = (float letterHeight) => {
                 var path = ThickArc.fitText(arc, letterCount, new Vector2(letterHeight * letterAspectRatio, letterHeight));
-                return path != null && !border.Intersects(path);
+                return path != null && !border.Intersects(new Segment(arc.GetPoint(0), arc.GetPoint(1f))) && !border.Intersects(path);
             };
 
-            float left = 1f, right = 100f;
+            float left = 1f, right = 50f;
 
-            while (right - left > 0.01f) {
+            while (right - left > 1f) {
                 float mid = (left + right) / 2;
 
                 if (test(mid))
@@ -123,23 +119,35 @@ public class GameMath
             }
         };
 
-        for (int i = 0; i < vertices.Count; ++i) {
-            for (int j = 0; j < vertices.Count; ++j) {
+        for (int i = 0; i < vertices.Count; i += 2) {
+            for (int j = i + 1; j < vertices.Count; j += 2) {
                 if (i == j)
                     continue;
 
                 var p0 = vertices[i];
                 var p1 = vertices[j];
-                var p2 = center;
 
-                if (p0.IsEqualApprox(p1) || p1.IsEqualApprox(p2) || p0.IsEqualApprox(p2))
+                if (p0.IsEqualApprox(p1))
                     continue;
 
-                findPath(p0, p1, p2);
-                findPath(p0, p2, p1);
-                findPath(p1, p0, p2);
+                float[] angles = {
+                    Mathf.Pi / 3,
+                    Mathf.Pi / 4,
+                    Mathf.Pi / 6,
+                    Mathf.Pi / 9,
+                    Mathf.Pi / 10
+                };
+
+                foreach (var angle in angles) {
+                    var (arc1, arc2) = Arc.withAngle(p0, p1, angle);
+
+                    findPath(arc1);
+                    findPath(arc2);
+                }
             }
         }
+
+        GD.Print("Text size: " + bestTextSize);
 
         return (bestPath, bestTextSize);
     }

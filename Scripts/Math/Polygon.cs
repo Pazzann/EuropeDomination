@@ -19,16 +19,19 @@ public class Polygon {
 	}
 
 	public void SortVertices() {
-		var sum = new Vector2();
+		if (!Godot.Geometry2D.IsPolygonClockwise(vertices.ToArray()))
+			vertices.Reverse();
 
-		foreach (var vertex in vertices)
-			sum += vertex;
+		Debug.Assert(Godot.Geometry2D.IsPolygonClockwise(vertices.ToArray()));
+		
+		// var sum = new Vector2();
 
-		var center = sum / vertices.Count;
+		// foreach (var vertex in vertices)
+		// 	sum += vertex;
 
-		vertices.Sort((lhs, rhs) => -(lhs - center).Angle().CompareTo((rhs - center).Angle()));
+		// var center = sum / vertices.Count;
 
-		Debug.Assert(Geometry2D.IsPolygonClockwise(vertices.ToArray()));
+		// vertices.Sort((lhs, rhs) => -(lhs - center).Angle().CompareTo((rhs - center).Angle()));
 	}
 
 	public bool Intersects(ThickArc arc) {

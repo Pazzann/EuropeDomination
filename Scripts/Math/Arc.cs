@@ -5,9 +5,24 @@ using EuropeDominationDemo;
 namespace EuropeDominationDemo.Scripts.Math;
 
 public class Arc {
+	// Circle center
 	private readonly Vector2 center;
-	private readonly float radius, angle0, angle1;
-	private readonly bool isCCW, isReversed;
+
+	// Circle radius
+	private readonly float radius;
+
+	// Polar angle of the curve's start
+	private readonly float angle0;
+
+	// Polar angle of the curve's end
+	private readonly float angle1;
+
+	// If the curve should be traversed counter clockwise
+	private readonly bool isCCW;
+
+	public Vector2 Center {
+		get => center;
+	}
 
 	public static (Arc, Arc) withAngle(Vector2 p0, Vector2 p1, float angle) {
 		Line bisector = new Segment(p0, p1).GetPerpendicularBisector();
@@ -19,32 +34,22 @@ public class Arc {
 	}
 
 	public Arc(Vector2 center, Vector2 p0, Vector2 p1) {
-		// if (p0 == p1 || p0 == center || p1 == center || Mathf.Abs((center - p0).LengthSquared() - (center - p1).LengthSquared()) > 0.01f)
-		// 	throw new System.ArgumentException();
-
 		this.center = center;
+		this.radius = (p0 - this.center).Length();
 
-		if (p0.X < p1.X)
+		// Adjust curve's endpoint arrangement
+
+		if (p0.X > p1.X)
 			(p0, p1) = (p1, p0);
 
-		angle0 = getAngle(p0 - this.center);
-		angle1 = getAngle(p1 - this.center);
+		// Transition to polar coordinates
 
-		isCCW = Mathf.PosMod(angle1 - angle0, 2 * PI) <= PI;
+		this.angle0 = getAngleFromPoint(p0 - this.center);
+		this.angle1 = getAngleFromPoint(p1 - this.center);
 
-		if (isCCW && angle0 > angle1)
-			angle1 += 2 * PI;
-		
-		if (angle0 > angle1) {
-			(angle0, angle1) = (angle1, angle0);
-			isReversed = true;
-		} else
-			isReversed = false;
+		// Find out if the curve should be interpolated counter clockwise or clockwise
 
-		if (isCCW)
-			isReversed = !isReversed;
-
-		radius = (p0 - this.center).Length();
+		this.isCCW = getAngleDiffCCW(angle0, angle1) <= PI;
 	}
 
 	private Arc(float radius, float angle0, float angle1, Vector2 center, bool isCCW) {
@@ -64,98 +69,76 @@ public class Arc {
 	}
 
 	public Vector2 GetPoint(float t) {
-		if (t < 0 || t > 1)
-			throw new System.ArgumentException();
-		
-		GD.Print($"{angle0} {angle1} {Mathf.PosMod(angle1 - angle0, 2 * PI)} {isCCW} {isReversed}");
-
-		if (isReversed)
-			t = 1 - t;
-
-		float a;
-
-		if (isCCW)
-			a = angle0 + GetAngle() * t;
-		else 
-			a = angle1 - GetAngle() * t;
-		
-		return getPointFromAngle(a);
+		return getPointFromAngle(interpolateAngle(t));
 	}
 
 	public float GetAngle() {
-		return Mathf.Min(angle1 - angle0, 2 * PI - (angle1 - angle0));
+		if (isCCW)
+			return getAngleDiffCCW(angle0, angle1);
+		else
+			return getAngleDiffCCW(angle1, angle0);
 	}
 
 	public Vector2 GetTangent(float t) {
 		if (t < 0 || t > 1)
 			throw new System.ArgumentException();
 
-		if (isReversed)
-			t = 1 - t;
-
-		float a, d;
-
-		if (isCCW) {
-			a = angle0 + GetAngle() * t;
-			d = GetAngle();
-		} else {
-			a = angle1 - GetAngle() * t;
-			d = -GetAngle();
-		}
-
-		if (isReversed)
-			d = -d;
-
-		return d * radius * new Vector2(-Sin(a), Cos(a));
+		float a = interpolateAngle(t);
+		return interpolateAngleDerivative(t) * radius * new Vector2(-Sin(a), Cos(a));
 	}
 
 	public bool Intersects(Segment segment) {
-		if (Mathf.IsNaN(center.X) || Mathf.IsNaN(center.Y))
-			return true;
-		
-		var p0 = segment.Point0 - center;
-		var p1 = segment.Point1 - center;
+		var p = segment.Point0;
+		var v = segment.Line.Dir.Normalized();
+		var u = Center - p;
+		var u1 = u.Dot(v) * v;
+		var u2 = u - u1;
+		var d2 = u2.LengthSquared();
 
-		var delta = p1 - p0;
-		var delta_len2 = delta.LengthSquared();
-		var D = Utils.det(p0.X, p1.X, p0.Y, p1.Y);
-
-		var discriminant = radius * radius * delta_len2 - D * D;
-
-		if (discriminant < 0.001)
+		if (d2 > radius * radius)
 			return false;
 
-		var sgn = Sign(delta.Y);
+		var m = Mathf.Sqrt(radius * radius - d2);
+		var p1 = p + u1 + m * v;
+		var p2 = p + u1 - m * v;
 
-		var ip0 = new Vector2(D * delta.Y + sgn * delta.X * Sqrt(discriminant), -D * delta.X + Abs(delta.Y) * Sqrt(discriminant));
-		var ip1 = new Vector2(D * delta.Y - sgn * delta.X * Sqrt(discriminant), -D * delta.X - Abs(delta.Y) * Sqrt(discriminant));
+		// if ((containsPoint(p1) && segment.ContainsPoint(p1)) || (containsPoint(p2) && segment.ContainsPoint(p2)))
+		// 	GD.Print("Found intersection");
 
-		return (containsPoint(ip0.X) && segment.ContainsPoint(ip0)) || (containsPoint(ip1.X) && segment.ContainsPoint(ip1));
-	}
-
-	private Vector2 getPointOnCircle(float x) {
-		x -= center.X;
-		return center + new Vector2(x, System.MathF.Sqrt(radius * radius - x * x));
+		return (containsPoint(p1) && segment.ContainsPoint(p1)) || (containsPoint(p2) && segment.ContainsPoint(p2));
 	}
 
 	private Vector2 getPointFromAngle(float angle) {
 		return center + radius * new Vector2(Cos(angle), Sin(angle));
 	}
 
-	private bool containsPoint(float x) {
-		float a = getAngle(getPointOnCircle(x) - center);
-		float a0 = Mathf.PosMod(angle0, 2 * PI), a1 = Mathf.PosMod(angle1, 2 * PI);
+	private bool containsPoint(Vector2 point) {
+		const float EPS = 0.0001f;
 
-		if (a0 > a1)
-			(a0, a1) = (a1, a0);
+		float a = getAngleFromPoint(point - Center);
+		float diff;
 
 		if (isCCW)
-			return a >= a0 && a <= a1;
+			diff = getAngleDiffCCW(angle0, a + EPS) + getAngleDiffCCW(a - EPS, angle1);
 		else
-			return a <= a0 || a >= a1;
+			diff = getAngleDiffCCW(a - EPS, angle0) + getAngleDiffCCW(angle1, a + EPS);
+
+		return Mathf.Abs(diff - GetAngle()) < 2.1f * EPS;
 	}
 
-	private static float getAngle(Vector2 point) {
+	private float interpolateAngle(float t) {
+		return isCCW ? (angle0 + t * GetAngle()) : (angle0 - t * GetAngle());
+	}
+
+	private float interpolateAngleDerivative(float t) {
+		return isCCW ? GetAngle() : -GetAngle();
+	}
+
+	private static float getAngleFromPoint(Vector2 point) {
 		return Mathf.PosMod(System.MathF.Atan2(point.Y, point.X), 2 * PI);
+	}
+
+	private static float getAngleDiffCCW(float a1, float a2) {
+		return Mathf.PosMod(a2 - a1, 2 * PI);
 	}
 }

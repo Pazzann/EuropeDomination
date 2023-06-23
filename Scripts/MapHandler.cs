@@ -154,10 +154,13 @@ public partial class MapHandler : Sprite2D
 				curve.Sort();
 			}
 
+			//var arc = Arc.withAngle(curve.Segment1, curve.Segment2, Mathf.Pi / 6f).Item2;
+
 			TextBezierCurve obj = _textScene.Instantiate() as TextBezierCurve;
 			obj.Curve = curve;
-			//(obj.TextPath, obj.FontSize) = GameMath.FindSuitableTextPath(data.Value, stateMap, 1f, MapData.Scenario.CountriesNames[data.Value].Length);
-			obj.TextPath = Arc.withAngle(curve.Segment1, curve.Segment2, Mathf.Pi / 6f).Item2;
+			(obj.TextPath, obj.FontSize) = GameMath.FindSuitableTextPath(data.Value, stateMap, 0.5f, MapData.Scenario.CountriesNames[data.Value].Length);
+			//obj.TextPath = new ThickArc(arc, 30f);
+			//obj.TextPath = Arc.withAngle(curve.Segment1, curve.Segment2, Mathf.Pi / 6f).Item1;
 			obj.TextOnCurve = MapData.Scenario.CountriesNames[data.Value];
 			_textSpawner.AddChild(obj);
 		}
