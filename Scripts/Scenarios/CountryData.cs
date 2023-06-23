@@ -2,5 +2,10 @@
 
 public class CountryData
 {
-    
+    public Modifiers Modifiers;
+
+    public CountryData(Modifiers modifiers)
+    {
+        this.Modifiers = modifiers;
+    }
 }
