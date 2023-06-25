@@ -61,7 +61,7 @@ public class Arc {
 	}
 
 	public Arc offset(Vector2 delta) {
-		return new Arc(radius, angle0, angle1, center, isCCW);
+		return new Arc(radius, angle0, angle1, center + delta, isCCW);
 	}
 
 	public float Length() {
@@ -123,7 +123,7 @@ public class Arc {
 		else
 			diff = getAngleDiffCCW(a - EPS, angle0) + getAngleDiffCCW(angle1, a + EPS);
 
-		return Mathf.Abs(diff - GetAngle()) < 2.1f * EPS;
+		return Mathf.Abs(diff - GetAngle()) < 2.3f * EPS;
 	}
 
 	private float interpolateAngle(float t) {

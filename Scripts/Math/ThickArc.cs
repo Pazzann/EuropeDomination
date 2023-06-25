@@ -5,7 +5,7 @@ namespace EuropeDominationDemo.Scripts.Math;
 
 public class ThickArc {
     public readonly Arc Lower, Upper;
-    public Segment Side1, Side2;
+    public readonly Segment Side1, Side2;
 
     public ThickArc(Arc arc, float thickness) {
         Vector2 center = arc.GetPoint(0.5f);
@@ -34,12 +34,12 @@ public class ThickArc {
     public static ThickArc fitText(Arc baseArc, int letterCount, Vector2 letterSize) {
         var letterWidthNormalized = letterSize.X / baseArc.Length();
 
-        var leftMostLetterParam = 0.5f - letterWidthNormalized * (letterCount / 2 + 0.7f);
-        var rightMostLetterParam = 0.5f + letterWidthNormalized * (letterCount / 2 + 0.7f);
+        var leftMostLetterParam = 0.5f - letterWidthNormalized * (letterCount / 2 + 1f);
+        var rightMostLetterParam = 0.5f + letterWidthNormalized * (letterCount / 2 + 1f);
 
-        if (leftMostLetterParam < 0.05f || rightMostLetterParam > 0.95f)
+        if (leftMostLetterParam < 0.1f || rightMostLetterParam > 0.9f)
             return null;
-            
+        
         var arc = new Arc(baseArc.Center, baseArc.GetPoint(leftMostLetterParam), baseArc.GetPoint(rightMostLetterParam));
 
         return new ThickArc(arc, letterSize.Y);

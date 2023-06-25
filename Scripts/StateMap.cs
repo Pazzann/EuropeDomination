@@ -7,11 +7,12 @@ using static System.Math;
 
 namespace EuropeDominationDemo.Scripts;
 
-public class  StateMap
+public class StateMap
 {
-	private const int MAX_CONTROL_VERTICES = 100;
+	private const int MAX_CONTROL_VERTICES = 30;
 
 	private IDictionary<int, Polygon> stateHulls = new Dictionary<int, Polygon>(); 
+	public int[,] StateId;
 
 	public StateMap(MapData data, Image map)
 	{
@@ -56,13 +57,14 @@ public class  StateMap
 		};
 
 		bool[,] isOnBorder = new bool[mapWidth, mapHeight];
-		int[,] stateId = new int[mapWidth, mapHeight];
+		StateId = new int[mapWidth, mapHeight];
 
 		var firstStateCell = new Dictionary<int, Vector2I>();
 
 		for (int i = 0; i < map.GetHeight(); ++i) {
 			for (int j = 0; j < map.GetWidth(); ++j) {
 				var curState = getStateId(j, i, -1);
+				StateId[j, i] = curState;
 
 				if (curState == -1)
 					continue;
@@ -88,7 +90,6 @@ public class  StateMap
 
 				if (borderDegree >= 1) {
 					isOnBorder[j, i] = true;
-					stateId[j, i] = curState;
 
 					if (!firstStateCell.ContainsKey(curState))
 						firstStateCell.Add(curState, new Vector2I(j, i));
@@ -103,11 +104,11 @@ public class  StateMap
 		foreach (var entry in firstStateCell) {
 			stateBorders.Add(entry.Key, new List<Vector2I>());
 
-			var queue = new Stack<Vector2I>();
-			queue.Push(entry.Value);
+			var stack = new Stack<Vector2I>();
+			stack.Push(entry.Value);
 
-			while (queue.Count != 0) {
-				var (x, y) = queue.Pop();
+			while (stack.Count != 0) {
+				var (x, y) = stack.Pop();
 
 				stateBorders[entry.Key].Add(new Vector2I(x, y));
 				visited[x, y] = true;
@@ -126,8 +127,8 @@ public class  StateMap
 				foreach (var neighbor in neighbors) {
 					var (nx, ny) = neighbor;
 
-					if (nx >= 0 && nx < mapWidth && ny >= 0 && ny < mapHeight && !visited[nx, ny] && isOnBorder[nx, ny] && stateId[x, y] == stateId[nx, ny])
-						queue.Push(new Vector2I(nx, ny));
+					if (nx >= 0 && nx < mapWidth && ny >= 0 && ny < mapHeight && !visited[nx, ny] && isOnBorder[nx, ny] && StateId[x, y] == StateId[nx, ny])
+						stack.Push(new Vector2I(nx, ny));
 				}
 			}
 		}
@@ -137,8 +138,18 @@ public class  StateMap
 			var points = entry.Value; 
 			var hull = new Polygon();
 
-			for (int j = 0; j < points.Count; j += step)
-				hull.AddVertex(new Vector2(points[j].X, points[j].Y));
+			for (int i = 0; i < points.Count; i += step) {
+				var sum = new Vector2();
+				var clusterSize = System.Math.Min(step, points.Count - i);
+
+				for (int j = i; j < i + clusterSize; ++j)
+					sum += new Vector2(points[j].X, points[j].Y);
+
+				hull.AddVertex(sum / clusterSize);
+			}
+
+			// for (int j = 0; j < points.Count; j += step)
+			// 	hull.AddVertex(new Vector2(points[j].X, points[j].Y));
 
 			hull.SortVertices();
 			stateHulls.Add(entry.Key, hull);
@@ -147,5 +158,9 @@ public class  StateMap
 
 	public Polygon GetStateBorder(int state) {
 		return stateHulls[state];
+	}
+
+	public int GetState(Vector2 pos) {
+		return StateId[Mathf.RoundToInt(pos.X), Mathf.RoundToInt(pos.Y)];
 	}
 }

@@ -25,10 +25,19 @@ public readonly struct Segment {
     }
 
     public bool ContainsPoint(Vector2 p) {
+        // const float EPS = 0.1f;
+
+        // if (!Line.ContainsPoint(p))
+        //     return false;
+
+        // var dot = (p - Point0).Dot(Line.Dir.Normalized());
+        // return dot > EPS && dot < Line.Dir.LengthSquared() - EPS;
+
         // if (Mathf.Abs(((p - Point0).Length() + (p - Point1).Length() - (Point1 - Point0).Length())) < 0.01f) {
         //     GD.Print("77");
         // }
-        return Mathf.Abs(((p - Point0).Length() + (p - Point1).Length() - (Point1 - Point0).Length())) < 0.00001f;
+
+        return Mathf.Abs(((p - Point0).Length() + (p - Point1).Length() - (Point1 - Point0).Length())) < 0.0001f;
     }
 
     public bool Intersects(Segment other) {

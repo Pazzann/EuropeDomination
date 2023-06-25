@@ -23,15 +23,6 @@ public class Polygon {
 			vertices.Reverse();
 
 		Debug.Assert(Godot.Geometry2D.IsPolygonClockwise(vertices.ToArray()));
-		
-		// var sum = new Vector2();
-
-		// foreach (var vertex in vertices)
-		// 	sum += vertex;
-
-		// var center = sum / vertices.Count;
-
-		// vertices.Sort((lhs, rhs) => -(lhs - center).Angle().CompareTo((rhs - center).Angle()));
 	}
 
 	public bool Intersects(ThickArc arc) {
@@ -60,5 +51,20 @@ public class Polygon {
 			return true;
 
 		return false;
+	}
+
+	public bool isPointInsidePolygon(Vector2 point) {
+		var segment = new Segment(point, point + new Vector2(10000f, 10000f));
+		var intersectionCount = 0;
+
+		for (int i = 0; i < vertices.Count - 1; ++i) {
+			if (segment.Intersects(new Segment(vertices[i], vertices[i + 1])))
+				intersectionCount++;
+		}
+
+		if (segment.Intersects(new Segment(vertices[0], vertices[Vertices.Count - 1])))
+			intersectionCount++;
+
+		return intersectionCount % 2 == 1;
 	}
 }

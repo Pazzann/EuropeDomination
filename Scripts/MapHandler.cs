@@ -158,7 +158,7 @@ public partial class MapHandler : Sprite2D
 
 			TextBezierCurve obj = _textScene.Instantiate() as TextBezierCurve;
 			obj.Curve = curve;
-			(obj.TextPath, obj.FontSize) = GameMath.FindSuitableTextPath(data.Value, stateMap, 0.5f, MapData.Scenario.CountriesNames[data.Value].Length);
+			(obj.TextPath, obj.FontSize) = GameMath.FindSuitableTextPath(data.Value, stateMap, 0.5f, MapData.Scenario.CountriesNames[data.Value].Length, mapMap);
 			//obj.TextPath = new ThickArc(arc, 30f);
 			//obj.TextPath = Arc.withAngle(curve.Segment1, curve.Segment2, Mathf.Pi / 6f).Item1;
 			obj.TextOnCurve = MapData.Scenario.CountriesNames[data.Value];

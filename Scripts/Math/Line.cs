@@ -27,6 +27,10 @@ public readonly struct Line
         return Mathf.Abs(Dir.Cross(other.Dir)) < 0.01f;
     }
 
+    public bool ContainsPoint(Vector2 point) {
+        return Mathf.Abs((point - Point0).Cross(Dir)) < 0.00001f;
+    }
+
     static Vector2 getPerpendicular(Vector2 v) {
         return new Vector2(v.Y, -v.X);
     }

@@ -86,7 +86,7 @@ public class GameMath
         return res;
     }
 
-    public static (ThickArc, float) FindSuitableTextPath(int stateId, StateMap map, float letterAspectRatio, int letterCount) {
+    public static (ThickArc, float) FindSuitableTextPath(int stateId, StateMap map, float letterAspectRatio, int letterCount, Image mapImg) {
         var border = map.GetStateBorder(stateId);
         var vertices = border.Vertices;
 
@@ -96,12 +96,12 @@ public class GameMath
         var findPath = (Arc arc) => {
             var test = (float letterHeight) => {
                 var path = ThickArc.fitText(arc, letterCount, new Vector2(letterHeight * letterAspectRatio, letterHeight));
-                return path != null && !border.Intersects(new Segment(arc.GetPoint(0), arc.GetPoint(1f))) && !border.Intersects(path);
+                return path != null && map.GetState(arc.GetPoint(0.5f)) == stateId && !border.Intersects(path);
             };
 
             float left = 1f, right = 50f;
 
-            while (right - left > 1f) {
+            while (right - left > 0.1f) {
                 float mid = (left + right) / 2;
 
                 if (test(mid))
@@ -131,11 +131,11 @@ public class GameMath
                     continue;
 
                 float[] angles = {
-                    Mathf.Pi / 3,
-                    Mathf.Pi / 4,
-                    Mathf.Pi / 6,
-                    Mathf.Pi / 9,
-                    Mathf.Pi / 10
+                    Mathf.Pi / 4f,
+                    Mathf.Pi / 6f,
+                    Mathf.Pi / 9f,
+                    Mathf.Pi / 10f,
+                    Mathf.Pi / 20f
                 };
 
                 foreach (var angle in angles) {
@@ -146,8 +146,6 @@ public class GameMath
                 }
             }
         }
-
-        GD.Print("Text size: " + bestTextSize);
 
         return (bestPath, bestTextSize);
     }
