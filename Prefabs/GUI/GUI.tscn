@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dx2y3s8dsllua"]
+[gd_scene load_steps=21 format=3 uid="uid://dx2y3s8dsllua"]
 
 [ext_resource type="Script" path="res://Scripts/UI/GUI.cs" id="1_itu4p"]
 [ext_resource type="Texture2D" uid="uid://bup0lap08gpmv" path="res://Sprites/map.png" id="1_oy1q1"]
@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://dkdupthlvtc12" path="res://Sprites/ProvinceTypeSelection/bg.png" id="16_4vj56"]
 [ext_resource type="PackedScene" uid="uid://clf8v6lyqbsx6" path="res://Prefabs/Buildings.tscn" id="17_w2auv"]
 [ext_resource type="Script" path="res://Scripts/UI/GUIBuildings.cs" id="18_kdy4t"]
+[ext_resource type="Texture2D" uid="uid://dx08b2wttihu" path="res://Sprites/Building/Lock.png" id="19_6y082"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_d667l"]
 font = ExtResource("9_osd3s")
@@ -356,11 +357,11 @@ offset_bottom = -1178.75
 scale = Vector2(1, 1)
 
 [node name="Label" type="Label" parent="HBoxContainer4/Sprite2D"]
-offset_left = -294.0
-offset_top = 146.0
-offset_right = 131.0
-offset_bottom = 169.0
-text = "Max resourse in storage: 20"
+offset_left = 149.0
+offset_top = -6.0
+offset_right = 364.0
+offset_bottom = 20.0
+text = "Max resourse: 20"
 
 [node name="BuildingMenu" type="Sprite2D" parent="HBoxContainer4/Sprite2D"]
 position = Vector2(594.813, -11.3125)
@@ -377,7 +378,7 @@ offset_left = -18.0556
 offset_top = 31.9447
 offset_right = 21.9444
 offset_bottom = 54.9447
-text = "100"
+text = "100dsfsdf"
 
 [node name="WorkshopButton" type="Button" parent="HBoxContainer4/Sprite2D/BuildingMenu/Workshop"]
 self_modulate = Color(1, 1, 1, 0)
@@ -417,6 +418,35 @@ scale = Vector2(6.1175, -5.83068)
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
 
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/Sprite2D/Buildings/0"]
+layout_mode = 0
+offset_left = -0.408661
+offset_top = 1.0719
+offset_right = 79.5913
+offset_bottom = 28.0719
+scale = Vector2(0.0975172, -0.0562219)
+value = 90.0
+
+[node name="Lock" type="Sprite2D" parent="HBoxContainer4/Sprite2D/Buildings/0"]
+position = Vector2(3.82907, 4.01697)
+rotation = -3.13218
+scale = Vector2(0.123059, 0.123059)
+texture = ExtResource("19_6y082")
+
+[node name="Destroy" type="Sprite2D" parent="HBoxContainer4/Sprite2D/Buildings/0"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(6.74292, 7.07471)
+scale = Vector2(0.0328668, 0.0328668)
+texture = ExtResource("16_4vj56")
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer4/Sprite2D/Buildings/0/Destroy"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
+
 [node name="1" type="Button" parent="HBoxContainer4/Sprite2D/Buildings"]
 self_modulate = Color(1, 1, 1, 0)
 offset_left = 20.0
@@ -428,6 +458,35 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/Sprite2D/Buildings/1" instance=ExtResource("17_w2auv")]
 position = Vector2(4.08664, 4.07324)
 scale = Vector2(0.118129, -0.12394)
+
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/Sprite2D/Buildings/1"]
+layout_mode = 0
+offset_left = -0.408661
+offset_top = 1.0719
+offset_right = 79.5913
+offset_bottom = 28.0719
+scale = Vector2(0.0975172, -0.0562219)
+value = 90.0
+
+[node name="Lock" type="Sprite2D" parent="HBoxContainer4/Sprite2D/Buildings/1"]
+position = Vector2(3.82907, 4.01697)
+rotation = -3.13218
+scale = Vector2(0.123059, 0.123059)
+texture = ExtResource("19_6y082")
+
+[node name="Destroy" type="Sprite2D" parent="HBoxContainer4/Sprite2D/Buildings/1"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(6.74292, 7.07471)
+scale = Vector2(0.0328668, 0.0328668)
+texture = ExtResource("16_4vj56")
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer4/Sprite2D/Buildings/1/Destroy"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
 
 [node name="2" type="Button" parent="HBoxContainer4/Sprite2D/Buildings"]
 self_modulate = Color(1, 1, 1, 0)
@@ -441,6 +500,35 @@ scale = Vector2(6.1175, -5.83068)
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
 
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/Sprite2D/Buildings/2"]
+layout_mode = 0
+offset_left = -0.408661
+offset_top = 1.0719
+offset_right = 79.5913
+offset_bottom = 28.0719
+scale = Vector2(0.0975172, -0.0562219)
+value = 90.0
+
+[node name="Lock" type="Sprite2D" parent="HBoxContainer4/Sprite2D/Buildings/2"]
+position = Vector2(3.82907, 4.01697)
+rotation = -3.13218
+scale = Vector2(0.123059, 0.123059)
+texture = ExtResource("19_6y082")
+
+[node name="Destroy" type="Sprite2D" parent="HBoxContainer4/Sprite2D/Buildings/2"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(6.74292, 7.07471)
+scale = Vector2(0.0328668, 0.0328668)
+texture = ExtResource("16_4vj56")
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer4/Sprite2D/Buildings/2/Destroy"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
+
 [node name="3" type="Button" parent="HBoxContainer4/Sprite2D/Buildings"]
 self_modulate = Color(1, 1, 1, 0)
 offset_left = 21.25
@@ -452,6 +540,35 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/Sprite2D/Buildings/3" instance=ExtResource("17_w2auv")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
+
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/Sprite2D/Buildings/3"]
+layout_mode = 0
+offset_left = -0.408661
+offset_top = 1.0719
+offset_right = 79.5913
+offset_bottom = 28.0719
+scale = Vector2(0.0975172, -0.0562219)
+value = 90.0
+
+[node name="Lock" type="Sprite2D" parent="HBoxContainer4/Sprite2D/Buildings/3"]
+position = Vector2(3.82907, 4.01697)
+rotation = -3.13218
+scale = Vector2(0.123059, 0.123059)
+texture = ExtResource("19_6y082")
+
+[node name="Destroy" type="Sprite2D" parent="HBoxContainer4/Sprite2D/Buildings/3"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(6.74292, 7.07471)
+scale = Vector2(0.0328668, 0.0328668)
+texture = ExtResource("16_4vj56")
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer4/Sprite2D/Buildings/3/Destroy"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
 
 [node name="4" type="Button" parent="HBoxContainer4/Sprite2D/Buildings"]
 self_modulate = Color(1, 1, 1, 0)
@@ -465,6 +582,35 @@ scale = Vector2(6.1175, -5.83068)
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
 
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/Sprite2D/Buildings/4"]
+layout_mode = 0
+offset_left = -0.408661
+offset_top = 1.0719
+offset_right = 79.5913
+offset_bottom = 28.0719
+scale = Vector2(0.0975172, -0.0562219)
+value = 90.0
+
+[node name="Lock" type="Sprite2D" parent="HBoxContainer4/Sprite2D/Buildings/4"]
+position = Vector2(3.82907, 4.01697)
+rotation = -3.13218
+scale = Vector2(0.123059, 0.123059)
+texture = ExtResource("19_6y082")
+
+[node name="Destroy" type="Sprite2D" parent="HBoxContainer4/Sprite2D/Buildings/4"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(6.74292, 7.07471)
+scale = Vector2(0.0328668, 0.0328668)
+texture = ExtResource("16_4vj56")
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer4/Sprite2D/Buildings/4/Destroy"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
+
 [node name="5" type="Button" parent="HBoxContainer4/Sprite2D/Buildings"]
 self_modulate = Color(1, 1, 1, 0)
 offset_left = 21.25
@@ -476,6 +622,35 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/Sprite2D/Buildings/5" instance=ExtResource("17_w2auv")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
+
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/Sprite2D/Buildings/5"]
+layout_mode = 0
+offset_left = -0.408661
+offset_top = 1.0719
+offset_right = 79.5913
+offset_bottom = 28.0719
+scale = Vector2(0.0975172, -0.0562219)
+value = 90.0
+
+[node name="Lock" type="Sprite2D" parent="HBoxContainer4/Sprite2D/Buildings/5"]
+position = Vector2(3.82907, 4.01697)
+rotation = -3.13218
+scale = Vector2(0.123059, 0.123059)
+texture = ExtResource("19_6y082")
+
+[node name="Destroy" type="Sprite2D" parent="HBoxContainer4/Sprite2D/Buildings/5"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(6.74292, 7.07471)
+scale = Vector2(0.0328668, 0.0328668)
+texture = ExtResource("16_4vj56")
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer4/Sprite2D/Buildings/5/Destroy"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
 
 [node name="6" type="Button" parent="HBoxContainer4/Sprite2D/Buildings"]
 self_modulate = Color(1, 1, 1, 0)
@@ -489,6 +664,35 @@ scale = Vector2(6.1175, -5.83068)
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
 
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/Sprite2D/Buildings/6"]
+layout_mode = 0
+offset_left = -0.408661
+offset_top = 1.0719
+offset_right = 79.5913
+offset_bottom = 28.0719
+scale = Vector2(0.0975172, -0.0562219)
+value = 90.0
+
+[node name="Lock" type="Sprite2D" parent="HBoxContainer4/Sprite2D/Buildings/6"]
+position = Vector2(3.82907, 4.01697)
+rotation = -3.13218
+scale = Vector2(0.123059, 0.123059)
+texture = ExtResource("19_6y082")
+
+[node name="Destroy" type="Sprite2D" parent="HBoxContainer4/Sprite2D/Buildings/6"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(6.74292, 7.07471)
+scale = Vector2(0.0328668, 0.0328668)
+texture = ExtResource("16_4vj56")
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer4/Sprite2D/Buildings/6/Destroy"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
+
 [node name="7" type="Button" parent="HBoxContainer4/Sprite2D/Buildings"]
 self_modulate = Color(1, 1, 1, 0)
 offset_left = 21.25
@@ -500,6 +704,35 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/Sprite2D/Buildings/7" instance=ExtResource("17_w2auv")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
+
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/Sprite2D/Buildings/7"]
+layout_mode = 0
+offset_left = -0.408661
+offset_top = 1.0719
+offset_right = 79.5913
+offset_bottom = 28.0719
+scale = Vector2(0.0975172, -0.0562219)
+value = 90.0
+
+[node name="Lock" type="Sprite2D" parent="HBoxContainer4/Sprite2D/Buildings/7"]
+position = Vector2(3.82907, 4.01697)
+rotation = -3.13218
+scale = Vector2(0.123059, 0.123059)
+texture = ExtResource("19_6y082")
+
+[node name="Destroy" type="Sprite2D" parent="HBoxContainer4/Sprite2D/Buildings/7"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(6.74292, 7.07471)
+scale = Vector2(0.0328668, 0.0328668)
+texture = ExtResource("16_4vj56")
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer4/Sprite2D/Buildings/7/Destroy"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
 
 [node name="8" type="Button" parent="HBoxContainer4/Sprite2D/Buildings"]
 self_modulate = Color(1, 1, 1, 0)
@@ -513,6 +746,35 @@ scale = Vector2(6.1175, -5.83068)
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
 
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/Sprite2D/Buildings/8"]
+layout_mode = 0
+offset_left = -0.408661
+offset_top = 1.0719
+offset_right = 79.5913
+offset_bottom = 28.0719
+scale = Vector2(0.0975172, -0.0562219)
+value = 90.0
+
+[node name="Lock" type="Sprite2D" parent="HBoxContainer4/Sprite2D/Buildings/8"]
+position = Vector2(3.82907, 4.01697)
+rotation = -3.13218
+scale = Vector2(0.123059, 0.123059)
+texture = ExtResource("19_6y082")
+
+[node name="Destroy" type="Sprite2D" parent="HBoxContainer4/Sprite2D/Buildings/8"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(6.74292, 7.07471)
+scale = Vector2(0.0328668, 0.0328668)
+texture = ExtResource("16_4vj56")
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer4/Sprite2D/Buildings/8/Destroy"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
+
 [node name="9" type="Button" parent="HBoxContainer4/Sprite2D/Buildings"]
 self_modulate = Color(1, 1, 1, 0)
 offset_left = 21.25
@@ -525,10 +787,34 @@ scale = Vector2(6.1175, -5.83068)
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
 
-[node name="Temp" type="Sprite2D" parent="HBoxContainer4/Sprite2D"]
-position = Vector2(233.375, 179.625)
-scale = Vector2(2.74609, 6.06641)
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/Sprite2D/Buildings/9"]
+layout_mode = 0
+offset_left = -0.408661
+offset_top = 1.0719
+offset_right = 79.5913
+offset_bottom = 28.0719
+scale = Vector2(0.0975172, -0.0562219)
+value = 90.0
+
+[node name="Lock" type="Sprite2D" parent="HBoxContainer4/Sprite2D/Buildings/9"]
+position = Vector2(3.82907, 4.01697)
+rotation = -3.13218
+scale = Vector2(0.123059, 0.123059)
+texture = ExtResource("19_6y082")
+
+[node name="Destroy" type="Sprite2D" parent="HBoxContainer4/Sprite2D/Buildings/9"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(6.74292, 7.07471)
+scale = Vector2(0.0328668, 0.0328668)
 texture = ExtResource("16_4vj56")
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer4/Sprite2D/Buildings/9/Destroy"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
 
 [connection signal="pressed" from="HBoxContainer2/GameDate/PauseButton" to="." method="_on_pause_button_pressed"]
 [connection signal="pressed" from="HBoxContainer3/MapTypes/TerrainTypes" to="." method="_on_terrain_types_pressed"]
@@ -545,14 +831,25 @@ texture = ExtResource("16_4vj56")
 [connection signal="mouse_exited" from="HBoxContainer4/Sprite2D/ScrollContainer/Control" to="." method="_on_control_mouse_exited"]
 [connection signal="mouse_entered" from="HBoxContainer4/Sprite2D/ProvinceTypeSelection" to="." method="_on_province_type_selection_mouse_entered"]
 [connection signal="mouse_exited" from="HBoxContainer4/Sprite2D/ProvinceTypeSelection" to="." method="_on_province_type_selection_mouse_exited"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/BuildingMenu/Workshop/WorkshopButton" to="HBoxContainer4/Sprite2D/Buildings" method="_on_workshop_button_pressed"]
 [connection signal="pressed" from="HBoxContainer4/Sprite2D/BuildingMenu/Bg/ExitButton" to="HBoxContainer4/Sprite2D/Buildings" method="_on_exit_button_pressed"]
-[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/0" to="HBoxContainer4/Sprite2D/Buildings" method="_on_0_pressed"]
-[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/1" to="HBoxContainer4/Sprite2D/Buildings" method="_on_1_pressed"]
-[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/2" to="HBoxContainer4/Sprite2D/Buildings" method="_on_2_pressed"]
-[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/3" to="HBoxContainer4/Sprite2D/Buildings" method="_on_3_pressed"]
-[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/4" to="HBoxContainer4/Sprite2D/Buildings" method="_on_4_pressed"]
-[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/5" to="HBoxContainer4/Sprite2D/Buildings" method="_on_5_pressed"]
-[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/6" to="HBoxContainer4/Sprite2D/Buildings" method="_on_6_pressed"]
-[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/7" to="HBoxContainer4/Sprite2D/Buildings" method="_on_7_pressed"]
-[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/8" to="HBoxContainer4/Sprite2D/Buildings" method="_on_8_pressed"]
-[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/9" to="HBoxContainer4/Sprite2D/Buildings" method="_on_9_pressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/0" to="HBoxContainer4/Sprite2D/Buildings" method="_onShowPressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/0/Destroy/DestroyButton" to="HBoxContainer4/Sprite2D/Buildings" method="_on_destroy_button_pressed" binds= [0]]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/1" to="HBoxContainer4/Sprite2D/Buildings" method="_onShowPressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/1/Destroy/DestroyButton" to="HBoxContainer4/Sprite2D/Buildings" method="_on_destroy_button_pressed" binds= [1]]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/2" to="HBoxContainer4/Sprite2D/Buildings" method="_onShowPressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/2/Destroy/DestroyButton" to="HBoxContainer4/Sprite2D/Buildings" method="_on_destroy_button_pressed" binds= [2]]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/3" to="HBoxContainer4/Sprite2D/Buildings" method="_onShowPressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/3/Destroy/DestroyButton" to="HBoxContainer4/Sprite2D/Buildings" method="_on_destroy_button_pressed" binds= [3]]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/4" to="HBoxContainer4/Sprite2D/Buildings" method="_onShowPressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/4/Destroy/DestroyButton" to="HBoxContainer4/Sprite2D/Buildings" method="_on_destroy_button_pressed" binds= [4]]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/5" to="HBoxContainer4/Sprite2D/Buildings" method="_onShowPressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/5/Destroy/DestroyButton" to="HBoxContainer4/Sprite2D/Buildings" method="_on_destroy_button_pressed" binds= [5]]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/6" to="HBoxContainer4/Sprite2D/Buildings" method="_onShowPressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/6/Destroy/DestroyButton" to="HBoxContainer4/Sprite2D/Buildings" method="_on_destroy_button_pressed" binds= [6]]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/7" to="HBoxContainer4/Sprite2D/Buildings" method="_onShowPressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/7/Destroy/DestroyButton" to="HBoxContainer4/Sprite2D/Buildings" method="_on_destroy_button_pressed" binds= [7]]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/8" to="HBoxContainer4/Sprite2D/Buildings" method="_onShowPressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/8/Destroy/DestroyButton" to="HBoxContainer4/Sprite2D/Buildings" method="_on_destroy_button_pressed" binds= [8]]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/9" to="HBoxContainer4/Sprite2D/Buildings" method="_onShowPressed"]
+[connection signal="pressed" from="HBoxContainer4/Sprite2D/Buildings/9/Destroy/DestroyButton" to="HBoxContainer4/Sprite2D/Buildings" method="_on_destroy_button_pressed" binds= [9]]

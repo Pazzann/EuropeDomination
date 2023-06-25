@@ -41,26 +41,26 @@ public class DemoScenario : Scenario
         };
         CountriesData = new CountryData[]
         {
-            new CountryData(),
-            new CountryData(),
-            new CountryData()
+            new CountryData(Modifiers.DefaultModifiers()),
+            new CountryData(Modifiers.DefaultModifiers()),
+            new CountryData(Modifiers.DefaultModifiers())
         };
         Map = new ProvinceData[14]
         {
-            new ProvinceData(0, Countries["Great Britian"], "Rekyavik", Terrain.Coast, Good.Iron, 1, new float[] {0, 2}, new List<int>()),
-            new ProvinceData(1,  Countries["Great Britian"], "Rekyavik", Terrain.Field, Good.Iron, 2, new float[] {0, 1}, new List<int>()),
-            new ProvinceData(2,  Countries["Great Britian"], "Rekyavik", Terrain.Field, Good.Iron, 1, new float[] {2, 0}, new List<int>()),
-            new ProvinceData(3,  Countries["Great Britian"], "Rekyavik", Terrain.Forest, Good.Iron, 1, new float[] {0, 3}, new List<int>()),
-            new ProvinceData(4,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Iron, 1, new float[] {4, 0}, new List<int>()),
-            new ProvinceData(5,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Iron, 2, new float[] {0, 4}, new List<int>()),
-            new ProvinceData(6,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Iron, 2, new float[] {3, 0}, new List<int>()),
-            new ProvinceData(7,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Wheat, 1, new float[] {1, 0}, new List<int>()),
-            new ProvinceData(8,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Wheat, 2, new float[] {0, 5}, new List<int>()),
-            new ProvinceData(9,  Countries["Sweden"], "Rekyavik", Terrain.Mountains, Good.Wheat, 1, new float[] {5, 0}, new List<int>()),
-            new ProvinceData(10, Countries["Sweden"], "Rekyavik", Terrain.Mountains, Good.Wheat, 1, new float[] {6, 0}, new List<int>()),
-            new ProvinceData(11, Countries["Sweden"], "Rekyavik", Terrain.Mountains, Good.Wheat, 1, new float[] {0, 6}, new List<int>()),
-            new ProvinceData(12,  Countries["Sweden"], "Rekyavik", Terrain.Coast, Good.Wheat, 1, new float[] {7, 0}, new List<int>()),
-            new ProvinceData(13, Countries["Sweden"], "Rekyavik", Terrain.Coast, Good.Wheat, 1, new float[] {0, 7}, new List<int>()),
+            new ProvinceData(0, Countries["Great Britian"], "Rekyavik", Terrain.Coast, Good.Iron, 1, new float[] {0, 2}, new List<Building>(), Modifiers.DefaultModifiers()),
+            new ProvinceData(1,  Countries["Great Britian"], "Rekyavik", Terrain.Field, Good.Iron, 2, new float[] {0, 1}, new List<Building>(), Modifiers.DefaultModifiers()),
+            new ProvinceData(2,  Countries["Great Britian"], "Rekyavik", Terrain.Field, Good.Iron, 1, new float[] {2, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
+            new ProvinceData(3,  Countries["Great Britian"], "Rekyavik", Terrain.Forest, Good.Iron, 1, new float[] {0, 3}, new List<Building>(), Modifiers.DefaultModifiers()),
+            new ProvinceData(4,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Iron, 1, new float[] {4, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
+            new ProvinceData(5,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Iron, 2, new float[] {0, 4}, new List<Building>(), Modifiers.DefaultModifiers()),
+            new ProvinceData(6,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Iron, 2, new float[] {3, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
+            new ProvinceData(7,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Wheat, 1, new float[] {1, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
+            new ProvinceData(8,  Countries["France"], "Rekyavik", Terrain.Plain, Good.Wheat, 2, new float[] {0, 5}, new List<Building>(), Modifiers.DefaultModifiers()),
+            new ProvinceData(9,  Countries["Sweden"], "Rekyavik", Terrain.Mountains, Good.Wheat, 1, new float[] {5, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
+            new ProvinceData(10, Countries["Sweden"], "Rekyavik", Terrain.Mountains, Good.Wheat, 1, new float[] {6, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
+            new ProvinceData(11, Countries["Sweden"], "Rekyavik", Terrain.Mountains, Good.Wheat, 1, new float[] {0, 6}, new List<Building>(), Modifiers.DefaultModifiers()),
+            new ProvinceData(12,  Countries["Sweden"], "Rekyavik", Terrain.Coast, Good.Wheat, 1, new float[] {7, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
+            new ProvinceData(13, Countries["Sweden"], "Rekyavik", Terrain.Coast, Good.Wheat, 1, new float[] {0, 7}, new List<Building>(), Modifiers.DefaultModifiers()),
         };
         Map = GameMath.CalculateBorderProvinces(Map, mapTexture);
         var centers = GameMath.CalculateCenterOfProvinceWeight(mapTexture, ProvinceCount);

@@ -7,9 +7,10 @@ public abstract class Building
     public int BuildingTime = 0;
     public bool IsFinished = false;
     public abstract int Cost { get; }
+    public abstract int ID { get; }
 
-    public abstract BuildingBonuses Multipliers { get; }
+    public abstract Modifiers Modifiers { get; }
 
-    public static Building[] Buildings = new Building[] { new Empty(), new Workshop() };
+    public static readonly Building[] Buildings = new Building[] { new Empty(), new Workshop() };
 
 }

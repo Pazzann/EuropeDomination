@@ -15,23 +15,53 @@ public class ProvinceData
     public int Development;
 
     public float[] Resources;
-    public List<int> BuildingsIds;
-    
+    public List<Building> Buildings;
+
     public readonly Terrain Terrain;
     public readonly Good Good;
 
-    public ProvinceData(int id, int countryId, string name, Terrain terrain, Good good, int development, float[] resources, List<int> buildingsIds)
+    public Modifiers Modifiers;
+
+
+    public float ProductionRate
+    {
+        get
+        {
+            var resourceProduced = 1.0f;
+            foreach (var building in Buildings)
+            {
+                if (building.IsFinished)
+                    resourceProduced *= building.Modifiers.ProductionEfficiency;
+            }
+
+            return resourceProduced;
+        }
+    }
+
+    public ProvinceData(
+        int id,
+        int countryId,
+        string name,
+        Terrain terrain,
+        Good good,
+        int development,
+        float[] resources,
+        List<Building> buildings,
+        Modifiers modifiers
+    )
     {
         this.Id = id;
         this.Owner = countryId;
         this.Name = name;
         this.Terrain = terrain;
         this.Development = development;
-        
+
         this.Resources = resources;
-        this.BuildingsIds = buildingsIds;
-        
+        this.Buildings = buildings;
+
         this.BorderProvinces = new int[] { };
         this.Good = good;
+
+        this.Modifiers = modifiers;
     }
 }
