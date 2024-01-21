@@ -19,8 +19,10 @@ layer = 2
 [node name="Control" parent="CanvasLayer" instance=ExtResource("2_dggd8")]
 
 [node name="Camera" parent="." instance=ExtResource("1_r2m0f")]
+process_priority = -1
 
 [node name="Map" type="Sprite2D" parent="."]
+process_priority = 2
 texture_filter = 1
 material = ExtResource("1_vjql8")
 texture = ExtResource("1_oy7f7")
@@ -44,5 +46,7 @@ centered = false
 [node name="GoodsHandler" type="Node2D" parent="."]
 
 [node name="DevHandler" type="Node2D" parent="."]
+
+[node name="ArmyHandler" type="Node2D" parent="."]
 
 [connection signal="timeout" from="Map/Timer" to="Map" method="_on_timer_timeout"]

@@ -27,6 +27,11 @@ public partial class MapHandler : Sprite2D
 	private PackedScene _devScene;
 	private Node2D _devSpawner;
 
+	private PackedScene _armyScene;
+	private Node2D _armySpawner;
+	private int _currentMaxUnitId = 0;
+	public List<int> CurrentSelectedUnits = new List<int>{ };
+	
 	private CameraBehaviour _camera;
 	private Timer _timer;
 	private int _previousMonth;
@@ -49,6 +54,9 @@ public partial class MapHandler : Sprite2D
 
 		_devScene = (PackedScene)GD.Load("res://Prefabs/Development.tscn");
 		_devSpawner = GetNode<Node2D>("../DevHandler");
+		
+		_armyScene = (PackedScene)GD.Load("res://Prefabs/ArmyUnit.tscn");
+		_armySpawner = GetNode<Node2D>("../ArmyHandler");
 
 		_camera = (CameraBehaviour)GetNode<Camera2D>("../Camera");
 		_timer = (Timer)GetChild(0);
@@ -59,8 +67,10 @@ public partial class MapHandler : Sprite2D
 		_drawText();
 		_addGoods();
 		_addDev();
+		_addArmy();
 		_goodsSpawner.Visible = false;
 		_devSpawner.Visible = false;
+		_armySpawner.Visible = false;
 
 		_gui = GetNode<GUI>("../CanvasLayer/Control");
 		_gui.SetTime(MapData.Scenario.Date);
@@ -92,6 +102,7 @@ public partial class MapHandler : Sprite2D
 				_clearText();
 				_goodsSpawner.Visible = true;
 				_devSpawner.Visible = false;
+				_armySpawner.Visible = false;
 				break;
 			}
 			case MapTypes.Terrain:
@@ -99,6 +110,7 @@ public partial class MapHandler : Sprite2D
 				_clearText();
 				_goodsSpawner.Visible = false;
 				_devSpawner.Visible = false;
+				_armySpawner.Visible = false;
 				break;
 			}
 		}
@@ -119,6 +131,7 @@ public partial class MapHandler : Sprite2D
 		{
 			_textSpawner.Visible = true;
 			_devSpawner.Visible = false;
+			_armySpawner.Visible = false;
 		}
 	}
 
@@ -128,6 +141,7 @@ public partial class MapHandler : Sprite2D
 		{
 			_textSpawner.Visible = false;
 			_devSpawner.Visible = true;
+			_armySpawner.Visible = true;
 		}
 	}
 
@@ -266,6 +280,23 @@ public partial class MapHandler : Sprite2D
 			_devSpawner.AddChild(obj);
 		}
 	}
+	
+	private void _addArmy()
+	{
+		foreach (var data in MapData.Scenario.Map)
+		{
+			if (data.ArmyUnit != null)
+			{
+				ArmyUnit obj = _armyScene.Instantiate() as ArmyUnit;
+				obj.SetupUnit(_currentMaxUnitId, data.ArmyUnit, this);
+				_currentMaxUnitId++;
+				
+				//TODO: NORMAL CALCULATION OF ARMY POSITION
+				obj.Position = new Vector2(data.CenterOfWeight.X + 5, data.CenterOfWeight.Y);
+				_armySpawner.AddChild(obj);
+			}
+		}
+	}
 
 	public void FreezeMap()
 	{
@@ -295,9 +326,9 @@ public partial class MapHandler : Sprite2D
 	{
 	}
 
-	public override void _Input(InputEvent @event)
-	{
-		if (@event is not InputEventMouseButton mbe || mbe.ButtonIndex != MouseButton.Left || !mbe.Pressed || _freezed) return;
+	public override void _UnhandledInput(InputEvent @event)
+	{	
+		if (@event is not InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true } || _freezed) return;
 		var mousePos = this.GetLocalMousePosition();
 		var iMousePos = new Vector2I((int)(mousePos.X), (int)(mousePos.Y));
 		if (mapMap.GetUsedRect().HasPoint(iMousePos))
