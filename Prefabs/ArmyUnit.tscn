@@ -21,8 +21,8 @@ script = ExtResource("1_mwmb8")
 [node name="IsSelected" type="Sprite2D" parent="."]
 visible = false
 modulate = Color(0.223529, 0.533333, 0.278431, 1)
-position = Vector2(1, -0.874998)
-scale = Vector2(0.988281, 1.01758)
+position = Vector2(-1.90735e-06, 7.15256e-06)
+scale = Vector2(1.40625, 1.40625)
 texture = ExtResource("1_1h84s")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

@@ -148,7 +148,8 @@ public partial class MapHandler : Sprite2D
 	public void DeselectProvince()
 	{
 		_gui.DeselectProvinceBar();
-		MapMaterial.SetShaderParameter("selectedID", -1);
+		_selectedTileId = -1;
+		MapMaterial.SetShaderParameter("selectedID", _selectedTileId);
 	}
 
 	private void _drawText()

@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Godot.Collections;
 
 namespace EuropeDominationDemo.Scripts;
 public partial class SelectorBox : Godot.ColorRect
@@ -45,13 +47,7 @@ public partial class SelectorBox : Godot.ColorRect
 		var allUnits = GetTree().GetNodesInGroup("ArmyUnit");
 		if (allUnits == null)
 			return;
-		List<ArmyUnit> selectedUnits = new List<ArmyUnit>();
-		foreach (var unit in allUnits)
-		{
-			if((unit as ArmyUnit).IsInsideRect(GetGlobalRect()))
-				selectedUnits.Add(unit as ArmyUnit);
-		}
-		
-		
+		var selectedUnits = (from unit in allUnits where ((ArmyUnit)unit).IsInsideRect(GetGlobalRect()) select unit as ArmyUnit).ToList();
+		ArmyUnit.SelectUnits(allUnits, selectedUnits);
 	}
 }

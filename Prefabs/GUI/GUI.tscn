@@ -364,6 +364,7 @@ offset_bottom = 20.0
 text = "Max resourse: 20"
 
 [node name="BuildingMenu" type="Sprite2D" parent="HBoxContainer4/Sprite2D"]
+visible = false
 position = Vector2(594.813, -11.3125)
 scale = Vector2(6, 6)
 texture = ExtResource("16_4vj56")
