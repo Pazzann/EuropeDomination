@@ -14,18 +14,9 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="ArmyUnit" type="Node2D"]
+[node name="ArmyUnit" type="Node2D" groups=["ArmyUnit"]]
 scale = Vector2(0.1, 0.1)
 script = ExtResource("1_mwmb8")
-
-[node name="Button" type="Button" parent="."]
-process_priority = 2
-modulate = Color(1, 1, 1, 0)
-offset_left = -60.2734
-offset_top = -63.9648
-offset_right = 63.7266
-offset_bottom = 60.0352
-metadata/_edit_use_anchors_ = true
 
 [node name="IsSelected" type="Sprite2D" parent="."]
 visible = false
@@ -35,9 +26,5 @@ scale = Vector2(0.988281, 1.01758)
 texture = ExtResource("1_1h84s")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(1, -2)
-scale = Vector2(0.726563, 0.726563)
 sprite_frames = SubResource("SpriteFrames_ox8da")
 animation = &"Army"
-
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

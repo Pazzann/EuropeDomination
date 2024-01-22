@@ -8,17 +8,15 @@ public partial class ArmyUnit : Node2D
 	public int UnitId; 
 	public ArmyUnitData Data;
 	private MapHandler _mapHandler; 
-
-	private Button _selectButton;
+	
 	private Sprite2D _selectionSprite;
 	private AnimatedSprite2D _armyUnitSprite;
 	
 
 	public override void _Ready()
 	{
-		_selectButton = GetChild(0) as Button;
-		_selectionSprite = GetChild(1) as Sprite2D;
-		_armyUnitSprite = GetChild(2) as AnimatedSprite2D;
+		_selectionSprite = GetChild(0) as Sprite2D;
+		_armyUnitSprite = GetChild(1) as AnimatedSprite2D;
 	}
 
 	public void SetupUnit(int unitId, ArmyUnitData armyUnitData, MapHandler mapHandler)
@@ -28,12 +26,12 @@ public partial class ArmyUnit : Node2D
 	
 		_mapHandler = mapHandler;
 	}
-	
-	
-	private void _on_button_pressed()
-	{
-		_selectionSprite.Visible = !_selectionSprite.Visible;
-	}
 
+	public bool IsInsideRect(Rect2 rect)
+	{
+		Vector2 spriteSize = _armyUnitSprite.SpriteFrames.GetFrameTexture(_armyUnitSprite.Animation, _armyUnitSprite.Frame).GetSize();
+		Rect2 thisRect = new Rect2((GlobalPosition - spriteSize / 2) * Scale, spriteSize);
+		return rect.Intersects(thisRect);
+	}
 }
 

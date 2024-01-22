@@ -326,7 +326,7 @@ public partial class MapHandler : Sprite2D
 	{
 	}
 
-	public override void _UnhandledInput(InputEvent @event)
+	public override void _Input(InputEvent @event)
 	{	
 		if (@event is not InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true } || _freezed) return;
 		var mousePos = this.GetLocalMousePosition();

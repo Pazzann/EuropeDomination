@@ -13,6 +13,7 @@ public partial class CameraBehaviour : Camera2D
 		private float _minZoom = 0.3f;
 		private float _zoomChangeSpeed = 0.05f;
 		private float _zoomMovement = 20.0f;
+		private const float PanSpeed = 13f;
 
 		private bool _moveUp = false;
 		private bool _moveDown = false;
@@ -61,7 +62,7 @@ public partial class CameraBehaviour : Camera2D
 		}
 
 
-		public override void _UnhandledInput(InputEvent @event)
+		public override void _Input(InputEvent @event)
 		{
 			if (@event is InputEventMouseButton mbe)
 			{
@@ -106,7 +107,8 @@ public partial class CameraBehaviour : Camera2D
 				if (eventKey.Keycode == Key.Left)
 					_moveLeft = eventKey.Pressed;
 			}
-			
+			if (Input.IsActionPressed("pan_2d") && @event is InputEventMouseMotion mouseEvent)
+				GlobalPosition += PanSpeed * -mouseEvent.Relative.Normalized() / Zoom;
 		}
 
 }
