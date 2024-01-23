@@ -1,25 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://76p20fl1r0l"]
-
-[ext_resource type="Texture2D" uid="uid://ikaejdv3h1fe" path="res://Sprites/Untitled-2.png" id="1_ij2ea"]
+[gd_scene format=3 uid="uid://76p20fl1r0l"]
 
 [node name="Tests" type="Node2D"]
-
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 239.0
-offset_top = 189.0
-offset_right = 876.0
-offset_bottom = 200.0
-
-[node name="Sprite2D" type="Sprite2D" parent="Control"]
-clip_children = 1
-position = Vector2(521, 38)
-texture = ExtResource("1_ij2ea")
-
-[node name="ProgressBar" type="ProgressBar" parent="Control/Sprite2D"]
-offset_left = -853.0
-offset_top = -176.0
-offset_right = 893.0
-offset_bottom = 176.0
-value = 79.45
+scale = Vector2(0.05, 0.05)

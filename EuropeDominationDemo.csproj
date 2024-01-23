@@ -9,4 +9,7 @@
   <ItemGroup>
     <EmbeddedResource Remove="Scripts\GUI\**" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scripts\Units\" />
+  </ItemGroup>
 </Project>

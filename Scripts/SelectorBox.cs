@@ -1,8 +1,5 @@
 using Godot;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using Godot.Collections;
 
 namespace EuropeDominationDemo.Scripts;
 public partial class SelectorBox : Godot.ColorRect
@@ -11,29 +8,50 @@ public partial class SelectorBox : Godot.ColorRect
 	private bool _isMouseDown = false;
 	private Vector2 _startMousePos;
 	private Vector2 _endMousePos;
+	private MapHandler _mapHandler;
+	private bool _wasSelectedUnit = false;
+
+	public override void _Ready()
+	{
+		_mapHandler = GetNode<MapHandler>("../Map");
+	}
 
 	public override void _Input(InputEvent @event)
 	{
-		if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Left})
+		switch (@event)
 		{
-			if (_isMouseDown && !@event.IsPressed())
-			{
+			case InputEventMouseButton { ButtonIndex: MouseButton.Left} when _isMouseDown && !@event.IsPressed():
 				_isMouseDown = false;
 				_endMousePos = GetGlobalMousePosition();
 				_selectionEnded();
 				Size = Vector2.Zero;
-			}
-			else if (@event.IsPressed())
+				break;
+			case InputEventMouseButton { ButtonIndex: MouseButton.Left}:
 			{
-				_isMouseDown = true;
-				_startMousePos = GetGlobalMousePosition();
-				GlobalPosition = _startMousePos;
-				Size = new Vector2(1, 1);
+				if (@event.IsPressed())
+				{
+					_isMouseDown = true;
+					_startMousePos = GetGlobalMousePosition();
+					GlobalPosition = _startMousePos;
+					Size = new Vector2(1, 1);
+				}
+
+				break;
+			}
+			case InputEventMouseMotion:
+			{
+				if(_isMouseDown)
+					_update();
+				break;
 			}
 		}
-		if (@event is InputEventMouseMotion)
-			if(_isMouseDown)
-				_update();
+
+		if (_wasSelectedUnit)
+		{
+			_wasSelectedUnit = false;
+			return;
+		}
+		_mapHandler.HandleInput(@event);
 	}
 
 	private void _update()
@@ -47,7 +65,12 @@ public partial class SelectorBox : Godot.ColorRect
 		var allUnits = GetTree().GetNodesInGroup("ArmyUnit");
 		if (allUnits == null)
 			return;
-		var selectedUnits = (from unit in allUnits where ((ArmyUnit)unit).IsInsideRect(GetGlobalRect()) select unit as ArmyUnit).ToList();
+		var trueRect = GetGlobalRect();
+		trueRect = new Rect2(new Vector2(Scale.X > 0 ? trueRect.Position.X : trueRect.Position.X - trueRect.Size.X, Scale.Y > 0 ? trueRect.Position.Y : trueRect.Position.Y - trueRect.Size.Y), trueRect.Size);
+		var selectedUnits = (from unit in allUnits where ((ArmyUnit)unit).IsInsideRect(trueRect) select unit as ArmyUnit).ToList();
 		ArmyUnit.SelectUnits(allUnits, selectedUnits);
+		_mapHandler.CurrentSelectedUnits = selectedUnits;
+		if (selectedUnits.Count > 0)
+			_wasSelectedUnit = true;
 	}
 }

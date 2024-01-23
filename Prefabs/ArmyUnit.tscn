@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cmlwtmi3kr8pe"]
+[gd_scene load_steps=5 format=3 uid="uid://cmlwtmi3kr8pe"]
 
 [ext_resource type="Texture2D" uid="uid://c5dahtyolxofn" path="res://icon.svg" id="1_1h84s"]
-[ext_resource type="Script" path="res://Scripts/ArmyUnit.cs" id="1_mwmb8"]
+[ext_resource type="Script" path="res://Scripts/Units/ArmyUnit.cs" id="1_mwmb8"]
+[ext_resource type="PackedScene" uid="uid://131wbsnepnwu" path="res://Prefabs/PathHandler.tscn" id="3_k617r"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ox8da"]
 animations = [{
@@ -28,3 +29,5 @@ texture = ExtResource("1_1h84s")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ox8da")
 animation = &"Army"
+
+[node name="PathHandler" parent="." instance=ExtResource("3_k617r")]
