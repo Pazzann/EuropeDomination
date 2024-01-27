@@ -5,13 +5,12 @@ using EuropeDominationDemo.Scripts.Scenarios;
 using Godot;
 using Godot.Collections;
 
-namespace EuropeDominationDemo.Scripts;
+namespace EuropeDominationDemo.Scripts.Units;
 
 public partial class ArmyUnit : Node2D
 {
-	public int UnitId; 
 	public ArmyUnitData Data;
-	private MapHandler _mapHandler; 
+	private MapData _mapData; 
 	
 	private Sprite2D _selectionSprite;
 	private AnimatedSprite2D _armyUnitSprite;
@@ -39,14 +38,14 @@ public partial class ArmyUnit : Node2D
 		Path = new List<int>();
 		Path.AddRange(path);
 		Path.AddRange(prev);
-		_pathHandler.DrawArrows(this, _mapHandler.MapData);
+		_pathHandler.DrawArrows(this, _mapData);
 	}
 
 	public void NewPath(int[] path)
 	{
 		Path = new List<int>();
 		Path.AddRange(path);
-		_pathHandler.DrawArrows(this, _mapHandler.MapData);
+		_pathHandler.DrawArrows(this, _mapData);
 	}
 
 	public void UpdateDayTick()
@@ -57,8 +56,8 @@ public partial class ArmyUnit : Node2D
 		_pathHandler.UpdateDayTick(this);
 		if (Path.Count < previousLength)
 		{
-			_pathHandler.MoveArrows(Scale, GlobalPosition, _mapHandler.MapData.Scenario.Map[Path[^1]].CenterOfWeight);
-			GlobalPosition = _mapHandler.MapData.Scenario.Map[Path[^1]].CenterOfWeight;
+			_pathHandler.MoveArrows(Scale, GlobalPosition, _mapData.Scenario.Map[Path[^1]].CenterOfWeight);
+			GlobalPosition = _mapData.Scenario.Map[Path[^1]].CenterOfWeight;
 			Data.CurrentProvince = Path[^1];
 			if (Path.Count is 1)
 				Path = new List<int>();
@@ -74,12 +73,12 @@ public partial class ArmyUnit : Node2D
 		_pathHandler.Setup(this);
 	}
 
-	public void SetupUnit(int unitId, ArmyUnitData armyUnitData, MapHandler mapHandler)
+	public void SetupUnit(ArmyUnitData armyUnitData, MapData mapData)
 	{
-		UnitId = unitId;
+
 		Data = armyUnitData;
 	
-		_mapHandler = mapHandler;
+		_mapData = mapData;
 	}
 
 	public bool IsInsideRect(Rect2 rect)

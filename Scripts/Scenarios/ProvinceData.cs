@@ -22,8 +22,6 @@ public class ProvinceData
 
 	public Modifiers Modifiers;
 
-	public ArmyUnitData ArmyUnit;
-
 
 	public float ProductionRate
 	{
@@ -49,8 +47,7 @@ public class ProvinceData
 		int development,
 		float[] resources,
 		List<Building> buildings,
-		Modifiers modifiers,
-		ArmyUnitData armyUnitData
+		Modifiers modifiers
 	)
 	{
 		this.Id = id;
@@ -67,6 +64,5 @@ public class ProvinceData
 
 		this.Modifiers = modifiers;
 
-		this.ArmyUnit = armyUnitData;
 	}
 }

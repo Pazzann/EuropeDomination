@@ -5,14 +5,14 @@ using Godot;
 
 namespace EuropeDominationDemo.Scripts.Handlers;
 
-public abstract class GameHandler : Node
+public abstract class GameHandler : Node2D
 {
-	protected Scenario _scenario;
+	protected MapData _mapData;
 	public TimeHandler TimeHandler;
 	
-	public abstract void Init(Scenario scenario);
+	public abstract void Init(MapData mapData);
 	
-	public abstract void InputHandle(InputEvent @event);
-	public abstract void ViewModUpdate(MapTypes mapTypes, float zoom);
+	public abstract void InputHandle(InputEvent @event, int tileId);
+	public abstract void ViewModUpdate(float zoom);
 	public abstract void GUIInteractionHandler(GUIEvent @event);
 }

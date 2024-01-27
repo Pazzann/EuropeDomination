@@ -2,10 +2,12 @@ using Godot;
 
 namespace EuropeDominationDemo.Scripts;
 
+
+public delegate void ChangeZoomDelegate();
+
 public partial class CameraBehaviour : Camera2D
 {
-
-		private MapHandler _mapHandler;
+	
 		
 		private Vector2 _zoom;
 		private Vector2 _cameraPosition;
@@ -24,6 +26,8 @@ public partial class CameraBehaviour : Camera2D
 
 		private bool _zoomable = true;
 
+		public event ChangeZoomDelegate ChangeZoom = null;
+
 
 		public void SetZoomable(bool zoomable)
 		{
@@ -31,10 +35,6 @@ public partial class CameraBehaviour : Camera2D
 			GD.Print(_zoomable);
 		}
 		
-		public bool IsZoomed()
-		{
-			return _zoom.X < 3.0f;
-		}
 
 		
 		
@@ -44,7 +44,7 @@ public partial class CameraBehaviour : Camera2D
 			_zoom = this.Zoom;
 			_cameraPosition = this.Position;
 			Enabled = true;
-			_mapHandler = GetNode<Sprite2D>("../Map") as MapHandler;
+
 		}
 
 		public override void _PhysicsProcess(double delta)
@@ -84,17 +84,7 @@ public partial class CameraBehaviour : Camera2D
 						this.Zoom = _zoom;
 					}
 				}
-
-				if (_zoom.X < 3.0f)
-				{
-					_mapHandler.MapMaterial.SetShaderParameter("viewMod", 1);
-					_mapHandler.HideObjectsOnMap();
-				}
-				else
-				{
-					_mapHandler.MapMaterial.SetShaderParameter("viewMod", 0);
-					_mapHandler.ShowObjectsOnMap();
-				}
+				ChangeZoom.Invoke();
 			}
 			if (@event is InputEventKey eventKey)
 			{

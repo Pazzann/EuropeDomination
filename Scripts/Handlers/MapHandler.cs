@@ -4,19 +4,17 @@ using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
-using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 using EuropeDominationDemo.Scripts.Text;
 using EuropeDominationDemo.Scripts.UI;
 using Godot;
 
-namespace EuropeDominationDemo.Scripts;
+namespace EuropeDominationDemo.Scripts.Handlers;
 
-public partial class MapHandler : Sprite2D
+public partial class MapHandler : GameHandler
 {
-    // Called when the node enters the scene tree for the first time.
-    private Image mapMap;
-    public ShaderMaterial MapMaterial;
-    public MapData MapData { get; set; }
+    private Sprite2D _mapSprite;
+    private ShaderMaterial _mapMaterial;
+    private MapData _mapData { get; set; }
 
     private GUI _gui;
     private PackedScene _textScene;
@@ -28,10 +26,9 @@ public partial class MapHandler : Sprite2D
     private PackedScene _devScene;
     private Node2D _devSpawner;
 
-    private PackedScene _armyScene;
-    private Node2D _armySpawner;
+
     private int _currentMaxUnitId = 0;
-    public List<ArmyUnit> CurrentSelectedUnits = new List<ArmyUnit> { };
+    
 
     private CameraBehaviour _camera;
     private Timer _timer;
@@ -42,83 +39,103 @@ public partial class MapHandler : Sprite2D
     private int _selectedTileId = -2;
     private float _lastClickTimestamp = 0.0f;
     private bool _IsShiftPressed = false;
-
-    public override void _Ready()
+    
+    
+    public override void Init(MapData mapData)
     {
-        mapMap = this.Texture.GetImage();
-        MapMaterial = this.Material as ShaderMaterial;
-        MapData = new MapData(new DemoScenario(mapMap));
+        _mapSprite = GetNode<Sprite2D>("./Map");
+        _mapMaterial = _mapSprite.Material as ShaderMaterial;
+        _mapData = mapData;
+        
         _textScene = (PackedScene)GD.Load("res://Prefabs/Text.tscn");
-        _textSpawner = GetNode<Node2D>("../TextHandler");
+        _textSpawner = GetNode<Node2D>("./TextHandler");
 
         _goodsScene = (PackedScene)GD.Load("res://Prefabs/Good.tscn");
-        _goodsSpawner = GetNode<Node2D>("../GoodsHandler");
+        _goodsSpawner = GetNode<Node2D>("./GoodsHandler");
 
         _devScene = (PackedScene)GD.Load("res://Prefabs/Development.tscn");
-        _devSpawner = GetNode<Node2D>("../DevHandler");
+        _devSpawner = GetNode<Node2D>("./DevHandler");
 
-        _armyScene = (PackedScene)GD.Load("res://Prefabs/ArmyUnit.tscn");
-        _armySpawner = GetNode<Node2D>("../ArmyHandler");
+     
 
         _camera = (CameraBehaviour)GetNode<Camera2D>("../Camera");
         _timer = (Timer)GetChild(0);
 
-        MapMaterial.SetShaderParameter("colors", MapData.MapColors);
-        MapMaterial.SetShaderParameter("selectedID", -1);
+        _mapMaterial.SetShaderParameter("colors", _mapData.MapColors);
+        _mapMaterial.SetShaderParameter("selectedID", -1);
 
         _drawText();
         _addGoods();
         _addDev();
-        _addArmy();
+  
         _goodsSpawner.Visible = false;
         _devSpawner.Visible = false;
-        _armySpawner.Visible = false;
 
         _gui = GetNode<GUI>("../CanvasLayer/Control");
-        _gui.SetTime(MapData.Scenario.Date);
-        _previousMonth = MapData.Scenario.Date.Month;
+        _gui.SetTime(_mapData.Scenario.Date);
+        _previousMonth = _mapData.Scenario.Date.Month;
     }
 
-    public void MapUpdate()
+    public override void InputHandle(InputEvent @event, int tileId)
     {
-        switch (MapData.CurrentMapMode)
+        throw new NotImplementedException();
+    }
+
+    public override void ViewModUpdate(float zoom)
+    {
+        switch (_mapData.CurrentMapMode)
         {
             case MapTypes.Political:
             {
-                _drawText();
                 _goodsSpawner.Visible = false;
 
-                if (_camera.IsZoomed())
+                if (zoom < 3.0f)
                 {
-                    HideObjectsOnMap();
+                    _textSpawner.Visible = true;
+                    _devSpawner.Visible = false;
                 }
                 else
                 {
-                    ShowObjectsOnMap();
+                    _textSpawner.Visible = false;
+                    _devSpawner.Visible = true;
                 }
 
                 break;
             }
             case MapTypes.Goods:
             {
-                _clearText();
                 _goodsSpawner.Visible = true;
                 _devSpawner.Visible = false;
-                _armySpawner.Visible = false;
+                _textSpawner.Visible = false;
                 break;
             }
             case MapTypes.Terrain:
             {
-                _clearText();
                 _goodsSpawner.Visible = false;
+                _textSpawner.Visible = false;
                 _devSpawner.Visible = false;
-                _armySpawner.Visible = false;
                 break;
             }
         }
 
-        MapMaterial.SetShaderParameter("colors", MapData.MapColors);
+        _mapMaterial.SetShaderParameter("colors", _mapData.MapColors);
+        if (zoom < 3.0f)
+        {
+            _mapMaterial.SetShaderParameter("viewMod", 1);
+        }
+        else
+        {
+            _mapMaterial.SetShaderParameter("viewMod", 0);
+        }
     }
+
+    public override void GUIInteractionHandler(GUIEvent @event)
+    {
+        throw new NotImplementedException();
+    }
+
+    // Called when the node enters the scene tree for the first time.
+    
 
     private void _clearText()
     {
@@ -127,48 +144,28 @@ public partial class MapHandler : Sprite2D
             text.Free();
     }
 
-    public void HideObjectsOnMap()
-    {
-        if (MapData.CurrentMapMode == MapTypes.Political)
-        {
-            _textSpawner.Visible = true;
-            _devSpawner.Visible = false;
-            _armySpawner.Visible = false;
-        }
-    }
-
-    public void ShowObjectsOnMap()
-    {
-        if (MapData.CurrentMapMode == MapTypes.Political)
-        {
-            _textSpawner.Visible = false;
-            _devSpawner.Visible = true;
-            _armySpawner.Visible = true;
-        }
-    }
-
     public void DeselectProvince()
     {
         _gui.DeselectProvinceBar();
         _selectedTileId = -1;
-        MapMaterial.SetShaderParameter("selectedID", _selectedTileId);
+        _mapMaterial.SetShaderParameter("selectedID", _selectedTileId);
     }
 
     private void _drawText()
     {
         _clearText();
 
-        var stateMap = new StateMap(MapData, mapMap);
+        var stateMap = new StateMap(_mapData, _mapData.Scenario.MapTexture);
 
-        foreach (var data in MapData.Scenario.Countries)
+        foreach (var data in _mapData.Scenario.Countries)
         {
-            var provinces = MapData.Scenario.CountryProvinces(data.Value);
+            var provinces = _mapData.Scenario.CountryProvinces(data.Value.Id);
             if (provinces.Length == 0)
                 continue;
             var curve = GameMath.FindBezierCurve(provinces);
             if (curve.IsDefault)
             {
-                var ids = GameMath.FindSquarePointsInsideState(provinces, mapMap, 10);
+                var ids = GameMath.FindSquarePointsInsideState(provinces, _mapData.Scenario.MapTexture, 10);
                 curve = GameMath.FindBezierCurveFromPoints(ids);
                 curve.Sort();
             }
@@ -177,11 +174,11 @@ public partial class MapHandler : Sprite2D
 
             TextBezierCurve obj = _textScene.Instantiate() as TextBezierCurve;
             obj.Curve = curve;
-            (obj.TextPath, obj.FontSize) = GameMath.FindSuitableTextPath(data.Value, stateMap, 0.5f,
-                MapData.Scenario.CountriesNames[data.Value].Length, mapMap);
+            (obj.TextPath, obj.FontSize) = GameMath.FindSuitableTextPath(data.Value.Id, stateMap, 0.5f,
+                data.Value.Name.Length, _mapData.Scenario.MapTexture);
             //obj.TextPath = new ThickArc(arc, 30f);
             //obj.TextPath = Arc.withAngle(curve.Segment1, curve.Segment2, Mathf.Pi / 6f).Item1;
-            obj.TextOnCurve = MapData.Scenario.CountriesNames[data.Value];
+            obj.TextOnCurve = data.Value.Name;
             _textSpawner.AddChild(obj);
         }
     }
@@ -191,11 +188,11 @@ public partial class MapHandler : Sprite2D
     {
         if (_selectedTileId >= 0)
         {
-            if (MapData.Scenario.Map[_selectedTileId].Buildings.Count < 10 &&
-                !MapData.Scenario.Map[_selectedTileId].Buildings.Exists(i => i.ID == 1) &&
-                MapData.Scenario.Map[_selectedTileId].Buildings.Count < 4)
+            if (_mapData.Scenario.Map[_selectedTileId].Buildings.Count < 10 &&
+                !_mapData.Scenario.Map[_selectedTileId].Buildings.Exists(i => i.ID == 1) &&
+                _mapData.Scenario.Map[_selectedTileId].Buildings.Count < 4)
             {
-                MapData.Scenario.Map[_selectedTileId].Buildings.Add(building);
+                _mapData.Scenario.Map[_selectedTileId].Buildings.Add(building);
                 _gui.ShowProvinceData(MapData.Scenario.Map[_selectedTileId]);
             }
         }
@@ -203,14 +200,12 @@ public partial class MapHandler : Sprite2D
 
     public void RemoveBuilding(List<Building> buildings)
     {
-        MapData.Scenario.Map[_selectedTileId].Buildings = buildings;
-        _gui.ShowProvinceData(MapData.Scenario.Map[_selectedTileId]);
+        _mapData.Scenario.Map[_selectedTileId].Buildings = buildings;
+        _gui.ShowProvinceData(_mapData.Scenario.Map[_selectedTileId]);
     }
 
     private void _dayTick()
     {
-        MapData.Scenario.Date = MapData.Scenario.Date.Add(MapData.Scenario.Ts);
-
         foreach (var data in MapData.Scenario.Map)
         {
             foreach (var building in data.Buildings)
@@ -242,9 +237,7 @@ public partial class MapHandler : Sprite2D
         {
             _gui.ShowProvinceData(MapData.Scenario.Map[_selectedTileId]);
         }
-
-
-        //calcs before
+        
 
         if (_gui != null)
             _gui.SetTime(MapData.Scenario.Date);
@@ -261,12 +254,6 @@ public partial class MapHandler : Sprite2D
         {
             _gui.ShowProvinceData(MapData.Scenario.Map[_selectedTileId]);
         }
-    }
-
-    private void _on_timer_timeout()
-    {
-        _dayTick();
-        _timer.Start();
     }
 
 
@@ -337,44 +324,7 @@ public partial class MapHandler : Sprite2D
 
         if (_freezed) return;
 
-        if (@event is InputEventKey { KeyLabel: Key.Shift, Pressed: true })
-            _IsShiftPressed = true;
-        if (@event is InputEventKey { KeyLabel: Key.Shift, Pressed: false })
-            _IsShiftPressed = false;
-
-
-        if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Right, Pressed: true })
-        {
-            if (tileId == -3)
-                return;
-
-            if (!_IsShiftPressed)
-                foreach (var armyUnit in CurrentSelectedUnits)
-                {
-                    if (tileId == armyUnit.Data.CurrentProvince)
-                    {
-                        armyUnit.NewPath(Array.Empty<int>());
-                        return;
-                    }
-
-                    armyUnit.NewPath(
-                        PathFinder.FindWayFromAToB(armyUnit.Data.CurrentProvince, tileId, MapData.Scenario));
-                }
-            else
-                foreach (var armyUnit in CurrentSelectedUnits)
-                {
-                    if (armyUnit.Path.Count == 0)
-                    {
-                        armyUnit.NewPath(PathFinder.FindWayFromAToB(armyUnit.Data.CurrentProvince, tileId, MapData.Scenario));
-                        return;
-                    }
-                    armyUnit.AddPath(
-                        PathFinder.FindWayFromAToB(armyUnit.Path[0], tileId, MapData.Scenario));
-                }
-
-            return;
-        }
-
+       
         if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true })
         {
             _lastClickTimestamp = Time.GetTicksMsec() / 1000f;
@@ -394,24 +344,9 @@ public partial class MapHandler : Sprite2D
 
         _selectedTileId = tileId;
 
-        MapMaterial.SetShaderParameter("selectedID", tileId);
+        _mapMaterial.SetShaderParameter("selectedID", tileId);
         _gui.ShowProvinceData(MapData.Scenario.Map[tileId]);
     }
 
-    private int _findTile()
-    {
-        var mousePos = this.GetLocalMousePosition();
-        var iMousePos = new Vector2I((int)(mousePos.X), (int)(mousePos.Y));
-        if (mapMap.GetUsedRect().HasPoint(iMousePos))
-        {
-            var tileId = GameMath.GetProvinceID(mapMap.GetPixelv(iMousePos));
-
-            if (tileId < 0 || tileId >= MapData.Scenario.ProvinceCount)
-                return -3;
-
-            return tileId;
-        }
-
-        return -3;
-    }
+    
 }

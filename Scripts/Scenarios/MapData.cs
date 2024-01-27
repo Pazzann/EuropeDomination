@@ -13,10 +13,10 @@ public class MapData
     {
         get
         { 
-            Vector3[] colors =  new Vector3[Scenario.ProvinceCount];
-           for (int i = 0; i < Scenario.ProvinceCount; i++)
+            Vector3[] colors =  new Vector3[Scenario.Map.Length];
+           for (int i = 0; i < Scenario.Map.Length; i++)
            {
-               colors[i] = Scenario.CountriesColors[Scenario.Map[i].Owner];
+               colors[i] = Scenario.Countries[Scenario.Map[i].Owner].Color;
            }
            return colors;
         }
@@ -31,8 +31,8 @@ public class MapData
                     return _mapColors;
                 case MapTypes.Terrain:
                 {
-                    Vector3[] colors =  new Vector3[Scenario.ProvinceCount];
-                    for (int i = 0; i < Scenario.ProvinceCount; i++)
+                    Vector3[] colors =  new Vector3[Scenario.Map.Length];
+                    for (int i = 0; i < Scenario.Map.Length; i++)
                     {
                         colors[i] = TerrainColors.Colors[(int)Scenario.Map[i].Terrain];
                     }
@@ -40,8 +40,8 @@ public class MapData
                 }
                 case MapTypes.Goods:
                 {
-                    Vector3[] colors =  new Vector3[Scenario.ProvinceCount];
-                    for (int i = 0; i < Scenario.ProvinceCount; i++)
+                    Vector3[] colors =  new Vector3[Scenario.Map.Length];
+                    for (int i = 0; i < Scenario.Map.Length; i++)
                     {
                         colors[i] = GoodsColors.Colors[(int)Scenario.Map[i].Good];
                     }

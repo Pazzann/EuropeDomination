@@ -9,7 +9,7 @@ namespace EuropeDominationDemo.Scripts;
 public class CallStack
 {
     private List<GameHandler> _gameHandlers;
-    private Scenario _scenario;
+    private MapData _mapData;
     
     private int _previousMonth;
     private int _previousYear;
@@ -20,58 +20,61 @@ public class CallStack
     }
     
     
-    public void Init(Scenario scenario)
+    public void Init(MapData mapData)
     {
-        _scenario = scenario;
+        _mapData = mapData;
         foreach (var handler in _gameHandlers)
         {
-            handler.Init(scenario);
+            handler.Init(mapData);
         }
     }
 
-    public void InputHandle(InputEvent @event)
+    public void InputHandle(InputEvent @event, int tileId)
     {
         foreach (var handler in _gameHandlers)
         {
-            handler.InputHandle(@event);
+            handler.InputHandle(@event, tileId);
         }
     }
 
     public void TimeTick()
     {
-        _scenario.Date = _scenario.Date.Add(_scenario.Ts);
+        _mapData.Scenario.Date = _mapData.Scenario.Date.Add(_mapData.Scenario.Ts);
         
         foreach (var handler in _gameHandlers)
         {
-            handler.TimeHandler.DayTick();
+            if (handler.TimeHandler != null)
+                handler.TimeHandler.DayTick();
         }
         
-        if (_previousMonth != _scenario.Date.Month)
+        if (_previousMonth != _mapData.Scenario.Date.Month)
         {
             foreach (var handler in _gameHandlers)
             {
-                handler.TimeHandler.MonthTick();
+                if (handler.TimeHandler != null)
+                    handler.TimeHandler.MonthTick();
             }
             
-            _previousMonth = _scenario.Date.Month;
+            _previousMonth = _mapData.Scenario.Date.Month;
         }
         
-        if (_previousYear != _scenario.Date.Year)
+        if (_previousYear != _mapData.Scenario.Date.Year)
         {
             foreach (var handler in _gameHandlers)
             {
-                handler.TimeHandler.YearTick();
+                if (handler.TimeHandler != null)
+                    handler.TimeHandler.YearTick();
             }
             
-            _previousYear = _scenario.Date.Year;
+            _previousYear = _mapData.Scenario.Date.Year;
         }
     }
 
-    public void ViewModUpdate(MapTypes mapTypes, float zoom)
+    public void ViewModUpdate(float zoom)
     {
         foreach (var handler in _gameHandlers)
         {
-            handler.ViewModUpdate(mapTypes, zoom);
+            handler.ViewModUpdate(zoom);
         }
         
     }

@@ -1,10 +1,8 @@
-using Godot;
-using System;
-using System.Collections.Generic;
-using EuropeDominationDemo.Scripts;
 using EuropeDominationDemo.Scripts.Scenarios;
-using Microsoft.VisualBasic.CompilerServices;
+using Godot;
 using Utils = EuropeDominationDemo.Scripts.Math.Utils;
+
+namespace EuropeDominationDemo.Scripts.Units;
 
 public partial class PathHandler : Node2D
 {
