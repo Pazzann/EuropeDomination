@@ -49,11 +49,14 @@ centered = false
 
 [node name="ArmyHandler" type="Node2D" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="."]
-color = Color(1, 1, 1, 0.396078)
+[node name="SelectionHandler" type="Node2D" parent="."]
 script = ExtResource("3_kipe6")
+
+[node name="SelectionRect" type="ColorRect" parent="SelectionHandler"]
+color = Color(1, 1, 1, 0.396078)
 
 [node name="DayTimer" type="Timer" parent="."]
 wait_time = 0.221
+one_shot = true
 
 [connection signal="timeout" from="DayTimer" to="." method="TimeTick"]
