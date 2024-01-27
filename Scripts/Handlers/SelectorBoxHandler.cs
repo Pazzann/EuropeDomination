@@ -12,14 +12,12 @@ public partial class SelectorBoxHandler : GameHandler
 	private bool _isMouseDown = false;
 	private Vector2 _startMousePos;
 	private Vector2 _endMousePos;
-	private MapData _mapData;
 	private bool _wasSelectedUnit = false;
 	private ColorRect _selectionRect;
 	
 	public override void Init(MapData mapData)
 	{
 		_selectionRect = GetNode<ColorRect>("./SelectionRect");
-		_mapData = mapData;
 		TimeHandler = null;
 	}
 
@@ -70,11 +68,6 @@ public partial class SelectorBoxHandler : GameHandler
 	{
 		
 	}
-
-
-	
-
-
 
 	private void _update()
 	{

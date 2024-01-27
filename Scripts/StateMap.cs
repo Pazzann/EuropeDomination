@@ -22,7 +22,7 @@ public class StateMap
 		var provinceStates = new Dictionary<int, int>();
 
 		foreach (var entry in countries)
-			stateProvinces.Add(entry.Value, GameMath.ListIdsFromProvinces(data.Scenario.CountryProvinces(entry.Value)));
+			stateProvinces.Add(entry.Value.Id, GameMath.ListIdsFromProvinces(data.Scenario.CountryProvinces(entry.Value.Id)));
 
 		var provinceStateQuery = from entry in stateProvinces
 								 from province in entry.Value

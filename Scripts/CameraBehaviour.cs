@@ -32,13 +32,8 @@ public partial class CameraBehaviour : Camera2D
 		public void SetZoomable(bool zoomable)
 		{
 			_zoomable = zoomable;
-			GD.Print(_zoomable);
 		}
 		
-
-		
-		
-		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
 		{
 			_zoom = this.Zoom;
@@ -62,7 +57,7 @@ public partial class CameraBehaviour : Camera2D
 		}
 
 
-		public override void _Input(InputEvent @event)
+		public void InputHandle(InputEvent @event)
 		{
 			if (@event is InputEventMouseButton mbe)
 			{

@@ -52,8 +52,9 @@ public partial class GlobalStrategyEngine : Node2D
 		_timer.Start();
 	}
 
-	public override void _Input(InputEvent @event)
+	public override void _UnhandledInput(InputEvent @event)
 	{
+		Camera.InputHandle(@event);
 		var tileId = _findTile();		
 		AllHandlersControls.InputHandle(@event, tileId);
 	}

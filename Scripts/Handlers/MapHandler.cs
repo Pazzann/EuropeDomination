@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using EuropeDominationDemo.Scripts.Text;
-using EuropeDominationDemo.Scripts.UI;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Handlers;
@@ -15,8 +15,7 @@ public partial class MapHandler : GameHandler
     private Sprite2D _mapSprite;
     private ShaderMaterial _mapMaterial;
     private MapData _mapData { get; set; }
-
-    private GUI _gui;
+    
     private PackedScene _textScene;
     private Node2D _textSpawner;
 
@@ -26,19 +25,8 @@ public partial class MapHandler : GameHandler
     private PackedScene _devScene;
     private Node2D _devSpawner;
 
-
-    private int _currentMaxUnitId = 0;
-    
-
-    private CameraBehaviour _camera;
-    private Timer _timer;
-    private int _previousMonth;
-
-    private bool _freezed = false;
-
     private int _selectedTileId = -2;
     private float _lastClickTimestamp = 0.0f;
-    private bool _IsShiftPressed = false;
     
     
     public override void Init(MapData mapData)
@@ -55,11 +43,8 @@ public partial class MapHandler : GameHandler
 
         _devScene = (PackedScene)GD.Load("res://Prefabs/Development.tscn");
         _devSpawner = GetNode<Node2D>("./DevHandler");
+        
 
-     
-
-        _camera = (CameraBehaviour)GetNode<Camera2D>("../Camera");
-        _timer = (Timer)GetChild(0);
 
         _mapMaterial.SetShaderParameter("colors", _mapData.MapColors);
         _mapMaterial.SetShaderParameter("selectedID", -1);
@@ -70,15 +55,32 @@ public partial class MapHandler : GameHandler
   
         _goodsSpawner.Visible = false;
         _devSpawner.Visible = false;
-
-        _gui = GetNode<GUI>("../CanvasLayer/Control");
-        _gui.SetTime(_mapData.Scenario.Date);
-        _previousMonth = _mapData.Scenario.Date.Month;
+        
     }
 
     public override void InputHandle(InputEvent @event, int tileId)
     {
-        throw new NotImplementedException();
+        if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true })
+        {
+            _lastClickTimestamp = Time.GetTicksMsec() / 1000f;
+            return;
+        }
+
+        if (@event is not InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: false }) return;
+        if (Time.GetTicksMsec() / 1000f - _lastClickTimestamp > 0.2f) return;
+
+
+        if (tileId == _selectedTileId || tileId == -3)
+        {
+            DeselectProvince();
+            _selectedTileId = -2;
+            return;
+        }
+
+        _selectedTileId = tileId;
+
+        _mapMaterial.SetShaderParameter("selectedID", tileId);
+        _gui.ShowProvinceData(_mapData.Scenario.Map[tileId]);
     }
 
     public override void ViewModUpdate(float zoom)
@@ -116,17 +118,18 @@ public partial class MapHandler : GameHandler
                 _devSpawner.Visible = false;
                 break;
             }
+            case MapTypes.Trade:
+                break;
+            case MapTypes.Development:
+                break;
+            case MapTypes.Factories:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
 
         _mapMaterial.SetShaderParameter("colors", _mapData.MapColors);
-        if (zoom < 3.0f)
-        {
-            _mapMaterial.SetShaderParameter("viewMod", 1);
-        }
-        else
-        {
-            _mapMaterial.SetShaderParameter("viewMod", 0);
-        }
+        _mapMaterial.SetShaderParameter("viewMod", zoom < 3.0f ? 1 : 0);
     }
 
     public override void GUIInteractionHandler(GUIEvent @event)
@@ -193,7 +196,7 @@ public partial class MapHandler : GameHandler
                 _mapData.Scenario.Map[_selectedTileId].Buildings.Count < 4)
             {
                 _mapData.Scenario.Map[_selectedTileId].Buildings.Add(building);
-                _gui.ShowProvinceData(MapData.Scenario.Map[_selectedTileId]);
+                _gui.ShowProvinceData(_mapData.Scenario.Map[_selectedTileId]);
             }
         }
     }
@@ -206,60 +209,39 @@ public partial class MapHandler : GameHandler
 
     private void _dayTick()
     {
-        foreach (var data in MapData.Scenario.Map)
+        foreach (var data in _mapData.Scenario.Map)
         {
-            foreach (var building in data.Buildings)
+            foreach (var building in data.Buildings.Where(building => !building.IsFinished))
             {
-                if (!building.IsFinished)
+                building.BuildingTime++;
+                if (building.BuildingTime == building.TimeToBuild)
                 {
-                    building.BuildingTime++;
-                    if (building.BuildingTime == building.TimeToBuild)
-                    {
-                        building.IsFinished = true;
-                    }
+                    building.IsFinished = true;
                 }
             }
         }
 
-        var allUnits = GetTree().GetNodesInGroup("ArmyUnit");
-        foreach (var unit in allUnits)
-        {
-            (unit as ArmyUnit).UpdateDayTick();
-        }
-
-
-        if (_previousMonth != MapData.Scenario.Date.Month)
-        {
-            _monthTick();
-            _previousMonth = MapData.Scenario.Date.Month;
-        }
-        else if (_selectedTileId > -1)
-        {
-            _gui.ShowProvinceData(MapData.Scenario.Map[_selectedTileId]);
-        }
-        
-
         if (_gui != null)
-            _gui.SetTime(MapData.Scenario.Date);
+            _gui.SetTime(_mapData.Scenario.Date);
     }
 
     private void _monthTick()
     {
-        foreach (var data in MapData.Scenario.Map)
+        foreach (var data in _mapData.Scenario.Map)
         {
             data.Resources[(int)data.Good] += data.ProductionRate;
         }
 
         if (_selectedTileId > -1)
         {
-            _gui.ShowProvinceData(MapData.Scenario.Map[_selectedTileId]);
+            _gui.ShowProvinceData(_mapData.Scenario.Map[_selectedTileId]);
         }
     }
 
 
     private void _addGoods()
     {
-        foreach (var data in MapData.Scenario.Map)
+        foreach (var data in _mapData.Scenario.Map)
         {
             AnimatedSprite2D obj = _goodsScene.Instantiate() as AnimatedSprite2D;
             obj.Frame = (int)data.Good;
@@ -270,7 +252,7 @@ public partial class MapHandler : GameHandler
 
     private void _addDev()
     {
-        foreach (var data in MapData.Scenario.Map)
+        foreach (var data in _mapData.Scenario.Map)
         {
             AnimatedSprite2D obj = _devScene.Instantiate() as AnimatedSprite2D;
             obj.Frame = data.Development - 1;
@@ -278,75 +260,4 @@ public partial class MapHandler : GameHandler
             _devSpawner.AddChild(obj);
         }
     }
-
-    private void _addArmy()
-    {
-        foreach (var data in MapData.Scenario.Map)
-        {
-            if (data.ArmyUnit != null)
-            {
-                ArmyUnit obj = _armyScene.Instantiate() as ArmyUnit;
-                obj.SetupUnit(_currentMaxUnitId, data.ArmyUnit, this);
-                _currentMaxUnitId++;
-
-                //TODO: NORMAL CALCULATION OF ARMY POSITION
-                obj.Position = new Vector2(data.CenterOfWeight.X + 5, data.CenterOfWeight.Y);
-                _armySpawner.AddChild(obj);
-            }
-        }
-    }
-
-    public void FreezeMap()
-    {
-        _freezed = true;
-        _camera.SetZoomable(false);
-    }
-
-    public void UnFreezeMap()
-    {
-        _freezed = false;
-        _camera.SetZoomable(true);
-    }
-
-    public void Pause()
-    {
-        _timer.Stop();
-    }
-
-    public void UnPause()
-    {
-        _timer.Start();
-    }
-
-    public void HandleInput(InputEvent @event)
-    {
-        var tileId = _findTile();
-
-        if (_freezed) return;
-
-       
-        if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true })
-        {
-            _lastClickTimestamp = Time.GetTicksMsec() / 1000f;
-            return;
-        }
-
-        if (@event is not InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: false }) return;
-        if (Time.GetTicksMsec() / 1000f - _lastClickTimestamp > 0.2f) return;
-
-
-        if (tileId == _selectedTileId || tileId == -3)
-        {
-            DeselectProvince();
-            _selectedTileId = -2;
-            return;
-        }
-
-        _selectedTileId = tileId;
-
-        _mapMaterial.SetShaderParameter("selectedID", tileId);
-        _gui.ShowProvinceData(MapData.Scenario.Map[tileId]);
-    }
-
-    
 }
