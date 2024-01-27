@@ -9,7 +9,6 @@ script = ExtResource("1_nql47")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 clip_children = 1
-scale = Vector2(1, 1)
 texture = ExtResource("1_skiji")
 flip_h = true
 
