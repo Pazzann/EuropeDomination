@@ -61,23 +61,14 @@ public partial class CameraBehaviour : Camera2D
 		{
 			if (@event is InputEventMouseButton mbe)
 			{
+				var zoomPoint = GetGlobalMousePosition();
 				if (mbe.ButtonIndex == MouseButton.WheelDown && _zoomable)
 				{
-					if (_zoom.X - _zoomChangeSpeed > _minZoom)
-					{
-						_zoom.X -= _zoomChangeSpeed; 
-						_zoom.Y -= _zoomChangeSpeed;
-						this.Zoom = _zoom;
-					}
+					_zoomAtPoint(-_zoomChangeSpeed, zoomPoint);
 				}
 				if (mbe.ButtonIndex == MouseButton.WheelUp && _zoomable)
 				{
-					if (_zoom.X + _zoomChangeSpeed < _maxZoom)
-					{
-						_zoom.X += _zoomChangeSpeed;
-						_zoom.Y += _zoomChangeSpeed;
-						this.Zoom = _zoom;
-					}
+					_zoomAtPoint(_zoomChangeSpeed, zoomPoint);
 				}
 				
 				
@@ -97,6 +88,15 @@ public partial class CameraBehaviour : Camera2D
 			
 			if (Input.IsActionPressed("pan_2d") && @event is InputEventMouseMotion mouseEvent)
 				GlobalPosition += PanSpeed * -mouseEvent.Relative.Normalized() / Zoom;
+		}
+		
+		
+		private void _zoomAtPoint(float factor, Vector2 point)
+		{
+			factor = Mathf.Clamp(factor, _minZoom / Zoom.X - 1f, _maxZoom/ Zoom.X - 1f);
+
+			GlobalPosition += (point - GlobalPosition) * factor;
+			Zoom += Zoom * factor;
 		}
 
 }

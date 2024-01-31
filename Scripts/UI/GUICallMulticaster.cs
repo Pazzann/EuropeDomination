@@ -4,11 +4,11 @@ using EuropeDominationDemo.Scripts.UI.GUIHandlers;
 
 namespace EuropeDominationDemo.Scripts.UI;
 
-public class GUICallStack
+public class GUICallMulticaster
 {
-	private List<GUIHandler> _guiHandlers;
+	private readonly List<GUIHandler> _guiHandlers;
 
-	public GUICallStack(List<GUIHandler> guiHandlers)
+	public GUICallMulticaster(List<GUIHandler> guiHandlers)
 	{
 		_guiHandlers = guiHandlers;
 	}

@@ -1,20 +1,18 @@
 ﻿using System.Collections.Generic;
-using EuropeDominationDemo.Scripts.Enums;
-using EuropeDominationDemo.Scripts.Handlers;
 using EuropeDominationDemo.Scripts.Scenarios;
 using Godot;
 
-namespace EuropeDominationDemo.Scripts;
+namespace EuropeDominationDemo.Scripts.Handlers;
 
-public class CallStack
+public class CallMulticaster
 {
-    private List<GameHandler> _gameHandlers;
+    private readonly List<GameHandler> _gameHandlers;
     private MapData _mapData;
 
     private int _previousMonth;
     private int _previousYear;
 
-    public CallStack(List<GameHandler> gameHandlers)
+    public CallMulticaster(List<GameHandler> gameHandlers)
     {
         _gameHandlers = gameHandlers;
     }

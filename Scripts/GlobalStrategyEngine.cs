@@ -12,7 +12,7 @@ namespace EuropeDominationDemo.Scripts;
 
 public partial class GlobalStrategyEngine : Node2D
 {
-	public CallStack AllHandlersControls;
+	public CallMulticaster AllHandlersControls;
 	public MapData MapInfo;
 	public CameraBehaviour Camera;
 	public GUI GUIHandler;
@@ -33,7 +33,7 @@ public partial class GlobalStrategyEngine : Node2D
 			handler.ToGUIEvent += InvokeToGUIEvent;
 		}
 		
-		AllHandlersControls = new CallStack(allHandlers);
+		AllHandlersControls = new CallMulticaster(allHandlers);
 		
 		var map = Image.LoadFromFile("res://Sprites/map.png");
 		

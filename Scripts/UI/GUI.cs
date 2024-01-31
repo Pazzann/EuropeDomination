@@ -9,7 +9,7 @@ namespace EuropeDominationDemo.Scripts.UI;
 public delegate void GUIEventDelegate(GUIEvent @event);
 public partial class GUI : Control
 {
-	public GUICallStack AllGUIHandlersControls;
+	public GUICallMulticaster AllGUIHandlersControls;
 
 
 
@@ -31,7 +31,7 @@ public partial class GUI : Control
 			guiHandler.GUIEvent += SendGUIEvent;
 		}
 		
-		AllGUIHandlersControls = new GUICallStack(allGUIHandlers);
+		AllGUIHandlersControls = new GUICallMulticaster(allGUIHandlers);
 		AllGUIHandlersControls.Init();
 	}
 
