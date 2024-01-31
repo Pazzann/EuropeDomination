@@ -10,16 +10,16 @@ public class CallStack
 {
     private List<GameHandler> _gameHandlers;
     private MapData _mapData;
-    
+
     private int _previousMonth;
     private int _previousYear;
-    
+
     public CallStack(List<GameHandler> gameHandlers)
     {
         _gameHandlers = gameHandlers;
     }
-    
-    
+
+
     public void Init(MapData mapData)
     {
         _mapData = mapData;
@@ -33,39 +33,37 @@ public class CallStack
     {
         foreach (var handler in _gameHandlers)
         {
-            handler.InputHandle(@event, tileId);
+            if (handler.InputHandle(@event, tileId))
+                return;
         }
     }
 
     public void TimeTick()
     {
         _mapData.Scenario.Date = _mapData.Scenario.Date.Add(_mapData.Scenario.Ts);
-        
+
         foreach (var handler in _gameHandlers)
         {
-            if (handler.TimeHandler != null)
-                handler.TimeHandler.DayTick();
+            handler.DayTick();
         }
-        
+
         if (_previousMonth != _mapData.Scenario.Date.Month)
         {
             foreach (var handler in _gameHandlers)
             {
-                if (handler.TimeHandler != null)
-                    handler.TimeHandler.MonthTick();
+                handler.MonthTick();
             }
-            
+
             _previousMonth = _mapData.Scenario.Date.Month;
         }
-        
+
         if (_previousYear != _mapData.Scenario.Date.Year)
         {
             foreach (var handler in _gameHandlers)
             {
-                if (handler.TimeHandler != null)
-                    handler.TimeHandler.YearTick();
+                handler.YearTick();
             }
-            
+
             _previousYear = _mapData.Scenario.Date.Year;
         }
     }
@@ -76,7 +74,6 @@ public class CallStack
         {
             handler.ViewModUpdate(zoom);
         }
-        
     }
 
     public void GUIInteractionHandler(GUIEvent @event)

@@ -3,23 +3,18 @@ using System;
 using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Handlers;
-using EuropeDominationDemo.Scripts.Handlers.TimeHandlers;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Units;
 
 public partial class ArmyHandler : GameHandler
 {
-	
-	public List<ArmyUnit> CurrentSelectedUnits = new List<ArmyUnit> { };
 	private PackedScene _armyScene;
 	private bool _isShiftPressed;
 
 
 	public override void Init(MapData mapData)
 	{
-
-		TimeHandler = new ArmyTimeHandler();
 		_mapData = mapData;
 		
 		_armyScene = (PackedScene)GD.Load("res://Prefabs/ArmyUnit.tscn");
@@ -37,7 +32,7 @@ public partial class ArmyHandler : GameHandler
 		}
 	}
 
-	public override void InputHandle(InputEvent @event, int tileId)
+	public override bool InputHandle(InputEvent @event, int tileId)
 	{
 		if (@event is InputEventKey { KeyLabel: Key.Shift, Pressed: true })
 			_isShiftPressed = true;
@@ -47,36 +42,35 @@ public partial class ArmyHandler : GameHandler
 		if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Right, Pressed: true })
 		{
 			if (tileId == -3)
-				return;
+				return false;
 
 			if (!_isShiftPressed)
-				foreach (var armyUnit in CurrentSelectedUnits)
+				foreach (var armyUnit in _mapData.CurrentSelectedUnits)
 				{
 					if (tileId == armyUnit.Data.CurrentProvince)
 					{
 						armyUnit.NewPath(Array.Empty<int>());
-						return;
+						return false;
 					}
 
 					armyUnit.NewPath(
 						PathFinder.FindWayFromAToB(armyUnit.Data.CurrentProvince, tileId,  _mapData.Scenario));
 				}
 			else
-				foreach (var armyUnit in CurrentSelectedUnits)
+				foreach (var armyUnit in _mapData.CurrentSelectedUnits)
 				{
 					if (armyUnit.Path.Count == 0)
 					{
 						armyUnit.NewPath(PathFinder.FindWayFromAToB(armyUnit.Data.CurrentProvince, tileId,  _mapData.Scenario));
-						return;
+						return false;
 					}
 					armyUnit.AddPath(
 						PathFinder.FindWayFromAToB(armyUnit.Path[0], tileId, _mapData.Scenario));
 				}
 
-			return;
+			return false;
 		}
-		
-		throw new NotImplementedException();
+		return false;
 	}
 
 	public override void ViewModUpdate(float zoom)
@@ -92,6 +86,28 @@ public partial class ArmyHandler : GameHandler
 
 	public override void GUIInteractionHandler(GUIEvent @event)
 	{
-		throw new NotImplementedException();
+		switch (@event)
+		{
+			default:
+				return;
+		}
+	}
+
+	public override void DayTick()
+	{
+		foreach (var armyUnit in GetChildren())
+		{
+			(armyUnit as ArmyUnit).UpdateDayTick();
+		}
+	}
+
+	public override void MonthTick()
+	{
+		
+	}
+
+	public override void YearTick()
+	{
+		
 	}
 }

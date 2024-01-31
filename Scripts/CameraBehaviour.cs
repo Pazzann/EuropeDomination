@@ -79,6 +79,8 @@ public partial class CameraBehaviour : Camera2D
 						this.Zoom = _zoom;
 					}
 				}
+				
+				
 				ChangeZoom.Invoke();
 			}
 			if (@event is InputEventKey eventKey)
@@ -92,6 +94,7 @@ public partial class CameraBehaviour : Camera2D
 				if (eventKey.Keycode == Key.Left)
 					_moveLeft = eventKey.Pressed;
 			}
+			
 			if (Input.IsActionPressed("pan_2d") && @event is InputEventMouseMotion mouseEvent)
 				GlobalPosition += PanSpeed * -mouseEvent.Relative.Normalized() / Zoom;
 		}

@@ -15,13 +15,15 @@ public partial class SelectorBoxHandler : GameHandler
 	private bool _wasSelectedUnit = false;
 	private ColorRect _selectionRect;
 	
+
+	
 	public override void Init(MapData mapData)
 	{
+		_mapData = mapData;
 		_selectionRect = GetNode<ColorRect>("./SelectionRect");
-		TimeHandler = null;
 	}
 
-	public override void InputHandle(InputEvent @event, int tileId)
+	public override bool InputHandle(InputEvent @event, int tileId)
 	{
 		switch (@event)
 		{
@@ -55,8 +57,9 @@ public partial class SelectorBoxHandler : GameHandler
 		if (_wasSelectedUnit)
 		{
 			_wasSelectedUnit = false;
-			return;
+			return true;
 		}
+		return false;
 	}
 
 	public override void ViewModUpdate(float zoom)
@@ -85,10 +88,25 @@ public partial class SelectorBoxHandler : GameHandler
 		var selectedUnits = (from unit in allUnits where ((ArmyUnit)unit).IsInsideRect(trueRect) select unit as ArmyUnit).ToList();
 		ArmyUnit.SelectUnits(allUnits, selectedUnits);
 		
-		//TODO: FIX THIS
-		//_mapHandler.CurrentSelectedUnits = selectedUnits;
+		
+		_mapData.CurrentSelectedUnits = selectedUnits;
 		
 		if (selectedUnits.Count > 0)
 			_wasSelectedUnit = true;
+	}
+	
+	public override void DayTick()
+	{
+		
+	}
+
+	public override void MonthTick()
+	{
+		
+	}
+
+	public override void YearTick()
+	{
+		
 	}
 }

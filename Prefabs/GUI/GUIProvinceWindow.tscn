@@ -1,0 +1,674 @@
+[gd_scene load_steps=18 format=3 uid="uid://bgb7s0ynl6r2t"]
+
+[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUIProvinceWindow.cs" id="1_5d1pq"]
+[ext_resource type="Texture2D" uid="uid://ckhuxliwwap7v" path="res://Sprites/ProvinceControl.png" id="1_dqhfl"]
+[ext_resource type="FontFile" uid="uid://ft4ay1jb3o8h" path="res://Fonts/VeniceClassic.ttf" id="2_eb8im"]
+[ext_resource type="PackedScene" uid="uid://upcl6eoioqff" path="res://Prefabs/Good.tscn" id="3_j1a0c"]
+[ext_resource type="PackedScene" uid="uid://dkgvwnddhvy7n" path="res://Prefabs/Flag.tscn" id="4_fkosd"]
+[ext_resource type="PackedScene" uid="uid://ctauw3mt5l7cf" path="res://Prefabs/Terrain.tscn" id="5_afqlh"]
+[ext_resource type="PackedScene" uid="uid://uway7gdlqq10" path="res://Prefabs/GUI/GUIResources.tscn" id="6_8tdh2"]
+[ext_resource type="Texture2D" uid="uid://dkdupthlvtc12" path="res://Sprites/ProvinceTypeSelection/bg.png" id="8_j1vcm"]
+[ext_resource type="PackedScene" uid="uid://clf8v6lyqbsx6" path="res://Prefabs/Buildings.tscn" id="9_863be"]
+[ext_resource type="Texture2D" uid="uid://dmhs1r8e2opvs" path="res://Sprites/ProvinceTypeSelection/select.png" id="10_h801k"]
+[ext_resource type="Texture2D" uid="uid://bl2u1qda5j8n4" path="res://Sprites/ProvinceTypeSelection/productionLine.png" id="11_3bjrh"]
+[ext_resource type="Texture2D" uid="uid://dx08b2wttihu" path="res://Sprites/Building/Lock.png" id="11_jtd3g"]
+[ext_resource type="Texture2D" uid="uid://bple22hfb3hiw" path="res://Sprites/ProvinceTypeSelection/stock.png" id="12_6au65"]
+[ext_resource type="Texture2D" uid="uid://cbqno77kc60f1" path="res://Sprites/ProvinceTypeSelection/tradeCenter.png" id="13_8g6ew"]
+[ext_resource type="Texture2D" uid="uid://cy2c04ltfefiw" path="res://Sprites/ProvinceTypeSelection/nothing.png" id="14_6x550"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_0rrit"]
+font = ExtResource("2_eb8im")
+font_size = 38
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ud4ao"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_h801k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_3bjrh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_6au65")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_8g6ew")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="GuiProvinceWindow" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_5d1pq")
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -555.0
+offset_top = -340.0
+offset_right = -25.0
+offset_bottom = 430.0
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="BuildingMenu" type="Sprite2D" parent="HBoxContainer4"]
+visible = false
+position = Vector2(730.85, 389.95)
+scale = Vector2(4.8, 4.8)
+texture = ExtResource("8_j1vcm")
+
+[node name="PossibleBuildings" type="Control" parent="HBoxContainer4/BuildingMenu"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Workshop" parent="HBoxContainer4/BuildingMenu/PossibleBuildings" instance=ExtResource("9_863be")]
+position = Vector2(-24.1354, -24.3646)
+scale = Vector2(0.15, 0.15)
+frame = 1
+
+[node name="BuildingCost" type="Label" parent="HBoxContainer4/BuildingMenu/PossibleBuildings/Workshop"]
+offset_left = -18.0556
+offset_top = 31.9447
+offset_right = 21.9444
+offset_bottom = 54.9447
+text = "100dsfsdf"
+
+[node name="BuildButton" type="Button" parent="HBoxContainer4/BuildingMenu/PossibleBuildings/Workshop"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 33.0
+offset_right = -21.0
+offset_bottom = 44.0
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Bg" type="Sprite2D" parent="HBoxContainer4/BuildingMenu"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(29.4062, -29.5729)
+scale = Vector2(0.0585938, 0.0585938)
+texture = ExtResource("8_j1vcm")
+
+[node name="ExitButton" type="Button" parent="HBoxContainer4/BuildingMenu/Bg"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
+
+[node name="ProvinceWindowSprite" type="Sprite2D" parent="HBoxContainer4"]
+texture_filter = 1
+position = Vector2(255, 399)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("1_dqhfl")
+
+[node name="closeButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 278.0
+offset_top = -493.0
+offset_right = 318.0
+offset_bottom = -475.0
+
+[node name="ProvinceName" type="Label" parent="HBoxContainer4/ProvinceWindowSprite"]
+offset_left = -292.0
+offset_top = -465.0
+offset_right = 68.0
+offset_bottom = -427.0
+text = "fdgfdgfdgdfgdfgdf"
+label_settings = SubResource("LabelSettings_0rrit")
+
+[node name="Good" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("3_j1a0c")]
+position = Vector2(277.5, 416.25)
+scale = Vector2(1.02031, 1.02031)
+
+[node name="Flag" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("4_fkosd")]
+position = Vector2(112.5, -444.25)
+scale = Vector2(1.04167, 0.96875)
+
+[node name="Terrain" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("5_afqlh")]
+position = Vector2(234.875, -420)
+scale = Vector2(1.00141, 1)
+
+[node name="ResourcesContainer" type="ScrollContainer" parent="HBoxContainer4/ProvinceWindowSprite"]
+offset_left = -297.0
+offset_top = 183.0
+offset_right = 142.0
+offset_bottom = 448.0
+mouse_filter = 0
+mouse_force_pass_scroll_events = false
+
+[node name="Control" parent="HBoxContainer4/ProvinceWindowSprite/ResourcesContainer" instance=ExtResource("6_8tdh2")]
+layout_mode = 2
+
+[node name="StatsLabel" type="Label" parent="HBoxContainer4/ProvinceWindowSprite"]
+offset_left = 149.0
+offset_top = -6.0
+offset_right = 364.0
+offset_bottom = 20.0
+text = "Max resourse: 20"
+
+[node name="ProvinceTypeSelection" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -300.0
+offset_top = -418.75
+offset_right = -260.0
+offset_bottom = -378.75
+
+[node name="provinceTypeSelection" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/ProvinceTypeSelection"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 445.0
+scale = Vector2(1, 0.1438)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/ProvinceTypeSelection"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_ud4ao")
+centered = false
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer4/ProvinceWindowSprite/ProvinceTypeSelection"]
+visible = false
+custom_minimum_size = Vector2(300, 260)
+layout_mode = 0
+offset_top = 64.0
+offset_right = 40.0
+offset_bottom = 104.0
+mouse_filter = 0
+mouse_force_pass_scroll_events = false
+
+[node name="Control" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/ProvinceTypeSelection/ScrollContainer"]
+custom_minimum_size = Vector2(300, 500)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/ProvinceTypeSelection/ScrollContainer/Control"]
+scale = Vector2(4.69771, 8.47758)
+texture = ExtResource("8_j1vcm")
+centered = false
+
+[node name="Nothing" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/ProvinceTypeSelection/ScrollContainer/Control"]
+texture_filter = 1
+position = Vector2(1.19209e-07, -0.154041)
+scale = Vector2(1, 1.175)
+texture = ExtResource("14_6x550")
+centered = false
+
+[node name="Nothing" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/ProvinceTypeSelection/ScrollContainer/Control/Nothing"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 0.369052
+offset_top = 0.628174
+offset_right = 300.369
+offset_bottom = 64.6282
+metadata/_edit_use_anchors_ = true
+
+[node name="ProductionLine" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/ProvinceTypeSelection/ScrollContainer/Control"]
+texture_filter = 1
+position = Vector2(0, 75.1325)
+scale = Vector2(1, 1.173)
+texture = ExtResource("11_3bjrh")
+centered = false
+
+[node name="ProductionLine" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/ProvinceTypeSelection/ScrollContainer/Control/ProductionLine"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -0.369052
+offset_top = -0.314617
+offset_right = 299.631
+offset_bottom = 63.6854
+metadata/_edit_use_anchors_ = true
+
+[node name="Stock" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/ProvinceTypeSelection/ScrollContainer/Control"]
+texture_filter = 1
+position = Vector2(5.96046e-08, 150.419)
+scale = Vector2(1, 1.173)
+texture = ExtResource("12_6au65")
+centered = false
+
+[node name="Stock" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/ProvinceTypeSelection/ScrollContainer/Control/Stock"]
+self_modulate = Color(1, 1, 1, 0)
+offset_top = -0.314636
+offset_right = 300.0
+offset_bottom = 63.6854
+metadata/_edit_use_anchors_ = true
+
+[node name="TradeCenter" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/ProvinceTypeSelection/ScrollContainer/Control"]
+texture_filter = 1
+position = Vector2(0, 225.337)
+scale = Vector2(1, 1.173)
+texture = ExtResource("13_8g6ew")
+centered = false
+
+[node name="TradeCenter" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/ProvinceTypeSelection/ScrollContainer/Control/TradeCenter"]
+self_modulate = Color(1, 1, 1, 0)
+offset_top = -1.52588e-05
+offset_right = 300.0
+offset_bottom = 64.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Buildings" type="Node2D" parent="HBoxContainer4/ProvinceWindowSprite"]
+position = Vector2(237.5, -52.5)
+
+[node name="0" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -75.0
+offset_top = -225.0
+offset_right = -67.0
+offset_bottom = -217.0
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/0" instance=ExtResource("9_863be")]
+position = Vector2(3.88231, 4.0733)
+scale = Vector2(0.118129, -0.12394)
+
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/0"]
+layout_mode = 0
+offset_left = -0.408661
+offset_top = 1.0719
+offset_right = 79.5913
+offset_bottom = 28.0719
+scale = Vector2(0.0975172, -0.0562219)
+value = 90.0
+
+[node name="Lock" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/0"]
+position = Vector2(3.82907, 4.01697)
+rotation = -3.13218
+scale = Vector2(0.123059, 0.123059)
+texture = ExtResource("11_jtd3g")
+
+[node name="Destroy" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/0"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(6.74292, 7.07471)
+scale = Vector2(0.0328668, 0.0328668)
+texture = ExtResource("8_j1vcm")
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/0/Destroy"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
+
+[node name="1" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 20.0
+offset_top = -223.75
+offset_right = 28.0
+offset_bottom = -215.75
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/1" instance=ExtResource("9_863be")]
+position = Vector2(4.08664, 4.07324)
+scale = Vector2(0.118129, -0.12394)
+
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/1"]
+layout_mode = 0
+offset_left = -0.408661
+offset_top = 1.0719
+offset_right = 79.5913
+offset_bottom = 28.0719
+scale = Vector2(0.0975172, -0.0562219)
+value = 90.0
+
+[node name="Lock" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/1"]
+position = Vector2(3.82907, 4.01697)
+rotation = -3.13218
+scale = Vector2(0.123059, 0.123059)
+texture = ExtResource("11_jtd3g")
+
+[node name="Destroy" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/1"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(6.74292, 7.07471)
+scale = Vector2(0.0328668, 0.0328668)
+texture = ExtResource("8_j1vcm")
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/1/Destroy"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
+
+[node name="2" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -76.25
+offset_top = -161.25
+offset_right = -68.25
+offset_bottom = -153.25
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/2" instance=ExtResource("9_863be")]
+position = Vector2(3.88231, 4.0733)
+scale = Vector2(0.118129, -0.12394)
+
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/2"]
+layout_mode = 0
+offset_left = -0.408661
+offset_top = 1.0719
+offset_right = 79.5913
+offset_bottom = 28.0719
+scale = Vector2(0.0975172, -0.0562219)
+value = 90.0
+
+[node name="Lock" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/2"]
+position = Vector2(3.82907, 4.01697)
+rotation = -3.13218
+scale = Vector2(0.123059, 0.123059)
+texture = ExtResource("11_jtd3g")
+
+[node name="Destroy" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/2"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(6.74292, 7.07471)
+scale = Vector2(0.0328668, 0.0328668)
+texture = ExtResource("8_j1vcm")
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/2/Destroy"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
+
+[node name="3" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 21.25
+offset_top = -160.0
+offset_right = 29.25
+offset_bottom = -152.0
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/3" instance=ExtResource("9_863be")]
+position = Vector2(3.88231, 4.0733)
+scale = Vector2(0.118129, -0.12394)
+
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/3"]
+layout_mode = 0
+offset_left = -0.408661
+offset_top = 1.0719
+offset_right = 79.5913
+offset_bottom = 28.0719
+scale = Vector2(0.0975172, -0.0562219)
+value = 90.0
+
+[node name="Lock" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/3"]
+position = Vector2(3.82907, 4.01697)
+rotation = -3.13218
+scale = Vector2(0.123059, 0.123059)
+texture = ExtResource("11_jtd3g")
+
+[node name="Destroy" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/3"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(6.74292, 7.07471)
+scale = Vector2(0.0328668, 0.0328668)
+texture = ExtResource("8_j1vcm")
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/3/Destroy"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
+
+[node name="4" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -75.0
+offset_top = -96.2501
+offset_right = -67.0
+offset_bottom = -88.2501
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/4" instance=ExtResource("9_863be")]
+position = Vector2(3.88231, 4.0733)
+scale = Vector2(0.118129, -0.12394)
+
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/4"]
+layout_mode = 0
+offset_left = -0.408661
+offset_top = 1.0719
+offset_right = 79.5913
+offset_bottom = 28.0719
+scale = Vector2(0.0975172, -0.0562219)
+value = 90.0
+
+[node name="Lock" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/4"]
+position = Vector2(3.82907, 4.01697)
+rotation = -3.13218
+scale = Vector2(0.123059, 0.123059)
+texture = ExtResource("11_jtd3g")
+
+[node name="Destroy" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/4"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(6.74292, 7.07471)
+scale = Vector2(0.0328668, 0.0328668)
+texture = ExtResource("8_j1vcm")
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/4/Destroy"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
+
+[node name="5" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 21.25
+offset_top = -96.2501
+offset_right = 29.25
+offset_bottom = -88.2501
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/5" instance=ExtResource("9_863be")]
+position = Vector2(3.88231, 4.0733)
+scale = Vector2(0.118129, -0.12394)
+
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/5"]
+layout_mode = 0
+offset_left = -0.408661
+offset_top = 1.0719
+offset_right = 79.5913
+offset_bottom = 28.0719
+scale = Vector2(0.0975172, -0.0562219)
+value = 90.0
+
+[node name="Lock" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/5"]
+position = Vector2(3.82907, 4.01697)
+rotation = -3.13218
+scale = Vector2(0.123059, 0.123059)
+texture = ExtResource("11_jtd3g")
+
+[node name="Destroy" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/5"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(6.74292, 7.07471)
+scale = Vector2(0.0328668, 0.0328668)
+texture = ExtResource("8_j1vcm")
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/5/Destroy"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
+
+[node name="6" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -75.0
+offset_top = -32.5001
+offset_right = -67.0
+offset_bottom = -24.5001
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/6" instance=ExtResource("9_863be")]
+position = Vector2(3.88231, 4.0733)
+scale = Vector2(0.118129, -0.12394)
+
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/6"]
+layout_mode = 0
+offset_left = -0.408661
+offset_top = 1.0719
+offset_right = 79.5913
+offset_bottom = 28.0719
+scale = Vector2(0.0975172, -0.0562219)
+value = 90.0
+
+[node name="Lock" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/6"]
+position = Vector2(3.82907, 4.01697)
+rotation = -3.13218
+scale = Vector2(0.123059, 0.123059)
+texture = ExtResource("11_jtd3g")
+
+[node name="Destroy" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/6"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(6.74292, 7.07471)
+scale = Vector2(0.0328668, 0.0328668)
+texture = ExtResource("8_j1vcm")
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/6/Destroy"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
+
+[node name="7" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 21.25
+offset_top = -32.5001
+offset_right = 29.25
+offset_bottom = -24.5001
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/7" instance=ExtResource("9_863be")]
+position = Vector2(3.88231, 4.0733)
+scale = Vector2(0.118129, -0.12394)
+
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/7"]
+layout_mode = 0
+offset_left = -0.408661
+offset_top = 1.0719
+offset_right = 79.5913
+offset_bottom = 28.0719
+scale = Vector2(0.0975172, -0.0562219)
+value = 90.0
+
+[node name="Lock" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/7"]
+position = Vector2(3.82907, 4.01697)
+rotation = -3.13218
+scale = Vector2(0.123059, 0.123059)
+texture = ExtResource("11_jtd3g")
+
+[node name="Destroy" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/7"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(6.74292, 7.07471)
+scale = Vector2(0.0328668, 0.0328668)
+texture = ExtResource("8_j1vcm")
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/7/Destroy"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
+
+[node name="8" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -75.0
+offset_top = 31.2499
+offset_right = -67.0
+offset_bottom = 39.2499
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/8" instance=ExtResource("9_863be")]
+position = Vector2(3.88231, 4.0733)
+scale = Vector2(0.118129, -0.12394)
+
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/8"]
+layout_mode = 0
+offset_left = -0.408661
+offset_top = 1.0719
+offset_right = 79.5913
+offset_bottom = 28.0719
+scale = Vector2(0.0975172, -0.0562219)
+value = 90.0
+
+[node name="Lock" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/8"]
+position = Vector2(3.82907, 4.01697)
+rotation = -3.13218
+scale = Vector2(0.123059, 0.123059)
+texture = ExtResource("11_jtd3g")
+
+[node name="Destroy" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/8"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(6.74292, 7.07471)
+scale = Vector2(0.0328668, 0.0328668)
+texture = ExtResource("8_j1vcm")
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/8/Destroy"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
+
+[node name="9" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 21.25
+offset_top = 31.2499
+offset_right = 29.25
+offset_bottom = 39.2499
+scale = Vector2(6.1175, -5.83068)
+
+[node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/9" instance=ExtResource("9_863be")]
+position = Vector2(3.88231, 4.0733)
+scale = Vector2(0.118129, -0.12394)
+
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/9"]
+layout_mode = 0
+offset_left = -0.408661
+offset_top = 1.0719
+offset_right = 79.5913
+offset_bottom = 28.0719
+scale = Vector2(0.0975172, -0.0562219)
+value = 90.0
+
+[node name="Lock" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/9"]
+position = Vector2(3.82907, 4.01697)
+rotation = -3.13218
+scale = Vector2(0.123059, 0.123059)
+texture = ExtResource("11_jtd3g")
+
+[node name="Destroy" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/9"]
+modulate = Color(1, 0.321569, 1, 1)
+position = Vector2(6.74292, 7.07471)
+scale = Vector2(0.0328668, 0.0328668)
+texture = ExtResource("8_j1vcm")
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/9/Destroy"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -31.0
+offset_top = 32.0
+offset_right = -21.0
+offset_bottom = 43.0
+scale = Vector2(6.1175, -5.83068)
+
+[connection signal="pressed" from="HBoxContainer4/BuildingMenu/Bg/ExitButton" to="." method="_onExitBuildingMenuButtonPressed"]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/closeButton" to="." method="_onCloseProvinceMenuButtonPressed"]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/ProvinceTypeSelection/provinceTypeSelection" to="." method="_onProvinceTypeSelection"]

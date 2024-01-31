@@ -1,5 +1,7 @@
-﻿using EuropeDominationDemo.Scripts.Enums;
+﻿using System.Collections.Generic;
+using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
+using EuropeDominationDemo.Scripts.Units;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
@@ -8,6 +10,7 @@ public class MapData
 {
     public Scenario Scenario;
     public MapTypes CurrentMapMode = MapTypes.Political;
+    public List<ArmyUnit> CurrentSelectedUnits = new List<ArmyUnit> { };
 
     private Vector3[] _mapColors
     {

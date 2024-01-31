@@ -38,6 +38,9 @@ public class ProvinceData
 		}
 	}
 
+	public int UnlockedBuildingCount => 4 + Development / 5;
+
+
 	public ProvinceData(
 		int id,
 		int countryId,

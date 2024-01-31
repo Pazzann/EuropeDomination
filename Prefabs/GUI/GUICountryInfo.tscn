@@ -1,0 +1,111 @@
+[gd_scene load_steps=4 format=3 uid="uid://byvrlg7fanh0g"]
+
+[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUICountryInfo.cs" id="1_cgdqq"]
+[ext_resource type="Texture2D" uid="uid://brnibn5nj2tns" path="res://Sprites/MainUI.png" id="1_umr7a"]
+[ext_resource type="Texture2D" uid="uid://cnih0d5o2swp6" path="res://Sprites/MainUIRes.png" id="2_e6emn"]
+
+[node name="GuiCountryInfo" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cgdqq")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -556.5
+offset_right = 556.5
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+alignment = 2
+
+[node name="MainUi" type="Sprite2D" parent="HBoxContainer"]
+texture_filter = 1
+position = Vector2(584.5, -112)
+scale = Vector2(0.909072, 0.909072)
+texture = ExtResource("1_umr7a")
+
+[node name="MainUiRes" type="Sprite2D" parent="HBoxContainer/MainUi"]
+texture_filter = 1
+position = Vector2(-1, -1)
+texture = ExtResource("2_e6emn")
+
+[node name="Label" type="Label" parent="HBoxContainer/MainUi/MainUiRes"]
+texture_filter = 1
+offset_left = -234.0
+offset_top = 51.0
+offset_right = -194.0
+offset_bottom = 74.0
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label2" type="Label" parent="HBoxContainer/MainUi/MainUiRes"]
+texture_filter = 1
+offset_left = -237.0
+offset_top = 20.0
+offset_right = -197.0
+offset_bottom = 43.0
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label3" type="Label" parent="HBoxContainer/MainUi/MainUiRes"]
+texture_filter = 1
+offset_left = -236.0
+offset_top = -9.0
+offset_right = -196.0
+offset_bottom = 14.0
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label4" type="Label" parent="HBoxContainer/MainUi/MainUiRes"]
+texture_filter = 1
+offset_left = -235.0
+offset_top = -44.0
+offset_right = -195.0
+offset_bottom = -21.0
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label5" type="Label" parent="HBoxContainer/MainUi/MainUiRes"]
+texture_filter = 1
+offset_left = -239.0
+offset_top = -81.0
+offset_right = -199.0
+offset_bottom = -58.0
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="HBoxContainer/MainUi"]
+texture_filter = 1
+offset_left = -379.0
+offset_top = 87.0
+offset_right = -339.0
+offset_bottom = 110.0
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label2" type="Label" parent="HBoxContainer/MainUi"]
+texture_filter = 1
+offset_left = -305.0
+offset_top = 86.0
+offset_right = -265.0
+offset_bottom = 112.0
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label3" type="Label" parent="HBoxContainer/MainUi"]
+texture_filter = 1
+offset_left = -152.0
+offset_top = 87.0
+offset_right = -112.0
+offset_bottom = 110.0
+text = "0"
+metadata/_edit_use_anchors_ = true

@@ -1,0 +1,121 @@
+[gd_scene load_steps=5 format=3 uid="uid://fx4l5pss50wq"]
+
+[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUIMiniMapWindow.cs" id="1_1l5st"]
+[ext_resource type="Texture2D" uid="uid://b25poom405rc8" path="res://Sprites/MapScreen.png" id="1_74pt1"]
+[ext_resource type="Texture2D" uid="uid://bup0lap08gpmv" path="res://Sprites/map.png" id="2_ufecb"]
+[ext_resource type="Texture2D" uid="uid://ix2vyxk6n14t" path="res://Sprites/MapTypes.png" id="3_l70ow"]
+
+[node name="GuiMiniMap" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_1l5st")
+
+[node name="MiniMapContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+alignment = 2
+
+[node name="MapScreen" type="Sprite2D" parent="MiniMapContainer"]
+z_index = 1
+texture_filter = 1
+position = Vector2(79, 60)
+scale = Vector2(0.769188, 0.769188)
+texture = ExtResource("1_74pt1")
+
+[node name="Map" type="Sprite2D" parent="MiniMapContainer/MapScreen"]
+z_index = 1
+texture_filter = 1
+position = Vector2(-16, -1.5)
+scale = Vector2(0.640625, 0.628906)
+texture = ExtResource("2_ufecb")
+
+[node name="MapTypes" type="Sprite2D" parent="MiniMapContainer"]
+texture_filter = 1
+position = Vector2(310, 19)
+scale = Vector2(0.769188, 0.769188)
+texture = ExtResource("3_l70ow")
+
+[node name="PoliticalType" type="Button" parent="MiniMapContainer/MapTypes"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = -1
+anchor_right = 0.16
+anchor_bottom = 1.0
+offset_left = -135.591
+offset_top = 24.2986
+offset_right = -191.591
+offset_bottom = -17.7014
+scale = Vector2(7.9675, -6.10111)
+
+[node name="TerrainType" type="Button" parent="MiniMapContainer/MapTypes"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = -1
+anchor_right = 0.16
+anchor_bottom = 1.0
+offset_left = -199.294
+offset_top = 24.2986
+offset_right = -255.294
+offset_bottom = -17.7014
+scale = Vector2(7.9675, -6.10111)
+
+[node name="GoodsType" type="Button" parent="MiniMapContainer/MapTypes"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = -1
+anchor_right = 0.16
+anchor_bottom = 1.0
+offset_left = -71.8872
+offset_top = 24.2986
+offset_right = -127.887
+offset_bottom = -17.7014
+scale = Vector2(7.9675, -6.10111)
+
+[node name="TradeType" type="Button" parent="MiniMapContainer/MapTypes"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = -1
+anchor_right = 0.16
+anchor_bottom = 1.0
+offset_left = -8.18365
+offset_top = 24.2986
+offset_right = -64.1837
+offset_bottom = -17.7014
+scale = Vector2(7.9675, -6.10111)
+
+[node name="DevelopmentType" type="Button" parent="MiniMapContainer/MapTypes"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = -1
+anchor_right = 0.16
+anchor_bottom = 1.0
+offset_left = 56.82
+offset_top = 24.2986
+offset_right = 0.819977
+offset_bottom = -17.7014
+scale = Vector2(7.9675, -6.10111)
+
+[node name="FactoriesType" type="Button" parent="MiniMapContainer/MapTypes"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = -1
+anchor_right = 0.16
+anchor_bottom = 1.0
+offset_left = 120.523
+offset_top = 24.2986
+offset_right = 64.5235
+offset_bottom = -17.7014
+scale = Vector2(7.9675, -6.10111)
+
+[node name="CloseType" type="Button" parent="MiniMapContainer/MapTypes"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = -1
+anchor_right = 0.16
+anchor_bottom = 1.0
+offset_left = 184.227
+offset_top = 24.2986
+offset_right = 128.227
+offset_bottom = -17.7014
+scale = Vector2(1.88316, -6.10111)
+
+[connection signal="pressed" from="MiniMapContainer/MapTypes/CloseType" to="." method="_onMapTypeSwitchState"]

@@ -3,6 +3,9 @@ using EuropeDominationDemo.Scripts.Handlers;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
+using EuropeDominationDemo.Scripts.UI;
+using EuropeDominationDemo.Scripts.UI.Events.GUI;
+using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts;
@@ -12,7 +15,7 @@ public partial class GlobalStrategyEngine : Node2D
 	public CallStack AllHandlersControls;
 	public MapData MapInfo;
 	public CameraBehaviour Camera;
-
+	public GUI GUIHandler;
 
 	private Timer _timer;
 	
@@ -20,19 +23,31 @@ public partial class GlobalStrategyEngine : Node2D
 	{
 		List<GameHandler> allHandlers = new List<GameHandler>();
 		
-		allHandlers.Add(GetNode<MapHandler>("./MapHandler"));
-		allHandlers.Add(GetNode<ArmyHandler>("./ArmyHandler"));
 		allHandlers.Add(GetNode<SelectorBoxHandler>("./SelectionHandler"));
+		allHandlers.Add(GetNode<ArmyHandler>("./ArmyHandler"));
+		allHandlers.Add(GetNode<MapHandler>("./MapHandler"));
+		
+
+		foreach (var handler in allHandlers)
+		{
+			handler.ToGUIEvent += InvokeToGUIEvent;
+		}
 		
 		AllHandlersControls = new CallStack(allHandlers);
 		
-		Image map = GD.Load("res://Sprites/map.png") as Image;
+		var map = Image.LoadFromFile("res://Sprites/map.png");
+		
 		Scenario scenario = new DemoScenario(map);
 		MapInfo = new MapData(scenario);
 
 
 		Camera = GetNode<CameraBehaviour>("./Camera");
 		Camera.ChangeZoom += ViewModeChange;
+
+		GUIHandler = GetNode<GUI>("CanvasLayer/GUI");
+		GUIHandler.GUIGlobalEvent += GUIEventHandler;
+		GUIHandler.Init();
+		
 		
 		AllHandlersControls.Init(MapInfo);
 		
@@ -49,14 +64,43 @@ public partial class GlobalStrategyEngine : Node2D
 	public void TimeTick()
 	{
 		AllHandlersControls.TimeTick();
+		InvokeToGUIEvent(new ToGUISetDateEvent(MapInfo.Scenario.Date));
 		_timer.Start();
 	}
-
-	public override void _UnhandledInput(InputEvent @event)
+	public override void _UnhandledInput  (InputEvent @event)
 	{
 		Camera.InputHandle(@event);
-		var tileId = _findTile();		
+		var tileId = _findTile();
 		AllHandlersControls.InputHandle(@event, tileId);
+	}
+
+	public void GUIEventHandler(GUIEvent @event)
+	{
+		switch (@event)
+		{
+			case GUIChangeMapType e:
+				MapInfo.CurrentMapMode = e.NewMapType;
+				ViewModeChange();
+				return;
+			case GUIPauseStateEvent e:
+				if (e.IsPaused)
+				{
+					_timer.Stop();
+				}
+				else
+				{
+					_timer.Start();
+				}
+				return;
+			default:
+				AllHandlersControls.GUIInteractionHandler(@event);
+				return;
+		}
+	}
+
+	public void InvokeToGUIEvent(ToGUIEvent @event)
+	{
+		GUIHandler.ToGUIEventHandler(@event);
 	}
 	
 	private int _findTile()

@@ -1,0 +1,73 @@
+[gd_scene load_steps=4 format=3 uid="uid://dvoue6tv3eufp"]
+
+[ext_resource type="Texture2D" uid="uid://cl6ct65sf2h4y" path="res://Sprites/GameDate.png" id="1_7bot5"]
+[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUITimeWindow.cs" id="1_38y6p"]
+[ext_resource type="Texture2D" uid="uid://dlb81vrmrgbsi" path="res://Sprites/Pause.png" id="2_wv6ef"]
+
+[node name="GuiTimeWindow" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_38y6p")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+size_flags_horizontal = 4
+alignment = 2
+
+[node name="GameDate" type="Sprite2D" parent="HBoxContainer2"]
+texture_filter = 1
+position = Vector2(-98, 47)
+scale = Vector2(0.987315, 0.987315)
+texture = ExtResource("1_7bot5")
+
+[node name="DateLabel" type="Label" parent="HBoxContainer2/GameDate"]
+texture_filter = 1
+anchors_preset = -1
+anchor_left = -0.000952759
+anchor_top = 0.00282654
+anchor_right = 0.244047
+anchor_bottom = 0.00282654
+offset_left = -75.7731
+offset_top = -22.5653
+offset_right = -42.7731
+offset_bottom = 3.43469
+text = "01.01.1800"
+metadata/_edit_use_anchors_ = true
+
+[node name="PauseLabel" type="Label" parent="HBoxContainer2/GameDate"]
+texture_filter = 1
+offset_left = 20.257
+offset_top = -23.2955
+offset_right = 71.257
+offset_bottom = 28.7045
+text = "Pause"
+metadata/_edit_use_anchors_ = true
+
+[node name="PauseSprite" type="Sprite2D" parent="HBoxContainer2/GameDate"]
+visible = false
+texture_filter = 1
+position = Vector2(-862.947, 107.362)
+scale = Vector2(2.01778, 2.32639)
+texture = ExtResource("2_wv6ef")
+
+[node name="PauseButton" type="Button" parent="HBoxContainer2/GameDate"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = -1
+anchor_left = 0.565
+anchor_top = 0.211
+anchor_right = 0.869
+anchor_bottom = 0.635
+offset_left = -100.0
+offset_top = -54.1
+offset_right = -98.8
+offset_bottom = -48.5
+
+[connection signal="pressed" from="HBoxContainer2/GameDate/PauseButton" to="." method="_onPauseButtonPressed"]
