@@ -2,25 +2,17 @@ using Godot;
 
 namespace EuropeDominationDemo.Scripts.Math;
 
-public readonly struct Line
+public readonly record struct Line(Vector2 Point0, Vector2 Dir)
 {
-    public readonly Vector2 Point0, Dir;
-
-    public Line(Vector2 p0, Vector2 dir)
-    {
-        Point0 = p0;
-        Dir = dir;
-    }
-
     public Vector2 GetIntersection(Line other)
     {
-        var intersection = Godot.Geometry2D.LineIntersectsLine(Point0, Dir, other.Point0, other.Dir);
+        var intersection = Geometry2D.LineIntersectsLine(Point0, Dir, other.Point0, other.Dir);
         return intersection.AsVector2();
     }
 
-    public Line getPerpendicularAt(float t) {
+    public Line GetPerpendicularAt(float t) {
         var p = Point0 + t * Dir;
-        return new Line(p, getPerpendicular(Dir));
+        return new Line(p, Dir.GetPerpendicular());
     }
 
     public bool IsParallelToApprox(Line other) {
@@ -31,7 +23,8 @@ public readonly struct Line
         return Mathf.Abs((point - Point0).Cross(Dir)) < 0.00001f;
     }
 
-    static Vector2 getPerpendicular(Vector2 v) {
-        return new Vector2(v.Y, -v.X);
+    public Line Translated(in Vector2 delta)
+    {
+        return new Line(Point0 + delta, Dir);
     }
 }

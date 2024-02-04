@@ -1,6 +1,6 @@
+using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
 using Godot;
-using Utils = EuropeDominationDemo.Scripts.Math.Utils;
 
 namespace EuropeDominationDemo.Scripts.Units;
 
@@ -41,7 +41,7 @@ public partial class PathHandler : Node2D
 		for (int i = unit.Path.Count - 2; i > -1; i--)
 		{
 			var arrow = _pathArrowScene.Instantiate() as PathArrow;
-			arrow.GlobalPosition = Utils.VectorCenter(map.Scenario.Map[unit.Path[i + 1]].CenterOfWeight, map.Scenario.Map[unit.Path[i]].CenterOfWeight) / unit.Scale;
+			arrow.GlobalPosition = MathUtils.VectorCenter(map.Scenario.Map[unit.Path[i + 1]].CenterOfWeight, map.Scenario.Map[unit.Path[i]].CenterOfWeight) / unit.Scale;
 			
 			arrow.LookAt(map.Scenario.Map[unit.Path[i + 1]].CenterOfWeight / unit.Scale);
 			AddChild(arrow);

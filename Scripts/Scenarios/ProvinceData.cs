@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using Godot;
@@ -11,7 +11,7 @@ public class ProvinceData
 	public readonly string Name;
 	public int Owner;
 	public Vector2 CenterOfWeight;
-	public int[] BorderProvinces;
+	public int[] BorderderingProvinces;
 	public int Development;
 
 	public float[] Resources;
@@ -62,7 +62,7 @@ public class ProvinceData
 		this.Resources = resources;
 		this.Buildings = buildings;
 
-		this.BorderProvinces = new int[] { };
+		this.BorderderingProvinces = new int[] { };
 		this.Good = good;
 
 		this.Modifiers = modifiers;

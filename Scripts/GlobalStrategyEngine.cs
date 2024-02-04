@@ -109,7 +109,7 @@ public partial class GlobalStrategyEngine : Node2D
 		var iMousePos = new Vector2I((int)(mousePos.X), (int)(mousePos.Y));
 		if (!MapInfo.Scenario.MapTexture.GetUsedRect().HasPoint(iMousePos)) return -3;
 		
-		var tileId = GameMath.GetProvinceID(MapInfo.Scenario.MapTexture.GetPixelv(iMousePos));
+		var tileId = GameMath.GetProvinceId(MapInfo.Scenario.MapTexture.GetPixelv(iMousePos));
 
 		if (tileId < 0 || tileId >= MapInfo.Scenario.Map.Length)
 			return -3;

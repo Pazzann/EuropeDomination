@@ -4,67 +4,53 @@ using System.Collections.Generic;
 namespace EuropeDominationDemo.Scripts.Math;
 
 public class Polygon {
-	private List<Vector2> vertices;
+	private readonly List<Vector2> _vertices = new();
 
-	public IList<Vector2> Vertices {
-		get => vertices.AsReadOnly();
-	}
-
-	public Polygon() {
-		vertices = new List<Vector2>();
-	}
+	public IList<Vector2> Vertices => _vertices.AsReadOnly();
 
 	public void AddVertex(Vector2 vertex) {
-		vertices.Add(vertex);
+		_vertices.Add(vertex);
 	}
 
 	public void SortVertices() {
-		if (!Godot.Geometry2D.IsPolygonClockwise(vertices.ToArray()))
-			vertices.Reverse();
-
-		Debug.Assert(Godot.Geometry2D.IsPolygonClockwise(vertices.ToArray()));
+		if (!Geometry2D.IsPolygonClockwise(_vertices.ToArray()))
+			_vertices.Reverse();
 	}
 
-	public bool Intersects(ThickArc arc) {
-		return Intersects(arc.Lower) || Intersects(arc.Upper) || Intersects(arc.Side1) || Intersects(arc.Side2);
-	}
+	// public bool Intersects(in Segment segment) {
+	// 	for (var i = 0; i < _vertices.Count - 1; ++i) {
+	// 		if (segment.Intersects(new Segment(_vertices[i], _vertices[i + 1])))
+	// 			return true;
+	// 	}
+	//
+	// 	return segment.Intersects(new Segment(_vertices[0], _vertices[Vertices.Count - 1]));
+	// }
 
-	public bool Intersects(Arc arc) {
-		for (int i = 0; i < vertices.Count - 1; ++i) {
-			if (arc.Intersects(new Segment(vertices[i], vertices[i + 1])))
+	public bool Intersects<T>(in T path) where T : IPath
+	{
+		for (var i = 0; i < _vertices.Count - 1; ++i)
+		{
+			var edge = new Segment(_vertices[i], _vertices[i + 1]);
+			
+			if (path.Intersects(edge))
 				return true;
 		}
-
-		if (arc.Intersects(new Segment(vertices[0], vertices[Vertices.Count - 1])))
-			return true;
 
 		return false;
 	}
 
-	public bool Intersects(Segment segment) {
-		for (int i = 0; i < vertices.Count - 1; ++i) {
-			if (segment.Intersects(new Segment(vertices[i], vertices[i + 1])))
-				return true;
-		}
-
-		if (segment.Intersects(new Segment(vertices[0], vertices[Vertices.Count - 1])))
-			return true;
-
-		return false;
-	}
-
-	public bool isPointInsidePolygon(Vector2 point) {
-		var segment = new Segment(point, point + new Vector2(10000f, 10000f));
-		var intersectionCount = 0;
-
-		for (int i = 0; i < vertices.Count - 1; ++i) {
-			if (segment.Intersects(new Segment(vertices[i], vertices[i + 1])))
-				intersectionCount++;
-		}
-
-		if (segment.Intersects(new Segment(vertices[0], vertices[Vertices.Count - 1])))
-			intersectionCount++;
-
-		return intersectionCount % 2 == 1;
-	}
+	// public bool IsPointInsidePolygon(Vector2 point) {
+	// 	var segment = new Segment(point, point + new Vector2(10000f, 10000f));
+	// 	var intersectionCount = 0;
+	//
+	// 	for (int i = 0; i < _vertices.Count - 1; ++i) {
+	// 		if (segment.Intersects(new Segment(_vertices[i], _vertices[i + 1])))
+	// 			intersectionCount++;
+	// 	}
+	//
+	// 	if (segment.Intersects(new Segment(_vertices[0], _vertices[Vertices.Count - 1])))
+	// 		intersectionCount++;
+	//
+	// 	return intersectionCount % 2 == 1;
+	// }
 }

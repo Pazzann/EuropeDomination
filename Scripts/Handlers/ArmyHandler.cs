@@ -54,18 +54,18 @@ public partial class ArmyHandler : GameHandler
 					}
 
 					armyUnit.NewPath(
-						PathFinder.FindWayFromAToB(armyUnit.Data.CurrentProvince, tileId,  _mapData.Scenario));
+						PathFinder.FindPathFromAToB(armyUnit.Data.CurrentProvince, tileId,  _mapData.Scenario));
 				}
 			else
 				foreach (var armyUnit in _mapData.CurrentSelectedUnits)
 				{
 					if (armyUnit.Path.Count == 0)
 					{
-						armyUnit.NewPath(PathFinder.FindWayFromAToB(armyUnit.Data.CurrentProvince, tileId,  _mapData.Scenario));
+						armyUnit.NewPath(PathFinder.FindPathFromAToB(armyUnit.Data.CurrentProvince, tileId,  _mapData.Scenario));
 						return false;
 					}
 					armyUnit.AddPath(
-						PathFinder.FindWayFromAToB(armyUnit.Path[0], tileId, _mapData.Scenario));
+						PathFinder.FindPathFromAToB(armyUnit.Path[0], tileId, _mapData.Scenario));
 				}
 
 			return false;
