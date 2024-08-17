@@ -10,7 +10,7 @@ const float thickness = 1.0f;
 
 
 int provinceID(vec3 color){
-	return int((color.r + color.g*256.0f)*255.0f) - 1;
+	return int((color.r + color.g*256.0f + color.b*256.0f*256.0f)*255.0f) - 1;
 }
 
 vec4 colorForProvince(vec3 color){

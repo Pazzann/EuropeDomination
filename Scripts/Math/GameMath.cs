@@ -10,7 +10,7 @@ public class GameMath
 {
     public static int GetProvinceId(Color color)
     {
-        return (int)((color.R + color.G * 256.0f) * 255.0f) - 1;
+        return (int)((color.R + color.G * 256.0f + color.B * 256.0f * 256.0f) * 255.0f) - 1;
     }
 
     public static Vector2[] CalculateCenterOfProvinceWeight(Image mapTexture, int provinceCount)
