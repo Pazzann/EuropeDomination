@@ -1,14 +1,14 @@
 [gd_scene load_steps=5 format=3 uid="uid://cmlwtmi3kr8pe"]
 
-[ext_resource type="Texture2D" uid="uid://c5dahtyolxofn" path="res://icon.svg" id="1_1h84s"]
 [ext_resource type="Script" path="res://Scripts/Units/ArmyUnit.cs" id="1_mwmb8"]
 [ext_resource type="PackedScene" uid="uid://131wbsnepnwu" path="res://Prefabs/PathHandler.tscn" id="3_k617r"]
+[ext_resource type="Texture2D" uid="uid://88yvgpg0gtnh" path="res://Sprites/Units/FrenchGrenadier.png" id="3_rlhmj"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ox8da"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_1h84s")
+"texture": ExtResource("3_rlhmj")
 }],
 "loop": true,
 "name": &"Army",
@@ -19,14 +19,9 @@ animations = [{
 scale = Vector2(0.1, 0.1)
 script = ExtResource("1_mwmb8")
 
-[node name="IsSelected" type="Sprite2D" parent="."]
-visible = false
-modulate = Color(0.223529, 0.533333, 0.278431, 1)
-position = Vector2(-1.90735e-06, 7.15256e-06)
-scale = Vector2(1.40625, 1.40625)
-texture = ExtResource("1_1h84s")
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_ox8da")
 animation = &"Army"
 

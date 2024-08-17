@@ -117,4 +117,3 @@ public partial class GlobalStrategyEngine : Node2D
 		return tileId;
 	}
 }
-

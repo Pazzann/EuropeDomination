@@ -12,7 +12,7 @@ public partial class ArmyUnit : Node2D
 	public ArmyUnitData Data;
 	private MapData _mapData; 
 	
-	private Sprite2D _selectionSprite;
+
 	private AnimatedSprite2D _armyUnitSprite;
 
 	private PathHandler _pathHandler;
@@ -24,10 +24,13 @@ public partial class ArmyUnit : Node2D
 	{
 		get => _isSelected;
 		set
-		{ 
-			_selectionSprite.Visible = value;
+		{
+			if (value)
+				_armyUnitSprite.SelfModulate = new Color(0, 1, 0);
+			else
+				_armyUnitSprite.SelfModulate = new Color(1, 1, 1);
 			_pathHandler.Visible = value;
-			_isSelected = value;
+			
 		} 
 	}
 
@@ -67,9 +70,8 @@ public partial class ArmyUnit : Node2D
 	
 	public override void _Ready()
 	{
-		_selectionSprite = GetChild(0) as Sprite2D;
-		_armyUnitSprite = GetChild(1) as AnimatedSprite2D;
-		_pathHandler = GetChild(2) as PathHandler;
+		_armyUnitSprite = GetChild(0) as AnimatedSprite2D;
+		_pathHandler = GetChild(1) as PathHandler;
 		_pathHandler.Setup(this);
 	}
 
@@ -101,4 +103,3 @@ public partial class ArmyUnit : Node2D
 	}
 	
 }
-

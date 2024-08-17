@@ -11,7 +11,7 @@ public partial class CameraBehaviour : Camera2D
 		
 		private Vector2 _zoom;
 		private Vector2 _cameraPosition;
-		private float _maxZoom = 5f;
+		private float _maxZoom = 10f;
 		private float _minZoom = 0.3f;
 		private float _zoomChangeSpeed = 0.05f;
 		private float _zoomMovement = 20.0f;
