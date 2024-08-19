@@ -26,7 +26,7 @@ public class EuropeScenario : Scenario
             { 0, new CountryData(0, "Great Britain", new Vector3(0.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers()) },
             { 1, new CountryData(1, "France", new Vector3(0.0f, 0.0f, 1.0f), Modifiers.DefaultModifiers()) },
             { 2, new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers()) },
-            { 3, new CountryData(3, "Uncolonized", new Vector3(1.0f, 1.0f, 1.0f), Modifiers.DefaultModifiers()) },
+            { 3, new CountryData(3, "Uncolonized", new Vector3(0.7f, 1.0f, 1.0f), Modifiers.DefaultModifiers()) },
             { 4, new CountryData(4, "Wasteland", new Vector3(1.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers()) },
             { 5, new CountryData(5, "Water Wasteland", new Vector3(0.0f, 0.5f, 1.0f), Modifiers.DefaultModifiers()) },
             { 6, new CountryData(6, "Water", new Vector3(0.2f, 0.5f, 1.0f), Modifiers.DefaultModifiers()) }
