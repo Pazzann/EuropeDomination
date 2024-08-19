@@ -3,163 +3,312 @@ using System.Linq;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
 using Godot;
-using static System.Math;
 
 namespace EuropeDominationDemo.Scripts.Text;
 
 public class StateMap
 {
-	private const int MaxVerticesPerHull = 30;
+    //private const int MaxVerticesPerHull = 30;
 
-	private readonly IDictionary<int, Polygon> _states = new Dictionary<int, Polygon>();
-	private readonly int[,] _stateId;
+    private readonly Dictionary<int, List<Polygon>> _stateContours;
+    private readonly int[,] _stateId;
 
-	private readonly int _mapWidth, _mapHeight;
+    private readonly int _mapWidth, _mapHeight;
 
-	public StateMap(MapData mapData, Image mapImage)
-	{
-		var countries = mapData.Scenario.Countries;
+    public StateMap(MapData mapData, Image mapImage)
+    {
+        var countries = mapData.Scenario.Countries;
 
-		var stateProvinces = new Dictionary<int, HashSet<int>>();
-		var provinceStates = new Dictionary<int, int>();
+        var stateProvinces = new Dictionary<int, HashSet<int>>();
+        var provinceToState = new Dictionary<int, int>();
 
-		foreach (var entry in countries)
-			stateProvinces.Add(entry.Value.Id, GameMath.ListIdsFromProvinces(mapData.Scenario.CountryProvinces(entry.Value.Id)));
+        foreach (var entry in countries)
+        {
+            var provinces = GameMath.ListIdsFromProvinces(mapData.Scenario.CountryProvinces(entry.Value.Id));
+            stateProvinces.Add(entry.Value.Id, provinces);
+        }
 
-		var provinceStateQuery = 
-			from entry in stateProvinces
-			from province in entry.Value
-			select (province, entry.Key);
+        var provinceStateQuery =
+            from entry in stateProvinces
+            from province in entry.Value
+            select (province, entry.Key);
 
-		foreach (var (province, state) in provinceStateQuery) {
-			provinceStates.Add(province, state);
-		}
+        foreach (var (province, state) in provinceStateQuery)
+        {
+            provinceToState.Add(province, state);
+        }
 
-		_mapWidth = mapImage.GetWidth();
-		_mapHeight = mapImage.GetHeight();
+        _mapWidth = mapImage.GetWidth();
+        _mapHeight = mapImage.GetHeight();
 
-		int GetStateId(int x, int y, int def, float eps = 0.01f)
-		{
-			if (x < 0 || x >= _mapWidth || y < 0 || y >= _mapHeight)
-				return def;
-			
-			var color = mapImage.GetPixel(x, y);
+        _stateId = new int[_mapWidth, _mapHeight];
+        _stateContours = new Dictionary<int, List<Polygon>>();
 
-			// Special case for border & void pixels
-			if (Mathf.Abs(color.A - 1f) > eps) 
-				return def;
+        BuildContours(mapImage, provinceToState);
+    }
 
-			var provinceId = GameMath.GetProvinceId(color);
-			return provinceId < 0 ? def : provinceStates[provinceId];
-		}
+    public IReadOnlyList<Polygon> GetStateContours(int state)
+    {
+        return _stateContours[state];
+    }
 
-		var isOnBorder = new bool[_mapWidth, _mapHeight];
-		_stateId = new int[_mapWidth, _mapHeight];
+    public int GetStateId(Vector2I pos)
+    {
+        if (!IsInBounds(pos))
+            return -1;
 
-		var firstStateCell = new Dictionary<int, Vector2I>();
+        return _stateId[pos.X, pos.Y];
+    }
 
-		for (var i = 0; i < mapImage.GetHeight(); ++i) {
-			for (var j = 0; j < mapImage.GetWidth(); ++j) {
-				var curState = GetStateId(j, i, -1);
-				_stateId[j, i] = curState;
+    private void BuildContours(Image map, IReadOnlyDictionary<int, int> provinceToState)
+    {
+        for (var i = 0; i < _mapWidth; ++i)
+        {
+            for (var j = 0; j < _mapHeight; ++j)
+            {
+                if (i < 0 || i >= _mapWidth || j < 0 || j >= _mapHeight)
+                {
+                    _stateId[i, j] = -1;
+                    continue;
+                }
 
-				if (curState == -1)
-					continue;
+                var color = map.GetPixel(i, j);
 
-				var neighbors = new Vector2I[] {
-					new(j + 1, i),
-					new(j, i + 1),
-					new(j - 1, i),
-					new(j, i - 1),
-					new(j + 1, i - 1),
-					new(j - 1, i + 1),
-					new(j + 1, i + 1),
-					new(j - 1, i - 1)
-				};
+                if (Mathf.Abs(color.A - 1f) > 0.01f)
+                {
+                    _stateId[i, j] = -1;
+                    continue;
+                }
 
-				var borderDegree = 0;
-				
-				foreach (var neighbor in neighbors) {
-					if (GetStateId(neighbor.X, neighbor.Y, curState) != curState || GetStateId(neighbor.X, neighbor.Y, -1) == -1) {
-						borderDegree++;
-					}
-				}
+                var provinceId = GameMath.GetProvinceId(color);
+                _stateId[i, j] = provinceToState[provinceId];
+            }
+        }
+        
+        var isOnBorder = new bool[_mapWidth, _mapHeight];
+        
+        for (var i = 0; i < _mapWidth; ++i)
+        {
+            for (var j = 0; j < _mapHeight; ++j)
+            {
+                if (_stateId[i, j] == -1)
+                    continue;
+                
+                var neighbors = new Vector2I[]
+                {
+                    new(i + 1, j),
+                    new(i, j + 1),
+                    new(i - 1, j),
+                    new(i, j - 1),
+                    new(i + 1, j - 1),
+                    new(i - 1, j + 1),
+                    new(i + 1, j + 1),
+                    new(i - 1, j - 1)
+                };
+                
+                if (neighbors.Any(neighbor => GetStateId(neighbor) != _stateId[i, j]))
+                {
+                    isOnBorder[i, j] = true;
+                }
+            }
+        }
 
-				if (borderDegree >= 1) {
-					isOnBorder[j, i] = true;
+        var graph = new Dictionary<Vector2I, HashSet<Vector2I>>();
 
-					if (!firstStateCell.ContainsKey(curState))
-						firstStateCell.Add(curState, new Vector2I(j, i));
-				}
-			}
-		}
+        for (var i = 0; i < _mapWidth; ++i)
+        {
+            for (var j = 0; j < _mapHeight; ++j)
+            {
+                if (_stateId[i, j] == -1)
+                    continue;
+                
+                var neighbors = new Vector2I[]
+                {
+                    new(i + 1, j),
+                    new(i, j + 1),
+                    new(i - 1, j),
+                    new(i, j - 1),
+                    new(i + 1, j - 1),
+                    new(i - 1, j + 1),
+                    new(i + 1, j + 1),
+                    new(i - 1, j - 1)
+                };
 
-		var stateBorders = new Dictionary<int, List<Vector2I>>();
-		var visited = new bool[_mapWidth, _mapHeight];
+                if (isOnBorder[i, j])
+                {
+                    foreach (var neighbor in neighbors)
+                    {
+                        if (GetStateId(neighbor) == _stateId[i, j] && isOnBorder[neighbor.X, neighbor.Y])
+                        {
+                            graph.TryAdd(new Vector2I(i, j), new HashSet<Vector2I>());
+                            graph[new Vector2I(i, j)].Add(neighbor);
 
-		foreach (var entry in firstStateCell) {
-			stateBorders.Add(entry.Key, new List<Vector2I>());
+                            //graph.TryAdd(neighbor, new HashSet<Vector2I>());
+                        }
+                    }
+                }
+            }
+        }
 
-			var stack = new Stack<Vector2I>();
-			stack.Push(entry.Value);
+        var component = new int[_mapWidth, _mapHeight];
 
-			while (stack.Count != 0) {
-				var (x, y) = stack.Pop();
+        for (var i = 0; i < _mapWidth; ++i)
+        {
+            for (var j = 0; j < _mapHeight; ++j)
+            {
+                if (_stateId[i, j] == -1)
+                    continue;
+                
+                component[i, j] = i * _mapHeight + j;
+            }
+        }
 
-				stateBorders[entry.Key].Add(new Vector2I(x, y));
-				visited[x, y] = true;
+        var dsu = new Dsu(_mapWidth * _mapHeight);
 
-				var neighbors = new Vector2I[] {
-					new(x + 1, y),
-					new(x, y + 1),
-					new(x - 1, y),
-					new(x, y - 1),
-					new(x + 1, y - 1),
-					new(x - 1, y + 1),
-					new(x + 1, y + 1),
-					new(x - 1, y - 1)
-				};
+        for (var i = 0; i < _mapWidth; ++i)
+        {
+            for (var j = 0; j < _mapHeight; ++j)
+            {
+                if (_stateId[i, j] == -1)
+                    continue;
+                
+                var neighbors = new Vector2I[]
+                {
+                    new(i + 1, j),
+                    new(i, j + 1),
+                    new(i - 1, j),
+                    new(i, j - 1),
+                    new(i + 1, j - 1),
+                    new(i - 1, j + 1),
+                    new(i + 1, j + 1),
+                    new(i - 1, j - 1)
+                };
 
-				foreach (var neighbor in neighbors) {
-					var (nx, ny) = neighbor;
+                foreach (var neighbor in neighbors)
+                {
+                    if (GetStateId(neighbor) == _stateId[i, j])
+                    {
+                        dsu.Union(component[i, j], component[neighbor.X, neighbor.Y]);
+                    }
+                }
+            }
+        }
 
-					if (nx >= 0 && nx < _mapWidth && ny >= 0 && ny < _mapHeight && !visited[nx, ny] && isOnBorder[nx, ny] && _stateId[x, y] == _stateId[nx, ny])
-						stack.Push(new Vector2I(nx, ny));
-				}
-			}
-		}
+        for (var i = 0; i < _mapWidth; ++i)
+        {
+            for (var j = 0; j < _mapHeight; ++j)
+            {
+                if (_stateId[i, j] == -1)
+                    continue;
+                
+                component[i, j] = dsu.Find(component[i, j]);
+            }
+        }
 
-		foreach (var (key, points) in stateBorders) {
-			var step = Max(1, points.Count / MaxVerticesPerHull);
-			var hull = new Polygon();
+        var start = new Dictionary<int, Vector2I>();
 
-			for (var i = 0; i < points.Count; i += step) {
-				var sum = new Vector2();
-				var clusterSize = Min(step, points.Count - i);
+        foreach (var vertex in graph.Keys.Where(vertex => !start.ContainsKey(component[vertex.X, vertex.Y])))
+        {
+            start.Add(component[vertex.X, vertex.Y], vertex);
+        }
 
-				for (var j = i; j < i + clusterSize; ++j)
-					sum += new Vector2(points[j].X, points[j].Y);
+        var stack = new Stack<Vector2I>();
+        var visited = new HashSet<Vector2I>();
 
-				hull.AddVertex(sum / clusterSize);
-			}
+        var hulls = new Dictionary<int, List<Vector2I>>();
 
-			hull.SortVertices();
-			_states.Add(key, hull);
-		}
-	}
+        foreach (var vertex in start.Values)
+            stack.Push(vertex);
 
-	public Polygon GetStateBorder(int state) {
-		return _states[state];
-	}
+        while (stack.Count > 0)
+        {
+            var vertex = stack.Pop();
+            var (x, y) = vertex;
 
-	public int GetState(Vector2 pos)
-	{
-		var x = Mathf.RoundToInt(pos.X);
-		var y = Mathf.RoundToInt(pos.Y);
+            hulls.TryAdd(component[x, y], new List<Vector2I>());
+            hulls[component[x, y]].Add(vertex);
 
-		if (x < 0 || x >= _mapWidth || y < 0 || y >= _mapHeight)
-			return -1;
-		
-		return _stateId[x, y];
-	}
+            foreach (var neighbor in graph[vertex].Where(neighbor => !visited.Contains(neighbor)))
+            {
+                stack.Push(neighbor);
+                visited.Add(neighbor);
+            }
+        }
+
+        var mapArea = _mapWidth * _mapWidth;
+
+        GD.Print("cc: ", hulls.Count);
+
+        foreach (var hull in hulls.Values)
+        {
+            if (hull.Count == 0)
+                continue;
+
+            var state = _stateId[hull[0].X, hull[0].Y];
+
+            if ((float)hull.Count / mapArea < 1e-4f)
+                continue;
+
+            //GD.Print("cnt: ", hull.Count);
+
+            var clusterSize = hull.Count / 30;
+
+            if (clusterSize == 0)
+                clusterSize = 1;
+
+            var vertices = hull
+                .Where((_, i) => i % clusterSize == 0)
+                .Select(vertex => new Vector2(vertex.X, vertex.Y));
+
+            _stateContours.TryAdd(state, new List<Polygon>());
+            _stateContours[state].Add(new Polygon(vertices));
+        }
+    }
+
+    private bool IsInBounds(Vector2I pixel)
+    {
+        return pixel.X >= 0 && pixel.X < _mapWidth && pixel.Y >= 0 && pixel.Y < _mapHeight;
+    }
+}
+
+internal class Dsu
+{
+    private readonly int[] _parent;
+    private readonly int[] _size;
+
+    public Dsu(int nodeCount)
+    {
+        _parent = new int[nodeCount];
+        _size = new int[nodeCount];
+
+        for (var i = 0; i < nodeCount; ++i)
+        {
+            _parent[i] = i;
+            _size[i] = 1;
+        }
+    }
+
+    public int Find(int node)
+    {
+        if (_parent[node] == node)
+            return node;
+
+        _parent[node] = Find(_parent[node]);
+        return _parent[node];
+    }
+
+    public void Union(int a, int b)
+    {
+        a = Find(a);
+        b = Find(b);
+
+        if (a == b)
+            return;
+
+        if (_size[a] < _size[b])
+            (a, b) = (b, a);
+
+        _size[a] += _size[b];
+        _parent[b] = a;
+    }
 }

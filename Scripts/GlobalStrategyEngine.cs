@@ -48,7 +48,6 @@ public partial class GlobalStrategyEngine : Node2D
 		GUIHandler.GUIGlobalEvent += GUIEventHandler;
 		GUIHandler.Init();
 		
-		
 		AllHandlersControls.Init(MapInfo);
 		
 		_timer = GetNode<Timer>("./DayTimer");

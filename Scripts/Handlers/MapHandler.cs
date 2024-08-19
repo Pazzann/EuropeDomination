@@ -178,15 +178,18 @@ public partial class MapHandler : GameHandler
 			if (provinces.Length == 0)
 				continue;
 
-			var textNode = _textScene.Instantiate() as CurvedLabel;
+			var texts = new TextSolver(stateMap, data.Value.Name, data.Value.Id, 0.5f).FitText();
 
-			var f = Time.GetTicksMsec();
+			foreach (var text in texts)
+			{
+				var textNode = _textScene.Instantiate() as CurvedLabel;
+				textNode.Text = text;
+				_textSpawner.AddChild(textNode);
+			}
+
+			//var f = Time.GetTicksMsec();
 			
-			textNode.Text = new TextSolver(stateMap, data.Value.Name, data.Value.Id, 0.5f).FitText();
-			
-			GD.Print(Time.GetTicksMsec() - f);
-			
-			_textSpawner.AddChild(textNode);
+			//GD.Print(Time.GetTicksMsec() - f);
 		}
 	}
 

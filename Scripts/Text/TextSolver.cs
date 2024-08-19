@@ -1,4 +1,6 @@
-﻿using EuropeDominationDemo.Scripts.Math;
+﻿using System.Collections.Generic;
+using System.Linq;
+using EuropeDominationDemo.Scripts.Math;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Text;
@@ -13,7 +15,7 @@ public class TextSolver
     };
 
     private readonly StateMap _map;
-    private readonly Polygon _border;
+    private readonly IReadOnlyList<Polygon> _contours;
 
     private readonly int _stateId;
     private readonly string _text;
@@ -22,15 +24,20 @@ public class TextSolver
     public TextSolver(StateMap map, string text, int stateId, float letterAspectRatio)
     {
         _map = map;
-        _border = map.GetStateBorder(stateId);
+        _contours = map.GetStateContours(stateId);
         _stateId = stateId;
         _text = text;
         _letterAspectRatio = letterAspectRatio;
     }
-    
-    public CurvedText FitText(float eps = 0.1f)
+
+    public List<CurvedText> FitText(float eps = 0.1f)
     {
-        var borderVertices = _border.Vertices;
+        return _contours.Select(contour => FitText(contour, eps)).ToList();
+    }
+    
+    private CurvedText FitText(Polygon contour, float eps)
+    {
+        var borderVertices = contour.Vertices;
         
         var bestFontSize = 0f;
         var bestPath = new SolidPath<Sector>(new Sector(), 0f);
@@ -52,13 +59,13 @@ public class TextSolver
                     var (sector1, sector2) = Sector.WithAngle(p0, p1, angle);
                     float fontSize;
 
-                    if ((fontSize = FindPath(sector1, ref path, eps)) - bestFontSize > eps)
+                    if ((fontSize = FindPath(contour, sector1, ref path, eps)) - bestFontSize > eps)
                     {
                         bestFontSize = fontSize;
                         (bestPath, path) = (path, bestPath);
                     }
                     
-                    if ((fontSize = FindPath(sector2, ref path, eps)) - bestFontSize > eps)
+                    if ((fontSize = FindPath(contour, sector2, ref path, eps)) - bestFontSize > eps)
                     {
                         bestFontSize = fontSize;
                         (bestPath, path) = (path, bestPath);
@@ -70,8 +77,8 @@ public class TextSolver
         GD.Print("font size: ", bestFontSize);
         return new CurvedText(_text, bestFontSize, bestPath);
     }
-
-    private float FindPath(in Sector sector, ref SolidPath<Sector> path, float eps)
+    
+    private float FindPath(Polygon contour, in Sector sector, ref SolidPath<Sector> path, float eps)
     {
         var minFontSize = 1f;
         var maxFontSize = 50f;
@@ -81,7 +88,7 @@ public class TextSolver
             var fontSize = (minFontSize + maxFontSize) / 2;
             var letterSize = new Vector2(_letterAspectRatio * fontSize, fontSize);
             
-            if (TryFitText(sector, letterSize, ref path))
+            if (TryFitText(contour, sector, letterSize, ref path))
                 minFontSize = fontSize;
             else
                 maxFontSize = fontSize;
@@ -89,10 +96,10 @@ public class TextSolver
 
         return minFontSize;
     }
-
-    private bool TryFitText(in Sector extendedSector, in Vector2 letterSize, ref SolidPath<Sector> path)
+    
+    private bool TryFitText(Polygon contour, in Sector extendedSector, in Vector2 letterSize, ref SolidPath<Sector> path)
     {
-        if (_map.GetState(extendedSector.GetPoint(0.5f)) != _stateId)
+        if (_map.GetStateId(extendedSector.GetPoint(0.5f).RoundToInt()) != _stateId)
             return false;
 
         var arcLength = extendedSector.ArcLength();
@@ -112,6 +119,6 @@ public class TextSolver
         path.Path = sector;
         path.Thickness = letterSize.Y;
         
-        return !_border.Intersects(path);
+        return !contour.Intersects(path);
     }
 }
