@@ -11,12 +11,20 @@ public class DemoScenario : Scenario
 {
 	public override Dictionary<int, CountryData> Countries { get; }
 	public sealed override List<ArmyUnitData> ArmyUnits { get; set; }
-	public sealed override ProvinceData[] Map { get; set; }
+	public sealed override ProvinceData.ProvinceData[] Map { get; set; }
 	public sealed override DateTime Date { get; set; }
 	public sealed override Image MapTexture { get; set; }
+	public override Dictionary<int, Vector3> WastelandProvinceColors { get; set; }
+	public override Vector3 WaterColor { get; set; }
+	public override Vector3 UncolonizedColor { get; set; }
 
 	public DemoScenario(Image mapTexture)
 	{
+		WastelandProvinceColors = new Dictionary<int, Vector3>()
+		{
+		};
+		WaterColor = new Vector3(0.2f, 0.5f, 1.0f);
+		UncolonizedColor = new Vector3(0.7f, 1.0f, 1.0f);
 		MapTexture = mapTexture;
 		
 		Date = new DateTime(1444, 11, 12);
@@ -28,22 +36,22 @@ public class DemoScenario : Scenario
 			{ 2, new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers())}
 		};
 
-		Map = new ProvinceData[14]
+		Map = new ProvinceData.ProvinceData[14]
 		{
-			new ProvinceData(0, 0, "London", Terrain.Coast, Good.Iron, 1, new float[] {0, 2}, new List<Building>(), Modifiers.DefaultModifiers()),
-			new ProvinceData(1,  0, "London", Terrain.Field, Good.Iron, 2, new float[] {0, 1}, new List<Building>(), Modifiers.DefaultModifiers()),
-			new ProvinceData(2,  0, "London", Terrain.Field, Good.Iron, 1, new float[] {2, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
-			new ProvinceData(3,  0, "London", Terrain.Forest, Good.Iron, 1, new float[] {0, 3}, new List<Building>(), Modifiers.DefaultModifiers()),
-			new ProvinceData(4,  0, "London", Terrain.Plain, Good.Iron, 1, new float[] {4, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
-			new ProvinceData(5,  0, "Paris", Terrain.Plain, Good.Iron, 2, new float[] {0, 4}, new List<Building>(), Modifiers.DefaultModifiers()),
-			new ProvinceData(6,  1, "Lorem", Terrain.Plain, Good.Iron, 2, new float[] {3, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
-			new ProvinceData(7,  1, "FlashBang", Terrain.Plain, Good.Wheat, 1, new float[] {1, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
-			new ProvinceData(8,  1, "CommunistPigs", Terrain.Plain, Good.Wheat, 2, new float[] {0, 5}, new List<Building>(), Modifiers.DefaultModifiers()),
-			new ProvinceData(9,  2, "Berlin", Terrain.Mountains, Good.Wheat, 1, new float[] {5, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
-			new ProvinceData(10, 2, "LibertarianTown", Terrain.Mountains, Good.Wheat, 1, new float[] {6, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
-			new ProvinceData(11, 2, "Liberty", Terrain.Mountains, Good.Wheat, 1, new float[] {0, 6}, new List<Building>(), Modifiers.DefaultModifiers()),
-			new ProvinceData(12,  2, "NY", Terrain.Coast, Good.Wheat, 1, new float[] {7, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
-			new ProvinceData(13, 2, "Los Angeles", Terrain.Coast, Good.Wheat, 1, new float[] {0, 7}, new List<Building>(), Modifiers.DefaultModifiers()),
+			new ProvinceData.LandProvinceData(0, 0, "London", Terrain.Coast, Good.Iron, 1, new float[] {0, 2}, new List<Building>(), Modifiers.DefaultModifiers()),
+			new ProvinceData.LandProvinceData(1,  0, "London", Terrain.Field, Good.Iron, 2, new float[] {0, 1}, new List<Building>(), Modifiers.DefaultModifiers()),
+			new ProvinceData.LandProvinceData(2,  0, "London", Terrain.Field, Good.Iron, 1, new float[] {2, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
+			new ProvinceData.LandProvinceData(3,  0, "London", Terrain.Forest, Good.Iron, 1, new float[] {0, 3}, new List<Building>(), Modifiers.DefaultModifiers()),
+			new ProvinceData.LandProvinceData(4,  0, "London", Terrain.Plain, Good.Iron, 1, new float[] {4, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
+			new ProvinceData.LandProvinceData(5,  0, "Paris", Terrain.Plain, Good.Iron, 2, new float[] {0, 4}, new List<Building>(), Modifiers.DefaultModifiers()),
+			new ProvinceData.LandProvinceData(6,  1, "Lorem", Terrain.Plain, Good.Iron, 2, new float[] {3, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
+			new ProvinceData.LandProvinceData(7,  1, "FlashBang", Terrain.Plain, Good.Wheat, 1, new float[] {1, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
+			new ProvinceData.LandProvinceData(8,  1, "CommunistPigs", Terrain.Plain, Good.Wheat, 2, new float[] {0, 5}, new List<Building>(), Modifiers.DefaultModifiers()),
+			new ProvinceData.LandProvinceData(9,  2, "Berlin", Terrain.Mountains, Good.Wheat, 1, new float[] {5, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
+			new ProvinceData.LandProvinceData(10, 2, "LibertarianTown", Terrain.Mountains, Good.Wheat, 1, new float[] {6, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
+			new ProvinceData.LandProvinceData(11, 2, "Liberty", Terrain.Mountains, Good.Wheat, 1, new float[] {0, 6}, new List<Building>(), Modifiers.DefaultModifiers()),
+			new ProvinceData.LandProvinceData(12,  2, "NY", Terrain.Coast, Good.Wheat, 1, new float[] {7, 0}, new List<Building>(), Modifiers.DefaultModifiers()),
+			new ProvinceData.LandProvinceData(13, 2, "Los Angeles", Terrain.Coast, Good.Wheat, 1, new float[] {0, 7}, new List<Building>(), Modifiers.DefaultModifiers()),
 		};
 
 		ArmyUnits = new List<ArmyUnitData>() { 

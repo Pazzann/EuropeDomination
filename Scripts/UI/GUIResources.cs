@@ -1,5 +1,6 @@
 using Godot;
 using EuropeDominationDemo.Scripts.Scenarios;
+using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 
 namespace EuropeDominationDemo.Scripts.UI;
 
@@ -16,7 +17,7 @@ public partial class GUIResources : Control
 
 	}
 
-	public void DrawResources(ProvinceData data){
+	public void DrawResources(LandProvinceData data){
 		for(int i = 0; i < data.Resources.Length; i++)
 		{
 			(GetChild(i).GetChild(1) as Label).Text = data.Resources[i].ToString("N1");

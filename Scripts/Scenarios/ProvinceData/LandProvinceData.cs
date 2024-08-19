@@ -3,15 +3,13 @@ using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using Godot;
 
-namespace EuropeDominationDemo.Scripts.Scenarios;
+namespace EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 
-public class ProvinceData
+public class LandProvinceData : ProvinceData
 {
 	public readonly int Id;
 	public readonly string Name;
 	public int Owner;
-	public Vector2 CenterOfWeight;
-	public int[] BorderderingProvinces;
 	public int Development;
 
 	public float[] Resources;
@@ -41,7 +39,7 @@ public class ProvinceData
 	public int UnlockedBuildingCount => 4 + Development / 5;
 
 
-	public ProvinceData(
+	public LandProvinceData(
 		int id,
 		int countryId,
 		string name,
