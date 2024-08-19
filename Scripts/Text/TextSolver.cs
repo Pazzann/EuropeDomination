@@ -67,6 +67,7 @@ public class TextSolver
             }
         }
 
+        GD.Print("font size: ", bestFontSize);
         return new CurvedText(_text, bestFontSize, bestPath);
     }
 

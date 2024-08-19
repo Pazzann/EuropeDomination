@@ -14,6 +14,8 @@ public class StateMap
 	private readonly IDictionary<int, Polygon> _states = new Dictionary<int, Polygon>();
 	private readonly int[,] _stateId;
 
+	private readonly int _mapWidth, _mapHeight;
+
 	public StateMap(MapData mapData, Image mapImage)
 	{
 		var countries = mapData.Scenario.Countries;
@@ -33,12 +35,12 @@ public class StateMap
 			provinceStates.Add(province, state);
 		}
 
-		var mapWidth = mapImage.GetWidth();
-		var mapHeight = mapImage.GetHeight();
+		_mapWidth = mapImage.GetWidth();
+		_mapHeight = mapImage.GetHeight();
 
 		int GetStateId(int x, int y, int def, float eps = 0.01f)
 		{
-			if (x < 0 || x >= mapWidth || y < 0 || y >= mapHeight)
+			if (x < 0 || x >= _mapWidth || y < 0 || y >= _mapHeight)
 				return def;
 			
 			var color = mapImage.GetPixel(x, y);
@@ -51,8 +53,8 @@ public class StateMap
 			return provinceId < 0 ? def : provinceStates[provinceId];
 		}
 
-		var isOnBorder = new bool[mapWidth, mapHeight];
-		_stateId = new int[mapWidth, mapHeight];
+		var isOnBorder = new bool[_mapWidth, _mapHeight];
+		_stateId = new int[_mapWidth, _mapHeight];
 
 		var firstStateCell = new Dictionary<int, Vector2I>();
 
@@ -93,7 +95,7 @@ public class StateMap
 		}
 
 		var stateBorders = new Dictionary<int, List<Vector2I>>();
-		var visited = new bool[mapWidth, mapHeight];
+		var visited = new bool[_mapWidth, _mapHeight];
 
 		foreach (var entry in firstStateCell) {
 			stateBorders.Add(entry.Key, new List<Vector2I>());
@@ -121,7 +123,7 @@ public class StateMap
 				foreach (var neighbor in neighbors) {
 					var (nx, ny) = neighbor;
 
-					if (nx >= 0 && nx < mapWidth && ny >= 0 && ny < mapHeight && !visited[nx, ny] && isOnBorder[nx, ny] && _stateId[x, y] == _stateId[nx, ny])
+					if (nx >= 0 && nx < _mapWidth && ny >= 0 && ny < _mapHeight && !visited[nx, ny] && isOnBorder[nx, ny] && _stateId[x, y] == _stateId[nx, ny])
 						stack.Push(new Vector2I(nx, ny));
 				}
 			}
@@ -150,7 +152,14 @@ public class StateMap
 		return _states[state];
 	}
 
-	public int GetState(Vector2 pos) {
-		return _stateId[Mathf.RoundToInt(pos.X), Mathf.RoundToInt(pos.Y)];
+	public int GetState(Vector2 pos)
+	{
+		var x = Mathf.RoundToInt(pos.X);
+		var y = Mathf.RoundToInt(pos.Y);
+
+		if (x < 0 || x >= _mapWidth || y < 0 || y >= _mapHeight)
+			return -1;
+		
+		return _stateId[x, y];
 	}
 }
