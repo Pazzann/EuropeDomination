@@ -1,13 +1,14 @@
 using System.Linq;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
+using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.UI.Events.GUI;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.UI.GUIHandlers;
 
-public partial class GUIProvinceWindow : GUIHandler
+public partial class GUILandProvinceWindow : GUIHandler
 {
 	private Sprite2D _buildingsMenu;
 	private Control _possibleBuildings;
@@ -68,11 +69,11 @@ public partial class GUIProvinceWindow : GUIHandler
 			case ToGuiHideProvinceDataEvent:
 				_hideProvinceWindow();
 				return;
-			case ToGuiShowProvinceDataEvent e:
+			case ToGuiShowLandProvinceDataEvent e:
 				_showProvinceWindow();
 				_setProvinceInfo(e.ShowProvinceData);
 				return;
-			case ToGUIUpdateProvinceDataEvent e:
+			case ToGUIUpdateLandProvinceDataEvent e:
 				_setProvinceInfo(e.UpdateProvinceData);
 				return;
 			default:
@@ -81,7 +82,7 @@ public partial class GUIProvinceWindow : GUIHandler
 	}
 
 
-	private void _setProvinceInfo(ProvinceData provinceData)
+	private void _setProvinceInfo(LandProvinceData provinceData)
 	{
 		_currentProvinceData = provinceData;
 		
@@ -134,7 +135,7 @@ public partial class GUIProvinceWindow : GUIHandler
 		_buildingsMenu.Visible = true;
 	}
 
-	private void _setBuildingMenuInfo(ProvinceData provinceData)
+	private void _setBuildingMenuInfo(LandProvinceData provinceData)
 	{
 		//TODO: REWRITE
 		
@@ -153,7 +154,7 @@ public partial class GUIProvinceWindow : GUIHandler
 		}
 	}
 
-	private void _setBuildingsInfo(ProvinceData provinceData)
+	private void _setBuildingsInfo(LandProvinceData provinceData)
 	{
 		int g = 0;
 		foreach (var building in provinceData.Buildings)

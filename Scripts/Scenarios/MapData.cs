@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
+using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Units;
 using Godot;
 
@@ -15,39 +16,56 @@ public class MapData
     private Vector3[] _mapColors
     {
         get
-        { 
-            Vector3[] colors =  new Vector3[Scenario.Map.Length];
-           for (int i = 0; i < Scenario.Map.Length; i++)
-           {
-               colors[i] = Scenario.Countries[Scenario.Map[i].Owner].Color;
-           }
-           return colors;
+        {
+            Vector3[] colors = new Vector3[Scenario.Map.Length];
+            for (int i = 0; i < Scenario.Map.Length; i++)
+            {
+                if (Scenario.Map[i] is LandProvinceData landData)
+                    colors[i] = Scenario.Countries[landData.Owner].Color;
+                if (Scenario.Map[i] is SeaProvinceData)
+                    colors[i] = Scenario.WaterColor;
+                if (Scenario.Map[i] is WastelandProvinceData wastelandData)
+                    colors[i] = Scenario.WastelandProvinceColors[wastelandData.Id];
+                if (Scenario.Map[i] is UncolonizedProvinceData)
+                    colors[i] = Scenario.UncolonizedColor;
+            }
+
+            return colors;
         }
     }
 
     public Vector3[] MapColors
     {
-        get{
+        get
+        {
             switch (CurrentMapMode)
             {
                 case MapTypes.Political:
                     return _mapColors;
                 case MapTypes.Terrain:
                 {
-                    Vector3[] colors =  new Vector3[Scenario.Map.Length];
+                    Vector3[] colors = new Vector3[Scenario.Map.Length];
                     for (int i = 0; i < Scenario.Map.Length; i++)
                     {
-                        colors[i] = TerrainColors.Colors[(int)Scenario.Map[i].Terrain];
+                        if (Scenario.Map[i] is LandProvinceData landData)
+                            colors[i] = TerrainColors.Colors[(int)landData.Terrain];
+                        else
+                            colors[i] = new Vector3(0.1f, 0.1f, 0.1f);
                     }
+
                     return colors;
                 }
                 case MapTypes.Goods:
                 {
-                    Vector3[] colors =  new Vector3[Scenario.Map.Length];
+                    Vector3[] colors = new Vector3[Scenario.Map.Length];
                     for (int i = 0; i < Scenario.Map.Length; i++)
                     {
-                        colors[i] = GoodsColors.Colors[(int)Scenario.Map[i].Good];
+                        if (Scenario.Map[i] is LandProvinceData landData)
+                            colors[i] = GoodsColors.Colors[(int)landData.Good];
+                        else
+                            colors[i] = new Vector3(0.1f, 0.1f, 0.1f);
                     }
+
                     return colors;
                 }
                 case MapTypes.Trade:
@@ -66,5 +84,4 @@ public class MapData
     {
         Scenario = scenario;
     }
-
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts;
+using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Text;
 using Godot;
 
