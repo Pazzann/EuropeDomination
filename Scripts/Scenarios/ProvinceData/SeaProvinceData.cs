@@ -2,18 +2,15 @@
 
 public class SeaProvinceData : ProvinceData
 {
-    public readonly int Id;
     public readonly string Name;
     public Modifiers Modifiers;
 
     public SeaProvinceData(
         int id,
         string name,
-        Modifiers modifiers)
+        Modifiers modifiers) : base(id)
     {
-        this.Id = id;
         this.Name = name;
         this.Modifiers = modifiers;
     }
-        
 }

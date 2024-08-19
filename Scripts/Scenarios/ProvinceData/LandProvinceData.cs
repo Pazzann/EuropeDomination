@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Transactions;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using Godot;
@@ -7,7 +8,6 @@ namespace EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 
 public class LandProvinceData : ProvinceData
 {
-	public readonly int Id;
 	public readonly string Name;
 	public int Owner;
 	public int Development;
@@ -19,7 +19,6 @@ public class LandProvinceData : ProvinceData
 	public readonly Good Good;
 
 	public Modifiers Modifiers;
-
 
 	public float ProductionRate
 	{
@@ -49,9 +48,8 @@ public class LandProvinceData : ProvinceData
 		float[] resources,
 		List<Building> buildings,
 		Modifiers modifiers
-	)
+	) : base(id)
 	{
-		this.Id = id;
 		this.Owner = countryId;
 		this.Name = name;
 		this.Terrain = terrain;

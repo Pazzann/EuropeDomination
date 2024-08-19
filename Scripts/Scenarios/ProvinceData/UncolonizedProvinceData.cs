@@ -1,13 +1,8 @@
 ﻿namespace EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 
-public class UncolonizedProvinceData: ProvinceData
+public class UncolonizedProvinceData : ProvinceData
 {
-    public readonly int Id;
-    
-    public UncolonizedProvinceData(
-        int id
-    )
+    public UncolonizedProvinceData(int id) : base(id)
     {
-        this.Id = id;
     }
 }

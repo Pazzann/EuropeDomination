@@ -8,8 +8,6 @@ namespace EuropeDominationDemo.Scripts.Text;
 
 public class StateMap
 {
-    //private const int MaxVerticesPerHull = 30;
-
     private readonly Dictionary<int, List<Polygon>> _stateContours;
     private readonly int[,] _stateId;
 
@@ -35,7 +33,7 @@ public class StateMap
 
         foreach (var (province, state) in provinceStateQuery)
         {
-            provinceToState.Add(province, state);
+            provinceToState.TryAdd(province, state);
         }
 
         _mapWidth = mapImage.GetWidth();
@@ -81,19 +79,19 @@ public class StateMap
                 }
 
                 var provinceId = GameMath.GetProvinceId(color);
-                _stateId[i, j] = provinceToState[provinceId];
+                _stateId[i, j] = provinceToState.GetValueOrDefault(provinceId, -1);
             }
         }
-        
+
         var isOnBorder = new bool[_mapWidth, _mapHeight];
-        
+
         for (var i = 0; i < _mapWidth; ++i)
         {
             for (var j = 0; j < _mapHeight; ++j)
             {
                 if (_stateId[i, j] == -1)
                     continue;
-                
+
                 var neighbors = new Vector2I[]
                 {
                     new(i + 1, j),
@@ -105,7 +103,7 @@ public class StateMap
                     new(i + 1, j + 1),
                     new(i - 1, j - 1)
                 };
-                
+
                 if (neighbors.Any(neighbor => GetStateId(neighbor) != _stateId[i, j]))
                 {
                     isOnBorder[i, j] = true;
@@ -121,7 +119,7 @@ public class StateMap
             {
                 if (_stateId[i, j] == -1)
                     continue;
-                
+
                 var neighbors = new Vector2I[]
                 {
                     new(i + 1, j),
@@ -158,7 +156,7 @@ public class StateMap
             {
                 if (_stateId[i, j] == -1)
                     continue;
-                
+
                 component[i, j] = i * _mapHeight + j;
             }
         }
@@ -171,7 +169,7 @@ public class StateMap
             {
                 if (_stateId[i, j] == -1)
                     continue;
-                
+
                 var neighbors = new Vector2I[]
                 {
                     new(i + 1, j),
@@ -200,7 +198,7 @@ public class StateMap
             {
                 if (_stateId[i, j] == -1)
                     continue;
-                
+
                 component[i, j] = dsu.Find(component[i, j]);
             }
         }
@@ -237,7 +235,7 @@ public class StateMap
 
         var mapArea = _mapWidth * _mapWidth;
 
-        GD.Print("cc: ", hulls.Count);
+        //GD.Print("cc: ", hulls.Count);
 
         foreach (var hull in hulls.Values)
         {
