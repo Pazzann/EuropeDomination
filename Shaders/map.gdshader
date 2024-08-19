@@ -1,7 +1,7 @@
 shader_type canvas_item;
 
 
-uniform vec3 colors[14];
+uniform vec3 colors[421];
 uniform int viewMod: hint_range(0, 1);
 uniform int selectedID: hint_range(1,14);
 const vec4 emptycolor = vec4(0.0f, 0.0f, 0.0f, 1.0f);

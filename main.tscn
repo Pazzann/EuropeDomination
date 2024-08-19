@@ -1,13 +1,13 @@
 [gd_scene load_steps=11 format=3 uid="uid://cmar3qcquyv2s"]
 
 [ext_resource type="Script" path="res://Scripts/GlobalStrategyEngine.cs" id="1_5tgh5"]
-[ext_resource type="Texture2D" uid="uid://bup0lap08gpmv" path="res://Sprites/map.png" id="1_oy7f7"]
 [ext_resource type="PackedScene" uid="uid://db5dbn7ovemhi" path="res://Prefabs/Camera.tscn" id="1_r2m0f"]
 [ext_resource type="Material" uid="uid://bsh6h6v5qetxa" path="res://Shaders/map.tres" id="1_vjql8"]
 [ext_resource type="PackedScene" uid="uid://dx2y3s8dsllua" path="res://Prefabs/GUI/GUI.tscn" id="2_dggd8"]
 [ext_resource type="Script" path="res://Scripts/Handlers/SelectorBoxHandler.cs" id="3_kipe6"]
 [ext_resource type="Script" path="res://Scripts/Handlers/MapHandler.cs" id="3_kk5wj"]
 [ext_resource type="Shader" path="res://Shaders/occupiedmap.gdshader" id="5_q4tx4"]
+[ext_resource type="Texture2D" uid="uid://bgv4y6i4ul1k" path="res://Sprites/EuropeMap.png" id="6_d2n0v"]
 [ext_resource type="Script" path="res://Scripts/Handlers/ArmyHandler.cs" id="8_7wvqb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hr6fk"]
@@ -33,14 +33,14 @@ script = ExtResource("3_kk5wj")
 process_priority = 2
 texture_filter = 1
 material = ExtResource("1_vjql8")
-texture = ExtResource("1_oy7f7")
+texture = ExtResource("6_d2n0v")
 centered = false
 
 [node name="Map2" type="Sprite2D" parent="MapHandler"]
 visible = false
 texture_filter = 3
 material = SubResource("ShaderMaterial_hr6fk")
-texture = ExtResource("1_oy7f7")
+texture = ExtResource("6_d2n0v")
 centered = false
 
 [node name="TextHandler" type="Node2D" parent="MapHandler"]

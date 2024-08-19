@@ -35,9 +35,9 @@ public partial class GlobalStrategyEngine : Node2D
 		
 		AllHandlersControls = new CallMulticaster(allHandlers);
 		
-		var map = Image.LoadFromFile("res://Sprites/map.png");
+		var map = Image.LoadFromFile("res://Sprites/EuropeMap.png");
 		
-		Scenario scenario = new DemoScenario(map);
+		Scenario scenario = new EuropeScenario(map);
 		MapInfo = new MapData(scenario);
 
 
