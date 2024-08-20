@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Handlers;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
@@ -13,7 +14,7 @@ namespace EuropeDominationDemo.Scripts;
 public partial class GlobalStrategyEngine : Node2D
 {
 	public CallMulticaster AllHandlersControls;
-	public MapData MapInfo;
+
 	public CameraBehaviour Camera;
 	public GUI GUIHandler;
 
@@ -39,8 +40,8 @@ public partial class GlobalStrategyEngine : Node2D
 		var map = Image.LoadFromFile("res://Sprites/EuropeMap.png");
 		
 		Scenario scenario = new EuropeScenario(map);
-		MapInfo = new MapData(scenario);
-
+		EngineState.MapInfo = new MapData(scenario);
+		
 
 		Camera = GetNode<CameraBehaviour>("./Camera");
 		Camera.ChangeZoom += ViewModeChange;
@@ -49,7 +50,8 @@ public partial class GlobalStrategyEngine : Node2D
 		GUIHandler.GUIGlobalEvent += GUIEventHandler;
 		GUIHandler.Init();
 		
-		AllHandlersControls.Init(MapInfo);
+		AllHandlersControls.Init();
+		InvokeToGUIEvent(new ToGUIUpdateCountryInfo());
 		
 		_timer = GetNode<Timer>("./DayTimer");
 		_timer.Start();
@@ -65,13 +67,13 @@ public partial class GlobalStrategyEngine : Node2D
 
 	private void _onMouseInactivityTimerTimeout()
 	{
-		InvokeToGUIEvent(new ToGUIShowInfoBoxProvinceEvent(MapInfo.Scenario.Map[_findTile()]));
+		InvokeToGUIEvent(new ToGUIShowInfoBoxProvinceEvent(EngineState.MapInfo.Scenario.Map[_findTile()]));
 	}
 	
 	public void TimeTick()
 	{
 		AllHandlersControls.TimeTick();
-		InvokeToGUIEvent(new ToGUISetDateEvent(MapInfo.Scenario.Date));
+		InvokeToGUIEvent(new ToGUISetDateEvent(EngineState.MapInfo.Scenario.Date));
 		_timer.Start();
 	}
 	public override void _UnhandledInput  (InputEvent @event)
@@ -93,7 +95,7 @@ public partial class GlobalStrategyEngine : Node2D
 		switch (@event)
 		{
 			case GUIChangeMapType e:
-				MapInfo.CurrentMapMode = e.NewMapType;
+				EngineState.MapInfo.CurrentMapMode = e.NewMapType;
 				ViewModeChange();
 				return;
 			case GUIPauseStateEvent e:
@@ -105,6 +107,9 @@ public partial class GlobalStrategyEngine : Node2D
 				{
 					_timer.Start();
 				}
+				return;
+			case GUISwitchCountry:
+				InvokeToGUIEvent(new ToGUIUpdateCountryInfo());
 				return;
 			default:
 				AllHandlersControls.GUIInteractionHandler(@event);
@@ -121,11 +126,11 @@ public partial class GlobalStrategyEngine : Node2D
 	{
 		var mousePos = GetLocalMousePosition();
 		var iMousePos = new Vector2I((int)(mousePos.X), (int)(mousePos.Y));
-		if (!MapInfo.Scenario.MapTexture.GetUsedRect().HasPoint(iMousePos)) return -3;
+		if (!EngineState.MapInfo.Scenario.MapTexture.GetUsedRect().HasPoint(iMousePos)) return -3;
 		
-		var tileId = GameMath.GetProvinceId(MapInfo.Scenario.MapTexture.GetPixelv(iMousePos));
+		var tileId = GameMath.GetProvinceId(EngineState.MapInfo.Scenario.MapTexture.GetPixelv(iMousePos));
 
-		if (tileId < 0 || tileId >= MapInfo.Scenario.Map.Length)
+		if (tileId < 0 || tileId >= EngineState.MapInfo.Scenario.Map.Length)
 			return -3;
 
 		return tileId;

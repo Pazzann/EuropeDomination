@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.GlobalStates;
+using EuropeDominationDemo.Scripts.UI.Events.GUI;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using Godot;
 
@@ -84,6 +85,7 @@ public partial class GUIConsole : GUIHandler
 		{
 			_commandLabel.Text += "\n" + "[b][color=red]" + _expression.GetErrorText()  + "[/color][/b]";
 		}
+		
 	}
 	
 	public void Clear()
@@ -97,4 +99,18 @@ public partial class GUIConsole : GUIHandler
 		EngineState.DebugMode = !EngineState.DebugMode;
 		_commandLabel.Text += "\n" + "[i][color=blue]" + ((EngineState.DebugMode)? "Enabled" : "Disabled") +" debug mode[/color][/i]";
 	}
+
+	public void SwitchToCountry(int id)
+	{
+		if (EngineState.MapInfo.Scenario.Countries.ContainsKey(id))
+		{
+			EngineState.PlayerCountryId = id;
+			InvokeGUIEvent(new GUISwitchCountry());
+			_commandLabel.Text += "\n" + "[color=green]Successfully switched[/color]";
+		}
+		else
+		{
+			_commandLabel.Text += "\n" + "[b][color=red]This id doesn't exist[/color][/b]";
+		}
+	} 
 }

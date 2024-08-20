@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using EuropeDominationDemo.Scripts.Enums;
+using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
@@ -16,7 +17,7 @@ public partial class MapHandler : GameHandler
 {
     private Sprite2D _mapSprite;
     private ShaderMaterial _mapMaterial;
-    private MapData _mapData { get; set; }
+    
 
     private PackedScene _textScene;
     private Node2D _textSpawner;
@@ -31,11 +32,11 @@ public partial class MapHandler : GameHandler
     private float _lastClickTimestamp = 0.0f;
 
 
-    public override void Init(MapData mapData)
+    public override void Init()
     {
         _mapSprite = GetNode<Sprite2D>("./Map");
         _mapMaterial = _mapSprite.Material as ShaderMaterial;
-        _mapData = mapData;
+   
 
         _textScene = (PackedScene)GD.Load("res://Prefabs/Text.tscn");
         _textSpawner = GetNode<Node2D>("./TextHandler");
@@ -47,7 +48,7 @@ public partial class MapHandler : GameHandler
         _devSpawner = GetNode<Node2D>("./DevHandler");
 
 
-        _mapMaterial.SetShaderParameter("colors", _mapData.MapColors);
+        _mapMaterial.SetShaderParameter("colors", EngineState.MapInfo.MapColors);
         _mapMaterial.SetShaderParameter("selectedID", -1);
 
         _updateText();
@@ -80,14 +81,14 @@ public partial class MapHandler : GameHandler
         _selectedTileId = tileId;
 
         _mapMaterial.SetShaderParameter("selectedID", tileId);
-        if (_mapData.Scenario.Map[tileId] is LandProvinceData data)
+        if (EngineState.MapInfo.Scenario.Map[tileId] is LandProvinceData data)
             InvokeToGUIEvent(new ToGuiShowLandProvinceDataEvent(data));
         return false;
     }
 
     public override void ViewModUpdate(float zoom)
     {
-        switch (_mapData.CurrentMapMode)
+        switch (EngineState.MapInfo.CurrentMapMode)
         {
             case MapTypes.Political:
             {
@@ -130,22 +131,22 @@ public partial class MapHandler : GameHandler
                 throw new ArgumentOutOfRangeException();
         }
 
-        _mapMaterial.SetShaderParameter("colors", _mapData.MapColors);
+        _mapMaterial.SetShaderParameter("colors", EngineState.MapInfo.MapColors);
         _mapMaterial.SetShaderParameter("viewMod", zoom < 3.0f ? 1 : 0);
     }
 
     public override void GUIInteractionHandler(GUIEvent @event)
     {
-        if (_mapData.Scenario.Map[_selectedTileId] is LandProvinceData data)
+        if (EngineState.MapInfo.Scenario.Map[_selectedTileId] is LandProvinceData data)
             switch (@event)
             {
                 case GUIBuildBuildingEvent e:
                     data.Buildings.Add(e.NewBuilding);
-                    InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent((LandProvinceData)_mapData.Scenario.Map[_selectedTileId]));
+                    InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent((LandProvinceData)EngineState.MapInfo.Scenario.Map[_selectedTileId]));
                     return;
                 case GUIDestroyBuildingEvent e:
                     data.Buildings.RemoveAt(e.DestroyedId);
-                    InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent((LandProvinceData)_mapData.Scenario.Map[_selectedTileId]));
+                    InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent((LandProvinceData)EngineState.MapInfo.Scenario.Map[_selectedTileId]));
                     return;
                 default:
                     return;
@@ -171,11 +172,11 @@ public partial class MapHandler : GameHandler
     {
         _clearText();
 
-        var stateMap = new StateMap(_mapData, _mapData.Scenario.MapTexture);
+        var stateMap = new StateMap(EngineState.MapInfo, EngineState.MapInfo.Scenario.MapTexture);
 
-		foreach (var data in _mapData.Scenario.Countries)
+		foreach (var data in EngineState.MapInfo.Scenario.Countries)
 		{
-			var provinces = _mapData.Scenario.CountryProvinces(data.Value.Id);
+			var provinces = EngineState.MapInfo.Scenario.CountryProvinces(data.Value.Id);
 
 			if (provinces.Length == 0)
 				continue;
@@ -203,7 +204,7 @@ public partial class MapHandler : GameHandler
 
     private void _addGoods()
     {
-        foreach (var data in _mapData.Scenario.Map.Where(data => data is LandProvinceData))
+        foreach (var data in EngineState.MapInfo.Scenario.Map.Where(data => data is LandProvinceData))
         {
             AnimatedSprite2D obj = _goodsScene.Instantiate() as AnimatedSprite2D;
             obj.Frame = (int)((LandProvinceData)data).Good;
@@ -214,7 +215,7 @@ public partial class MapHandler : GameHandler
 
     private void _addDev()
     {
-        foreach (var data in _mapData.Scenario.Map.Where(data => data is LandProvinceData))
+        foreach (var data in EngineState.MapInfo.Scenario.Map.Where(data => data is LandProvinceData))
         {
             AnimatedSprite2D obj = _devScene.Instantiate() as AnimatedSprite2D;
             obj.Frame = ((LandProvinceData)data).Development - 1;
@@ -226,7 +227,7 @@ public partial class MapHandler : GameHandler
 
     public override void DayTick()
     {
-        foreach (var data in _mapData.Scenario.Map.Where(data => data is LandProvinceData))
+        foreach (var data in EngineState.MapInfo.Scenario.Map.Where(data => data is LandProvinceData))
         {
             foreach (var building in ((LandProvinceData)data).Buildings.Where(building => !building.IsFinished))
             {
@@ -238,7 +239,7 @@ public partial class MapHandler : GameHandler
             }
         }
 
-        if (_selectedTileId > -1 && _mapData.Scenario.Map[_selectedTileId] is LandProvinceData landData)
+        if (_selectedTileId > -1 && EngineState.MapInfo.Scenario.Map[_selectedTileId] is LandProvinceData landData)
         {
             InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent(landData));
         }
@@ -246,13 +247,13 @@ public partial class MapHandler : GameHandler
 
     public override void MonthTick()
     {
-        foreach (var data in _mapData.Scenario.Map.Where(data => data is LandProvinceData))
+        foreach (var data in EngineState.MapInfo.Scenario.Map.Where(data => data is LandProvinceData))
         {
             ((LandProvinceData)data).Resources[(int)((LandProvinceData)data).Good] +=
                 ((LandProvinceData)data).ProductionRate;
         }
 
-        if (_selectedTileId > -1 && _mapData.Scenario.Map[_selectedTileId] is LandProvinceData landData)
+        if (_selectedTileId > -1 && EngineState.MapInfo.Scenario.Map[_selectedTileId] is LandProvinceData landData)
         {
             InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent(landData));
         }

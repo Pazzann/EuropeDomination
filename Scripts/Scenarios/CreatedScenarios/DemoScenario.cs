@@ -5,11 +5,11 @@ using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using Godot;
 
-namespace EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
+//namespace EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 
-public class DemoScenario : Scenario
-{
-	public override Dictionary<int, CountryData> Countries { get; }
+//public class DemoScenario : Scenario
+//{
+/*	public override Dictionary<int, CountryData> Countries { get; }
 	public sealed override List<ArmyUnitData> ArmyUnits { get; set; }
 	public sealed override ProvinceData.ProvinceData[] Map { get; set; }
 	public sealed override DateTime Date { get; set; }
@@ -67,5 +67,5 @@ public class DemoScenario : Scenario
 		{
 			Map[i].CenterOfWeight = centers[i];
 		}
-	}
-}
+	}*/
+//}

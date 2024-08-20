@@ -1,5 +1,6 @@
 using Godot;
 using System.Linq;
+using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Units;
 
@@ -17,9 +18,8 @@ public partial class SelectorBoxHandler : GameHandler
 	
 
 	
-	public override void Init(MapData mapData)
+	public override void Init()
 	{
-		_mapData = mapData;
 		_selectionRect = GetNode<ColorRect>("./SelectionRect");
 	}
 
@@ -89,7 +89,7 @@ public partial class SelectorBoxHandler : GameHandler
 		ArmyUnit.SelectUnits(allUnits, selectedUnits);
 		
 		
-		_mapData.CurrentSelectedUnits = selectedUnits;
+		EngineState.MapInfo.CurrentSelectedUnits = selectedUnits;
 		
 		if (selectedUnits.Count > 0)
 			_wasSelectedUnit = true;

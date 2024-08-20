@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios;
 using Godot;
 
@@ -7,7 +8,7 @@ namespace EuropeDominationDemo.Scripts.Handlers;
 public class CallMulticaster
 {
     private readonly List<GameHandler> _gameHandlers;
-    private MapData _mapData;
+
 
     private int _previousMonth;
     private int _previousYear;
@@ -18,12 +19,11 @@ public class CallMulticaster
     }
 
 
-    public void Init(MapData mapData)
+    public void Init()
     {
-        _mapData = mapData;
         foreach (var handler in _gameHandlers)
         {
-            handler.Init(mapData);
+            handler.Init();
         }
     }
 
@@ -38,31 +38,31 @@ public class CallMulticaster
 
     public void TimeTick()
     {
-        _mapData.Scenario.Date = _mapData.Scenario.Date.Add(_mapData.Scenario.Ts);
+        EngineState.MapInfo.Scenario.Date = EngineState.MapInfo.Scenario.Date.Add(EngineState.MapInfo.Scenario.Ts);
 
         foreach (var handler in _gameHandlers)
         {
             handler.DayTick();
         }
 
-        if (_previousMonth != _mapData.Scenario.Date.Month)
+        if (_previousMonth != EngineState.MapInfo.Scenario.Date.Month)
         {
             foreach (var handler in _gameHandlers)
             {
                 handler.MonthTick();
             }
 
-            _previousMonth = _mapData.Scenario.Date.Month;
+            _previousMonth = EngineState.MapInfo.Scenario.Date.Month;
         }
 
-        if (_previousYear != _mapData.Scenario.Date.Year)
+        if (_previousYear != EngineState.MapInfo.Scenario.Date.Year)
         {
             foreach (var handler in _gameHandlers)
             {
                 handler.YearTick();
             }
 
-            _previousYear = _mapData.Scenario.Date.Year;
+            _previousYear = EngineState.MapInfo.Scenario.Date.Year;
         }
     }
 

@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Enums;
+using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Handlers;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
@@ -13,21 +14,19 @@ public partial class ArmyHandler : GameHandler
 	private bool _isShiftPressed;
 
 
-	public override void Init(MapData mapData)
+	public override void Init()
 	{
-		_mapData = mapData;
-		
 		_armyScene = (PackedScene)GD.Load("res://Prefabs/ArmyUnit.tscn");
 		
-		foreach (var data in _mapData.Scenario.ArmyUnits)
+		foreach (var data in EngineState.MapInfo.Scenario.ArmyUnits)
 		{
 
 			ArmyUnit obj = _armyScene.Instantiate() as ArmyUnit;
-			obj.SetupUnit(data, _mapData);
+			obj.SetupUnit(data, EngineState.MapInfo);
 
 
 			//TODO: NORMAL CALCULATION OF ARMY POSITION
-			obj.Position = new Vector2(_mapData.Scenario.Map[data.CurrentProvince].CenterOfWeight.X + 5,_mapData.Scenario.Map[data.CurrentProvince].CenterOfWeight.Y);
+			obj.Position = new Vector2(EngineState.MapInfo.Scenario.Map[data.CurrentProvince].CenterOfWeight.X + 5,EngineState.MapInfo.Scenario.Map[data.CurrentProvince].CenterOfWeight.Y);
 			AddChild(obj);
 		}
 	}
@@ -45,7 +44,7 @@ public partial class ArmyHandler : GameHandler
 				return false;
 
 			if (!_isShiftPressed)
-				foreach (var armyUnit in _mapData.CurrentSelectedUnits)
+				foreach (var armyUnit in EngineState.MapInfo.CurrentSelectedUnits)
 				{
 					if (tileId == armyUnit.Data.CurrentProvince)
 					{
@@ -54,18 +53,18 @@ public partial class ArmyHandler : GameHandler
 					}
 
 					armyUnit.NewPath(
-						PathFinder.FindPathFromAToB(armyUnit.Data.CurrentProvince, tileId,  _mapData.Scenario));
+						PathFinder.FindPathFromAToB(armyUnit.Data.CurrentProvince, tileId,  EngineState.MapInfo.Scenario));
 				}
 			else
-				foreach (var armyUnit in _mapData.CurrentSelectedUnits)
+				foreach (var armyUnit in EngineState.MapInfo.CurrentSelectedUnits)
 				{
 					if (armyUnit.Path.Count == 0)
 					{
-						armyUnit.NewPath(PathFinder.FindPathFromAToB(armyUnit.Data.CurrentProvince, tileId,  _mapData.Scenario));
+						armyUnit.NewPath(PathFinder.FindPathFromAToB(armyUnit.Data.CurrentProvince, tileId,  EngineState.MapInfo.Scenario));
 						return false;
 					}
 					armyUnit.AddPath(
-						PathFinder.FindPathFromAToB(armyUnit.Path[0], tileId, _mapData.Scenario));
+						PathFinder.FindPathFromAToB(armyUnit.Path[0], tileId, EngineState.MapInfo.Scenario));
 				}
 
 			return false;
@@ -75,7 +74,7 @@ public partial class ArmyHandler : GameHandler
 
 	public override void ViewModUpdate(float zoom)
 	{
-		if (_mapData.CurrentMapMode == MapTypes.Political && zoom > 3.0f)
+		if (EngineState.MapInfo.CurrentMapMode == MapTypes.Political && zoom > 3.0f)
 		{
 			Visible = true;
 			return;

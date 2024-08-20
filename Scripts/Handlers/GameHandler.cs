@@ -9,7 +9,7 @@ public delegate void ToGUIEventSender(ToGUIEvent @event);
 
 public abstract partial class GameHandler : Node2D
 {
-	protected MapData _mapData;
+
 
 	public event ToGUIEventSender ToGUIEvent = null;
 
@@ -18,7 +18,7 @@ public abstract partial class GameHandler : Node2D
 		ToGUIEvent.Invoke(@event);
 	}
 	
-	public abstract void Init(MapData mapData);
+	public abstract void Init();
 	
 	public abstract bool InputHandle(InputEvent @event, int tileId);
 	public abstract void ViewModUpdate(float zoom);
