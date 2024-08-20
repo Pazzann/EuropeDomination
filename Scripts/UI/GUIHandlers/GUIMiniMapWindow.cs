@@ -21,6 +21,10 @@ public partial class GUIMiniMapWindow : GUIHandler
 		_mapTypesSprite.GetNode<Button>("./FactoriesType").Pressed += () => _onMapTypePressed(MapTypes.Factories);
 		
 	}
+	public override void InputHandle(InputEvent @event)
+	{
+		
+	}
 
 	public override void ToGUIHandleEvent(ToGUIEvent @event)
 	{

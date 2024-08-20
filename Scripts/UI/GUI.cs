@@ -21,10 +21,11 @@ public partial class GUI : Control
 		List<GUIHandler> allGUIHandlers = new List<GUIHandler>();
 		
 		
-		allGUIHandlers.Add(GetNode<GUIHandler>("./GuiProvinceWindow"));
-		allGUIHandlers.Add(GetNode<GUIHandler>("./GuiTimeWindow"));
-		allGUIHandlers.Add(GetNode<GUIHandler>("./GuiMiniMap"));
-		allGUIHandlers.Add(GetNode<GUIHandler>("./GuiCountryInfo"));
+		allGUIHandlers.Add(GetNode<GUILandProvinceWindow>("./GuiProvinceWindow"));
+		allGUIHandlers.Add(GetNode<GUITimeWindow>("./GuiTimeWindow"));
+		allGUIHandlers.Add(GetNode<GUIMiniMapWindow>("./GuiMiniMap"));
+		allGUIHandlers.Add(GetNode<GUICountryInfo>("./GuiCountryInfo"));
+		allGUIHandlers.Add(GetNode<GUIConsole>("./Console"));
 
 		foreach (var guiHandler in allGUIHandlers)
 		{
@@ -33,6 +34,11 @@ public partial class GUI : Control
 		
 		AllGUIHandlersControls = new GUICallMulticaster(allGUIHandlers);
 		AllGUIHandlersControls.Init();
+	}
+
+	public void InputHandle(InputEvent @event)
+	{
+		AllGUIHandlersControls.InputHandle(@event);
 	}
 
 	public void ToGUIEventHandler(ToGUIEvent @event)

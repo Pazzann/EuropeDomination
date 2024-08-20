@@ -32,4 +32,3 @@ public partial class GUIResources : Control
 			(GetChild((int)data.Good).GetChild(2) as Label).SelfModulate = new Color(1.0f, 0.0f, 0.0f);
 	}
 }
-

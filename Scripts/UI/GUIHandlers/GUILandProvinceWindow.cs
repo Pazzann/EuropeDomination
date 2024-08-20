@@ -81,6 +81,10 @@ public partial class GUILandProvinceWindow : GUIHandler
 		}
 	}
 
+	public override void InputHandle(InputEvent @event)
+	{
+		
+	}
 
 	private void _setProvinceInfo(LandProvinceData provinceData)
 	{
@@ -216,6 +220,3 @@ public partial class GUILandProvinceWindow : GUIHandler
 	}
 
 }
-
-
-

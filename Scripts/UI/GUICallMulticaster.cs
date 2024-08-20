@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using EuropeDominationDemo.Scripts.UI.GUIHandlers;
+using Godot;
 
 namespace EuropeDominationDemo.Scripts.UI;
 
@@ -26,6 +27,14 @@ public class GUICallMulticaster
 		foreach (var guiHandler in _guiHandlers)
 		{
 			guiHandler.ToGUIHandleEvent(@event);
+		}
+	}
+
+	public void InputHandle(InputEvent @event)
+	{
+		foreach (var guiHandler in _guiHandlers)
+		{
+			guiHandler.InputHandle(@event);
 		}
 	}
 }

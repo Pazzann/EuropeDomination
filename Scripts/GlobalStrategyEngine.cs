@@ -71,6 +71,7 @@ public partial class GlobalStrategyEngine : Node2D
 		Camera.InputHandle(@event);
 		var tileId = _findTile();
 		AllHandlersControls.InputHandle(@event, tileId);
+		GUIHandler.InputHandle(@event);
 	}
 
 	public void GUIEventHandler(GUIEvent @event)

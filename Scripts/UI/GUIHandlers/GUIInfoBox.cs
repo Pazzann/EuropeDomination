@@ -10,7 +10,10 @@ public partial class GUIInfoBox : GUIHandler
 	{
 		return;
 	}
-
+	public override void InputHandle(InputEvent @event)
+	{
+		
+	}
 	public override void ToGUIHandleEvent(ToGUIEvent @event)
 	{
 		return;

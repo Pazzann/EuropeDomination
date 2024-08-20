@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://dx2y3s8dsllua"]
+[gd_scene load_steps=8 format=3 uid="uid://dx2y3s8dsllua"]
 
 [ext_resource type="Script" path="res://Scripts/UI/GUI.cs" id="1_itu4p"]
 [ext_resource type="PackedScene" uid="uid://bgb7s0ynl6r2t" path="res://Prefabs/GUI/GUIProvinceWindow.tscn" id="2_8vun8"]
 [ext_resource type="PackedScene" uid="uid://dvoue6tv3eufp" path="res://Prefabs/GUI/GUITimeWindow.tscn" id="3_wch6m"]
 [ext_resource type="PackedScene" uid="uid://byvrlg7fanh0g" path="res://Prefabs/GUI/GUICountryInfo.tscn" id="4_21vin"]
 [ext_resource type="PackedScene" uid="uid://fx4l5pss50wq" path="res://Prefabs/GUI/GUIMiniMap.tscn" id="5_erowk"]
+[ext_resource type="PackedScene" uid="uid://djlumxa1btokx" path="res://Prefabs/GUI/GUIConsole.tscn" id="6_fsmcp"]
+[ext_resource type="PackedScene" uid="uid://bji08w2m23kup" path="res://Prefabs/GUI/GUIInfoBox.tscn" id="7_g3en8"]
 
 [node name="GUI" type="Control"]
 layout_direction = 1
@@ -23,11 +25,9 @@ script = ExtResource("1_itu4p")
 
 [node name="GuiProvinceWindow" parent="." instance=ExtResource("2_8vun8")]
 layout_mode = 1
-mouse_filter = 2
 
 [node name="GuiTimeWindow" parent="." instance=ExtResource("3_wch6m")]
 layout_mode = 1
-mouse_filter = 2
 
 [node name="GuiCountryInfo" parent="." instance=ExtResource("4_21vin")]
 layout_mode = 1
@@ -35,4 +35,9 @@ mouse_filter = 2
 
 [node name="GuiMiniMap" parent="." instance=ExtResource("5_erowk")]
 layout_mode = 1
-mouse_filter = 2
+
+[node name="Console" parent="." instance=ExtResource("6_fsmcp")]
+layout_mode = 1
+
+[node name="GuiInfoBox" parent="." instance=ExtResource("7_g3en8")]
+layout_mode = 1

@@ -26,6 +26,13 @@ public partial class GUITimeWindow : GUIHandler
 				return;
 		}
 	}
+	public override void InputHandle(InputEvent @event)
+	{
+		if (@event.IsActionPressed("pause_unpause"))
+		{
+			_onPauseButtonPressed();
+		}
+	}
 	
 	private void _onPauseButtonPressed()
 	{
@@ -35,5 +42,3 @@ public partial class GUITimeWindow : GUIHandler
 	}
 
 }
-
-
