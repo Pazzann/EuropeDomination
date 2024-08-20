@@ -26,6 +26,7 @@ public partial class GUI : Control
 		allGUIHandlers.Add(GetNode<GUIMiniMapWindow>("./GuiMiniMap"));
 		allGUIHandlers.Add(GetNode<GUICountryInfo>("./GuiCountryInfo"));
 		allGUIHandlers.Add(GetNode<GUIConsole>("./Console"));
+		allGUIHandlers.Add(GetNode<GUIInfoBox>("./GuiInfoBox"));
 
 		foreach (var guiHandler in allGUIHandlers)
 		{
