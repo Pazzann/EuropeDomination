@@ -79,7 +79,8 @@ public partial class MapHandler : GameHandler
 		}
 
 		_selectedTileId = tileId;
-
+		if (EngineState.MapInfo.Scenario.Map[tileId] is WastelandProvinceData)
+			return false;
 		_mapMaterial.SetShaderParameter("selectedID", tileId);
 		if (EngineState.MapInfo.Scenario.Map[tileId] is LandProvinceData data)
 			InvokeToGUIEvent(new ToGuiShowLandProvinceDataEvent(data));

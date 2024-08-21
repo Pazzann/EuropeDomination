@@ -76,7 +76,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 				_setProvinceInfo(e.ShowProvinceData);
 				return;
 			case ToGUIUpdateLandProvinceDataEvent e:
-				_buildingsMenu.Visible = false;
+				//_buildingsMenu.Visible = false;
 				_setProvinceInfo(e.UpdateProvinceData);
 				return;
 			default:

@@ -2,7 +2,7 @@
 
 public class WastelandProvinceData : ProvinceData
 {
-    public WastelandProvinceData(int id) : base(id)
+    public WastelandProvinceData(int id, string name) : base(id, name)
     {
     }
 }

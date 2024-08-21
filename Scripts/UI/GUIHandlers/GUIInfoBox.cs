@@ -27,7 +27,7 @@ public partial class GUIInfoBox : GUIHandler
 		switch (@event)
 		{
 			case ToGUIShowInfoBoxProvinceEvent e:
-				_infoLabel.Text = "[color=yellow]" + "Namehere" + "[/color]" + "\n"
+				_infoLabel.Text = "[color=yellow]" + e.ProvinceData.Name + "[/color]" + "\n"
 								  + ((e.ProvinceData is LandProvinceData landProvinceData)? "Good: "+ landProvinceData.Good:"")
 								  +  ((e.ProvinceData is LandProvinceData landProvinceData2)? "\n" + "Terrain	: "+ landProvinceData2.Terrain:"")
 					+ ((EngineState.DebugMode)?"Debug data:" + "\n" + "Id:" + e.ProvinceData.Id  + ((e.ProvinceData is LandProvinceData landProvinceData3)?"\n" + "Owner ID: " + landProvinceData3.Owner: "") :"");

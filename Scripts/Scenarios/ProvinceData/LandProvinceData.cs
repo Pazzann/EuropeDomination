@@ -8,7 +8,6 @@ namespace EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 
 public class LandProvinceData : ProvinceData
 {
-	public readonly string Name;
 	public int Owner;
 	public int Development;
 
@@ -48,7 +47,7 @@ public class LandProvinceData : ProvinceData
 		float[] resources,
 		List<Building> buildings,
 		Modifiers modifiers
-	) : base(id)
+	) : base(id, name)
 	{
 		this.Owner = countryId;
 		this.Name = name;
