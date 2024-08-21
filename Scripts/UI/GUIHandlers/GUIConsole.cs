@@ -55,6 +55,8 @@ public partial class GUIConsole : GUIHandler
 			var history = _history.ToArray();
 			if(history.Length==0)
 				return;
+			if (_scrollingIndex == 0)
+				_scrollingIndex = -1;
 			if(-1 > _scrollingIndex)
 				_scrollingIndex += 1;
 			_inputLabel.Text = history[history.Length + _scrollingIndex];
@@ -63,7 +65,6 @@ public partial class GUIConsole : GUIHandler
 		
 		if (Input.IsActionJustReleased("tab") && Visible)
 		{
-			//TODO DoesNOTWORK
 			var arr = _commandList.ToArray().Where(s => s.Contains(_lastStroke)).ToArray();
 			if(arr.Length==0)
 				return;
