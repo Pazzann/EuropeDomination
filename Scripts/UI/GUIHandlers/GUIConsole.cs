@@ -43,7 +43,6 @@ public partial class GUIConsole : GUIHandler
 		if (@event.IsActionPressed("arrow_down")&& _inputLabel.FocusMode == FocusModeEnum.Click)
 		{
 			//TODO
-			
 			//_inputLabel.Text = _history.[_history.Count-1]
 		}
 		if (@event.IsActionPressed("tab") && _inputLabel.FocusMode == FocusModeEnum.Click)

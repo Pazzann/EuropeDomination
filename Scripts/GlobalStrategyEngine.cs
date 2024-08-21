@@ -67,7 +67,9 @@ public partial class GlobalStrategyEngine : Node2D
 
 	private void _onMouseInactivityTimerTimeout()
 	{
-		InvokeToGUIEvent(new ToGUIShowInfoBoxProvinceEvent(EngineState.MapInfo.Scenario.Map[_findTile()]));
+		var tile = _findTile();
+		if(tile > -1)
+			InvokeToGUIEvent(new ToGUIShowInfoBoxProvinceEvent(EngineState.MapInfo.Scenario.Map[tile]));
 	}
 	
 	public void TimeTick()

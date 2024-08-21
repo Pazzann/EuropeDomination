@@ -11,10 +11,10 @@
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_qby8s")
+"texture": ExtResource("3_bur71")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_bur71")
+"texture": ExtResource("2_qby8s")
 }, {
 "duration": 1.0,
 "texture": ExtResource("4_ns5rt")

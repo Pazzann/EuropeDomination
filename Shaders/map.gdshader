@@ -14,14 +14,14 @@ int provinceID(vec3 color){
 }
 
 vec4 colorForProvince(vec3 color){
-	return vec4(colors[provinceID(color.rgb)], 1); 
+	return vec4(colors[provinceID(color.rgb)], 1);
 }
 
 void fragment() {
 	if(COLOR.a > 0.0f){
 		COLOR = colorForProvince(COLOR.rgb);
 	}
-	
+
 	vec2 uv = UV;
 	vec4 color = texture(TEXTURE, vec2(UV.x, UV.y));
 	vec4 color1 = emptycolor;
@@ -55,7 +55,7 @@ void fragment() {
 		}else if (colorFind != color1Find){
 			COLOR = mix(mix(colorFind, color1Find, 0.5f), emptycolor, 0.2f);
 		}
-		
+
 	}else if(color1 != emptycolor && color.a > 0.0f){
 		COLOR = mix(colorFind, emptycolor, 0.4f);
 	}
@@ -65,7 +65,5 @@ void fragment() {
 	if(sum>0.0f && color.a == 0.0f){
 		COLOR = emptycolor;
 	}
-  	
+
 }
-
-

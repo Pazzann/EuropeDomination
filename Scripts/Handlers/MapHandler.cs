@@ -141,12 +141,22 @@ public partial class MapHandler : GameHandler
             switch (@event)
             {
                 case GUIBuildBuildingEvent e:
-                    data.Buildings.Add(e.NewBuilding);
-                    InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent((LandProvinceData)EngineState.MapInfo.Scenario.Map[_selectedTileId]));
+                    var province = (LandProvinceData)EngineState.MapInfo.Scenario.Map[_selectedTileId];
+                    if (EngineState.PlayerCountryId == province.Owner && EngineState.MapInfo.Scenario.Countries[province.Owner].Money - e.NewBuilding.Cost >= 0)
+                    {
+                        EngineState.MapInfo.Scenario.Countries[province.Owner].Money -= e.NewBuilding.Cost;
+                        data.Buildings.Add(e.NewBuilding);
+                        InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent((LandProvinceData)EngineState.MapInfo.Scenario.Map[_selectedTileId]));
+                        InvokeToGUIEvent(new ToGUIUpdateCountryInfo());
+                    }
                     return;
                 case GUIDestroyBuildingEvent e:
-                    data.Buildings.RemoveAt(e.DestroyedId);
-                    InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent((LandProvinceData)EngineState.MapInfo.Scenario.Map[_selectedTileId]));
+                    var province2 = (LandProvinceData)EngineState.MapInfo.Scenario.Map[_selectedTileId];
+                    if (EngineState.PlayerCountryId == province2.Owner)
+                    {
+                        data.Buildings.RemoveAt(e.DestroyedId);
+                        InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent(province2));
+                    }
                     return;
                 default:
                     return;

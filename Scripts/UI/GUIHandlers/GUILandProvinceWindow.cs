@@ -1,4 +1,5 @@
 using System.Linq;
+using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
@@ -10,6 +11,7 @@ namespace EuropeDominationDemo.Scripts.UI.GUIHandlers;
 
 public partial class GUILandProvinceWindow : GUIHandler
 {
+	private bool _guestMode;
 	private Sprite2D _buildingsMenu;
 	private Control _possibleBuildings;
 
@@ -74,6 +76,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 				_setProvinceInfo(e.ShowProvinceData);
 				return;
 			case ToGUIUpdateLandProvinceDataEvent e:
+				_buildingsMenu.Visible = false;
 				_setProvinceInfo(e.UpdateProvinceData);
 				return;
 			default:
@@ -88,6 +91,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private void _setProvinceInfo(LandProvinceData provinceData)
 	{
+		_guestMode = provinceData.Owner != EngineState.PlayerCountryId;
+		
 		_currentProvinceData = provinceData;
 		
 		_provinceName.Text = provinceData.Name;
@@ -181,8 +186,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 			(_buildingsHandler.GetChild(g).GetChild(2) as Sprite2D).Visible = false;
 			(_buildingsHandler.GetChild(g) as Button).Disabled = true;
-			(_buildingsHandler.GetChild(g).GetChild(3) as Sprite2D).Visible = true;
-			(_buildingsHandler.GetChild(g).GetChild(3).GetChild(0) as Button).Disabled = false;
+			(_buildingsHandler.GetChild(g).GetChild(3) as Sprite2D).Visible = !_guestMode;
+			(_buildingsHandler.GetChild(g).GetChild(3).GetChild(0) as Button).Disabled = _guestMode;
 			g++;
 		}
 
@@ -204,7 +209,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 			{
 				(_buildingsHandler.GetChild(i).GetChild(0) as AnimatedSprite2D).SelfModulate = new Color(1.0f, 1.0f, 1.0f);
 				(_buildingsHandler.GetChild(i).GetChild(2) as Sprite2D).Visible = false;
-				(_buildingsHandler.GetChild(i) as Button).Disabled = false;
+				(_buildingsHandler.GetChild(i) as Button).Disabled = _guestMode;
 			}
 		}
 	}
