@@ -45,8 +45,27 @@ public partial class GUIConsole : GUIHandler
 			//TODO
 			//_inputLabel.Text = _history.[_history.Count-1]
 		}
-		if (@event.IsActionPressed("tab"))
+		
+		if (Input.IsActionJustReleased("tab"))
 		{
+			GD.Print("tab");
+			//TODO
+			//_inputLabel.Text = _history.[_history.Count-1]
+		}
+
+		// if (@event is InputEventKey { PhysicalKeycode: Key.Tab })
+		// {
+		// 	GD.Print("tab1");
+		// } 
+	}
+
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		base._UnhandledInput(@event);
+		
+		if (@event.IsActionPressed("tab", allowEcho: true))
+		{
+			GD.Print("tab2");
 			//TODO
 			//_inputLabel.Text = _history.[_history.Count-1]
 		}
