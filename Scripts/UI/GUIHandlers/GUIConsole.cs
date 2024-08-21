@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.UI.Events.GUI;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
@@ -13,9 +13,13 @@ public partial class GUIConsole : GUIHandler
 	private Expression _expression;
 	private RichTextLabel _commandLabel;
 	private LineEdit _inputLabel;
+	
 
 	private HashSet<string> _history =  new HashSet<string>();
-	private int _scrollingIndex = -1;
+	private int _scrollingIndex = 0;
+	private List<string> _commandList = new List<string>(){"SwitchToCountry", "Clear()", "DebugMode()"};
+	private int _tabScrollingIndex = 0;
+	private string _lastStroke = "";
 
 	public override void Init()
 	{
@@ -30,50 +34,58 @@ public partial class GUIConsole : GUIHandler
 
 	public override void InputHandle(InputEvent @event)
 	{
-		if (@event.IsActionPressed("open_close_console"))
+		if (Input.IsActionJustReleased("open_close_console"))
 		{
 			Visible = !Visible;
+			_inputLabel.Text = "";
 		}
 
-		if (@event.IsActionPressed("arrow_up"))
+		if (Input.IsActionJustReleased("arrow_up") && Visible)
 		{
-			//TODO
-			//_inputLabel.Text = _history.[_history.Count-1]
+			var history = _history.ToArray();
+			if(history.Length==0)
+				return;
+			if(history.Length > Mathf.Abs(_scrollingIndex))
+				_scrollingIndex += -1;
+			_inputLabel.Text = history[history.Length + _scrollingIndex];
+			
 		}
-		if (@event.IsActionPressed("arrow_down"))
+		if (Input.IsActionJustReleased("arrow_down") && Visible)
 		{
-			//TODO
-			//_inputLabel.Text = _history.[_history.Count-1]
+			var history = _history.ToArray();
+			if(history.Length==0)
+				return;
+			if(-1 > _scrollingIndex)
+				_scrollingIndex += 1;
+			_inputLabel.Text = history[history.Length + _scrollingIndex];
+			
 		}
 		
-		if (Input.IsActionJustReleased("tab"))
+		if (Input.IsActionJustReleased("tab") && Visible)
 		{
-			GD.Print("tab");
-			//TODO
-			//_inputLabel.Text = _history.[_history.Count-1]
-		}
-
-		// if (@event is InputEventKey { PhysicalKeycode: Key.Tab })
-		// {
-		// 	GD.Print("tab1");
-		// } 
-	}
-
-	public override void _UnhandledInput(InputEvent @event)
-	{
-		base._UnhandledInput(@event);
-		
-		if (@event.IsActionPressed("tab", allowEcho: true))
-		{
-			GD.Print("tab2");
-			//TODO
-			//_inputLabel.Text = _history.[_history.Count-1]
+			//TODO DoesNOTWORK
+			var arr = _commandList.ToArray().Where(s => s.Contains(_inputLabel.Text)).ToArray();
+			if(arr.Length==0)
+				return;
+			_inputLabel.Text = arr[_tabScrollingIndex];
+			if(arr.Length-1>_tabScrollingIndex)
+				_tabScrollingIndex++;
+			else if (_tabScrollingIndex == arr.Length - 1)
+				_tabScrollingIndex = 0;
 		}
 	}
+	
 
 	private void _onInputTextSubmitted(string name)
 	{
 		_handleConsoleInput();
+	}
+
+	private void _onInputTextChanged(string name)
+	{
+		//TODO DoesNOTWORK
+		GD.Print(1);
+		_tabScrollingIndex = 0;
 	}
 
 	public override void ToGUIHandleEvent(ToGUIEvent @event)
@@ -92,7 +104,8 @@ public partial class GUIConsole : GUIHandler
 		}
 		_history.Add(_inputLabel.Text);
 		_inputLabel.Text = "";
-
+		_scrollingIndex = 0;
+		_tabScrollingIndex = 0;
 
 		Variant result = _expression.Execute(null, this, false);
 		if (!_expression.HasExecuteFailed())
@@ -103,6 +116,7 @@ public partial class GUIConsole : GUIHandler
 		{
 			_commandLabel.Text += "\n" + "[b][color=red]" + _expression.GetErrorText()  + "[/color][/b]";
 		}
+	
 		
 	}
 	

@@ -51,4 +51,5 @@ layout_mode = 2
 mouse_filter = 1
 placeholder_text = "> type your command"
 
+[connection signal="text_changed" from="Container/VContainer/InputText" to="." method="_onInputTextChanged"]
 [connection signal="text_submitted" from="Container/VContainer/InputText" to="." method="_onInputTextSubmitted"]
