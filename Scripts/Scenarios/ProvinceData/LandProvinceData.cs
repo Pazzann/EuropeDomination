@@ -50,7 +50,6 @@ public class LandProvinceData : ProvinceData
 	) : base(id, name)
 	{
 		this.Owner = countryId;
-		this.Name = name;
 		this.Terrain = terrain;
 		this.Development = development;
 

@@ -20,6 +20,7 @@ public partial class GUIConsole : GUIHandler
 	private List<string> _commandList = new List<string>(){"SwitchToCountry", "Clear()", "DebugMode()"};
 	private int _tabScrollingIndex = 0;
 	private string _lastStroke = "";
+	private string _lastResult = "";
 
 	public override void Init()
 	{
@@ -29,7 +30,6 @@ public partial class GUIConsole : GUIHandler
 		_expression = new Expression();
 		
 	}
-
 	
 
 	public override void InputHandle(InputEvent @event)
@@ -64,10 +64,11 @@ public partial class GUIConsole : GUIHandler
 		if (Input.IsActionJustReleased("tab") && Visible)
 		{
 			//TODO DoesNOTWORK
-			var arr = _commandList.ToArray().Where(s => s.Contains(_inputLabel.Text)).ToArray();
+			var arr = _commandList.ToArray().Where(s => s.Contains(_lastStroke)).ToArray();
 			if(arr.Length==0)
 				return;
 			_inputLabel.Text = arr[_tabScrollingIndex];
+			_lastResult = arr[_tabScrollingIndex];
 			if(arr.Length-1>_tabScrollingIndex)
 				_tabScrollingIndex++;
 			else if (_tabScrollingIndex == arr.Length - 1)
@@ -83,8 +84,9 @@ public partial class GUIConsole : GUIHandler
 
 	private void _onInputTextChanged(string name)
 	{
-		//TODO DoesNOTWORK
-		GD.Print(1);
+		if (_inputLabel.Text == _lastResult)
+			return;
+		_lastStroke = _inputLabel.Text;
 		_tabScrollingIndex = 0;
 	}
 
