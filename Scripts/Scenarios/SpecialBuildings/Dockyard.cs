@@ -4,7 +4,7 @@ namespace EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 
 public class Dockyard : SpecialBuilding
 {
-    public Dockyard() : base(SpecialBuildingTypes.DockYard)
+    public Dockyard(int timeToBuild, int buildingTime, bool isFinished) : base(SpecialBuildingTypes.DockYard, timeToBuild, buildingTime, isFinished)
     {
         
     }

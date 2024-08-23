@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using EuropeDominationDemo.Scripts.Scenarios.Army;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
@@ -14,7 +16,9 @@ public class CountryData
 	public int Money = 100;
 	public int Manpower = 100;
 
-	public CountryData(int id, string name, Vector3 color, Modifiers modifiers, int money, int manpower )
+	public List<General> Generals;
+
+	public CountryData(int id, string name, Vector3 color, Modifiers modifiers, int money, int manpower, List<General> generals)
 	{
 		Id = id;
 		Name = name;
@@ -22,5 +26,6 @@ public class CountryData
 		Modifiers = modifiers;
 		Money = money;
 		Manpower = manpower;
+		Generals = generals;
 	}
 }

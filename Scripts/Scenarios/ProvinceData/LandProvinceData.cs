@@ -2,6 +2,7 @@
 using System.Transactions;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
+using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
@@ -13,6 +14,7 @@ public class LandProvinceData : ProvinceData
 
 	public float[] Resources;
 	public List<Building> Buildings;
+	public List<SpecialBuilding> SpecialBuildings;
 
 	public readonly Terrain Terrain;
 	public readonly Good Good;
@@ -46,8 +48,9 @@ public class LandProvinceData : ProvinceData
 		int development,
 		float[] resources,
 		List<Building> buildings,
-		Modifiers modifiers
-	) : base(id, name)
+		Modifiers modifiers,
+		List<SpecialBuilding> specialBuildings
+		) : base(id, name)
 	{
 		this.Owner = countryId;
 		this.Terrain = terrain;
@@ -60,6 +63,7 @@ public class LandProvinceData : ProvinceData
 		this.Good = good;
 
 		this.Modifiers = modifiers;
+		this.SpecialBuildings = specialBuildings;
 
 	}
 }

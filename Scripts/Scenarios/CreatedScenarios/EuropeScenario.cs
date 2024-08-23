@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Math;
+using EuropeDominationDemo.Scripts.Scenarios.Army;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
+using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
@@ -18,18 +20,25 @@ public class EuropeScenario : Scenario
     public override Dictionary<int, Vector3> WastelandProvinceColors { get; set; }
     public override Vector3 WaterColor { get; set; }
     public override Vector3 UncolonizedColor { get; set; }
+    public override List<TransportationRoute> TransportationRoutes { get; set; }
 
     public EuropeScenario(Image mapTexture)
     {
         MapTexture = mapTexture;
 
         Date = new DateTime(1444, 11, 12);
+        
+        TransportationRoutes = new List<TransportationRoute>();
 
         Countries = new Dictionary<int, CountryData>()
         {
-            { 0, new CountryData(0, "Great Britain", new Vector3(0.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers(), 100, 300) },
-            { 1, new CountryData(1, "France", new Vector3(0.0f, 0.0f, 1.0f), Modifiers.DefaultModifiers(), 200, 200) },
-            { 2, new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers(), 300, 100) },
+            {
+                0,
+                new CountryData(0, "Great Britain", new Vector3(0.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers(), 100,
+                    300, new List<General>())
+            },
+            { 1, new CountryData(1, "France", new Vector3(0.0f, 0.0f, 1.0f), Modifiers.DefaultModifiers(), 200, 200,new List<General>()) },
+            { 2, new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers(), 300, 100,new List<General>()) },
         };
         WastelandProvinceColors = new Dictionary<int, Vector3>()
         {
@@ -43,53 +52,53 @@ public class EuropeScenario : Scenario
         {
             new LandProvinceData(0, 0, "London", Terrain.Coast, Good.Iron, 1, new float[] { 0, 3 },
                 new List<Building>(),
-                Modifiers.DefaultModifiers()),
+                Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(1, 0, "London", Terrain.Field, Good.Iron, 3, new float[] { 0, 1 },
                 new List<Building>(),
-                Modifiers.DefaultModifiers()),
+                Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(2, 0, "London", Terrain.Field, Good.Iron, 1, new float[] { 3, 0 },
                 new List<Building>(),
-                Modifiers.DefaultModifiers()),
+                Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(3, 0, "London", Terrain.Forest, Good.Iron, 1, new float[] { 0, 3 },
                 new List<Building>(),
-                Modifiers.DefaultModifiers()),
+                Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(4, 0, "London", Terrain.Plain, Good.Iron, 1, new float[] { 4, 0 },
                 new List<Building>(),
-                Modifiers.DefaultModifiers()),
+                Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(5, 0, "Paris", Terrain.Plain, Good.Iron, 3, new float[] { 0, 4 }, new List<Building>(),
-                Modifiers.DefaultModifiers()),
+                Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(6, 2, "Lorem", Terrain.Plain, Good.Iron, 3, new float[] { 3, 0 }, new List<Building>(),
-                Modifiers.DefaultModifiers()),
+                Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(7, 2, "FlashBang", Terrain.Plain, Good.Wheat, 1, new float[] { 1, 0 },
-                new List<Building>(), Modifiers.DefaultModifiers()),
+                new List<Building>(), Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(8, 2, "CommunistPigs", Terrain.Plain, Good.Wheat, 3, new float[] { 0, 5 },
-                new List<Building>(), Modifiers.DefaultModifiers()),
+                new List<Building>(), Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(9, 2, "Berlin", Terrain.Mountains, Good.Wheat, 1, new float[] { 5, 0 },
-                new List<Building>(), Modifiers.DefaultModifiers()),
+                new List<Building>(), Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(10, 2, "LibertarianTown", Terrain.Mountains, Good.Wheat, 1, new float[] { 6, 0 },
-                new List<Building>(), Modifiers.DefaultModifiers()),
+                new List<Building>(), Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(11, 1, "Liberty", Terrain.Mountains, Good.Wheat, 1, new float[] { 0, 6 },
-                new List<Building>(), Modifiers.DefaultModifiers()),
+                new List<Building>(), Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(12, 1, "NY", Terrain.Coast, Good.Wheat, 1, new float[] { 7, 0 }, new List<Building>(),
-                Modifiers.DefaultModifiers()),
+                Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(13, 1, "Los Angeles", Terrain.Coast, Good.Wheat, 1, new float[] { 0, 7 },
-                new List<Building>(), Modifiers.DefaultModifiers()),
+                new List<Building>(), Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(14, 1, "LibertarianTown", Terrain.Mountains, Good.Wheat, 1, new float[] { 6, 0 },
-                new List<Building>(), Modifiers.DefaultModifiers()),
+                new List<Building>(), Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(15, 1, "Liberty", Terrain.Mountains, Good.Wheat, 1, new float[] { 0, 6 },
-                new List<Building>(), Modifiers.DefaultModifiers()),
+                new List<Building>(), Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(16, 1, "NY", Terrain.Coast, Good.Wheat, 1, new float[] { 7, 0 }, new List<Building>(),
-                Modifiers.DefaultModifiers()),
+                Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(17, 1, "Los Angeles", Terrain.Coast, Good.Wheat, 1, new float[] { 0, 7 },
-                new List<Building>(), Modifiers.DefaultModifiers()),
+                new List<Building>(), Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(18, 1, "LibertarianTown", Terrain.Mountains, Good.Wheat, 1, new float[] { 6, 0 },
-                new List<Building>(), Modifiers.DefaultModifiers()),
+                new List<Building>(), Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(19, 1, "Liberty", Terrain.Mountains, Good.Wheat, 1, new float[] { 0, 6 },
-                new List<Building>(), Modifiers.DefaultModifiers()),
+                new List<Building>(), Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(20, 1, "NY", Terrain.Coast, Good.Wheat, 1, new float[] { 7, 0 }, new List<Building>(),
-                Modifiers.DefaultModifiers()),
+                Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new LandProvinceData(21, 1, "Los Angeles", Terrain.Coast, Good.Wheat, 1, new float[] { 0, 7 },
-                new List<Building>(), Modifiers.DefaultModifiers()),
+                new List<Building>(), Modifiers.DefaultModifiers(), new List<SpecialBuilding>()),
             new UncolonizedProvinceData(22, "DefaultName"),
             new UncolonizedProvinceData(23, "DefaultName"),
             new UncolonizedProvinceData(24, "DefaultName"),
@@ -338,7 +347,7 @@ public class EuropeScenario : Scenario
             new UncolonizedProvinceData(267, "DefaultName"),
             new UncolonizedProvinceData(268, "DefaultName"),
             new UncolonizedProvinceData(269, "DefaultName"),
-            new UncolonizedProvinceData(270, "DefaultName"), 
+            new UncolonizedProvinceData(270, "DefaultName"),
             new UncolonizedProvinceData(271, "DefaultName"),
             new UncolonizedProvinceData(272, "DefaultName"),
             new UncolonizedProvinceData(273, "DefaultName"),
@@ -493,10 +502,10 @@ public class EuropeScenario : Scenario
 
         ArmyUnits = new List<ArmyUnitData>()
         {
-            new ArmyUnitData("George Floyd", 1, 3, Modifiers.DefaultModifiers()),
-            new ArmyUnitData("Idk", 1, 5, Modifiers.DefaultModifiers()),
-            new ArmyUnitData("FunnyName", 1, 6, Modifiers.DefaultModifiers()),
-            new ArmyUnitData("Length", 1, 7, Modifiers.DefaultModifiers()),
+            new ArmyUnitData("George Floyd", 1, 3, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null),
+            new ArmyUnitData("Idk", 1, 5, Modifiers.DefaultModifiers(),new List<ArmyRegiment>(), null),
+            new ArmyUnitData("FunnyName", 1, 6, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null),
+            new ArmyUnitData("Length", 1, 7, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null),
         };
 
         Map = GameMath.CalculateBorderProvinces(Map, MapTexture);

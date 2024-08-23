@@ -7,8 +7,11 @@ public class Factory : SpecialBuilding
 {
     public Recipe Recipe = null;
     public int Cost = 100;
-    public Factory(Recipe recipe) : base(SpecialBuildingTypes.Factory)
+    public float ProductionRate;
+    public float ProductionGrowthRate = 0.02f;
+    public Factory(Recipe recipe, int timeToBuild, int buildingTime, bool isFinished, float productionRate) : base(SpecialBuildingTypes.Factory, timeToBuild, buildingTime, isFinished)
     {
         Recipe = recipe;
+        ProductionRate = productionRate;
     }
 }

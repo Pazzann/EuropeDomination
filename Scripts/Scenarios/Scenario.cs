@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EuropeDominationDemo.Scripts.Scenarios.Army;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using Godot;
 
@@ -19,6 +20,8 @@ public abstract class Scenario : IScenario
 	public abstract List<ArmyUnitData> ArmyUnits { get; set; }
 	
 	public abstract Image MapTexture { get; set; }
+	
+	public abstract List<TransportationRoute> TransportationRoutes { get; set; }
 
 	public TimeSpan Ts => new(1, 0, 0, 0);
 
