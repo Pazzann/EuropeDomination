@@ -43,7 +43,10 @@ material = SubResource("ShaderMaterial_hr6fk")
 texture = ExtResource("6_d2n0v")
 centered = false
 
-[node name="TextHandler" type="Node2D" parent="MapHandler"]
+[node name="CountryTextHandler" type="Node2D" parent="MapHandler"]
+
+[node name="ProvinceTextHandler" type="Node2D" parent="MapHandler"]
+visible = false
 
 [node name="GoodsHandler" type="Node2D" parent="MapHandler"]
 

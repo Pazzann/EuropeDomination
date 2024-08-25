@@ -20,7 +20,8 @@ public partial class MapHandler : GameHandler
 
 
 	private PackedScene _textScene;
-	private Node2D _textSpawner;
+	private Node2D _countryTextSpawner;
+	private Node2D _provinceTextSpawner;
 
 	private PackedScene _goodsScene;
 	private Node2D _goodsSpawner;
@@ -39,7 +40,8 @@ public partial class MapHandler : GameHandler
 
 
 		_textScene = (PackedScene)GD.Load("res://Prefabs/Text.tscn");
-		_textSpawner = GetNode<Node2D>("./TextHandler");
+		_countryTextSpawner = GetNode<Node2D>("./CountryTextHandler");
+		_provinceTextSpawner = GetNode<Node2D>("./ProvinceTextHandler");
 
 		_goodsScene = (PackedScene)GD.Load("res://Prefabs/Good.tscn");
 		_goodsSpawner = GetNode<Node2D>("./GoodsHandler");
@@ -97,12 +99,14 @@ public partial class MapHandler : GameHandler
 
 				if (zoom < 3.0f)
 				{
-					_textSpawner.Visible = true;
+					_countryTextSpawner.Visible = true;
+					_provinceTextSpawner.Visible = false;
 					_devSpawner.Visible = false;
 				}
 				else
 				{
-					_textSpawner.Visible = false;
+					_countryTextSpawner.Visible = false;
+					_provinceTextSpawner.Visible = true;
 					_devSpawner.Visible = true;
 				}
 
@@ -112,13 +116,15 @@ public partial class MapHandler : GameHandler
 			{
 				_goodsSpawner.Visible = true;
 				_devSpawner.Visible = false;
-				_textSpawner.Visible = false;
+				_countryTextSpawner.Visible = false;
+				_provinceTextSpawner.Visible = false;
 				break;
 			}
 			case MapTypes.Terrain:
 			{
 				_goodsSpawner.Visible = false;
-				_textSpawner.Visible = false;
+				_countryTextSpawner.Visible = false;
+				_provinceTextSpawner.Visible = false;
 				_devSpawner.Visible = false;
 				break;
 			}
@@ -172,7 +178,7 @@ public partial class MapHandler : GameHandler
 
 	private void _clearText()
 	{
-		var texts = _textSpawner.GetChildren();
+		var texts = _countryTextSpawner.GetChildren();
 		foreach (var text in texts)
 			text.Free();
 	}
@@ -198,7 +204,7 @@ public partial class MapHandler : GameHandler
 			{
 				var node = _textScene.Instantiate() as CurvedLabel;
 				node!.Text = label;
-				_textSpawner.AddChild(node);
+				_countryTextSpawner.AddChild(node);
 			}
 		}
 
@@ -210,7 +216,7 @@ public partial class MapHandler : GameHandler
 			{
 				var node = _textScene.Instantiate() as CurvedLabel;
 				node!.Text = label;
-				_textSpawner.AddChild(node);
+				_provinceTextSpawner.AddChild(node);
 			}
 		}
 

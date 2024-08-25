@@ -44,7 +44,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_provinceTerrain = GetNode<AnimatedSprite2D>("HBoxContainer4/ProvinceWindowSprite/Terrain");
 		_provinceResources = GetNode<GUIResources>("HBoxContainer4/ProvinceWindowSprite/ResourcesContainer/Control");
 
-		_provinceTypeSelection = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/ProvinceTypeSelection");
+		_provinceTypeSelection = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/ProvinceTypeSelection");
 		_provinceTypeSprite = _provinceTypeSelection.GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		_provinceTypeSelectionMenu = _provinceTypeSelection.GetNode<Control>("ScrollContainer");
 
