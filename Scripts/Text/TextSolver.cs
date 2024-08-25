@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EuropeDominationDemo.Scripts.Math;
 using Godot;
@@ -13,26 +14,23 @@ public class TextSolver
         Mathf.Pi / 8f,
         Mathf.Pi / 10f,
     };
-
-    private readonly StateMap _map;
-    private readonly IReadOnlyList<Polygon> _contours;
-
-    private readonly int _stateId;
+    
+    private readonly ILayer _layer;
+    private readonly int _areaId;
     private readonly string _text;
     private readonly float _letterAspectRatio;
-
-    public TextSolver(StateMap map, string text, int stateId, float letterAspectRatio)
+    
+    public TextSolver(ILayer layer, int areaId, string text, float letterAspectRatio)
     {
-        _map = map;
-        _contours = map.GetStateContours(stateId);
-        _stateId = stateId;
+        _layer = layer;
+        _areaId = areaId;
         _text = text;
         _letterAspectRatio = letterAspectRatio;
     }
-
+    
     public List<CurvedText> FitText(float eps = 0.1f)
     {
-        return _contours.Select(contour => FitText(contour, eps)).ToList();
+        return _layer.GetContours(_areaId).Select(contour => FitText(contour, eps)).ToList();
     }
     
     private CurvedText FitText(Polygon contour, float eps)
@@ -44,8 +42,8 @@ public class TextSolver
         
         var path = new SolidPath<Sector>(new Sector(), 0f);
         
-        for (var i = 0; i < borderVertices.Count; i += 2) {
-            for (var j = i + 1; j < borderVertices.Count; j += 2) {
+        for (var i = 0; i < borderVertices.Count; ++i) {
+            for (var j = i + 1; j < borderVertices.Count; ++j) {
                 if (i == j)
                     continue;
 
@@ -81,7 +79,7 @@ public class TextSolver
     private float FindPath(Polygon contour, in Sector sector, ref SolidPath<Sector> path, float eps)
     {
         var minFontSize = 1f;
-        var maxFontSize = 50f;
+        var maxFontSize = 100f;
         
         while (maxFontSize - minFontSize > eps)
         {
@@ -99,8 +97,16 @@ public class TextSolver
     
     private bool TryFitText(Polygon contour, in Sector extendedSector, in Vector2 letterSize, ref SolidPath<Sector> path)
     {
-        if (_map.GetStateId(extendedSector.GetPoint(0.5f).RoundToInt()) != _stateId)
+        if (_layer.GetAreaId(extendedSector.GetPoint(0.5f).RoundToInt()) != _areaId)
             return false;
+        
+        // Span<float> checkpoints = stackalloc float[7] { 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f };
+        //
+        // foreach (var checkpoint in checkpoints)
+        // {
+        //     if (_layer.GetAreaId(extendedSector.GetPoint(checkpoint).RoundToInt()) != _areaId)
+        //         return false;
+        // }
 
         var arcLength = extendedSector.ArcLength();
         var letterWidth = letterSize.X / arcLength;
