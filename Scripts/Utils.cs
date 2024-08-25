@@ -28,13 +28,18 @@ public class Dsu
         }
     }
 
-    public int Find(int node)
+    public int Find(int set)
     {
-        if (_parent[node] == node)
-            return node;
+        if (_parent[set] == set)
+            return set;
 
-        _parent[node] = Find(_parent[node]);
-        return _parent[node];
+        _parent[set] = Find(_parent[set]);
+        return _parent[set];
+    }
+    
+    public int GetSize(int set)
+    {
+        return _size[set];
     }
 
     public void Union(int a, int b)

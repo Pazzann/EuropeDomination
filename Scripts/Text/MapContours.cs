@@ -37,19 +37,17 @@ public class MapContours
             select (province, entry.Key);
 
         foreach (var (province, state) in provinceStateQuery)
-        {
             provinceToState.TryAdd(province, state);
-        }
 
-        var mapWidth = mapImage.GetWidth();
-        var mapHeight = mapImage.GetHeight();
+        var width = mapImage.GetWidth();
+        var height = mapImage.GetHeight();
 
-        var provinceId = new int[mapWidth, mapHeight];
-        var stateId = new int[mapWidth, mapHeight];
+        var provinceId = new int[width, height];
+        var stateId = new int[width, height];
 
-        for (var i = 0; i < mapWidth; ++i)
+        for (var i = 0; i < width; ++i)
         {
-            for (var j = 0; j < mapHeight; ++j)
+            for (var j = 0; j < height; ++j)
             {
                 var color = mapImage.GetPixel(i, j);
 
@@ -64,17 +62,19 @@ public class MapContours
             }
         }
 
-        //Provinces = new Layer(mapWidth, mapHeight, provinceId);
-        States = new Layer(mapWidth, mapHeight, stateId);
+        Provinces = new Layer(width, height, provinceId, 15, 1e-4f);
+        States = new Layer(width, height, stateId, 30, 1e-4f);
     }
 
     private class Layer : ILayer
     {
         private readonly int _width, _height;
+        private readonly int _contourLength;
+        private readonly float _areaThreshold;
         private readonly int[,] _areaId;
         private readonly Dictionary<int, List<Polygon>> _contours;
-
-        public Layer(int width, int height, int[,] areaId)
+        
+        public Layer(int width, int height, int[,] areaId, int contourLength, float areaThreshold)
         {
             if (areaId.Length != width * height)
                 throw new ArgumentException("`areaId` length must be equal to `width` * `height`");
@@ -83,6 +83,8 @@ public class MapContours
             _height = height;
             _areaId = areaId;
             _contours = new Dictionary<int, List<Polygon>>();
+            _contourLength = contourLength;
+            _areaThreshold = areaThreshold;
 
             BuildContours();
         }
@@ -116,7 +118,7 @@ public class MapContours
 
                     foreach (var neighbor in neighbors)
                     {
-                        if (_areaId[i, j] == GetAreaId(neighbor))
+                        if (_areaId[i, j] != GetAreaId(neighbor))
                         {
                             isOnBorder[i, j] = true;
                             break;
@@ -227,31 +229,28 @@ public class MapContours
             }
 
             var mapArea = _width * _height;
-
-            foreach (var hull in hulls.Values)
+            
+            foreach (var (c, hull) in hulls)
             {
                 if (hull.Count == 0)
                     continue;
 
                 var areaId = _areaId[hull[0].X, hull[0].Y];
+                
+                if (!_contours.ContainsKey(areaId))
+                    _contours.Add(areaId, new List<Polygon>());
 
-                // TODO: use a better area heuristic.
-                if ((float)hull.Count * hull.Count / mapArea < 1e-4f)
+                if ((float)dsu.GetSize(c) / mapArea < _areaThreshold)
                     continue;
 
-                var clusterSize = hull.Count / 30;
+                var clusterSize = hull.Count / _contourLength;
 
                 if (clusterSize == 0)
                     clusterSize = 1;
-                
-                GD.Print("cnt: ", hull.Count);
 
                 var vertices = hull
                     .Where((_, i) => i % clusterSize == 0)
                     .Select(vertex => new Vector2(vertex.X, vertex.Y));
-                
-                if (!_contours.ContainsKey(areaId))
-                    _contours.Add(areaId, new List<Polygon>());
                 
                 _contours[areaId].Add(new Polygon(vertices));
             }

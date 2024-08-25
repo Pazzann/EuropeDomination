@@ -72,7 +72,7 @@ public class TextSolver
             }
         }
 
-        GD.Print("font size: ", bestFontSize);
+        //GD.Print("font size: ", bestFontSize);
         return new CurvedText(_text, bestFontSize, bestPath);
     }
     
@@ -97,16 +97,16 @@ public class TextSolver
     
     private bool TryFitText(Polygon contour, in Sector extendedSector, in Vector2 letterSize, ref SolidPath<Sector> path)
     {
-        if (_layer.GetAreaId(extendedSector.GetPoint(0.5f).RoundToInt()) != _areaId)
-            return false;
+        // if (_layer.GetAreaId(extendedSector.GetPoint(0.5f).RoundToInt()) != _areaId)
+        //     return false;
         
-        // Span<float> checkpoints = stackalloc float[7] { 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f };
-        //
-        // foreach (var checkpoint in checkpoints)
-        // {
-        //     if (_layer.GetAreaId(extendedSector.GetPoint(checkpoint).RoundToInt()) != _areaId)
-        //         return false;
-        // }
+        Span<float> checkpoints = stackalloc float[7] { 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f };
+        
+        foreach (var checkpoint in checkpoints)
+        {
+            if (_layer.GetAreaId(extendedSector.GetPoint(checkpoint).RoundToInt()) != _areaId)
+                return false;
+        }
 
         var arcLength = extendedSector.ArcLength();
         var letterWidth = letterSize.X / arcLength;
