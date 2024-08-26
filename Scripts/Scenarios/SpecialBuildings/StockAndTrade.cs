@@ -4,7 +4,7 @@ namespace EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 
 public class StockAndTrade : SpecialBuilding
 {
-    public StockAndTrade(int timeToBuild, int buildingTime, bool isFinished) : base(SpecialBuildingTypes.StockAndTrade, timeToBuild, buildingTime, isFinished)
+    public StockAndTrade(int buildingTime, bool isFinished) : base(SpecialBuildingTypes.StockAndTrade, 100, buildingTime, isFinished)
     {
         
     }

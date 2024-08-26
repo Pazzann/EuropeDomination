@@ -74,9 +74,9 @@ public partial class GlobalStrategyEngine : Node2D
 	
 	public void TimeTick()
 	{
-		// AllHandlersControls.TimeTick();
-		// InvokeToGUIEvent(new ToGUISetDateEvent(EngineState.MapInfo.Scenario.Date));
-		// _timer.Start();
+		AllHandlersControls.TimeTick();
+		InvokeToGUIEvent(new ToGUISetDateEvent(EngineState.MapInfo.Scenario.Date));
+		_timer.Start();
 	}
 	
 	public override void _UnhandledInput  (InputEvent @event)

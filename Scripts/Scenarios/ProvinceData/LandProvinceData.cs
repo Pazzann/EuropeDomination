@@ -14,7 +14,7 @@ public class LandProvinceData : ProvinceData
 
 	public float[] Resources;
 	public List<Building> Buildings;
-	public List<SpecialBuilding> SpecialBuildings;
+	public SpecialBuilding[] SpecialBuildings;
 
 	public readonly Terrain Terrain;
 	public readonly Good Good;
@@ -49,7 +49,7 @@ public class LandProvinceData : ProvinceData
 		float[] resources,
 		List<Building> buildings,
 		Modifiers modifiers,
-		List<SpecialBuilding> specialBuildings
+		SpecialBuilding[] specialBuildings
 		) : base(id, name)
 	{
 		this.Owner = countryId;

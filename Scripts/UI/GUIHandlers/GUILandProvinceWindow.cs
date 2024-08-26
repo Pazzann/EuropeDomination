@@ -3,6 +3,7 @@ using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
+using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.UI.Events.GUI;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using Godot;
@@ -20,14 +21,20 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private AnimatedSprite2D _provinceGood;
 	private AnimatedSprite2D _provinceTerrain;
 	private GUIResources _provinceResources;
-
-	private Control _provinceTypeSelection;
-	private AnimatedSprite2D _provinceTypeSprite;
-	private Control _provinceTypeSelectionMenu;
+	
 
 	private Node2D _buildingsHandler;
 
-	private ProvinceData _currentProvinceData;
+	private Control _factoryHandler;
+	private Control _tradeAndStockHandler;
+	private Control _dockyardHandler;
+	private Control _militaryTrainingHandler;
+	private Control _emptyHandler;
+	private Control _notUnlockedHandler;
+
+	private int _currentTab;
+
+	private LandProvinceData _currentProvinceData;
 
 
 	private bool _isCurrentlyShown = false;
@@ -43,10 +50,14 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_provinceGood = GetNode<AnimatedSprite2D>("HBoxContainer4/ProvinceWindowSprite/Good");
 		_provinceTerrain = GetNode<AnimatedSprite2D>("HBoxContainer4/ProvinceWindowSprite/Terrain");
 		_provinceResources = GetNode<GUIResources>("HBoxContainer4/ProvinceWindowSprite/ResourcesContainer/Control");
+		
 
-		_provinceTypeSelection = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/ProvinceTypeSelection");
-		_provinceTypeSprite = _provinceTypeSelection.GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		_provinceTypeSelectionMenu = _provinceTypeSelection.GetNode<Control>("ScrollContainer");
+		_factoryHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/Factory");
+		_militaryTrainingHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp");
+		_dockyardHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/Dockyard");
+		_tradeAndStockHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/StockAndTrade");
+		_emptyHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding");
+		_notUnlockedHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/NotUnlockedSpecialBuilding");
 
 		_buildingsHandler = GetNode<Node2D>("HBoxContainer4/ProvinceWindowSprite/Buildings");
 
@@ -100,6 +111,9 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_provinceGood.Frame = (int)provinceData.Good;
 		_provinceTerrain.Frame = (int)provinceData.Terrain;
 		_provinceResources.DrawResources(provinceData);
+
+		_currentTab = 0;
+		_showTab(0);
 		
 		_setBuildingMenuInfo(provinceData);
 		
@@ -213,15 +227,77 @@ public partial class GUILandProvinceWindow : GUIHandler
 			}
 		}
 	}
+
+	private void _onTabContainerTabChanged(int tabId)
+	{
+		_closeAllTabs();
+		_currentTab = tabId;
+		_showTab(tabId);
+		
+	}
+
+	private void _showTab(int tabId)
+	{
+		switch (_currentProvinceData.SpecialBuildings[tabId])
+		{
+			case Factory:
+				_factoryHandler.Visible = true;
+				return;
+			case Dockyard:
+				_dockyardHandler.Visible = true;
+				return;
+			case MilitaryTrainingCamp:
+				_militaryTrainingHandler.Visible = true;
+				return;
+			case StockAndTrade:
+				_tradeAndStockHandler.Visible = true;
+				return;
+			default:
+				if (_currentProvinceData.Development >= 10 + 10 * tabId) 
+					_emptyHandler.Visible = true;
+				else
+					_notUnlockedHandler.Visible = true;
+				return;
+		}
+	}
+
+	private void _onSpecialBuildingSelectionPressed(int id)
+	{
+		switch (id)
+		{
+			case 0:
+				_currentProvinceData.SpecialBuildings[_currentTab] = new StockAndTrade(0, false);
+				break;
+			case 1:
+				_currentProvinceData.SpecialBuildings[_currentTab] = new Factory(null,0, false, 0.2f);
+				break;
+			case 2:
+				_currentProvinceData.SpecialBuildings[_currentTab] = new Dockyard(0, false);
+				break;
+			case 3:
+				_currentProvinceData.SpecialBuildings[_currentTab] = new MilitaryTrainingCamp(0, false);
+				break;
+			default:
+				return;
+		}
+		_showTab(_currentTab);
+	}
+
+	private void _closeAllTabs()
+	{
+		_factoryHandler.Visible = false;
+		_tradeAndStockHandler.Visible = false;
+		_dockyardHandler.Visible = false;
+		_militaryTrainingHandler.Visible = false;
+		_emptyHandler.Visible = false;
+		_notUnlockedHandler.Visible = false;
+	}
+	
 	
 	private void _onBuildBuildingOnMenuPressed(Building building)
 	{
 		InvokeGUIEvent(new GUIBuildBuildingEvent(building));
 	}
-
-	private void _onProvinceTypeSelection()
-	{
-		_provinceTypeSelectionMenu.Visible = !_provinceTypeSelectionMenu.Visible;
-	}
+	
 
 }

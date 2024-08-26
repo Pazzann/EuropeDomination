@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bgb7s0ynl6r2t"]
+[gd_scene load_steps=18 format=3 uid="uid://bgb7s0ynl6r2t"]
 
 [ext_resource type="Texture2D" uid="uid://ckhuxliwwap7v" path="res://Sprites/ProvinceControl.png" id="1_dqhfl"]
 [ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUILandProvinceWindow.cs" id="1_y47fr"]
@@ -9,12 +9,11 @@
 [ext_resource type="PackedScene" uid="uid://uway7gdlqq10" path="res://Prefabs/GUI/GUIResources.tscn" id="6_8tdh2"]
 [ext_resource type="Texture2D" uid="uid://dkdupthlvtc12" path="res://Sprites/ProvinceTypeSelection/bg.png" id="8_j1vcm"]
 [ext_resource type="PackedScene" uid="uid://clf8v6lyqbsx6" path="res://Prefabs/Buildings.tscn" id="9_863be"]
-[ext_resource type="Texture2D" uid="uid://dmhs1r8e2opvs" path="res://Sprites/ProvinceTypeSelection/select.png" id="10_h801k"]
 [ext_resource type="Texture2D" uid="uid://bl2u1qda5j8n4" path="res://Sprites/ProvinceTypeSelection/productionLine.png" id="11_3bjrh"]
 [ext_resource type="Texture2D" uid="uid://dx08b2wttihu" path="res://Sprites/Building/Lock.png" id="11_jtd3g"]
 [ext_resource type="Texture2D" uid="uid://bple22hfb3hiw" path="res://Sprites/ProvinceTypeSelection/stock.png" id="12_6au65"]
-[ext_resource type="Texture2D" uid="uid://cbqno77kc60f1" path="res://Sprites/ProvinceTypeSelection/tradeCenter.png" id="13_8g6ew"]
-[ext_resource type="Texture2D" uid="uid://cy2c04ltfefiw" path="res://Sprites/ProvinceTypeSelection/nothing.png" id="14_6x550"]
+[ext_resource type="Texture2D" uid="uid://dpwplvw1gnipo" path="res://Sprites/ProvinceTypeSelection/dockyard.png" id="14_vgj6o"]
+[ext_resource type="Texture2D" uid="uid://c0eu30ljediqw" path="res://Sprites/ProvinceTypeSelection/military.png" id="15_sf2vu"]
 [ext_resource type="Texture2D" uid="uid://c5dahtyolxofn" path="res://icon.svg" id="16_f2arl"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_0rrit"]
@@ -30,26 +29,6 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 5.0
-}]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_ud4ao"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("10_h801k")
-}, {
-"duration": 1.0,
-"texture": ExtResource("11_3bjrh")
-}, {
-"duration": 1.0,
-"texture": ExtResource("12_6au65")
-}, {
-"duration": 1.0,
-"texture": ExtResource("13_8g6ew")
-}],
-"loop": true,
-"name": &"default",
-"speed": 0.0
 }]
 
 [node name="GuiProvinceWindow" type="Control"]
@@ -1871,6 +1850,23 @@ offset_right = 97.0
 offset_bottom = 546.75
 text = "Transport to"
 
+[node name="NotUnlockedSpecialBuilding" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = -305.0
+offset_top = -391.25
+offset_right = 145.0
+offset_bottom = 178.75
+
+[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/NotUnlockedSpecialBuilding"]
+layout_mode = 0
+offset_left = 118.75
+offset_top = 197.5
+offset_right = 369.75
+offset_bottom = 220.5
+text = "Needed dev to unlock:10"
+
 [node name="EmptySpecialBuilding" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
 layout_mode = 3
 anchors_preset = 0
@@ -1879,73 +1875,28 @@ offset_top = -392.5
 offset_right = 145.0
 offset_bottom = 177.5
 
-[node name="ProvinceTypeSelection" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding"]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 156.25
-offset_top = 262.5
-offset_right = 196.25
-offset_bottom = 302.5
-
-[node name="provinceTypeSelection" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/ProvinceTypeSelection"]
-self_modulate = Color(1, 1, 1, 0)
-layout_mode = 0
-offset_left = -3.75
-offset_top = -1.25001
-offset_right = 296.25
-offset_bottom = 443.75
-scale = Vector2(0.5, 0.193797)
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/ProvinceTypeSelection"]
+[node name="Stock" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding"]
 texture_filter = 1
-position = Vector2(1.24996, -1.24998)
-scale = Vector2(0.470833, 1.25)
-sprite_frames = SubResource("SpriteFrames_ud4ao")
+position = Vector2(287.5, 307.5)
+scale = Vector2(0.45, 1.173)
+texture = ExtResource("12_6au65")
 centered = false
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/ProvinceTypeSelection"]
-visible = false
-custom_minimum_size = Vector2(300, 260)
-layout_mode = 0
-offset_top = 77.5
+[node name="Stock" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/Stock"]
+self_modulate = Color(1, 1, 1, 0)
+offset_top = -0.314636
 offset_right = 300.0
-offset_bottom = 337.5
-scale = Vector2(0.45, 1)
-mouse_filter = 0
-mouse_force_pass_scroll_events = false
-
-[node name="Control" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/ProvinceTypeSelection/ScrollContainer"]
-custom_minimum_size = Vector2(300, 500)
-layout_mode = 2
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/ProvinceTypeSelection/ScrollContainer/Control"]
-scale = Vector2(4.69771, 8.47758)
-texture = ExtResource("8_j1vcm")
-centered = false
-
-[node name="Nothing" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/ProvinceTypeSelection/ScrollContainer/Control"]
-texture_filter = 1
-position = Vector2(1.19209e-07, -0.154041)
-scale = Vector2(1, 1.175)
-texture = ExtResource("14_6x550")
-centered = false
-
-[node name="Nothing" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/ProvinceTypeSelection/ScrollContainer/Control/Nothing"]
-self_modulate = Color(1, 1, 1, 0)
-offset_left = 0.369052
-offset_top = 0.628174
-offset_right = 300.369
-offset_bottom = 64.6282
+offset_bottom = 63.6854
 metadata/_edit_use_anchors_ = true
 
-[node name="ProductionLine" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/ProvinceTypeSelection/ScrollContainer/Control"]
+[node name="ProductionLine" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding"]
 texture_filter = 1
-position = Vector2(0, 75.1325)
-scale = Vector2(1, 1.173)
+position = Vector2(36.25, 300)
+scale = Vector2(0.45, 1.173)
 texture = ExtResource("11_3bjrh")
 centered = false
 
-[node name="ProductionLine" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/ProvinceTypeSelection/ScrollContainer/Control/ProductionLine"]
+[node name="ProductionLine" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/ProductionLine"]
 self_modulate = Color(1, 1, 1, 0)
 offset_left = -0.369052
 offset_top = -0.314617
@@ -1953,32 +1904,34 @@ offset_right = 299.631
 offset_bottom = 63.6854
 metadata/_edit_use_anchors_ = true
 
-[node name="Stock" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/ProvinceTypeSelection/ScrollContainer/Control"]
+[node name="Dockyard" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding"]
 texture_filter = 1
-position = Vector2(5.96046e-08, 150.419)
-scale = Vector2(1, 1.173)
-texture = ExtResource("12_6au65")
+position = Vector2(37.5, 388.75)
+scale = Vector2(0.4525, 1.37593)
+texture = ExtResource("14_vgj6o")
 centered = false
 
-[node name="Stock" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/ProvinceTypeSelection/ScrollContainer/Control/Stock"]
+[node name="Dockyard" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/Dockyard"]
 self_modulate = Color(1, 1, 1, 0)
-offset_top = -0.314636
-offset_right = 300.0
+offset_left = -0.369052
+offset_top = -0.314617
+offset_right = 299.631
 offset_bottom = 63.6854
 metadata/_edit_use_anchors_ = true
 
-[node name="TradeCenter" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/ProvinceTypeSelection/ScrollContainer/Control"]
+[node name="Military" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding"]
 texture_filter = 1
-position = Vector2(0, 225.337)
-scale = Vector2(1, 1.173)
-texture = ExtResource("13_8g6ew")
+position = Vector2(287.5, 392.5)
+scale = Vector2(0.4525, 1.37593)
+texture = ExtResource("15_sf2vu")
 centered = false
 
-[node name="TradeCenter" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/ProvinceTypeSelection/ScrollContainer/Control/TradeCenter"]
+[node name="Military" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/Military"]
 self_modulate = Color(1, 1, 1, 0)
-offset_top = -1.52588e-05
-offset_right = 300.0
-offset_bottom = 64.0
+offset_left = -0.369052
+offset_top = -0.314617
+offset_right = 299.631
+offset_bottom = 63.6854
 metadata/_edit_use_anchors_ = true
 
 [node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding"]
@@ -2005,4 +1958,4 @@ text = "Transfering to : "
 
 [connection signal="pressed" from="HBoxContainer4/BuildingMenu/Bg/ExitButton" to="." method="_onExitBuildingMenuButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/closeButton" to="." method="_onCloseProvinceMenuButtonPressed"]
-[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/ProvinceTypeSelection/provinceTypeSelection" to="." method="_onProvinceTypeSelection"]
+[connection signal="tab_changed" from="HBoxContainer4/ProvinceWindowSprite/TabContainer" to="." method="_onTabContainerTabChanged"]

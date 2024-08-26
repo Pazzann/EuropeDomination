@@ -9,7 +9,7 @@ public class Factory : SpecialBuilding
     public int Cost = 100;
     public float ProductionRate;
     public float ProductionGrowthRate = 0.02f;
-    public Factory(Recipe recipe, int timeToBuild, int buildingTime, bool isFinished, float productionRate) : base(SpecialBuildingTypes.Factory, timeToBuild, buildingTime, isFinished)
+    public Factory(Recipe recipe, int buildingTime, bool isFinished, float productionRate) : base(SpecialBuildingTypes.Factory, 100, buildingTime, isFinished)
     {
         Recipe = recipe;
         ProductionRate = productionRate;
