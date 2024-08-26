@@ -41,7 +41,7 @@ public partial class PathHandler : Node2D
 		for (int i = unit.Path.Count - 2; i > -1; i--)
 		{
 			var arrow = _pathArrowScene.Instantiate() as PathArrow;
-			arrow.GlobalPosition = MathUtils.VectorCenter(map.Scenario.Map[unit.Path[i + 1]].CenterOfWeight, map.Scenario.Map[unit.Path[i]].CenterOfWeight) / unit.Scale;
+			arrow.GlobalPosition = Math.MathUtils.VectorCenter(map.Scenario.Map[unit.Path[i + 1]].CenterOfWeight, map.Scenario.Map[unit.Path[i]].CenterOfWeight) / unit.Scale;
 			
 			arrow.LookAt(map.Scenario.Map[unit.Path[i + 1]].CenterOfWeight / unit.Scale);
 			AddChild(arrow);

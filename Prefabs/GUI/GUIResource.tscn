@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://bu78t0vf6jkaq"]
+
+[ext_resource type="PackedScene" uid="uid://bravhtaisuciw" path="res://Prefabs/CustomNodes/AnimatedTextureRect.tscn" id="1_t1uxg"]
+[ext_resource type="SpriteFrames" uid="uid://d3n4eikp6qnq7" path="res://Prefabs/SpriteFrames/GoodSpriteFrames.tres" id="2_oml1e"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_jsk36"]
+font_size = 26
+
+[sub_resource type="LabelSettings" id="LabelSettings_0paie"]
+font_size = 25
+
+[node name="GuiResource" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1470.0
+offset_bottom = -1040.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="AnimatedTextureRect" parent="." instance=ExtResource("1_t1uxg")]
+layout_mode = 2
+SpriteFrames = ExtResource("2_oml1e")
+CurrentAnimation = "goods"
+
+[node name="Label" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+text = "     0"
+label_settings = SubResource("LabelSettings_jsk36")
+
+[node name="Label2" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+text = "+0/m"
+label_settings = SubResource("LabelSettings_0paie")

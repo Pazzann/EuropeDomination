@@ -2,7 +2,7 @@
 
 namespace EuropeDominationDemo.Scripts;
 
-public static class Utils
+public static class MathUtils
 {
     public static Vector2I RoundToInt(this Vector2 v)
     {

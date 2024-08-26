@@ -46,7 +46,3 @@ public partial class GUIMiniMapWindow : GUIHandler
 	}
 
 }
-
-
-
-

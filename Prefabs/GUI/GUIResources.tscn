@@ -1,59 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://uway7gdlqq10"]
+[gd_scene load_steps=2 format=3 uid="uid://uway7gdlqq10"]
 
-[ext_resource type="PackedScene" uid="uid://upcl6eoioqff" path="res://Prefabs/Good.tscn" id="1_stta8"]
 [ext_resource type="Script" path="res://Scripts/UI/GUIResources.cs" id="2_ax5jd"]
 
-[node name="Control" type="Control"]
-custom_minimum_size = Vector2(439, 600)
-layout_mode = 3
-anchors_preset = 0
+[node name="Control" type="VBoxContainer"]
+custom_minimum_size = Vector2(450, 80)
 offset_left = 1.0
 offset_top = 1.0
-offset_right = 147.0
-offset_bottom = 109.0
+offset_right = 451.0
+offset_bottom = 601.0
 scale = Vector2(2.60966, 2.60966)
 script = ExtResource("2_ax5jd")
-
-[node name="Node2D" type="Node2D" parent="."]
-scale = Vector2(2.75, 2.75)
-
-[node name="AnimatedSprite2D" parent="Node2D" instance=ExtResource("1_stta8")]
-position = Vector2(13, 13)
-
-[node name="Label" type="Label" parent="Node2D"]
-texture_filter = 1
-offset_left = 30.0
-offset_right = 85.0
-offset_bottom = 26.0
-text = "     02343"
-metadata/_edit_use_anchors_ = true
-
-[node name="Label2" type="Label" parent="Node2D"]
-texture_filter = 1
-offset_left = 96.0
-offset_right = 141.0
-offset_bottom = 26.0
-text = "+0/m"
-metadata/_edit_use_anchors_ = true
-
-[node name="Node2D2" type="Node2D" parent="."]
-position = Vector2(-3.44873, 67.0586)
-scale = Vector2(2.75, 2.75)
-
-[node name="AnimatedSprite2D" parent="Node2D2" instance=ExtResource("1_stta8")]
-position = Vector2(13, 13)
-frame = 1
-
-[node name="Label" type="Label" parent="Node2D2"]
-texture_filter = 1
-offset_left = 30.0
-offset_right = 85.0
-offset_bottom = 26.0
-text = "     0"
-
-[node name="Label2" type="Label" parent="Node2D2"]
-texture_filter = 1
-offset_left = 96.0
-offset_right = 141.0
-offset_bottom = 26.0
-text = "+0/m"

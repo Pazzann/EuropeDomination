@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bravhtaisuciw"]
+
+[ext_resource type="Script" path="res://Scripts/Utils/AnimatedTextureRect.cs" id="2_tqpq6"]
+
+[node name="AnimatedTextureRect" type="TextureRect"]
+texture_filter = 1
+script = ExtResource("2_tqpq6")

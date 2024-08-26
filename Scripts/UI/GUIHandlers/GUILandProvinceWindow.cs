@@ -54,7 +54,9 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_provinceFlag = GetNode<AnimatedSprite2D>("HBoxContainer4/ProvinceWindowSprite/Flag");
 		_provinceGood = GetNode<AnimatedSprite2D>("HBoxContainer4/ProvinceWindowSprite/Good");
 		_provinceTerrain = GetNode<AnimatedSprite2D>("HBoxContainer4/ProvinceWindowSprite/Terrain");
+		
 		_provinceResources = GetNode<GUIResources>("HBoxContainer4/ProvinceWindowSprite/ResourcesContainer/Control");
+		_provinceResources.Init();
 
 		_transportButton = GetNode<Button>("HBoxContainer4/ProvinceWindowSprite/TransportButton");
 		_transportLabel = GetNode<Label>("HBoxContainer4/ProvinceWindowSprite/TransferToHarvest");

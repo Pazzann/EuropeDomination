@@ -1,0 +1,18 @@
+[gd_resource type="SpriteFrames" load_steps=3 format=3 uid="uid://d3n4eikp6qnq7"]
+
+[ext_resource type="Texture2D" uid="uid://bv8ai81boxxm8" path="res://Sprites/Good/Iron.png" id="1_lv1x1"]
+[ext_resource type="Texture2D" uid="uid://ita1qm2e07x0" path="res://Sprites/Good/Wheat.png" id="2_p77rr"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_lv1x1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_p77rr")
+}],
+"loop": true,
+"name": &"goods",
+"speed": 0.0
+}]
