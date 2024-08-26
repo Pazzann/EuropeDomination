@@ -2,12 +2,13 @@ using System;
 using System.Linq;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
-using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Text;
 using EuropeDominationDemo.Scripts.UI.Events.GUI;
+using EuropeDominationDemo.Scripts.UI.Events.ToEngine;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
+
 using Godot;
 using ToGuiHideProvinceDataEvent = EuropeDominationDemo.Scripts.UI.Events.ToGUI.ToGuiHideProvinceDataEvent;
 
@@ -29,7 +30,8 @@ public partial class MapHandler : GameHandler
 	private PackedScene _devScene;
 	private Node2D _devSpawner;
 
-	private int _selectedTileId = -2;
+	private Good _goodToTransport;
+	
 	private float _lastClickTimestamp = 0.0f;
 
 
@@ -72,15 +74,34 @@ public partial class MapHandler : GameHandler
 		if (@event is not InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: false }) return false;
 		if (Time.GetTicksMsec() / 1000f - _lastClickTimestamp > 0.2f) return false;
 
+		if (EngineState.MapInfo.CurrentMapMode == MapTypes.TransportationSelection && EngineState.MapInfo.MapColors[tileId] != MapDefaultColors.Unselectable)
+		{
+			if (EngineState.MapInfo.MapColors[tileId] ==  MapDefaultColors.Selectable)
+			{
+				var route = new TransportationRoute(tileId, EngineState.MapInfo.CurrentSelectedProvinceId, _goodToTransport,
+					1);
+				(EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] as LandProvinceData)
+					.HarvestedTransport = route;
+			}else if (EngineState.MapInfo.MapColors[tileId] ==  MapDefaultColors.OwnProvince)
+			{
+				(EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] as LandProvinceData)
+					.HarvestedTransport = null;
+			}
+			
+			EngineState.MapInfo.CurrentMapMode = MapTypes.Political;
+			InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent(EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] as LandProvinceData));
+			InvokeToEngineEvent(new ToEngineViewModUpdate());
+			return true;
+		}
 
-		if (tileId == _selectedTileId || tileId < 0)
+		if (tileId == EngineState.MapInfo.CurrentSelectedProvinceId || tileId < 0)
 		{
 			DeselectProvince();
-			_selectedTileId = -2;
+			EngineState.MapInfo.CurrentSelectedProvinceId = -2;
 			return false;
 		}
 
-		_selectedTileId = tileId;
+		EngineState.MapInfo.CurrentSelectedProvinceId = tileId;
 		if (EngineState.MapInfo.Scenario.Map[tileId] is WastelandProvinceData)
 			return false;
 		_mapMaterial.SetShaderParameter("selectedID", tileId);
@@ -134,6 +155,12 @@ public partial class MapHandler : GameHandler
 				break;
 			case MapTypes.Factories:
 				break;
+			case MapTypes.TransportationSelection:
+				_goodsSpawner.Visible = false;
+				_countryTextSpawner.Visible = false;
+				_provinceTextSpawner.Visible = false;
+				_devSpawner.Visible = false;
+				break;
 			default:
 				throw new ArgumentOutOfRangeException();
 		}
@@ -144,11 +171,11 @@ public partial class MapHandler : GameHandler
 
 	public override void GUIInteractionHandler(GUIEvent @event)
 	{
-		if (EngineState.MapInfo.Scenario.Map[_selectedTileId] is LandProvinceData data)
+		if (EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] is LandProvinceData data)
 			switch (@event)
 			{
 				case GUIBuildBuildingEvent e:
-					var province = (LandProvinceData)EngineState.MapInfo.Scenario.Map[_selectedTileId];
+					var province = (LandProvinceData)EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId];
 					if (EngineState.PlayerCountryId == province.Owner &&
 						EngineState.MapInfo.Scenario.Countries[province.Owner].Money - e.NewBuilding.Cost >= 0)
 					{
@@ -156,19 +183,22 @@ public partial class MapHandler : GameHandler
 						data.Buildings.Add(e.NewBuilding);
 						InvokeToGUIEvent(
 							new ToGUIUpdateLandProvinceDataEvent(
-								(LandProvinceData)EngineState.MapInfo.Scenario.Map[_selectedTileId]));
+								(LandProvinceData)EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId]));
 						InvokeToGUIEvent(new ToGUIUpdateCountryInfo());
 					}
 
 					return;
 				case GUIDestroyBuildingEvent e:
-					var province2 = (LandProvinceData)EngineState.MapInfo.Scenario.Map[_selectedTileId];
+					var province2 = (LandProvinceData)EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId];
 					if (EngineState.PlayerCountryId == province2.Owner)
 					{
 						data.Buildings.RemoveAt(e.DestroyedId);
 						InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent(province2));
 					}
 
+					return;
+				case GUIGoodTransportChange e:
+					_goodToTransport = e.GoodToTransport;
 					return;
 				default:
 					return;
@@ -186,8 +216,8 @@ public partial class MapHandler : GameHandler
 	public void DeselectProvince()
 	{
 		InvokeToGUIEvent(new ToGuiHideProvinceDataEvent());
-		_selectedTileId = -1;
-		_mapMaterial.SetShaderParameter("selectedID", _selectedTileId);
+		EngineState.MapInfo.CurrentSelectedProvinceId = -1;
+		_mapMaterial.SetShaderParameter("selectedID", EngineState.MapInfo.CurrentSelectedProvinceId);
 	}
 
 	private void _updateText()
@@ -285,7 +315,7 @@ public partial class MapHandler : GameHandler
 			}
 		}
 
-		if (_selectedTileId > -1 && EngineState.MapInfo.Scenario.Map[_selectedTileId] is LandProvinceData landData)
+		if (EngineState.MapInfo.CurrentSelectedProvinceId > -1 && EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] is LandProvinceData landData)
 		{
 			InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent(landData));
 		}
@@ -293,13 +323,17 @@ public partial class MapHandler : GameHandler
 
 	public override void MonthTick()
 	{
-		foreach (var data in EngineState.MapInfo.Scenario.Map.Where(data => data is LandProvinceData))
+		foreach (LandProvinceData data in EngineState.MapInfo.Scenario.Map.Where(data => data is LandProvinceData))
 		{
-			((LandProvinceData)data).Resources[(int)((LandProvinceData)data).Good] +=
-				((LandProvinceData)data).ProductionRate;
+			data.Resources[(int)data.Good] += data.ProductionRate;
+			if (data.HarvestedTransport != null)
+			{
+				data.Resources[(int)data.Good] -= data.HarvestedTransport.Amount;
+				(EngineState.MapInfo.Scenario.Map[data.HarvestedTransport.ProvinceIdTo] as LandProvinceData).Resources[(int)data.HarvestedTransport.TransportationGood] += data.HarvestedTransport.Amount;
+			}
 		}
 
-		if (_selectedTileId > -1 && EngineState.MapInfo.Scenario.Map[_selectedTileId] is LandProvinceData landData)
+		if (EngineState.MapInfo.CurrentSelectedProvinceId > -1 && EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] is LandProvinceData landData)
 		{
 			InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent(landData));
 		}

@@ -19,6 +19,8 @@ public class LandProvinceData : ProvinceData
 	public readonly Terrain Terrain;
 	public readonly Good Good;
 
+	public TransportationRoute HarvestedTransport = null;
+
 	public Modifiers Modifiers;
 
 	public float ProductionRate
@@ -49,21 +51,24 @@ public class LandProvinceData : ProvinceData
 		float[] resources,
 		List<Building> buildings,
 		Modifiers modifiers,
-		SpecialBuilding[] specialBuildings
+		SpecialBuilding[] specialBuildings,
+		TransportationRoute harvestedTransport
 		) : base(id, name)
 	{
-		this.Owner = countryId;
-		this.Terrain = terrain;
-		this.Development = development;
+		Owner = countryId;
+		Terrain = terrain;
+		Development = development;
 
-		this.Resources = resources;
-		this.Buildings = buildings;
+		Resources = resources;
+		Buildings = buildings;
 
-		this.BorderderingProvinces = new int[] { };
-		this.Good = good;
+		BorderderingProvinces = new int[] { };
+		Good = good;
 
-		this.Modifiers = modifiers;
-		this.SpecialBuildings = specialBuildings;
+		Modifiers = modifiers;
+		SpecialBuildings = specialBuildings;
+
+		HarvestedTransport = harvestedTransport;
 
 	}
 }

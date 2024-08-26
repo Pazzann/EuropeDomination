@@ -7,5 +7,6 @@ public enum MapTypes
     Goods = 2,
     Trade = 3,
     Development = 4,
-    Factories = 5
+    Factories = 5,
+    TransportationSelection = 6,
 }

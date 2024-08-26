@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Enums;
+using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Units;
@@ -12,6 +13,7 @@ public class MapData
     public Scenario Scenario;
     public MapTypes CurrentMapMode = MapTypes.Political;
     public List<ArmyUnit> CurrentSelectedUnits = new List<ArmyUnit> { };
+    public int CurrentSelectedProvinceId = -2;
 
     private Vector3[] _mapColors
     {
@@ -74,6 +76,22 @@ public class MapData
                     return _mapColors;
                 case MapTypes.Factories:
                     return _mapColors;
+                case MapTypes.TransportationSelection:
+                    Vector3[] selectionColors = new Vector3[Scenario.Map.Length];
+                    for (int i = 0; i < Scenario.Map.Length; i++)
+                    {
+                        if (Scenario.Map[i] is LandProvinceData landData &&
+                            landData.Owner == EngineState.PlayerCountryId)
+                        {
+                            if (landData.Id == CurrentSelectedProvinceId)
+                                selectionColors[i] = MapDefaultColors.OwnProvince;
+                            else
+                                selectionColors[i] = MapDefaultColors.Selectable;
+                        }
+                        else
+                            selectionColors[i] = MapDefaultColors.Unselectable;
+                    }
+                    return selectionColors;
                 default:
                     return _mapColors;
             }

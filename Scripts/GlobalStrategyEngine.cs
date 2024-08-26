@@ -6,6 +6,7 @@ using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 using EuropeDominationDemo.Scripts.UI;
 using EuropeDominationDemo.Scripts.UI.Events.GUI;
+using EuropeDominationDemo.Scripts.UI.Events.ToEngine;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using Godot;
 
@@ -33,6 +34,7 @@ public partial class GlobalStrategyEngine : Node2D
 		foreach (var handler in allHandlers)
 		{
 			handler.ToGUIEvent += InvokeToGUIEvent;
+			handler.ToEngineEvent += ReceiveToEngineEvent;
 		}
 		
 		AllHandlersControls = new CallMulticaster(allHandlers);
@@ -123,6 +125,18 @@ public partial class GlobalStrategyEngine : Node2D
 	public void InvokeToGUIEvent(ToGUIEvent @event)
 	{
 		GUIHandler.ToGUIEventHandler(@event);
+	}
+
+	public void ReceiveToEngineEvent(ToEngine @event)
+	{
+		switch (@event)
+		{
+			case ToEngineViewModUpdate:
+				ViewModeChange();
+				return;
+			default:
+				return;
+		}
 	}
 	
 	private int _findTile()

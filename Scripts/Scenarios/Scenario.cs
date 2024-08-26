@@ -21,7 +21,6 @@ public abstract class Scenario : IScenario
 	
 	public abstract Image MapTexture { get; set; }
 	
-	public abstract List<TransportationRoute> TransportationRoutes { get; set; }
 
 	public TimeSpan Ts => new(1, 0, 0, 0);
 

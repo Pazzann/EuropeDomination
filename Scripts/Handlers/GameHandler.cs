@@ -1,17 +1,25 @@
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Scenarios;
+using EuropeDominationDemo.Scripts.UI.Events.ToEngine;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Handlers;
 
 public delegate void ToGUIEventSender(ToGUIEvent @event);
+public delegate void ToEngineEventSender(ToEngine @event);
 
 public abstract partial class GameHandler : Node2D
 {
 
 
 	public event ToGUIEventSender ToGUIEvent = null;
+	public event ToEngineEventSender ToEngineEvent = null;
+
+	public void InvokeToEngineEvent(ToEngine @event)
+	{
+		ToEngineEvent.Invoke(@event);
+	}
 
 	public void InvokeToGUIEvent(ToGUIEvent @event)
 	{

@@ -563,26 +563,12 @@ offset_right = -21.0
 offset_bottom = 43.0
 scale = Vector2(6.1175, -5.83068)
 
-[node name="TabContainer" type="TabContainer" parent="HBoxContainer4/ProvinceWindowSprite"]
-offset_left = -302.5
-offset_top = -421.25
-offset_right = 147.5
-offset_bottom = 178.75
-current_tab = 0
-
-[node name="Slot1" type="TabBar" parent="HBoxContainer4/ProvinceWindowSprite/TabContainer"]
-layout_mode = 2
-metadata/_tab_index = 0
-
-[node name="Slot2" type="TabBar" parent="HBoxContainer4/ProvinceWindowSprite/TabContainer"]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 1
-
-[node name="Slot3" type="TabBar" parent="HBoxContainer4/ProvinceWindowSprite/TabContainer"]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 2
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer4/ProvinceWindowSprite"]
+offset_left = -304.0
+offset_top = -371.0
+offset_right = 145.0
+offset_bottom = 180.0
+color = Color(0, 0, 0, 1)
 
 [node name="MilitaryTrainingCamp" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
 visible = false
@@ -1851,7 +1837,6 @@ offset_bottom = 546.75
 text = "Transport to"
 
 [node name="NotUnlockedSpecialBuilding" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = -305.0
@@ -1868,6 +1853,7 @@ offset_bottom = 220.5
 text = "Needed dev to unlock:10"
 
 [node name="EmptySpecialBuilding" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = -305.0
@@ -1942,20 +1928,44 @@ offset_right = 369.75
 offset_bottom = 220.5
 text = "NOthing has been build here yet"
 
-[node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite"]
+[node name="TransportButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite"]
 offset_left = 182.5
 offset_top = 333.75
 offset_right = 287.5
 offset_bottom = 378.75
 text = "Change"
 
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite"]
+[node name="TransferToHarvest" type="Label" parent="HBoxContainer4/ProvinceWindowSprite"]
 offset_left = 181.25
 offset_top = 287.5
 offset_right = 303.25
 offset_bottom = 310.5
 text = "Transfering to : "
 
+[node name="TabControl" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite"]
+offset_left = -301.0
+offset_top = -416.0
+offset_bottom = -376.0
+
+[node name="0" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/TabControl"]
+layout_mode = 2
+text = "Slot1"
+
+[node name="1" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/TabControl"]
+layout_mode = 2
+text = "Slot2"
+
+[node name="2" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/TabControl"]
+layout_mode = 2
+text = "Slot3"
+
 [connection signal="pressed" from="HBoxContainer4/BuildingMenu/Bg/ExitButton" to="." method="_onExitBuildingMenuButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/closeButton" to="." method="_onCloseProvinceMenuButtonPressed"]
-[connection signal="tab_changed" from="HBoxContainer4/ProvinceWindowSprite/TabContainer" to="." method="_onTabContainerTabChanged"]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/Stock/Stock" to="." method="_onSpecialBuildingSelectionPressed" binds= [0]]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/ProductionLine/ProductionLine" to="." method="_onSpecialBuildingSelectionPressed" binds= [1]]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/Dockyard/Dockyard" to="." method="_onSpecialBuildingSelectionPressed" binds= [2]]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/Military/Military" to="." method="_onSpecialBuildingSelectionPressed" binds= [3]]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TransportButton" to="." method="_onChangeHarvestGoodTransportationRoutePressed"]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TabControl/0" to="." method="_onTabContainerTabChanged" binds= [0]]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TabControl/1" to="." method="_onTabContainerTabChanged" binds= [1]]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TabControl/2" to="." method="_onTabContainerTabChanged" binds= [2]]

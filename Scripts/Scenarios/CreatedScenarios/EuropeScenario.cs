@@ -20,7 +20,7 @@ public class EuropeScenario : Scenario
     public override Dictionary<int, Vector3> WastelandProvinceColors { get; set; }
     public override Vector3 WaterColor { get; set; }
     public override Vector3 UncolonizedColor { get; set; }
-    public override List<TransportationRoute> TransportationRoutes { get; set; }
+
 
     public EuropeScenario(Image mapTexture)
     {
@@ -28,7 +28,6 @@ public class EuropeScenario : Scenario
 
         Date = new DateTime(1444, 11, 12);
         
-        TransportationRoutes = new List<TransportationRoute>();
 
         Countries = new Dictionary<int, CountryData>()
         {
@@ -52,53 +51,53 @@ public class EuropeScenario : Scenario
         {
             new LandProvinceData(0, 0, "London", Terrain.Coast, Good.Iron, 10, new float[] { 0, 3 },
                 new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
+                Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new LandProvinceData(1, 0, "London", Terrain.Field, Good.Iron, 20, new float[] { 0, 1 },
                 new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
+                Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new LandProvinceData(2, 0, "London", Terrain.Field, Good.Iron, 30, new float[] { 3, 0 },
                 new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
-            new LandProvinceData(3, 0, "London", Terrain.Forest, Good.Iron, 1, new float[] { 0, 3 },
+                Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
+            new LandProvinceData(3, 0, "London", Terrain.Forest, Good.Iron, 30, new float[] { 0, 3 },
                 new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
-            new LandProvinceData(4, 0, "London", Terrain.Plain, Good.Iron, 1, new float[] { 4, 0 },
+                Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
+            new LandProvinceData(4, 0, "London", Terrain.Plain, Good.Iron, 30, new float[] { 4, 0 },
                 new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
-            new LandProvinceData(5, 0, "Paris", Terrain.Plain, Good.Iron, 3, new float[] { 0, 4 }, new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
-            new LandProvinceData(6, 2, "Lorem", Terrain.Plain, Good.Iron, 3, new float[] { 3, 0 }, new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
+                Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
+            new LandProvinceData(5, 0, "Paris", Terrain.Plain, Good.Iron, 30, new float[] { 0, 4 }, new List<Building>(),
+                Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
+            new LandProvinceData(6, 2, "Lorem", Terrain.Plain, Good.Iron, 30, new float[] { 3, 0 }, new List<Building>(),
+                Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new LandProvinceData(7, 2, "FlashBang", Terrain.Plain, Good.Wheat, 1, new float[] { 1, 0 },
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
+                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new LandProvinceData(8, 2, "CommunistPigs", Terrain.Plain, Good.Wheat, 3, new float[] { 0, 5 },
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
+                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new LandProvinceData(9, 2, "Berlin", Terrain.Mountains, Good.Wheat, 1, new float[] { 5, 0 },
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
+                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new LandProvinceData(10, 2, "LibertarianTown", Terrain.Mountains, Good.Wheat, 1, new float[] { 6, 0 },
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
+                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new LandProvinceData(11, 1, "Liberty", Terrain.Mountains, Good.Wheat, 1, new float[] { 0, 6 },
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
+                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new LandProvinceData(12, 1, "NY", Terrain.Coast, Good.Wheat, 1, new float[] { 7, 0 }, new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
+                Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new LandProvinceData(13, 1, "Los Angeles", Terrain.Coast, Good.Wheat, 1, new float[] { 0, 7 },
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
+                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new LandProvinceData(14, 1, "LibertarianTown", Terrain.Mountains, Good.Wheat, 1, new float[] { 6, 0 },
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
+                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new LandProvinceData(15, 1, "Liberty", Terrain.Mountains, Good.Wheat, 1, new float[] { 0, 6 },
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
+                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new LandProvinceData(16, 1, "NY", Terrain.Coast, Good.Wheat, 1, new float[] { 7, 0 }, new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
+                Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new LandProvinceData(17, 1, "Los Angeles", Terrain.Coast, Good.Wheat, 1, new float[] { 0, 7 },
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
+                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new LandProvinceData(18, 1, "LibertarianTown", Terrain.Mountains, Good.Wheat, 1, new float[] { 6, 0 },
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
+                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new LandProvinceData(19, 1, "Liberty", Terrain.Mountains, Good.Wheat, 1, new float[] { 0, 6 },
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
+                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new LandProvinceData(20, 1, "NY", Terrain.Coast, Good.Wheat, 1, new float[] { 7, 0 }, new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
+                Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new LandProvinceData(21, 1, "Los Angeles", Terrain.Coast, Good.Wheat, 1, new float[] { 0, 7 },
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}),
+                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new UncolonizedProvinceData(22, "DefaultName"),
             new UncolonizedProvinceData(23, "DefaultName"),
             new UncolonizedProvinceData(24, "DefaultName"),

@@ -1,4 +1,5 @@
 using System.Linq;
+using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
@@ -25,12 +26,16 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private Node2D _buildingsHandler;
 
+	private Button _transportButton;
+	private Label _transportLabel;
+
 	private Control _factoryHandler;
 	private Control _tradeAndStockHandler;
 	private Control _dockyardHandler;
 	private Control _militaryTrainingHandler;
 	private Control _emptyHandler;
 	private Control _notUnlockedHandler;
+	
 
 	private int _currentTab;
 
@@ -50,6 +55,9 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_provinceGood = GetNode<AnimatedSprite2D>("HBoxContainer4/ProvinceWindowSprite/Good");
 		_provinceTerrain = GetNode<AnimatedSprite2D>("HBoxContainer4/ProvinceWindowSprite/Terrain");
 		_provinceResources = GetNode<GUIResources>("HBoxContainer4/ProvinceWindowSprite/ResourcesContainer/Control");
+
+		_transportButton = GetNode<Button>("HBoxContainer4/ProvinceWindowSprite/TransportButton");
+		_transportLabel = GetNode<Label>("HBoxContainer4/ProvinceWindowSprite/TransferToHarvest");
 		
 
 		_factoryHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/Factory");
@@ -84,10 +92,14 @@ public partial class GUILandProvinceWindow : GUIHandler
 				return;
 			case ToGuiShowLandProvinceDataEvent e:
 				_showProvinceWindow();
+				_currentProvinceData = e.ShowProvinceData;
+				_closeAllTabs();
+				_currentTab = 0;
+				_showTab(_currentTab);
 				_setProvinceInfo(e.ShowProvinceData);
 				return;
 			case ToGUIUpdateLandProvinceDataEvent e:
-				//_buildingsMenu.Visible = false;
+				_currentProvinceData = e.UpdateProvinceData;
 				_setProvinceInfo(e.UpdateProvinceData);
 				return;
 			default:
@@ -104,7 +116,6 @@ public partial class GUILandProvinceWindow : GUIHandler
 	{
 		_guestMode = provinceData.Owner != EngineState.PlayerCountryId;
 		
-		_currentProvinceData = provinceData;
 		
 		_provinceName.Text = provinceData.Name;
 		_provinceFlag.Frame = provinceData.Owner;
@@ -112,8 +123,21 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_provinceTerrain.Frame = (int)provinceData.Terrain;
 		_provinceResources.DrawResources(provinceData);
 
-		_currentTab = 0;
-		_showTab(0);
+
+		if (provinceData.HarvestedTransport != null)
+		{
+			_transportButton.Text = "Change";
+			_transportLabel.Text = "Transfering to:" + EngineState.MapInfo.Scenario.Map[provinceData.HarvestedTransport.ProvinceIdTo].Name;
+		}
+		else
+		{
+			_transportButton.Text = "Create New";
+			_transportLabel.Text = "Doesn't transfering anywhere";
+		}
+			
+			
+		
+		
 		
 		_setBuildingMenuInfo(provinceData);
 		
@@ -255,8 +279,12 @@ public partial class GUILandProvinceWindow : GUIHandler
 			default:
 				if (_currentProvinceData.Development >= 10 + 10 * tabId) 
 					_emptyHandler.Visible = true;
+
 				else
+				{
 					_notUnlockedHandler.Visible = true;
+					(_notUnlockedHandler.GetChild(0) as Label).Text = "Needed dev to unlock: " + (10 + 10 * tabId).ToString();
+				}
 				return;
 		}
 	}
@@ -280,7 +308,14 @@ public partial class GUILandProvinceWindow : GUIHandler
 			default:
 				return;
 		}
+		_closeAllTabs();
 		_showTab(_currentTab);
+	}
+
+	private void _onChangeHarvestGoodTransportationRoutePressed()
+	{
+		InvokeGUIEvent(new GUIChangeMapType(MapTypes.TransportationSelection));
+		InvokeGUIEvent(new GUIGoodTransportChange(_currentProvinceData.Good));
 	}
 
 	private void _closeAllTabs()
