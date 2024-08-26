@@ -1837,6 +1837,7 @@ offset_bottom = 546.75
 text = "Transport to"
 
 [node name="NotUnlockedSpecialBuilding" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = -305.0

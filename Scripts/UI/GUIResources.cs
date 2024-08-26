@@ -24,7 +24,7 @@ public partial class GUIResources : VBoxContainer
 		for (int i = 0; i < defaultProvince.Resources.Length; i++)
 		{
 			var a = GUIResource.Instantiate();
-			(a.GetChild(0) as AnimatedTextureRect).SetFrame(i);
+			(a.GetChild(0).GetChild(0).GetChild(0) as AnimatedTextureRect).SetFrame(i);
 			AddChild(a);
 		}
 	}
@@ -33,8 +33,8 @@ public partial class GUIResources : VBoxContainer
 	{
 		for (int i = 0; i < resources.Length; i++)
 		{
-			(GetChild(i).GetChild(2) as Label).Text = "+0t/m";
-			(GetChild(i).GetChild(2) as Label).SelfModulate = new Color(1.0f, 1.0f, 1.0f);
+			(GetChild(i).GetChild(0).GetChild(0).GetChild(2) as Label).Text = "+0t/m";
+			(GetChild(i).GetChild(0).GetChild(0).GetChild(2) as Label).SelfModulate = new Color(1.0f, 1.0f, 1.0f);
 		}
 	}
 
@@ -61,13 +61,13 @@ public partial class GUIResources : VBoxContainer
 
 		for (int i = 0; i < data.Resources.Length; i++)
 		{
-			(GetChild(i).GetChild(1) as Label).Text = data.Resources[i].ToString("N1");
-			(GetChild(i).GetChild(2) as Label).Text = ((AllResourcesChange[i] >= 0) ? "+" : "-") +
-													  AllResourcesChange[i].ToString("N1") + "t/m";
+			(GetChild(i).GetChild(0).GetChild(0).GetChild(1) as Label).Text = data.Resources[i].ToString("N1");
+			(GetChild(i).GetChild(0).GetChild(0).GetChild(2) as Label).Text = ((AllResourcesChange[i] >= 0) ? "+" : "-") +
+																			  AllResourcesChange[i].ToString("N1") + "t/m";
 			if (AllResourcesChange[i] >= 0)
-				(GetChild(i).GetChild(2) as Label).SelfModulate = MapDefaultColors.ResourceIncrease;
+				(GetChild(i).GetChild(0).GetChild(0).GetChild(2) as Label).SelfModulate = MapDefaultColors.ResourceIncrease;
 			else
-				(GetChild(i).GetChild(2) as Label).SelfModulate = MapDefaultColors.ResourceDecrease;
+				(GetChild(i).GetChild(0).GetChild(0).GetChild(2) as Label).SelfModulate = MapDefaultColors.ResourceDecrease;
 		}
 	}
 }

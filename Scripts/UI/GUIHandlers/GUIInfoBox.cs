@@ -27,6 +27,7 @@ public partial class GUIInfoBox : GUIHandler
 		switch (@event)
 		{
 			case ToGUIShowInfoBoxProvinceEvent e:
+				_infoBox.Size = new Vector2(_infoBox.Size.X, 10);
 				_infoLabel.Text = "[color=yellow]" + e.ProvinceData.Name + "[/color]" + "\n"
 								  + ((e.ProvinceData is LandProvinceData landProvinceData)? "Good: "+ landProvinceData.Good:"")
 								  +  ((e.ProvinceData is LandProvinceData landProvinceData2)? "\n" + "Terrain	: "+ landProvinceData2.Terrain:"")

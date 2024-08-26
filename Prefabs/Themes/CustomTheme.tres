@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://la71syjda30l"]
+
+[ext_resource type="StyleBox" uid="uid://cnfusasfr83m8" path="res://Prefabs/Themes/CustomStyleBox.tres" id="1_oe2xa"]
+
+[resource]
+PanelContainer/styles/panel = ExtResource("1_oe2xa")
