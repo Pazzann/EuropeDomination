@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bgb7s0ynl6r2t"]
+[gd_scene load_steps=21 format=3 uid="uid://bgb7s0ynl6r2t"]
 
 [ext_resource type="Texture2D" uid="uid://ckhuxliwwap7v" path="res://Sprites/ProvinceControl.png" id="1_dqhfl"]
 [ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUILandProvinceWindow.cs" id="1_y47fr"]
@@ -10,26 +10,19 @@
 [ext_resource type="Texture2D" uid="uid://dkdupthlvtc12" path="res://Sprites/ProvinceTypeSelection/bg.png" id="8_j1vcm"]
 [ext_resource type="PackedScene" uid="uid://clf8v6lyqbsx6" path="res://Prefabs/Buildings.tscn" id="9_863be"]
 [ext_resource type="Texture2D" uid="uid://bl2u1qda5j8n4" path="res://Sprites/ProvinceTypeSelection/productionLine.png" id="11_3bjrh"]
+[ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="11_hg8qy"]
 [ext_resource type="Texture2D" uid="uid://dx08b2wttihu" path="res://Sprites/Building/Lock.png" id="11_jtd3g"]
+[ext_resource type="PackedScene" uid="uid://b13nbyefub8pe" path="res://Prefabs/GUIMilitaryTrainingCamp.tscn" id="11_mqc8b"]
+[ext_resource type="PackedScene" uid="uid://ckkfw2dge7x22" path="res://Prefabs/GUIDockyard.tscn" id="12_3n8ik"]
 [ext_resource type="Texture2D" uid="uid://bple22hfb3hiw" path="res://Sprites/ProvinceTypeSelection/stock.png" id="12_6au65"]
+[ext_resource type="PackedScene" uid="uid://dwo5dxs6getfu" path="res://Prefabs/GUIStockAndTrade.tscn" id="13_p7ifk"]
+[ext_resource type="PackedScene" uid="uid://djn3kgt3aw2ut" path="res://Prefabs/GUIFactory.tscn" id="14_ltsyw"]
 [ext_resource type="Texture2D" uid="uid://dpwplvw1gnipo" path="res://Sprites/ProvinceTypeSelection/dockyard.png" id="14_vgj6o"]
 [ext_resource type="Texture2D" uid="uid://c0eu30ljediqw" path="res://Sprites/ProvinceTypeSelection/military.png" id="15_sf2vu"]
-[ext_resource type="Texture2D" uid="uid://c5dahtyolxofn" path="res://icon.svg" id="16_f2arl"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_0rrit"]
 font = ExtResource("2_eb8im")
 font_size = 38
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_q75k1"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("16_f2arl")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
 
 [node name="GuiProvinceWindow" type="Control"]
 layout_mode = 3
@@ -563,1278 +556,32 @@ offset_right = -21.0
 offset_bottom = 43.0
 scale = Vector2(6.1175, -5.83068)
 
-[node name="ColorRect" type="ColorRect" parent="HBoxContainer4/ProvinceWindowSprite"]
-offset_left = -304.0
-offset_top = -371.0
-offset_right = 145.0
-offset_bottom = 180.0
-color = Color(0, 0, 0, 1)
-
-[node name="MilitaryTrainingCamp" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
+[node name="GuiMilitaryTrainingCamp" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("11_mqc8b")]
 visible = false
-layout_mode = 3
-anchors_preset = 0
+offset_left = -303.75
+offset_top = -371.25
+offset_right = -553.75
+offset_bottom = -821.25
+
+[node name="GuiDockyard" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("12_3n8ik")]
+offset_left = -307.5
+offset_top = -368.75
+offset_right = -1007.5
+offset_bottom = -898.75
+
+[node name="GuiStockAndTrade" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("13_p7ifk")]
+visible = false
 offset_left = -305.0
-offset_top = -385.0
-offset_right = 145.0
-offset_bottom = 185.0
+offset_top = -372.5
+offset_right = -1005.0
+offset_bottom = -822.5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp"]
-layout_mode = 0
-offset_right = 450.0
-offset_bottom = 570.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Train here"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Neededthing" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer/Neededthing"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer/Neededthing/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer/Neededthing"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "Quantity"
-horizontal_alignment = 1
-
-[node name="Neededthing2" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer/Neededthing2"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer/Neededthing2/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer/Neededthing2"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "Quantity"
-horizontal_alignment = 1
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Neededthing" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer2/Neededthing"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer2/Neededthing/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer2/Neededthing"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "Quantity"
-horizontal_alignment = 1
-
-[node name="Neededthing2" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer2/Neededthing2"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer2/Neededthing2/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer2/Neededthing2"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "Quantity"
-horizontal_alignment = 1
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Neededthing" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer3/Neededthing"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer3/Neededthing/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer3/Neededthing"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "Quantity"
-horizontal_alignment = 1
-
-[node name="Neededthing2" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer3/Neededthing2"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer3/Neededthing2/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer/HBoxContainer3/Neededthing2"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "Quantity"
-horizontal_alignment = 1
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Time:"
-
-[node name="Label3" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Cost:"
-
-[node name="Label4" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Manpower"
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-text = "Unit to train:"
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer2"]
-position = Vector2(105.5, 90)
-texture = ExtResource("16_f2arl")
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-text = "Queue:
-"
-
-[node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-text = "Train"
-
-[node name="Dockyard" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
+[node name="GuiFactory" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("14_ltsyw")]
 visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_left = -303.75
-offset_top = -383.75
-offset_right = 146.25
-offset_bottom = 186.25
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard"]
-layout_mode = 0
-offset_right = 450.0
-offset_bottom = 570.0
-alignment = 1
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer"]
-layout_mode = 2
-text = "Naval DOCKYARD"
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer"]
-layout_mode = 2
-text = "Transportation:"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="TransferSlot1" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer/TransferSlot1"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "-t/m
-"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer/TransferSlot1"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer/TransferSlot1/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer/TransferSlot1"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "London"
-horizontal_alignment = 1
-
-[node name="TransferSlot2" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer/TransferSlot2"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "-t/m
-"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer/TransferSlot2"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer/TransferSlot2/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer/TransferSlot2"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "London"
-horizontal_alignment = 1
-
-[node name="TransferSlot3" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer/TransferSlot3"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "-t/m
-"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer/TransferSlot3"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer/TransferSlot3/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer/TransferSlot3"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "London"
-horizontal_alignment = 1
-
-[node name="TransferSlot4" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer/TransferSlot4"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "-t/m
-"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer/TransferSlot4"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer/TransferSlot4/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer/TransferSlot4"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "London"
-horizontal_alignment = 1
-
-[node name="TransferSlot5" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer/TransferSlot5"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "-t/m
-"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer/TransferSlot5"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer/TransferSlot5/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer/TransferSlot5"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "London"
-horizontal_alignment = 1
-
-[node name="Label3" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer"]
-layout_mode = 2
-text = "BUILDING SHIPS"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Neededthing" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/Neededthing"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/Neededthing/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/Neededthing"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "Quantity"
-horizontal_alignment = 1
-
-[node name="Neededthing2" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/Neededthing2"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/Neededthing2/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/Neededthing2"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "Quantity"
-horizontal_alignment = 1
-
-[node name="Neededthing3" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/Neededthing3"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/Neededthing3/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/Neededthing3"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "Quantity"
-horizontal_alignment = 1
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Neededthing" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer2/Neededthing"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer2/Neededthing/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer2/Neededthing"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "Quantity"
-horizontal_alignment = 1
-
-[node name="Neededthing2" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer2/Neededthing2"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer2/Neededthing2/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer2/Neededthing2"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "Quantity"
-horizontal_alignment = 1
-
-[node name="Neededthing3" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer2/Neededthing3"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer2/Neededthing3/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer2/Neededthing3"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "Quantity"
-horizontal_alignment = 1
-
-[node name="BoxContainer" type="BoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/BoxContainer"]
-position = Vector2(110.5, 68.75)
-texture = ExtResource("16_f2arl")
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer2/BoxContainer"]
-layout_mode = 2
-text = "Unit to train"
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer3/VBoxContainer2"]
-layout_mode = 2
-text = "Time:"
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer3/VBoxContainer2"]
-layout_mode = 2
-text = "Cost:"
-
-[node name="Label3" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer3/VBoxContainer2"]
-layout_mode = 2
-text = "Sailors:"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer3/VBoxContainer"]
-layout_mode = 2
-text = "Queue"
-
-[node name="VScrollBar" type="VScrollBar" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer3/VBoxContainer"]
-layout_mode = 2
-
-[node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Dockyard/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Train"
-
-[node name="StockAndTrade" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
-visible = false
-layout_mode = 3
-anchors_preset = 0
 offset_left = -302.5
-offset_top = -387.5
-offset_right = 147.5
-offset_bottom = 182.5
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade"]
-layout_mode = 0
-offset_right = 450.0
-offset_bottom = 570.0
-alignment = 1
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer"]
-layout_mode = 2
-text = "Currently Buying"
-
-[node name="BuyContainer" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="BuySlot1" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer/BuySlot1"]
-layout_mode = 2
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "-$/t"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer/BuySlot1"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer/BuySlot1/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer/BuySlot1"]
-layout_mode = 2
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "+t/m"
-horizontal_alignment = 1
-
-[node name="BuySlot2" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer/BuySlot2"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "-$/t"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer/BuySlot2"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer/BuySlot2/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer/BuySlot2"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "+t/m"
-horizontal_alignment = 1
-
-[node name="BuySlot3" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer/BuySlot3"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "-$/t"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer/BuySlot3"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer/BuySlot3/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer/BuySlot3"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "+t/m"
-horizontal_alignment = 1
-
-[node name="BuySlot4" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer/BuySlot4"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "-$/t"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer/BuySlot4"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer/BuySlot4/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer/BuySlot4"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "+t/m"
-horizontal_alignment = 1
-
-[node name="BuySlot5" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer/BuySlot5"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "-$/t"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer/BuySlot5"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer/BuySlot5/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/BuyContainer/BuySlot5"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "+t/m"
-horizontal_alignment = 1
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer"]
-layout_mode = 2
-text = "Currently Selling"
-
-[node name="SellContainer" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="SellSlot1" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer/SellSlot1"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "+$/m
-"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer/SellSlot1"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer/SellSlot1/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer/SellSlot1"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "-t/m"
-horizontal_alignment = 1
-
-[node name="SellSlot2" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer/SellSlot2"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "+$/m
-"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer/SellSlot2"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer/SellSlot2/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer/SellSlot2"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "-t/m"
-horizontal_alignment = 1
-
-[node name="SellSlot3" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer/SellSlot3"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "+$/m
-"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer/SellSlot3"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer/SellSlot3/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer/SellSlot3"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "-t/m"
-horizontal_alignment = 1
-
-[node name="SellSlot4" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer/SellSlot4"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "+$/m
-"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer/SellSlot4"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer/SellSlot4/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer/SellSlot4"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "-t/m"
-horizontal_alignment = 1
-
-[node name="SellSlot5" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer/SellSlot5"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "+$/m
-"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer/SellSlot5"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer/SellSlot5/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/SellContainer/SellSlot5"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "-t/m"
-horizontal_alignment = 1
-
-[node name="Label3" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer"]
-layout_mode = 2
-text = "Transporting"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="TransferSlot1" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer/TransferSlot1"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "-t/m
-"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer/TransferSlot1"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer/TransferSlot1/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer/TransferSlot1"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "London"
-horizontal_alignment = 1
-
-[node name="TransferSlot2" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer/TransferSlot2"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "-t/m
-"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer/TransferSlot2"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer/TransferSlot2/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer/TransferSlot2"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "London"
-horizontal_alignment = 1
-
-[node name="TransferSlot3" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer/TransferSlot3"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "-t/m
-"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer/TransferSlot3"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer/TransferSlot3/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer/TransferSlot3"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "London"
-horizontal_alignment = 1
-
-[node name="TransferSlot4" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer/TransferSlot4"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "-t/m
-"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer/TransferSlot4"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer/TransferSlot4/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer/TransferSlot4"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "London"
-horizontal_alignment = 1
-
-[node name="TransferSlot5" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer/TransferSlot5"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "-t/m
-"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer/TransferSlot5"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer/TransferSlot5/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer/TransferSlot5"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "London"
-horizontal_alignment = 1
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-alignment = 1
-
-[node name="TransferSlot1" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2/TransferSlot1"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "-t/m
-"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2/TransferSlot1"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2/TransferSlot1/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2/TransferSlot1"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "London"
-horizontal_alignment = 1
-
-[node name="TransferSlot2" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2/TransferSlot2"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "-t/m
-"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2/TransferSlot2"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2/TransferSlot2/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2/TransferSlot2"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "London"
-horizontal_alignment = 1
-
-[node name="TransferSlot3" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2/TransferSlot3"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "-t/m
-"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2/TransferSlot3"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2/TransferSlot3/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2/TransferSlot3"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "London"
-horizontal_alignment = 1
-
-[node name="TransferSlot4" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2/TransferSlot4"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "-t/m
-"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2/TransferSlot4"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2/TransferSlot4/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2/TransferSlot4"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "London"
-horizontal_alignment = 1
-
-[node name="TransferSlot5" type="Control" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2/TransferSlot5"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = -5.0
-offset_right = 52.5
-offset_bottom = 18.0
-text = "-t/m
-"
-horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2/TransferSlot5"]
-position = Vector2(25, 42.5)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("16_f2arl")
-
-[node name="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2/TransferSlot5/Sprite2D" instance=ExtResource("3_j1a0c")]
-scale = Vector2(1.775, 1.775)
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/StockAndTrade/VBoxContainer/HBoxContainer2/TransferSlot5"]
-layout_mode = 0
-offset_left = -7.5
-offset_top = 67.5
-offset_right = 52.5
-offset_bottom = 90.5
-text = "London"
-horizontal_alignment = 1
-
-[node name="Factory" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
-visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_left = -303.75
-offset_top = -387.5
-offset_right = 146.25
-offset_bottom = 182.5
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Factory"]
-layout_mode = 0
-offset_left = 195.0
-offset_top = 12.5
-offset_right = 249.0
-offset_bottom = 35.5
-scale = Vector2(4.28495, 2.1772)
-text = "RECIPY"
-
-[node name="RecipySprite" type="AnimatedSprite2D" parent="HBoxContainer4/ProvinceWindowSprite/Factory"]
-position = Vector2(218.75, 326.25)
-scale = Vector2(-3.57365, 3.84682)
-sprite_frames = SubResource("SpriteFrames_q75k1")
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Factory"]
-layout_mode = 0
-offset_left = 183.75
-offset_top = 523.75
-offset_right = 300.75
-offset_bottom = 546.75
-scale = Vector2(2.21012, 1.68531)
-text = "WORKFORCE: 0"
-
-[node name="Label3" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/Factory"]
-layout_mode = 0
-offset_top = 523.75
-offset_right = 97.0
-offset_bottom = 546.75
-text = "Transport to"
+offset_top = -371.25
+offset_right = -552.5
+offset_bottom = -821.25
 
 [node name="NotUnlockedSpecialBuilding" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
 visible = false
@@ -1862,72 +609,92 @@ offset_top = -392.5
 offset_right = 145.0
 offset_bottom = 177.5
 
-[node name="Stock" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding"]
-texture_filter = 1
-position = Vector2(287.5, 307.5)
-scale = Vector2(0.45, 1.173)
-texture = ExtResource("12_6au65")
-centered = false
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding"]
+layout_mode = 0
+offset_top = 20.0
+offset_right = 450.0
+offset_bottom = 570.0
+theme = ExtResource("11_hg8qy")
 
-[node name="Stock" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/Stock"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 17
+theme_override_constants/margin_top = 17
+theme_override_constants/margin_right = 17
+theme_override_constants/margin_bottom = 17
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 46
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "NOthing has been build here yet"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Stock" type="TextureRect" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("12_6au65")
+
+[node name="Stock" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Stock"]
 self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
 offset_top = -0.314636
 offset_right = 300.0
 offset_bottom = 63.6854
 metadata/_edit_use_anchors_ = true
 
-[node name="ProductionLine" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding"]
+[node name="ProductionLine" type="TextureRect" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 texture_filter = 1
-position = Vector2(36.25, 300)
-scale = Vector2(0.45, 1.173)
+layout_mode = 2
+size_flags_horizontal = 4
 texture = ExtResource("11_3bjrh")
-centered = false
 
-[node name="ProductionLine" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/ProductionLine"]
+[node name="ProductionLine" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/ProductionLine"]
 self_modulate = Color(1, 1, 1, 0)
-offset_left = -0.369052
-offset_top = -0.314617
-offset_right = 299.631
-offset_bottom = 63.6854
-metadata/_edit_use_anchors_ = true
-
-[node name="Dockyard" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding"]
-texture_filter = 1
-position = Vector2(37.5, 388.75)
-scale = Vector2(0.4525, 1.37593)
-texture = ExtResource("14_vgj6o")
-centered = false
-
-[node name="Dockyard" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/Dockyard"]
-self_modulate = Color(1, 1, 1, 0)
-offset_left = -0.369052
-offset_top = -0.314617
-offset_right = 299.631
-offset_bottom = 63.6854
-metadata/_edit_use_anchors_ = true
-
-[node name="Military" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding"]
-texture_filter = 1
-position = Vector2(287.5, 392.5)
-scale = Vector2(0.4525, 1.37593)
-texture = ExtResource("15_sf2vu")
-centered = false
-
-[node name="Military" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/Military"]
-self_modulate = Color(1, 1, 1, 0)
-offset_left = -0.369052
-offset_top = -0.314617
-offset_right = 299.631
-offset_bottom = 63.6854
-metadata/_edit_use_anchors_ = true
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding"]
 layout_mode = 0
-offset_left = 118.75
-offset_top = 197.5
-offset_right = 369.75
-offset_bottom = 220.5
-text = "NOthing has been build here yet"
+offset_left = -0.369052
+offset_top = -0.314617
+offset_right = 299.631
+offset_bottom = 63.6854
+metadata/_edit_use_anchors_ = true
+
+[node name="Dockyard" type="TextureRect" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("14_vgj6o")
+
+[node name="Dockyard" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Dockyard"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_left = -0.369052
+offset_top = -0.314617
+offset_right = 299.631
+offset_bottom = 63.6854
+metadata/_edit_use_anchors_ = true
+
+[node name="Military" type="TextureRect" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("15_sf2vu")
+
+[node name="Military" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Military"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_left = -0.369052
+offset_top = -0.314617
+offset_right = 299.631
+offset_bottom = 63.6854
+metadata/_edit_use_anchors_ = true
 
 [node name="TransportButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite"]
 offset_left = 182.5
@@ -1960,12 +727,18 @@ text = "Slot2"
 layout_mode = 2
 text = "Slot3"
 
+[node name="Dev" type="Label" parent="HBoxContainer4/ProvinceWindowSprite"]
+offset_left = 78.75
+offset_top = -407.5
+offset_right = 118.75
+offset_bottom = -384.5
+
 [connection signal="pressed" from="HBoxContainer4/BuildingMenu/Bg/ExitButton" to="." method="_onExitBuildingMenuButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/closeButton" to="." method="_onCloseProvinceMenuButtonPressed"]
-[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/Stock/Stock" to="." method="_onSpecialBuildingSelectionPressed" binds= [0]]
-[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/ProductionLine/ProductionLine" to="." method="_onSpecialBuildingSelectionPressed" binds= [1]]
-[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/Dockyard/Dockyard" to="." method="_onSpecialBuildingSelectionPressed" binds= [2]]
-[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/Military/Military" to="." method="_onSpecialBuildingSelectionPressed" binds= [3]]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Stock/Stock" to="." method="_onSpecialBuildingSelectionPressed" binds= [0]]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/ProductionLine/ProductionLine" to="." method="_onSpecialBuildingSelectionPressed" binds= [1]]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Dockyard/Dockyard" to="." method="_onSpecialBuildingSelectionPressed" binds= [2]]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Military/Military" to="." method="_onSpecialBuildingSelectionPressed" binds= [3]]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TransportButton" to="." method="_onChangeHarvestGoodTransportationRoutePressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TabControl/0" to="." method="_onTabContainerTabChanged" binds= [0]]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TabControl/1" to="." method="_onTabContainerTabChanged" binds= [1]]

@@ -22,6 +22,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private AnimatedSprite2D _provinceGood;
 	private AnimatedSprite2D _provinceTerrain;
 	private GUIResources _provinceResources;
+	private Label _provinceDev;
 	
 
 	private Node2D _buildingsHandler;
@@ -29,10 +30,10 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private Button _transportButton;
 	private Label _transportLabel;
 
-	private Control _factoryHandler;
-	private Control _tradeAndStockHandler;
-	private Control _dockyardHandler;
-	private Control _militaryTrainingHandler;
+	private GUIFactory _factoryHandler;
+	private GUIStockAndTrade _tradeAndStockHandler;
+	private GUIDockyard _dockyardHandler;
+	private GUIMilitaryTrainingCamp _militaryTrainingHandler;
 	private Control _emptyHandler;
 	private Control _notUnlockedHandler;
 	
@@ -54,6 +55,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_provinceFlag = GetNode<AnimatedSprite2D>("HBoxContainer4/ProvinceWindowSprite/Flag");
 		_provinceGood = GetNode<AnimatedSprite2D>("HBoxContainer4/ProvinceWindowSprite/Good");
 		_provinceTerrain = GetNode<AnimatedSprite2D>("HBoxContainer4/ProvinceWindowSprite/Terrain");
+		_provinceDev = GetNode<Label>("HBoxContainer4/ProvinceWindowSprite/Dev");
 		
 		_provinceResources = GetNode<GUIResources>("HBoxContainer4/ProvinceWindowSprite/ResourcesContainer/Control");
 		_provinceResources.Init();
@@ -62,10 +64,10 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_transportLabel = GetNode<Label>("HBoxContainer4/ProvinceWindowSprite/TransferToHarvest");
 		
 
-		_factoryHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/Factory");
-		_militaryTrainingHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/MilitaryTrainingCamp");
-		_dockyardHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/Dockyard");
-		_tradeAndStockHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/StockAndTrade");
+		_factoryHandler = GetNode<GUIFactory>("HBoxContainer4/ProvinceWindowSprite/GuiFactory");
+		_militaryTrainingHandler = GetNode<GUIMilitaryTrainingCamp>("HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp");
+		_dockyardHandler = GetNode<GUIDockyard>("HBoxContainer4/ProvinceWindowSprite/GuiDockyard");
+		_tradeAndStockHandler = GetNode<GUIStockAndTrade>("HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade");
 		_emptyHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding");
 		_notUnlockedHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/NotUnlockedSpecialBuilding");
 
@@ -124,6 +126,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_provinceGood.Frame = (int)provinceData.Good;
 		_provinceTerrain.Frame = (int)provinceData.Terrain;
 		_provinceResources.DrawResources(provinceData);
+		_provinceDev.Text = provinceData.Development.ToString();
 
 
 		if (provinceData.HarvestedTransport != null)

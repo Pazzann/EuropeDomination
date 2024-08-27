@@ -1,0 +1,144 @@
+[gd_scene load_steps=6 format=3 uid="uid://ckkfw2dge7x22"]
+
+[ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_is0js"]
+[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUIDockyard.cs" id="1_rvy61"]
+[ext_resource type="PackedScene" uid="uid://cto5ha77c55mp" path="res://Prefabs/GUITransport.tscn" id="2_5tg7w"]
+[ext_resource type="Texture2D" uid="uid://c5dahtyolxofn" path="res://icon.svg" id="2_8usbn"]
+[ext_resource type="PackedScene" uid="uid://ch6n7ol2i51a6" path="res://Prefabs/GUIMilitaryNeeds.tscn" id="4_sflcx"]
+
+[node name="GuiDockyard" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1470.0
+offset_bottom = -530.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rvy61")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 4.0
+offset_right = 454.0
+offset_bottom = 550.0
+theme = ExtResource("1_is0js")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 17
+theme_override_constants/margin_top = 17
+theme_override_constants/margin_right = 17
+theme_override_constants/margin_bottom = 17
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label2" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Naval DOCKYARD"
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Transportation:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.59
+alignment = 1
+
+[node name="GuiTransport" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_5tg7w")]
+layout_mode = 2
+
+[node name="GuiTransport2" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_5tg7w")]
+layout_mode = 2
+
+[node name="GuiTransport3" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_5tg7w")]
+layout_mode = 2
+
+[node name="GuiTransport4" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_5tg7w")]
+layout_mode = 2
+
+[node name="GuiTransport5" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_5tg7w")]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "BUILDING SHIPS"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 3
+
+[node name="GuiMilitaryNeeds" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/GridContainer" instance=ExtResource("4_sflcx")]
+layout_mode = 2
+
+[node name="GuiMilitaryNeeds2" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/GridContainer" instance=ExtResource("4_sflcx")]
+layout_mode = 2
+
+[node name="GuiMilitaryNeeds3" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/GridContainer" instance=ExtResource("4_sflcx")]
+layout_mode = 2
+
+[node name="GuiMilitaryNeeds4" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/GridContainer" instance=ExtResource("4_sflcx")]
+layout_mode = 2
+
+[node name="GuiMilitaryNeeds5" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/GridContainer" instance=ExtResource("4_sflcx")]
+layout_mode = 2
+
+[node name="GuiMilitaryNeeds6" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/GridContainer" instance=ExtResource("4_sflcx")]
+layout_mode = 2
+
+[node name="BoxContainer" type="BoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/BoxContainer"]
+position = Vector2(110.5, 68.75)
+texture = ExtResource("2_8usbn")
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/BoxContainer"]
+layout_mode = 2
+text = "Unit to train"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer2"]
+layout_mode = 2
+text = "Time:"
+
+[node name="Label2" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer2"]
+layout_mode = 2
+text = "Cost:"
+
+[node name="Label3" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer2"]
+layout_mode = 2
+text = "Sailors:"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer"]
+layout_mode = 2
+text = "Queue"
+
+[node name="VScrollBar" type="VScrollBar" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Train"

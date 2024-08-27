@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://cto5ha77c55mp"]
+
+[ext_resource type="Texture2D" uid="uid://cm82xxwvohiys" path="res://Sprites/Border.png" id="1_fpybk"]
+[ext_resource type="PackedScene" uid="uid://bravhtaisuciw" path="res://Prefabs/CustomNodes/AnimatedTextureRect.tscn" id="2_rrpms"]
+[ext_resource type="SpriteFrames" uid="uid://d3n4eikp6qnq7" path="res://Prefabs/SpriteFrames/GoodSpriteFrames.tres" id="3_m0kr8"]
+
+[node name="GuiTransport" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 1.0
+offset_right = -1852.0
+offset_bottom = -973.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = -4
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "-t/m
+"
+horizontal_alignment = 1
+
+[node name="Sprite2D" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_fpybk")
+
+[node name="AnimatedTextureRect" parent="Sprite2D" instance=ExtResource("2_rrpms")]
+layout_mode = 0
+SpriteFrames = ExtResource("3_m0kr8")
+CurrentAnimation = "goods"
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 2
+text = "London"
+horizontal_alignment = 1
