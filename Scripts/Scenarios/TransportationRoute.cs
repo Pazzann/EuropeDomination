@@ -9,9 +9,9 @@ public class TransportationRoute
     public int ProvinceIdFrom;
     public int ProvinceIdTo;
     public Good TransportationGood;
-    public int Amount;
+    public double Amount;
 
-    public TransportationRoute(int provinceIdTo, int provinceIdFrom, Good transportationGood, int amount)
+    public TransportationRoute(int provinceIdTo, int provinceIdFrom, Good transportationGood, double amount)
     {
         ProvinceIdTo = provinceIdTo;
         ProvinceIdFrom = provinceIdFrom;

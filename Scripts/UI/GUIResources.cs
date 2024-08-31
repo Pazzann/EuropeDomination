@@ -29,7 +29,7 @@ public partial class GUIResources : VBoxContainer
 		}
 	}
 	
-	private void _clearInfo(float[] resources)
+	private void _clearInfo(double[] resources)
 	{
 		for (int i = 0; i < resources.Length; i++)
 		{
@@ -40,7 +40,7 @@ public partial class GUIResources : VBoxContainer
 
 	public void DrawResources(LandProvinceData data)
 	{
-		var AllResourcesChange = new float[data.Resources.Length];
+		var AllResourcesChange = new double[data.Resources.Length];
 
 		for (int i = 0; i < data.Resources.Length; i++)
 		{

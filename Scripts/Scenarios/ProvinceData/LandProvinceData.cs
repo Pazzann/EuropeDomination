@@ -12,7 +12,7 @@ public class LandProvinceData : ProvinceData
 	public int Owner;
 	public int Development;
 
-	public float[] Resources;
+	public double[] Resources;
 	public List<Building> Buildings;
 	public SpecialBuilding[] SpecialBuildings;
 
@@ -48,7 +48,7 @@ public class LandProvinceData : ProvinceData
 		Terrain terrain,
 		Good good,
 		int development,
-		float[] resources,
+		double[] resources,
 		List<Building> buildings,
 		Modifiers modifiers,
 		SpecialBuilding[] specialBuildings,

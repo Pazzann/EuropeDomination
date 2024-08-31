@@ -117,6 +117,12 @@ label_settings = SubResource("LabelSettings_0rrit")
 position = Vector2(277.5, 416.25)
 scale = Vector2(1.02031, 1.02031)
 
+[node name="GoodTransportManagement" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Good"]
+offset_left = -42.0
+offset_top = -34.0
+offset_right = 40.0
+offset_bottom = 33.0
+
 [node name="Flag" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("4_fkosd")]
 position = Vector2(112.5, -444.25)
 scale = Vector2(1.04167, 0.96875)
@@ -703,6 +709,7 @@ offset_right = 118.75
 offset_bottom = -384.5
 
 [node name="TransferManagementBox" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite"]
+visible = false
 offset_left = 436.25
 offset_top = 223.75
 offset_right = 636.25
@@ -711,6 +718,9 @@ theme = ExtResource("11_hg8qy")
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox"]
 layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 12
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer"]
 layout_mode = 2
@@ -725,13 +735,22 @@ layout_mode = 0
 offset_right = 23.0
 offset_bottom = 24.0
 
-[node name="TransportButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Change"
-
 [node name="TransferToHarvest" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Transfering to : "
+
+[node name="TransportSlider" type="HSlider" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+step = 0.1
+
+[node name="TransportSliderLabel" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="TransportButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Change"
 
 [node name="TabBar" type="TabBar" parent="HBoxContainer4/ProvinceWindowSprite"]
 offset_left = -304.0
@@ -746,10 +765,12 @@ tab_2/title = "Slot3"
 
 [connection signal="pressed" from="HBoxContainer4/BuildingMenu/Bg/ExitButton" to="." method="_onExitBuildingMenuButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/closeButton" to="." method="_onCloseProvinceMenuButtonPressed"]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/Good/GoodTransportManagement" to="." method="_onGoodTransportManagementPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Stock/Stock" to="." method="_onSpecialBuildingSelectionPressed" binds= [0]]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/ProductionLine/ProductionLine" to="." method="_onSpecialBuildingSelectionPressed" binds= [1]]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Dockyard/Dockyard" to="." method="_onSpecialBuildingSelectionPressed" binds= [2]]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Military/Military" to="." method="_onSpecialBuildingSelectionPressed" binds= [3]]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TextureRect/Button" to="." method="_onCloseTransportMenuPressed"]
-[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TransportButton" to="." method="_onChangeHarvestGoodTransportationRoutePressed"]
+[connection signal="value_changed" from="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TransportSlider" to="." method="_onTransportSliderValueChanged"]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TransportButton" to="." method="_onChangeGoodTransportationRoutePressed"]
 [connection signal="tab_changed" from="HBoxContainer4/ProvinceWindowSprite/TabBar" to="." method="_onTabContainerTabChanged"]

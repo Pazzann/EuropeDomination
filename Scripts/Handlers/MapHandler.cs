@@ -32,7 +32,8 @@ public partial class MapHandler : GameHandler
 
 	private Good _goodToTransport;
 	private RouteAdressProvider _whereToAddRoute;
-	private int _transportationAmount;
+	private NewTransportationRouteReciever _uiReciever;
+	private double _transportationAmount;
 	
 	private float _lastClickTimestamp = 0.0f;
 
@@ -83,6 +84,7 @@ public partial class MapHandler : GameHandler
 				var route = new TransportationRoute(tileId, EngineState.MapInfo.CurrentSelectedProvinceId, _goodToTransport,
 					_transportationAmount);
 				_whereToAddRoute.Invoke(route);
+				_uiReciever.Invoke(route);
 			}else if (EngineState.MapInfo.MapColors[tileId] ==  MapDefaultColors.OwnProvince)
 			{
 				_whereToAddRoute = null;
@@ -201,6 +203,7 @@ public partial class MapHandler : GameHandler
 					_goodToTransport = e.GoodToTransport;
 					_transportationAmount = e.Amount;
 					_whereToAddRoute = e.RouteAdress;
+					_uiReciever = e.NewTransportationRouteReciever;
 					return;
 				default:
 					return;

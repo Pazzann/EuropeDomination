@@ -27,8 +27,15 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private Node2D _buildingsHandler;
 
+	//transportation zone
 	private Button _transportButton;
 	private Label _transportLabel;
+	private PanelContainer _transportationHandler;
+	private HSlider _transportSlider;
+	private Label _transportSliderLabel;
+	private RouteAdressProvider _routeAdressToTransfer = null;
+	private TransportationRoute _transportationRouteToEdit = null;
+	//end.
 
 	private GUIFactory _factoryHandler;
 	private GUIStockAndTrade _tradeAndStockHandler;
@@ -66,6 +73,13 @@ public partial class GUILandProvinceWindow : GUIHandler
 			GetNode<Button>(
 				"HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TransportButton");
 		_transportLabel = GetNode<Label>("HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TransferToHarvest");
+		_transportationHandler = GetNode<PanelContainer>("HBoxContainer4/ProvinceWindowSprite/TransferManagementBox");
+		_transportSlider =
+			GetNode<HSlider>(
+				"HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TransportSlider");
+		_transportSliderLabel =
+			GetNode<Label>(
+				"HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TransportSliderLabel");
 		
 
 		_factoryHandler = GetNode<GUIFactory>("HBoxContainer4/ProvinceWindowSprite/GuiFactory");
@@ -101,6 +115,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 				_hideProvinceWindow();
 				return;
 			case ToGuiShowLandProvinceDataEvent e:
+				_transportationHandler.Visible = false;
 				_showProvinceWindow();
 				_currentProvinceData = e.ShowProvinceData;
 				_closeAllTabs();
@@ -134,22 +149,9 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_provinceTerrain.Frame = (int)provinceData.Terrain;
 		_provinceResources.DrawResources(provinceData);
 		_provinceDev.Text = provinceData.Development.ToString();
-
-
-		if (provinceData.HarvestedTransport != null)
-		{
-			_transportButton.Text = "Change";
-			_transportLabel.Text = "Transfering to:" + EngineState.MapInfo.Scenario.Map[provinceData.HarvestedTransport.ProvinceIdTo].Name;
-		}
-		else
-		{
-			_transportButton.Text = "Create New";
-			_transportLabel.Text = "Doesn't transfering anywhere";
-		}
-			
-			
 		
-		
+		if(_transportationHandler.Visible)
+			_showTransportationMenu();
 		
 		_setBuildingMenuInfo(provinceData);
 		
@@ -168,6 +170,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 	{
 		if(!_isCurrentlyShown) return;
 		_buildingsMenu.Visible = false;
+		_transportationHandler.Visible = false;
 		Tween tween = GetTree().CreateTween(); 
 		tween.TweenProperty(this, "position",new Vector2(0.0f, 0.0f) , 0.4f);
 		_isCurrentlyShown = false;
@@ -324,15 +327,54 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_showTab(_currentTab);
 	}
 
-	private void _onChangeHarvestGoodTransportationRoutePressed()
+	private void _onChangeGoodTransportationRoutePressed()
 	{
 		InvokeGUIEvent(new GUIChangeMapType(MapTypes.TransportationSelection));
-		InvokeGUIEvent(new GUIGoodTransportChange(_currentProvinceData.Good, 1, _currentProvinceData.SetRoute));
+		InvokeGUIEvent(new GUIGoodTransportChange(_currentProvinceData.Good, _transportSlider.Value, _routeAdressToTransfer, _receiveTransportationRoute));
+	}
+
+	private void _receiveTransportationRoute(TransportationRoute transportationRoute)
+	{
+		_transportationRouteToEdit = transportationRoute;
+		_showTransportationMenu();
 	}
 
 	private void _onCloseTransportMenuPressed()
 	{
-		
+		_transportationHandler.Visible = false;
+	}
+
+	private void _onGoodTransportManagementPressed()
+	{
+		_routeAdressToTransfer = _currentProvinceData.SetRoute;
+		_transportationRouteToEdit = _currentProvinceData.HarvestedTransport;
+		_showTransportationMenu();
+	}
+
+	private void _showTransportationMenu()
+	{
+		_transportationHandler.Visible = true;
+		if (_transportationRouteToEdit != null)
+		{
+			_transportButton.Text = "Change";
+			_transportLabel.Text = "Transfering to:" + EngineState.MapInfo.Scenario.Map[_transportationRouteToEdit.ProvinceIdTo].Name;
+			_transportSlider.Value = _transportationRouteToEdit.Amount;
+			_transportSliderLabel.Text = _transportSlider.Value.ToString("N1");
+		}
+		else
+		{
+			_transportButton.Text = "Create New";
+			_transportLabel.Text = "Doesn't transfering anywhere";
+			_transportSlider.Value = 1;
+			_transportSliderLabel.Text = _transportSlider.Value.ToString("N1");
+		}
+	}
+	
+	private void _onTransportSliderValueChanged(float value)
+	{
+		_transportSliderLabel.Text = value.ToString("N1");
+		if(_transportationRouteToEdit != null)
+			_transportationRouteToEdit.Amount = _transportSlider.Value;
 	}
 
 	private void _closeAllTabs()
