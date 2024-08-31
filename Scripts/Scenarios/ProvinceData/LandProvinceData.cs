@@ -71,4 +71,9 @@ public class LandProvinceData : ProvinceData
 		HarvestedTransport = harvestedTransport;
 
 	}
+
+	public void SetRoute(TransportationRoute harvestedRoute)
+	{
+		HarvestedTransport = harvestedRoute;
+	}
 }

@@ -31,6 +31,8 @@ public partial class MapHandler : GameHandler
 	private Node2D _devSpawner;
 
 	private Good _goodToTransport;
+	private RouteAdressProvider _whereToAddRoute;
+	private int _transportationAmount;
 	
 	private float _lastClickTimestamp = 0.0f;
 
@@ -79,13 +81,11 @@ public partial class MapHandler : GameHandler
 			if (EngineState.MapInfo.MapColors[tileId] ==  MapDefaultColors.Selectable)
 			{
 				var route = new TransportationRoute(tileId, EngineState.MapInfo.CurrentSelectedProvinceId, _goodToTransport,
-					1);
-				(EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] as LandProvinceData)
-					.HarvestedTransport = route;
+					_transportationAmount);
+				_whereToAddRoute.Invoke(route);
 			}else if (EngineState.MapInfo.MapColors[tileId] ==  MapDefaultColors.OwnProvince)
 			{
-				(EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] as LandProvinceData)
-					.HarvestedTransport = null;
+				_whereToAddRoute = null;
 			}
 			
 			EngineState.MapInfo.CurrentMapMode = MapTypes.Political;
@@ -199,6 +199,8 @@ public partial class MapHandler : GameHandler
 					return;
 				case GUIGoodTransportChange e:
 					_goodToTransport = e.GoodToTransport;
+					_transportationAmount = e.Amount;
+					_whereToAddRoute = e.RouteAdress;
 					return;
 				default:
 					return;

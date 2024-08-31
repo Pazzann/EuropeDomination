@@ -26,6 +26,7 @@ layout_mode = 2
 texture = ExtResource("1_h5gvx")
 
 [node name="AnimatedTextureRect" parent="TextureRect" instance=ExtResource("2_bd7ds")]
+layout_mode = 0
 SpriteFrames = ExtResource("3_cwkgc")
 CurrentAnimation = "goods"
 

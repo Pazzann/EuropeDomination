@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bgb7s0ynl6r2t"]
+[gd_scene load_steps=22 format=3 uid="uid://bgb7s0ynl6r2t"]
 
 [ext_resource type="Texture2D" uid="uid://ckhuxliwwap7v" path="res://Sprites/ProvinceControl.png" id="1_dqhfl"]
 [ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUILandProvinceWindow.cs" id="1_y47fr"]
@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://djn3kgt3aw2ut" path="res://Prefabs/GUIFactory.tscn" id="14_ltsyw"]
 [ext_resource type="Texture2D" uid="uid://dpwplvw1gnipo" path="res://Sprites/ProvinceTypeSelection/dockyard.png" id="14_vgj6o"]
 [ext_resource type="Texture2D" uid="uid://c0eu30ljediqw" path="res://Sprites/ProvinceTypeSelection/military.png" id="15_sf2vu"]
+[ext_resource type="Texture2D" uid="uid://cjeqbeq2oyx8h" path="res://Sprites/closeButton.png" id="20_6jtpg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_0rrit"]
 font = ExtResource("2_eb8im")
@@ -47,7 +48,6 @@ grow_vertical = 2
 mouse_filter = 0
 
 [node name="BuildingMenu" type="Sprite2D" parent="HBoxContainer4"]
-visible = false
 position = Vector2(730.85, 389.95)
 scale = Vector2(4.8, 4.8)
 texture = ExtResource("8_j1vcm")
@@ -696,42 +696,53 @@ offset_right = 299.631
 offset_bottom = 63.6854
 metadata/_edit_use_anchors_ = true
 
-[node name="TransportButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite"]
-offset_left = 182.5
-offset_top = 333.75
-offset_right = 287.5
-offset_bottom = 378.75
-text = "Change"
-
-[node name="TransferToHarvest" type="Label" parent="HBoxContainer4/ProvinceWindowSprite"]
-offset_left = 181.25
-offset_top = 287.5
-offset_right = 303.25
-offset_bottom = 310.5
-text = "Transfering to : "
-
-[node name="TabControl" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite"]
-offset_left = -301.0
-offset_top = -416.0
-offset_bottom = -376.0
-
-[node name="0" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/TabControl"]
-layout_mode = 2
-text = "Slot1"
-
-[node name="1" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/TabControl"]
-layout_mode = 2
-text = "Slot2"
-
-[node name="2" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/TabControl"]
-layout_mode = 2
-text = "Slot3"
-
 [node name="Dev" type="Label" parent="HBoxContainer4/ProvinceWindowSprite"]
 offset_left = 78.75
 offset_top = -407.5
 offset_right = 118.75
 offset_bottom = -384.5
+
+[node name="TransferManagementBox" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite"]
+offset_left = 436.25
+offset_top = 223.75
+offset_right = 636.25
+offset_bottom = 423.75
+theme = ExtResource("11_hg8qy")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+texture = ExtResource("20_6jtpg")
+
+[node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TextureRect"]
+layout_mode = 0
+offset_right = 23.0
+offset_bottom = 24.0
+
+[node name="TransportButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Change"
+
+[node name="TransferToHarvest" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Transfering to : "
+
+[node name="TabBar" type="TabBar" parent="HBoxContainer4/ProvinceWindowSprite"]
+offset_left = -304.0
+offset_top = -415.0
+offset_right = 5.0
+offset_bottom = -375.0
+current_tab = 0
+tab_count = 3
+tab_0/title = "Slot1"
+tab_1/title = "Slot2"
+tab_2/title = "Slot3"
 
 [connection signal="pressed" from="HBoxContainer4/BuildingMenu/Bg/ExitButton" to="." method="_onExitBuildingMenuButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/closeButton" to="." method="_onCloseProvinceMenuButtonPressed"]
@@ -739,7 +750,6 @@ offset_bottom = -384.5
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/ProductionLine/ProductionLine" to="." method="_onSpecialBuildingSelectionPressed" binds= [1]]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Dockyard/Dockyard" to="." method="_onSpecialBuildingSelectionPressed" binds= [2]]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Military/Military" to="." method="_onSpecialBuildingSelectionPressed" binds= [3]]
-[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TransportButton" to="." method="_onChangeHarvestGoodTransportationRoutePressed"]
-[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TabControl/0" to="." method="_onTabContainerTabChanged" binds= [0]]
-[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TabControl/1" to="." method="_onTabContainerTabChanged" binds= [1]]
-[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TabControl/2" to="." method="_onTabContainerTabChanged" binds= [2]]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TextureRect/Button" to="." method="_onCloseTransportMenuPressed"]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TransportButton" to="." method="_onChangeHarvestGoodTransportationRoutePressed"]
+[connection signal="tab_changed" from="HBoxContainer4/ProvinceWindowSprite/TabBar" to="." method="_onTabContainerTabChanged"]

@@ -40,6 +40,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private int _currentTab;
 
+	private TabBar _specialBuildingsTabBar;
+
 	private LandProvinceData _currentProvinceData;
 
 
@@ -60,8 +62,10 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_provinceResources = GetNode<GUIResources>("HBoxContainer4/ProvinceWindowSprite/ResourcesContainer/Control");
 		_provinceResources.Init();
 
-		_transportButton = GetNode<Button>("HBoxContainer4/ProvinceWindowSprite/TransportButton");
-		_transportLabel = GetNode<Label>("HBoxContainer4/ProvinceWindowSprite/TransferToHarvest");
+		_transportButton =
+			GetNode<Button>(
+				"HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TransportButton");
+		_transportLabel = GetNode<Label>("HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TransferToHarvest");
 		
 
 		_factoryHandler = GetNode<GUIFactory>("HBoxContainer4/ProvinceWindowSprite/GuiFactory");
@@ -70,6 +74,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_tradeAndStockHandler = GetNode<GUIStockAndTrade>("HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade");
 		_emptyHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding");
 		_notUnlockedHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/NotUnlockedSpecialBuilding");
+
+		_specialBuildingsTabBar = GetNode<TabBar>("HBoxContainer4/ProvinceWindowSprite/TabBar");
 
 		_buildingsHandler = GetNode<Node2D>("HBoxContainer4/ProvinceWindowSprite/Buildings");
 
@@ -98,6 +104,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 				_showProvinceWindow();
 				_currentProvinceData = e.ShowProvinceData;
 				_closeAllTabs();
+				_specialBuildingsTabBar.CurrentTab = 0;
 				_currentTab = 0;
 				_showTab(_currentTab);
 				_setProvinceInfo(e.ShowProvinceData);
@@ -320,7 +327,12 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private void _onChangeHarvestGoodTransportationRoutePressed()
 	{
 		InvokeGUIEvent(new GUIChangeMapType(MapTypes.TransportationSelection));
-		InvokeGUIEvent(new GUIGoodTransportChange(_currentProvinceData.Good));
+		InvokeGUIEvent(new GUIGoodTransportChange(_currentProvinceData.Good, 1, _currentProvinceData.SetRoute));
+	}
+
+	private void _onCloseTransportMenuPressed()
+	{
+		
 	}
 
 	private void _closeAllTabs()
