@@ -31,6 +31,7 @@ offset_right = 156.0
 offset_bottom = 116.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
+mouse_filter = 0
 alignment = 2
 
 [node name="MapScreen" type="TextureRect" parent="MiniMapContainer"]
@@ -38,6 +39,7 @@ z_index = 1
 texture_filter = 1
 material = ExtResource("2_ctl3o")
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("3_wbxjg")
 expand_mode = 3
 

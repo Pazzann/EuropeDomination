@@ -58,8 +58,17 @@ public partial class GUIMiniMapWindow : GUIHandler
 
 	public override void _Process(double delta)
 	{
-		_cameraBox.PivotOffset = _cameraBox.Size/2;
 		Vector2 mapSize = EngineState.MapInfo.Scenario.MapTexture.GetSize();
+		
+		if (Input.IsMouseButtonPressed(MouseButton.Left))
+		{
+			if (GetLocalMousePosition().X < _minimapSprite.Size.X && GetLocalMousePosition().Y < _minimapSprite.Size.Y)
+			{
+				_camera.Position = GetLocalMousePosition() / _minimapSprite.Size * mapSize;
+			}
+		}
+		
+		_cameraBox.PivotOffset = _cameraBox.Size/2;
 		_cameraBox.Position = _camera.GetScreenCenterPosition() * (_minimapSprite.Size / mapSize) - _cameraBox.Size/2;
 
 		_cameraBox.Size = _viewport.GetVisibleRect().Size / mapSize * _minimapSprite.Size / _camera.Zoom;
