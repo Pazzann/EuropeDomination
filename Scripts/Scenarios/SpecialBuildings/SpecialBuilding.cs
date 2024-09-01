@@ -8,12 +8,14 @@ public class SpecialBuilding
     public readonly int TimeToBuild;
     public int BuildingTime;
     public bool IsFinished;
+    public int Cost;
 
-    public SpecialBuilding(SpecialBuildingTypes type, int timeToBuild, int buildingTime, bool isFinished)
+    public SpecialBuilding(SpecialBuildingTypes type, int timeToBuild, int buildingTime, bool isFinished, int cost)
     {
         Type = type;
         TimeToBuild = timeToBuild;
         BuildingTime = buildingTime;
         IsFinished = isFinished;
+        Cost = cost;
     }
 }

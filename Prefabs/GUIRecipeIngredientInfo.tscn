@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://bwijb6pj1ycyx"]
+
+[ext_resource type="PackedScene" uid="uid://csnvq4hwnhy3q" path="res://Prefabs/GUIGood.tscn" id="1_guklc"]
+[ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_v6ysa"]
+[ext_resource type="Script" path="res://Scripts/UI/GUIRecipeIngredientInfo.cs" id="2_76yqd"]
+
+[node name="GuiRecipeInfo" type="PanelContainer"]
+offset_right = 222.0
+offset_bottom = 54.0
+theme = ExtResource("1_v6ysa")
+script = ExtResource("2_76yqd")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="GuiGood" parent="HBoxContainer" instance=ExtResource("1_guklc")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_stretch_ratio = 0.26
+expand_mode = 3
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.26
+text = "Wood"
+
+[node name="Label2" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "0"

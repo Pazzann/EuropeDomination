@@ -4,12 +4,14 @@ using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
+using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.Text;
 using EuropeDominationDemo.Scripts.UI.Events.GUI;
 using EuropeDominationDemo.Scripts.UI.Events.ToEngine;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 
 using Godot;
+using Godot.Collections;
 using ToGuiHideProvinceDataEvent = EuropeDominationDemo.Scripts.UI.Events.ToGUI.ToGuiHideProvinceDataEvent;
 
 namespace EuropeDominationDemo.Scripts.Handlers;
@@ -326,15 +328,48 @@ public partial class MapHandler : GameHandler
 		}
 	}
 
+
 	public override void MonthTick()
 	{
+		//goodgenerationandtransportation
 		foreach (LandProvinceData data in EngineState.MapInfo.Scenario.Map.Where(data => data is LandProvinceData))
 		{
 			data.Resources[(int)data.Good] += data.ProductionRate;
 			if (data.HarvestedTransport != null)
 			{
-				data.Resources[(int)data.Good] -= data.HarvestedTransport.Amount;
-				(EngineState.MapInfo.Scenario.Map[data.HarvestedTransport.ProvinceIdTo] as LandProvinceData).Resources[(int)data.HarvestedTransport.TransportationGood] += data.HarvestedTransport.Amount;
+				var diff = data.Resources[(int)data.Good] - Mathf.Max(data.Resources[(int)data.Good] - data.HarvestedTransport.Amount, 0);
+				data.Resources[(int)data.Good] -= diff;
+				(EngineState.MapInfo.Scenario.Map[data.HarvestedTransport.ProvinceIdTo] as LandProvinceData).Resources[(int)data.HarvestedTransport.TransportationGood] += diff;
+			}
+		}
+		//factorystage
+		foreach (LandProvinceData data in EngineState.MapInfo.Scenario.Map.Where(data => data is LandProvinceData))
+		{
+			foreach (SpecialBuilding building in data.SpecialBuildings.Where(b=> b!=null))
+			{
+				if (building is Factory factory && factory.Recipe != null)
+				{
+					if (factory.Recipe.Ingredients.Where(ingredient=> data.Resources[(int)ingredient.Key] - ingredient.Value * factory.ProductionRate < 0).ToArray().Length <= 0)
+					{
+						foreach (var ingredient in factory.Recipe.Ingredients)
+						{
+							data.Resources[(int)ingredient.Key] -= ingredient.Value * factory.ProductionRate;
+						}
+
+						data.Resources[(int)factory.Recipe.Output] += factory.ProductionRate;
+						factory.ProductionRate = Mathf.Min(factory.ProductionRate + factory.ProductionGrowthRate, factory.MaxProductionRate);
+					}
+					else
+					{
+						factory.ProductionRate = Mathf.Max(factory.ProductionRate - factory.ProductionGrowthRate, 0.1f);
+					}
+					if (factory.TransportationRoute != null)
+					{
+						var diff = data.Resources[(int)factory.Recipe.Output] - Mathf.Max(data.Resources[(int)factory.Recipe.Output] - factory.TransportationRoute.Amount, 0);
+						data.Resources[(int)factory.Recipe.Output] -= diff;
+						(EngineState.MapInfo.Scenario.Map[factory.TransportationRoute.ProvinceIdTo] as LandProvinceData).Resources[(int)factory.Recipe.Output] += diff;
+					}
+				}
 			}
 		}
 

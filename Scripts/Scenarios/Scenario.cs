@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EuropeDominationDemo.Scripts.Scenarios.Army;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
+using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings.FactoryRecipies;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
@@ -18,6 +19,7 @@ public abstract class Scenario : IScenario
 	public abstract DateTime Date { get; set; }
 	
 	public abstract List<ArmyUnitData> ArmyUnits { get; set; }
+	public abstract List<Recipe> Recipes { get; set; }
 	
 	public abstract Image MapTexture { get; set; }
 	

@@ -4,7 +4,7 @@ namespace EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 
 public class MilitaryTrainingCamp : SpecialBuilding
 {
-    public MilitaryTrainingCamp( int buildingTime, bool isFinished) : base(SpecialBuildingTypes.MilitaryTradingCamp, 100, buildingTime, isFinished)
+    public MilitaryTrainingCamp( int buildingTime, bool isFinished, int cost) : base(SpecialBuildingTypes.MilitaryTradingCamp, 100, buildingTime, isFinished, cost)
     {
         
     }

@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://btniuw7p0w6au"]
+
+[ext_resource type="Texture2D" uid="uid://cm82xxwvohiys" path="res://Sprites/Border.png" id="1_lolee"]
+[ext_resource type="PackedScene" uid="uid://bravhtaisuciw" path="res://Prefabs/CustomNodes/AnimatedTextureRect.tscn" id="2_qhhka"]
+[ext_resource type="SpriteFrames" uid="uid://d3n4eikp6qnq7" path="res://Prefabs/SpriteFrames/GoodSpriteFrames.tres" id="3_r64mg"]
+
+[node name="GuiGoodFactoryInfo" type="VBoxContainer"]
+offset_right = 68.0
+offset_bottom = 72.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_lolee")
+
+[node name="AnimatedTextureRect" parent="TextureRect" instance=ExtResource("2_qhhka")]
+layout_mode = 2
+offset_right = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+SpriteFrames = ExtResource("3_r64mg")
+CurrentAnimation = "goods"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1

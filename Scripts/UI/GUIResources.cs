@@ -4,6 +4,7 @@ using EuropeDominationDemo.Scripts.GlobalStates;
 using Godot;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
+using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.Utils;
 
 namespace EuropeDominationDemo.Scripts.UI;
@@ -49,11 +50,37 @@ public partial class GUIResources : VBoxContainer
 
 		_clearInfo(data.Resources);
 
-		foreach (LandProvinceData provinceData in EngineState.MapInfo.Scenario.Map.Where(dat => dat is LandProvinceData d && d.HarvestedTransport != null && d.HarvestedTransport.ProvinceIdTo == data.Id))
+		foreach (LandProvinceData provinceData in EngineState.MapInfo.Scenario.Map.Where(dat => dat is LandProvinceData ))
 		{
-			AllResourcesChange[(int)provinceData.HarvestedTransport.TransportationGood] +=
-				provinceData.HarvestedTransport.Amount;
+			if (provinceData.HarvestedTransport != null && provinceData.HarvestedTransport.ProvinceIdTo == data.Id)
+				AllResourcesChange[(int)provinceData.HarvestedTransport.TransportationGood] +=
+					provinceData.HarvestedTransport.Amount;
+			foreach (var building in provinceData.SpecialBuildings)
+			{
+				if (building is Factory factory && factory.TransportationRoute != null && factory.TransportationRoute.ProvinceIdTo == data.Id)
+					AllResourcesChange[(int)factory.TransportationRoute.TransportationGood] +=
+						factory.TransportationRoute.Amount;
+			}
 		}
+		
+
+		foreach (var building in data.SpecialBuildings)
+		{
+			if (building is Factory factory && factory.Recipe != null)
+			{
+				foreach (var ingredient in factory.Recipe.Ingredients)
+				{
+					AllResourcesChange[(int)ingredient.Key] -= ingredient.Value * factory.ProductionRate;
+				}
+
+				AllResourcesChange[(int)factory.Recipe.Output] += factory.ProductionRate;
+				if (factory.TransportationRoute != null)
+				{
+					AllResourcesChange[(int)factory.Recipe.Output] -= factory.TransportationRoute.Amount;
+				}
+			}
+		}
+		
 
 		AllResourcesChange[(int)data.Good] += data.ProductionRate;
 		if (data.HarvestedTransport != null)
@@ -62,7 +89,7 @@ public partial class GUIResources : VBoxContainer
 		for (int i = 0; i < data.Resources.Length; i++)
 		{
 			(GetChild(i).GetChild(0).GetChild(0).GetChild(1) as Label).Text = data.Resources[i].ToString("N1");
-			(GetChild(i).GetChild(0).GetChild(0).GetChild(2) as Label).Text = ((AllResourcesChange[i] >= 0) ? "+" : "-") +
+			(GetChild(i).GetChild(0).GetChild(0).GetChild(2) as Label).Text = ((AllResourcesChange[i] >= 0) ? "+" : "") +
 																			  AllResourcesChange[i].ToString("N1") + "t/m";
 			if (AllResourcesChange[i] >= 0)
 				(GetChild(i).GetChild(0).GetChild(0).GetChild(2) as Label).SelfModulate = MapDefaultColors.ResourceIncrease;

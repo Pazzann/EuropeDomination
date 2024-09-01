@@ -38,6 +38,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private TransportationRoute _transportationRouteToEdit = null;
 	private TextureRect _goodEditBox;
 	private GUIGoodEditPanel _goodEditBoxPanel;
+	private Good _goodToTransfer;
 	//end.
 
 	private GUIFactory _factoryHandler;
@@ -91,6 +92,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 		
 
 		_factoryHandler = GetNode<GUIFactory>("HBoxContainer4/ProvinceWindowSprite/GuiFactory");
+		_factoryHandler.Init();
+		
 		_militaryTrainingHandler = GetNode<GUIMilitaryTrainingCamp>("HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp");
 		_dockyardHandler = GetNode<GUIDockyard>("HBoxContainer4/ProvinceWindowSprite/GuiDockyard");
 		_tradeAndStockHandler = GetNode<GUIStockAndTrade>("HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade");
@@ -287,8 +290,9 @@ public partial class GUILandProvinceWindow : GUIHandler
 	{
 		switch (_currentProvinceData.SpecialBuildings[tabId])
 		{
-			case Factory:
+			case Factory factory:
 				_factoryHandler.Visible = true;
+				_factoryHandler.ShowData(factory);
 				return;
 			case Dockyard:
 				_dockyardHandler.Visible = true;
@@ -317,16 +321,16 @@ public partial class GUILandProvinceWindow : GUIHandler
 		switch (id)
 		{
 			case 0:
-				_currentProvinceData.SpecialBuildings[_currentTab] = new StockAndTrade(0, false);
+				_currentProvinceData.SpecialBuildings[_currentTab] = new StockAndTrade(0, false, 100);
 				break;
 			case 1:
-				_currentProvinceData.SpecialBuildings[_currentTab] = new Factory(null,0, false, 0.2f);
+				_currentProvinceData.SpecialBuildings[_currentTab] = new Factory(null,0, false, 0.1f, 100, null);
 				break;
 			case 2:
-				_currentProvinceData.SpecialBuildings[_currentTab] = new Dockyard(0, false);
+				_currentProvinceData.SpecialBuildings[_currentTab] = new Dockyard(0, false, 100);
 				break;
 			case 3:
-				_currentProvinceData.SpecialBuildings[_currentTab] = new MilitaryTrainingCamp(0, false);
+				_currentProvinceData.SpecialBuildings[_currentTab] = new MilitaryTrainingCamp(0, false, 100);
 				break;
 			default:
 				return;
@@ -338,7 +342,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private void _onChangeGoodTransportationRoutePressed()
 	{
 		InvokeGUIEvent(new GUIChangeMapType(MapTypes.TransportationSelection));
-		InvokeGUIEvent(new GUIGoodTransportChange(_currentProvinceData.Good, _transportSlider.Value, _routeAdressToTransfer, _receiveTransportationRoute));
+		InvokeGUIEvent(new GUIGoodTransportChange(_goodToTransfer, _transportSlider.Value, _routeAdressToTransfer, _receiveTransportationRoute));
 	}
 
 	private void _receiveTransportationRoute(TransportationRoute transportationRoute)
@@ -356,6 +360,15 @@ public partial class GUILandProvinceWindow : GUIHandler
 	{
 		_routeAdressToTransfer = _currentProvinceData.SetRoute;
 		_transportationRouteToEdit = _currentProvinceData.HarvestedTransport;
+		_goodToTransfer = _currentProvinceData.Good;
+		_showTransportationMenu();
+	}
+	private void _onGuiFactoryTrasportationRouteMenuPressed()
+	{
+		_routeAdressToTransfer = (_currentProvinceData.SpecialBuildings[_currentTab] as Factory).SetRoute;
+		_transportationRouteToEdit =
+			(_currentProvinceData.SpecialBuildings[_currentTab] as Factory).TransportationRoute;
+		_goodToTransfer = (_currentProvinceData.SpecialBuildings[_currentTab] as Factory).Recipe.Output;
 		_showTransportationMenu();
 	}
 
@@ -403,6 +416,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_goodEditBox.GetChild<AnimatedTextureRect>(0).SetFrame(goodId);
 		_transportationRouteToEdit.TransportationGood = (Good)goodId;
 	}
+
+	
 
 	private void _closeAllTabs()
 	{
