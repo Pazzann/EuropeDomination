@@ -47,6 +47,7 @@ public partial class GlobalStrategyEngine : Node2D
 
 		Camera = GetNode<CameraBehaviour>("./Camera");
 		Camera.ChangeZoom += ViewModeChange;
+		Camera.LimitToMap();
 
 		GUIHandler = GetNode<GUI>("CanvasLayer/GUI");
 		GUIHandler.GUIGlobalEvent += GUIEventHandler;

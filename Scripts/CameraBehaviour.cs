@@ -1,3 +1,5 @@
+using System.Linq.Expressions;
+using EuropeDominationDemo.Scripts.GlobalStates;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts;
@@ -15,7 +17,7 @@ public partial class CameraBehaviour : Camera2D
 		private float _minZoom = 0.3f;
 		private float _zoomChangeSpeed = 0.05f;
 		private float _zoomMovement = 20.0f;
-		private const float PanSpeed = 13f;
+		private const float PanSpeed = 1f;
 
 		private bool _moveUp = false;
 		private bool _moveDown = false;
@@ -76,18 +78,27 @@ public partial class CameraBehaviour : Camera2D
 			}
 			if (@event is InputEventKey eventKey)
 			{
-				if (eventKey.Keycode == Key.Up)
-					_moveUp = eventKey.Pressed;
-				if (eventKey.Keycode == Key.Down)
-					_moveDown = eventKey.Pressed;
-				if (eventKey.Keycode == Key.Right)
-					_moveRight = eventKey.Pressed;
-				if (eventKey.Keycode == Key.Left)
-					_moveLeft = eventKey.Pressed;
+				switch (eventKey.Keycode)
+				{
+					case Key.Up:
+						_moveUp = eventKey.Pressed;
+						break;
+					case Key.Down:
+						_moveDown = eventKey.Pressed;
+						break;
+					case Key.Right:
+						_moveRight = eventKey.Pressed;
+						break;
+					case Key.Left:
+						_moveLeft = eventKey.Pressed;
+						break;
+					default:
+						break;
+				}
 			}
 			
 			if (Input.IsActionPressed("pan_2d") && @event is InputEventMouseMotion mouseEvent)
-				GlobalPosition += PanSpeed * -mouseEvent.Relative.Normalized() / Zoom;
+				GlobalPosition += PanSpeed * -mouseEvent.Relative / Zoom;
 		}
 		
 		
@@ -97,6 +108,22 @@ public partial class CameraBehaviour : Camera2D
 
 			GlobalPosition += (point - GlobalPosition) * factor;
 			Zoom += Zoom * factor;
+		}
+
+
+		public void LimitToMap()
+		{
+			Vector2 mapSize = EngineState.MapInfo.Scenario.MapTexture.GetSize();
+			Vector2 screenSize = GetViewport().GetVisibleRect().Size;
+
+			this.Position = mapSize / 2;
+			this._zoomAtPoint(System.Math.Max(screenSize.X/mapSize.X, screenSize.Y/mapSize.Y), mapSize/2);
+			_minZoom = System.Math.Max(screenSize.X / mapSize.X, screenSize.Y / mapSize.Y);
+			
+			this.LimitLeft = 0;
+			this.LimitRight = (int)mapSize.X;
+			this.LimitTop = 0;
+			this.LimitBottom = (int)mapSize.Y;
 		}
 
 }
