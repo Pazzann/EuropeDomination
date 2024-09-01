@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://p48mbov2nd3f"]
+
+[ext_resource type="Texture2D" uid="uid://cm82xxwvohiys" path="res://Sprites/Border.png" id="1_al1hp"]
+[ext_resource type="PackedScene" uid="uid://bravhtaisuciw" path="res://Prefabs/CustomNodes/AnimatedTextureRect.tscn" id="2_wbcj8"]
+[ext_resource type="SpriteFrames" uid="uid://d3n4eikp6qnq7" path="res://Prefabs/SpriteFrames/GoodSpriteFrames.tres" id="3_8xx1r"]
+
+[node name="GuiGoodSelector" type="TextureRect"]
+custom_minimum_size = Vector2(50, 0)
+offset_right = 50.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("1_al1hp")
+
+[node name="AnimatedTextureRect" parent="." instance=ExtResource("2_wbcj8")]
+layout_mode = 0
+SpriteFrames = ExtResource("3_8xx1r")
+CurrentAnimation = "goods"
+
+[node name="Button" type="Button" parent="AnimatedTextureRect"]
+layout_mode = 0
+offset_right = 68.0
+offset_bottom = 69.0

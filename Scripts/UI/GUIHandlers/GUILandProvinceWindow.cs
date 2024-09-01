@@ -7,6 +7,7 @@ using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.UI.Events.GUI;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
+using EuropeDominationDemo.Scripts.Utils;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.UI.GUIHandlers;
@@ -35,6 +36,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private Label _transportSliderLabel;
 	private RouteAdressProvider _routeAdressToTransfer = null;
 	private TransportationRoute _transportationRouteToEdit = null;
+	private TextureRect _goodEditBox;
+	private GUIGoodEditPanel _goodEditBoxPanel;
 	//end.
 
 	private GUIFactory _factoryHandler;
@@ -80,6 +83,11 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_transportSliderLabel =
 			GetNode<Label>(
 				"HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TransportSliderLabel");
+		_goodEditBox =
+			GetNode<TextureRect>(
+				"HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/GoodRect");
+		_goodEditBoxPanel = GetNode<GUIGoodEditPanel>("HBoxContainer4/ProvinceWindowSprite/GoodEditPanel");
+		_goodEditBoxPanel.Init();
 		
 
 		_factoryHandler = GetNode<GUIFactory>("HBoxContainer4/ProvinceWindowSprite/GuiFactory");
@@ -351,22 +359,29 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_showTransportationMenu();
 	}
 
-	private void _showTransportationMenu()
+	private void _showTransportationMenu(bool isGoodEditable = false)
 	{
 		_transportationHandler.Visible = true;
+		_goodEditBox.GetChild<Button>(1).Disabled = !isGoodEditable;
 		if (_transportationRouteToEdit != null)
 		{
+			_transportSlider.Visible = true;
+			_transportSliderLabel.Visible = true;
+			_goodEditBox.Visible = true;
+			_goodEditBox.GetChild<AnimatedTextureRect>(0).SetFrame((int)_transportationRouteToEdit.TransportationGood);
 			_transportButton.Text = "Change";
 			_transportLabel.Text = "Transfering to:" + EngineState.MapInfo.Scenario.Map[_transportationRouteToEdit.ProvinceIdTo].Name;
 			_transportSlider.Value = _transportationRouteToEdit.Amount;
-			_transportSliderLabel.Text = _transportSlider.Value.ToString("N1");
+			_transportSliderLabel.Text = _transportSlider.Value.ToString("N1"); 
+			
 		}
 		else
 		{
 			_transportButton.Text = "Create New";
 			_transportLabel.Text = "Doesn't transfering anywhere";
-			_transportSlider.Value = 1;
-			_transportSliderLabel.Text = _transportSlider.Value.ToString("N1");
+			_transportSlider.Visible = false;
+			_transportSliderLabel.Visible = false;
+			_goodEditBox.Visible = false;
 		}
 	}
 	
@@ -375,6 +390,18 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_transportSliderLabel.Text = value.ToString("N1");
 		if(_transportationRouteToEdit != null)
 			_transportationRouteToEdit.Amount = _transportSlider.Value;
+	}
+	
+	private void _onChangeTransportationButtonPressed()
+	{
+		_goodEditBoxPanel.Visible = true;
+	}
+
+	private void _onGoodEditPanelGoodChangePressed(int goodId)
+	{
+		_goodEditBoxPanel.Visible = false;
+		_goodEditBox.GetChild<AnimatedTextureRect>(0).SetFrame(goodId);
+		_transportationRouteToEdit.TransportationGood = (Good)goodId;
 	}
 
 	private void _closeAllTabs()
@@ -386,7 +413,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_emptyHandler.Visible = false;
 		_notUnlockedHandler.Visible = false;
 	}
-	
+
 	
 	private void _onBuildBuildingOnMenuPressed(Building building)
 	{

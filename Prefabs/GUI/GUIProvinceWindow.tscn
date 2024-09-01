@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bgb7s0ynl6r2t"]
+[gd_scene load_steps=26 format=3 uid="uid://bgb7s0ynl6r2t"]
 
 [ext_resource type="Texture2D" uid="uid://ckhuxliwwap7v" path="res://Sprites/ProvinceControl.png" id="1_dqhfl"]
 [ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUILandProvinceWindow.cs" id="1_y47fr"]
@@ -20,6 +20,10 @@
 [ext_resource type="Texture2D" uid="uid://dpwplvw1gnipo" path="res://Sprites/ProvinceTypeSelection/dockyard.png" id="14_vgj6o"]
 [ext_resource type="Texture2D" uid="uid://c0eu30ljediqw" path="res://Sprites/ProvinceTypeSelection/military.png" id="15_sf2vu"]
 [ext_resource type="Texture2D" uid="uid://cjeqbeq2oyx8h" path="res://Sprites/closeButton.png" id="20_6jtpg"]
+[ext_resource type="Texture2D" uid="uid://cm82xxwvohiys" path="res://Sprites/Border.png" id="21_l8wyd"]
+[ext_resource type="PackedScene" uid="uid://bravhtaisuciw" path="res://Prefabs/CustomNodes/AnimatedTextureRect.tscn" id="22_fe1rx"]
+[ext_resource type="SpriteFrames" uid="uid://d3n4eikp6qnq7" path="res://Prefabs/SpriteFrames/GoodSpriteFrames.tres" id="23_rpnlq"]
+[ext_resource type="PackedScene" uid="uid://oxh0ek8o2k2u" path="res://Prefabs/GUIGoodEditPanel.tscn" id="24_qo3qi"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_0rrit"]
 font = ExtResource("2_eb8im")
@@ -48,6 +52,7 @@ grow_vertical = 2
 mouse_filter = 0
 
 [node name="BuildingMenu" type="Sprite2D" parent="HBoxContainer4"]
+visible = false
 position = Vector2(730.85, 389.95)
 scale = Vector2(4.8, 4.8)
 texture = ExtResource("8_j1vcm")
@@ -570,6 +575,7 @@ offset_right = -553.75
 offset_bottom = -821.25
 
 [node name="GuiDockyard" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("12_3n8ik")]
+visible = false
 offset_left = -307.5
 offset_top = -368.75
 offset_right = -1007.5
@@ -739,6 +745,10 @@ offset_bottom = 24.0
 layout_mode = 2
 text = "Transfering to : "
 
+[node name="TransportButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Change"
+
 [node name="TransportSlider" type="HSlider" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer"]
 layout_mode = 2
 max_value = 1.0
@@ -748,9 +758,20 @@ step = 0.1
 layout_mode = 2
 text = "0"
 
-[node name="TransportButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer"]
+[node name="GoodRect" type="TextureRect" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Change"
+size_flags_horizontal = 4
+texture = ExtResource("21_l8wyd")
+
+[node name="AnimatedTextureRect" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/GoodRect" instance=ExtResource("22_fe1rx")]
+layout_mode = 0
+SpriteFrames = ExtResource("23_rpnlq")
+CurrentAnimation = "goods"
+
+[node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/GoodRect"]
+layout_mode = 0
+offset_right = 66.0
+offset_bottom = 69.0
 
 [node name="TabBar" type="TabBar" parent="HBoxContainer4/ProvinceWindowSprite"]
 offset_left = -304.0
@@ -763,6 +784,13 @@ tab_0/title = "Slot1"
 tab_1/title = "Slot2"
 tab_2/title = "Slot3"
 
+[node name="GoodEditPanel" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("24_qo3qi")]
+visible = false
+offset_left = 675.0
+offset_top = 222.5
+offset_right = 915.0
+offset_bottom = 422.5
+
 [connection signal="pressed" from="HBoxContainer4/BuildingMenu/Bg/ExitButton" to="." method="_onExitBuildingMenuButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/closeButton" to="." method="_onCloseProvinceMenuButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/Good/GoodTransportManagement" to="." method="_onGoodTransportManagementPressed"]
@@ -771,6 +799,8 @@ tab_2/title = "Slot3"
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Dockyard/Dockyard" to="." method="_onSpecialBuildingSelectionPressed" binds= [2]]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Military/Military" to="." method="_onSpecialBuildingSelectionPressed" binds= [3]]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TextureRect/Button" to="." method="_onCloseTransportMenuPressed"]
-[connection signal="value_changed" from="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TransportSlider" to="." method="_onTransportSliderValueChanged"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TransportButton" to="." method="_onChangeGoodTransportationRoutePressed"]
+[connection signal="value_changed" from="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TransportSlider" to="." method="_onTransportSliderValueChanged"]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/GoodRect/Button" to="." method="_onChangeTransportationButtonPressed"]
 [connection signal="tab_changed" from="HBoxContainer4/ProvinceWindowSprite/TabBar" to="." method="_onTabContainerTabChanged"]
+[connection signal="GoodChangePressed" from="HBoxContainer4/ProvinceWindowSprite/GoodEditPanel" to="." method="_onGoodEditPanelGoodChangePressed"]
