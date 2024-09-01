@@ -1,9 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://fx4l5pss50wq"]
+[gd_scene load_steps=7 format=3 uid="uid://fx4l5pss50wq"]
 
 [ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUIMiniMapWindow.cs" id="1_1l5st"]
-[ext_resource type="Texture2D" uid="uid://b25poom405rc8" path="res://Sprites/MapScreen.png" id="1_74pt1"]
-[ext_resource type="Texture2D" uid="uid://bup0lap08gpmv" path="res://Sprites/map.png" id="2_ufecb"]
+[ext_resource type="Material" uid="uid://cprwkfwta2j67" path="res://Shaders/minimap.tres" id="2_ctl3o"]
 [ext_resource type="Texture2D" uid="uid://ix2vyxk6n14t" path="res://Sprites/MapTypes.png" id="3_l70ow"]
+[ext_resource type="Texture2D" uid="uid://bgv4y6i4ul1k" path="res://Sprites/EuropeMap.png" id="3_wbxjg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q31lm"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="Theme" id="Theme_wb0m7"]
+Panel/styles/panel = SubResource("StyleBoxFlat_q31lm")
 
 [node name="GuiMiniMap" type="Control"]
 layout_mode = 3
@@ -17,23 +27,25 @@ script = ExtResource("1_1l5st")
 
 [node name="MiniMapContainer" type="HBoxContainer" parent="."]
 layout_mode = 0
+offset_right = 156.0
+offset_bottom = 116.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 alignment = 2
 
-[node name="MapScreen" type="Sprite2D" parent="MiniMapContainer"]
+[node name="MapScreen" type="TextureRect" parent="MiniMapContainer"]
 z_index = 1
 texture_filter = 1
-position = Vector2(79, 60)
-scale = Vector2(0.769188, 0.769188)
-texture = ExtResource("1_74pt1")
+material = ExtResource("2_ctl3o")
+layout_mode = 2
+texture = ExtResource("3_wbxjg")
+expand_mode = 3
 
-[node name="Map" type="Sprite2D" parent="MiniMapContainer/MapScreen"]
-z_index = 1
-texture_filter = 1
-position = Vector2(-16, -1.5)
-scale = Vector2(0.640625, 0.628906)
-texture = ExtResource("2_ufecb")
+[node name="CameraBox" type="Panel" parent="MiniMapContainer/MapScreen"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("Theme_wb0m7")
 
 [node name="MapTypes" type="Sprite2D" parent="MiniMapContainer"]
 texture_filter = 1

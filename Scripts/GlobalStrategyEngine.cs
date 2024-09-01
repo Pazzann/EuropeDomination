@@ -59,6 +59,8 @@ public partial class GlobalStrategyEngine : Node2D
 		_timer.Start();
 
 		_mouseInactivityTimer = GetNode<Timer>("./MouseinactivityTimer");
+		
+		InvokeToGUIEvent(new ToGUISetCamera(Camera, GetViewport()));
 	}
 
 
