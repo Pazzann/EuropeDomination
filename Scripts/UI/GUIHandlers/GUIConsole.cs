@@ -17,7 +17,7 @@ public partial class GUIConsole : GUIHandler
 
 	private HashSet<string> _history =  new HashSet<string>();
 	private int _scrollingIndex = 0;
-	private List<string> _commandList = new List<string>(){"SwitchToCountry", "Clear()", "DebugMode()"};
+	private List<string> _commandList = new List<string>(){"SwitchToCountry", "Clear()", "DebugMode()", "GoToProvince"};
 	private int _tabScrollingIndex = 0;
 	private string _lastStroke = "";
 	private string _lastResult = "";
@@ -147,5 +147,18 @@ public partial class GUIConsole : GUIHandler
 		{
 			_commandLabel.Text += "\n" + "[b][color=red]This id doesn't exist[/color][/b]";
 		}
-	} 
+	}
+
+	public void GoToProvince(int id)
+	{
+		if (EngineState.MapInfo.Scenario.Map.Length > id)
+		{
+			InvokeGUIEvent(new GUIGoToProvince(id));
+			_commandLabel.Text += "\n" + "[color=green]Successfully moved[/color]";
+		}
+		else
+		{
+			_commandLabel.Text += "\n" + "[b][color=red]This id doesn't exist[/color][/b]";
+		}
+	}
 }
