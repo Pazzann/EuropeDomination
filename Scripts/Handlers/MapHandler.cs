@@ -87,11 +87,33 @@ public partial class MapHandler : GameHandler
 		if (@event is not InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: false }) return false;
 		if (Time.GetTicksMsec() / 1000f - _lastClickTimestamp > 0.2f) return false;
 
+		
+		//todo: rewrite
 		if (EngineState.MapInfo.CurrentMapMode == MapTypes.TransportationSelection && EngineState.MapInfo.MapColors[tileId] != MapDefaultColors.Unselectable)
 		{
 			if (EngineState.MapInfo.MapColors[tileId] ==  MapDefaultColors.Selectable)
 			{
 				var route = new TransportationRoute(tileId, EngineState.MapInfo.CurrentSelectedProvinceId, _goodToTransport,
+					_transportationAmount);
+				_whereToAddRoute.Invoke(route);
+				_uiReciever.Invoke(route);
+			}else if (EngineState.MapInfo.MapColors[tileId] ==  MapDefaultColors.OwnProvince)
+			{
+				_whereToAddRoute = null;
+			}
+			
+			EngineState.MapInfo.CurrentMapMode = MapTypes.Political;
+			InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent(EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] as LandProvinceData));
+			InvokeToEngineEvent(new ToEngineViewModUpdate());
+			return true;
+		}
+
+		if (EngineState.MapInfo.CurrentMapMode == MapTypes.SeaTransportationSelection &&
+		    EngineState.MapInfo.MapColors[tileId] != MapDefaultColors.Unselectable)
+		{
+			if (EngineState.MapInfo.MapColors[tileId] ==  MapDefaultColors.Selectable)
+			{
+				var route = new WaterTransportationRoute(tileId, EngineState.MapInfo.CurrentSelectedProvinceId, _goodToTransport,
 					_transportationAmount);
 				_whereToAddRoute.Invoke(route);
 				_uiReciever.Invoke(route);
@@ -183,7 +205,14 @@ public partial class MapHandler : GameHandler
 				_countryTextSpawner.Visible = false;
 				_provinceTextSpawner.Visible = false;
 				_devSpawner.Visible = false;
-				_transportArrowSpawner.Visible = true;
+				_transportArrowSpawner.Visible = false;
+				break;
+			case MapTypes.SeaTransportationSelection:
+				_goodsSpawner.Visible = false;
+				_countryTextSpawner.Visible = false;
+				_provinceTextSpawner.Visible = false;
+				_devSpawner.Visible = false;
+				_transportArrowSpawner.Visible = false;
 				break;
 			default:
 				throw new ArgumentOutOfRangeException();

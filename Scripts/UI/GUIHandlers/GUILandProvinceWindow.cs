@@ -40,6 +40,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private GUIGoodEditPanel _goodEditBoxPanel;
 	private Good _goodToTransfer;
 	private bool _isGoodEditable = false;
+	private bool _waterMode = false;
 	//end.
 
 	private GUIFactory _factoryHandler;
@@ -96,7 +97,9 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_factoryHandler.Init();
 		
 		_militaryTrainingHandler = GetNode<GUIMilitaryTrainingCamp>("HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp");
+		
 		_dockyardHandler = GetNode<GUIDockyard>("HBoxContainer4/ProvinceWindowSprite/GuiDockyard");
+		_dockyardHandler.Init();
 		
 		_tradeAndStockHandler = GetNode<GUIStockAndTrade>("HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade");
 		_tradeAndStockHandler.Init();
@@ -300,8 +303,9 @@ public partial class GUILandProvinceWindow : GUIHandler
 				_factoryHandler.Visible = true;
 				_factoryHandler.ShowData(factory);
 				return;
-			case Dockyard:
+			case Dockyard dockyard:
 				_dockyardHandler.Visible = true;
+				_dockyardHandler.ShowData(dockyard);
 				return;
 			case MilitaryTrainingCamp:
 				_militaryTrainingHandler.Visible = true;
@@ -334,7 +338,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 				_currentProvinceData.SpecialBuildings[_currentTab] = new Factory(null,0, false, 0.1f, 100, null);
 				break;
 			case 2:
-				_currentProvinceData.SpecialBuildings[_currentTab] = new Dockyard(0, false, 100);
+				_currentProvinceData.SpecialBuildings[_currentTab] = new Dockyard(0, false, 100, Dockyard.DefaultWaterTransportationRoutes());
 				break;
 			case 3:
 				_currentProvinceData.SpecialBuildings[_currentTab] = new MilitaryTrainingCamp(0, false, 100);
@@ -348,7 +352,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private void _onChangeGoodTransportationRoutePressed()
 	{
-		InvokeGUIEvent(new GUIChangeMapType(MapTypes.TransportationSelection));
+		InvokeGUIEvent(new GUIChangeMapType(_waterMode ? MapTypes.SeaTransportationSelection  : MapTypes.TransportationSelection));
 		InvokeGUIEvent(new GUIGoodTransportChange(_goodToTransfer, _transportSlider.Value, _routeAdressToTransfer, _receiveTransportationRoute));
 	}
 
@@ -366,6 +370,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private void _onGoodTransportManagementPressed()
 	{
+		_waterMode = false;
+		
 		_routeAdressToTransfer = _currentProvinceData.SetRoute;
 		_transportationRouteToEdit = _currentProvinceData.HarvestedTransport;
 		_goodToTransfer = _currentProvinceData.Good;
@@ -374,6 +380,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 	}
 	private void _onGuiFactoryTrasportationRouteMenuPressed()
 	{
+		_waterMode = false;
+		
 		var building = (_currentProvinceData.SpecialBuildings[_currentTab] as Factory);
 		_routeAdressToTransfer = building.SetRoute;
 		_transportationRouteToEdit =
@@ -385,6 +393,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private void _onGuiStockAndTradeTrasportationRouteMenuPressed(int id)
 	{
+		_waterMode = false;
+		
 		var building = (_currentProvinceData.SpecialBuildings[_currentTab] as StockAndTrade);
 		building.RouteId = id;
 		_routeAdressToTransfer = building.SetRoute;
@@ -393,6 +403,19 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_isGoodEditable = true;
 		_showTransportationMenu();
 
+	}
+
+	private void _onGuiDockyardTrasportationRouteMenuPressed(int id)
+	{
+		_waterMode = true;
+		
+		var building = (_currentProvinceData.SpecialBuildings[_currentTab] as Dockyard);
+		building.RouteId = id;
+		_routeAdressToTransfer = building.SetRoute;
+		_transportationRouteToEdit = building.WaterTransportationRoutes[id];
+		_goodToTransfer = Good.Iron;
+		_isGoodEditable = true;
+		_showTransportationMenu();
 	}
 
 	private void _showTransportationMenu()

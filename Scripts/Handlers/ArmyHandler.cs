@@ -1,11 +1,13 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Handlers;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
+using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Units;
 
 public partial class ArmyHandler : GameHandler
@@ -51,20 +53,20 @@ public partial class ArmyHandler : GameHandler
 						armyUnit.NewPath(Array.Empty<int>());
 						return false;
 					}
-
+					//ToDO: FIX
 					armyUnit.NewPath(
-						PathFinder.FindPathFromAToB(armyUnit.Data.CurrentProvince, tileId,  EngineState.MapInfo.Scenario.Map));
+						PathFinder.FindPathFromAToB(armyUnit.Data.CurrentProvince, tileId,  EngineState.MapInfo.MapProvinces(ProvinceTypes.LandProvinces)));
 				}
 			else
 				foreach (var armyUnit in EngineState.MapInfo.CurrentSelectedUnits)
 				{
 					if (armyUnit.Path.Count == 0)
 					{
-						armyUnit.NewPath(PathFinder.FindPathFromAToB(armyUnit.Data.CurrentProvince, tileId,  EngineState.MapInfo.Scenario.Map));
+						armyUnit.NewPath(PathFinder.FindPathFromAToB(armyUnit.Data.CurrentProvince, tileId,  EngineState.MapInfo.MapProvinces(ProvinceTypes.LandProvinces)));
 						return false;
 					}
 					armyUnit.AddPath(
-						PathFinder.FindPathFromAToB(armyUnit.Path[0], tileId, EngineState.MapInfo.Scenario.Map));
+						PathFinder.FindPathFromAToB(armyUnit.Path[0], tileId, EngineState.MapInfo.MapProvinces(ProvinceTypes.LandProvinces)));
 				}
 
 			return false;

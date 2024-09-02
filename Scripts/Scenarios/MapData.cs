@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
+using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Units;
@@ -14,6 +16,8 @@ public class MapData
     public MapTypes CurrentMapMode = MapTypes.Political;
     public List<ArmyUnit> CurrentSelectedUnits = new List<ArmyUnit> { };
     public int CurrentSelectedProvinceId = -2;
+    
+    
 
     private Vector3[] _mapColors
     {
@@ -33,6 +37,27 @@ public class MapData
             }
 
             return colors;
+        }
+    }
+
+    public ProvinceData.ProvinceData[] MapProvinces(ProvinceTypes provinceTypes)
+    {
+        switch (provinceTypes)
+        {
+            case ProvinceTypes.SeaProvinces:
+                return Scenario.Map.Where(d => d is SeaProvinceData).ToArray();
+            case ProvinceTypes.LandProvinces:
+                return Scenario.Map.Where(d => d is LandProvinceData or UncolonizedProvinceData).ToArray();
+            case ProvinceTypes.CoastalProvincesAndSeaProvinces:
+                return Scenario.Map.Where(d =>
+                    (d is LandProvinceData && d.BorderderingProvinces.Where(i => Scenario.Map[i] is SeaProvinceData)
+                        .ToArray().Length > 0) || d is SeaProvinceData).ToArray();
+            case ProvinceTypes.CoastalProvinces:
+                return Scenario.Map.Where(d =>
+                    d is LandProvinceData && d.BorderderingProvinces.Where(i => Scenario.Map[i] is SeaProvinceData)
+                        .ToArray().Length > 0).ToArray();
+            default:
+                return Scenario.Map;
         }
     }
 
@@ -77,21 +102,54 @@ public class MapData
                 case MapTypes.Factories:
                     return _mapColors;
                 case MapTypes.TransportationSelection:
-                    Vector3[] selectionColors = new Vector3[Scenario.Map.Length];
-                    for (int i = 0; i < Scenario.Map.Length; i++)
+                {
+                    Vector3[] colors = new Vector3[Scenario.Map.Length];
+                    var landprovinces = MapProvinces(ProvinceTypes.LandProvinces);
+                    var connections = PathFinder.CheckConnectionFromAToOthers(CurrentSelectedProvinceId, landprovinces);
+                    for (int i = 0; i < landprovinces.Length; i++)
                     {
-                        if (Scenario.Map[i] is LandProvinceData landData &&
-                            landData.Owner == EngineState.PlayerCountryId)
+                        if (landprovinces[i] is LandProvinceData landData &&
+                            landData.Owner == EngineState.PlayerCountryId &&
+                            connections[landData.Id])
                         {
                             if (landData.Id == CurrentSelectedProvinceId)
-                                selectionColors[i] = MapDefaultColors.OwnProvince;
+                                colors[landprovinces[i].Id] = MapDefaultColors.OwnProvince;
                             else
-                                selectionColors[i] = MapDefaultColors.Selectable;
+                                colors[landprovinces[i].Id] = MapDefaultColors.Selectable;
                         }
                         else
-                            selectionColors[i] = MapDefaultColors.Unselectable;
+                            colors[landprovinces[i].Id] = MapDefaultColors.Unselectable;
                     }
-                    return selectionColors;
+
+                    return colors;
+                }
+
+                case MapTypes.SeaTransportationSelection:
+                {
+                    Vector3[] colors = new Vector3[Scenario.Map.Length];
+                    var coastalAndSeaProvinces = MapProvinces(ProvinceTypes.CoastalProvincesAndSeaProvinces);
+                    var connections = PathFinder.CheckConnectionFromAToOthers(CurrentSelectedProvinceId, coastalAndSeaProvinces);
+                    for (int i = 0; i < coastalAndSeaProvinces.Length; i++)
+                    {
+                        if (coastalAndSeaProvinces[i] is LandProvinceData landData &&
+                            landData.Owner == EngineState.PlayerCountryId &&
+                            connections[landData.Id]
+                           )
+                        {
+                            if (landData.Id == CurrentSelectedProvinceId)
+                                colors[landData.Id] = MapDefaultColors.OwnProvince;
+                            else
+                                colors[landData.Id] = MapDefaultColors.Selectable;
+                        }
+                        else if (coastalAndSeaProvinces[i] is SeaProvinceData)
+                            colors[coastalAndSeaProvinces[i].Id] = MapDefaultColors.WaterUnselectable;
+                        else
+                            colors[coastalAndSeaProvinces[i].Id] = MapDefaultColors.Unselectable;
+                    }
+
+                    return colors; 
+                }
+                    
                 default:
                     return _mapColors;
             }
