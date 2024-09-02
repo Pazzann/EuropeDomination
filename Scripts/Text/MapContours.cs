@@ -64,8 +64,8 @@ public sealed class MapContours
             }
         }
 
-        Provinces = new Layer(width, height, provinceId, 20, 1e-4f);
-        States = new Layer(width, height, stateId, 20, 1e-4f);
+        Provinces = new Layer(width, height, provinceId, 30, 1e-4f);
+        States = new Layer(width, height, stateId, 30, 1e-4f);
     }
 
     private class Layer : ILayer

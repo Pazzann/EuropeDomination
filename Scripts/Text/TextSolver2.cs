@@ -40,8 +40,7 @@ public class TextSolver2
             .Select(contour => contour.Value)
             .ToList();
     }
-
-
+    
     [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     private CurvedText? FitText(Polygon contour, float eps)
     {
@@ -77,30 +76,6 @@ public class TextSolver2
         
         for (var i = 0; i < contour.Vertices.Count; ++i)
         {
-            // var j = contour.Vertices.Count - i - 1;
-            //
-            // var a = contour.Vertices[i];
-            // var b = contour.Vertices[j];
-            //
-            // var distance = a.DistanceSquaredTo(b);
-            // var minDistance = letterSize.X * _text.Length * 1.5f;
-            //
-            // if (distance * distance < minDistance * minDistance)
-            //     continue;
-            
-            // var mid = (a + b) / 2;
-            // var normal = (b - a).GetPerpendicular().Normalized();
-            
-            // foreach (var angle in CandidateAngles)
-            // {
-            //     var (upper, lower) = Sector.WithAngle(a, b, angle);
-            //     FindOptimalPath(contour, upper, letterSize, ref bestPath);
-            //     FindOptimalPath(contour, lower, letterSize, ref bestPath);
-            //     
-            //     if (bestPath != null)
-            //         return new CurvedText(_text, letterSize.Y, bestPath);
-            // }
-            
             for (var j = i + 1; j < contour.Vertices.Count; ++j)
             {
                 var a = contour.Vertices[i];
@@ -111,9 +86,6 @@ public class TextSolver2
                 
                 if (distance * distance < minDistance * minDistance)
                     continue;
-            
-                // var mid = (a + b) / 2;
-                // var normal = (b - a).GetPerpendicular().Normalized();
             
                 foreach (var angle in CandidateAngles)
                 {
@@ -139,7 +111,7 @@ public class TextSolver2
         var leftMostLetter = 0.5f - letterWidth * (_text.Length / 2f + 1f);
         var rightMostLetter = 0.5f + letterWidth * (_text.Length / 2f + 1f);
 
-        if (leftMostLetter * arcLength < letterSize.X * 1.8f || (1f - rightMostLetter) * arcLength < letterSize.X * 1.8f)
+        if (leftMostLetter * arcLength < letterSize.X * 1.5f || (1f - rightMostLetter) * arcLength < letterSize.X * 1.5f)
             return;
         
         var cutSector = new Sector(sector.Center, sector.GetPoint(leftMostLetter), sector.GetPoint(rightMostLetter));
@@ -151,23 +123,25 @@ public class TextSolver2
         best = path;
     }
     
-    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+    [MethodImpl(MethodImplOptions.AggressiveOptimization | MethodImplOptions.AggressiveInlining)]
     private bool CheckCollisions(in SolidPath<Sector> path)
     {
+        const int checkPoints = 7;
+        
         for (var i = 0; i < 7; ++i)
         {
-            if (!ContainsPoint(path.GetPoint(1f / 14f + i * 1f / 7f)))
+            if (!ContainsPoint(path.GetPoint(1f / (checkPoints * 2) + i * 1f / checkPoints)))
+                return false;
+            
+            if (!ContainsPoint(path.GetPointUpper(1f / (checkPoints * 2) + i * 1f / checkPoints)))
+                return false;
+            
+            if (!ContainsPoint(path.GetPointLower(1f / (checkPoints * 2) + i * 1f / checkPoints)))
                 return false;
         }
         
         return true;
     }
-    
-    // private float FindMaxExtension(Vector2 origin, Vector2 dir)
-    // {
-    //     var min = 0f;
-    //     var max = 
-    // }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private bool ContainsPoint(Vector2 point)

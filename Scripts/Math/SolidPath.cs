@@ -21,7 +21,17 @@ public readonly struct SolidPath<T> : IPath where T : IPath
     {
         return _path.GetPoint(t);
     }
-
+    
+    public Vector2 GetPointUpper(float t)
+    {
+        return _path.GetPoint(t) + _normal * (_thickness * 0.5f);
+    }
+    
+    public Vector2 GetPointLower(float t)
+    {
+        return _path.GetPoint(t) - _normal * (_thickness * 0.5f);
+    }
+    
     public Vector2 GetTangent(float t)
     {
         return _path.GetTangent(t);
