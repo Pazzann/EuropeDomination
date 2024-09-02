@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Math;
@@ -11,6 +12,7 @@ public readonly struct Sector : IPath
 
     public Vector2 Center { get; }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (Sector, Sector) WithAngle(Vector2 p0, Vector2 p1, float angle)
     {
         var (p, dir) = new Segment(p0, p1).GetPerpendicularBisector();
@@ -21,6 +23,7 @@ public readonly struct Sector : IPath
         return (new Sector(p + dir * radiusProjLen, p0, p1), new Sector(p - dir * radiusProjLen, p0, p1));
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public Sector(Vector2 center, Vector2 p0, Vector2 p1)
     {
         Center = center;
@@ -36,10 +39,11 @@ public readonly struct Sector : IPath
         _angle0 = GetAngleFromPoint(p0 - Center);
         _angle1 = GetAngleFromPoint(p1 - Center);
 
-        // If the curve should be interpolated counter clockwise or clockwise (always choose the smaller arc)
+        // If the curve should be interpolated counterclockwise or clockwise (always choose the smaller arc)
         _isCcw = GetAngleDiffCcw(_angle0, _angle1) <= Mathf.Pi;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private Sector(float radius, float angle0, float angle1, Vector2 center, bool isCcw)
     {
         _radius = radius;
@@ -49,21 +53,25 @@ public readonly struct Sector : IPath
         _isCcw = isCcw;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public Sector Translated(Vector2 delta)
     {
         return new Sector(_radius, _angle0, _angle1, Center + delta, _isCcw);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public float ArcLength()
     {
         return _radius * GetAngle();
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public Vector2 GetPoint(float t)
     {
         return GetPointFromAngle(InterpolateAngle(t));
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public Vector2 GetTangent(float t)
     {
         if (t is < 0 or > 1)
@@ -73,6 +81,7 @@ public readonly struct Sector : IPath
         return InterpolateAngleDerivative(t) * _radius * new Vector2(-Mathf.Sin(a), Mathf.Cos(a));
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public bool Intersects(in Segment segment)
     {
         var p = segment.Point0;
@@ -92,16 +101,19 @@ public readonly struct Sector : IPath
         return (ContainsPoint(p1) && segment.ContainsPoint(p1)) || (ContainsPoint(p2) && segment.ContainsPoint(p2));
     }
     
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private float GetAngle()
     {
         return _isCcw ? GetAngleDiffCcw(_angle0, _angle1) : GetAngleDiffCcw(_angle1, _angle0);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private Vector2 GetPointFromAngle(float angle)
     {
         return Center + _radius * new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private bool ContainsPoint(Vector2 point)
     {
         const float eps = 0.0001f;
@@ -117,21 +129,25 @@ public readonly struct Sector : IPath
         return Mathf.Abs(diff - GetAngle()) < 2.3f * eps;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private float InterpolateAngle(float t)
     {
         return _isCcw ? _angle0 + t * GetAngle() : _angle0 - t * GetAngle();
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private float InterpolateAngleDerivative(float t)
     {
         return _isCcw ? GetAngle() : -GetAngle();
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private static float GetAngleFromPoint(Vector2 point)
     {
         return Mathf.PosMod(Mathf.Atan2(point.Y, point.X), Mathf.Tau);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private static float GetAngleDiffCcw(float a1, float a2)
     {
         return Mathf.PosMod(a2 - a1, Mathf.Tau);

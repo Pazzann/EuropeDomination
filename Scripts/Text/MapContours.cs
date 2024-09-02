@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
 using Godot;
@@ -13,11 +14,12 @@ public interface ILayer
     List<Polygon> GetContours(int areaId);
 }
 
-public class MapContours
+public sealed class MapContours
 {
     public ILayer Provinces { get; private set; }
     public ILayer States { get; private set; }
-    
+
+    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     public MapContours(MapData mapData, Image mapImage)
     {
         var countries = mapData.Scenario.Countries;
@@ -62,8 +64,8 @@ public class MapContours
             }
         }
 
-        Provinces = new Layer(width, height, provinceId, 15, 1e-4f);
-        States = new Layer(width, height, stateId, 30, 1e-4f);
+        Provinces = new Layer(width, height, provinceId, 20, 1e-4f);
+        States = new Layer(width, height, stateId, 20, 1e-4f);
     }
 
     private class Layer : ILayer
@@ -73,7 +75,7 @@ public class MapContours
         private readonly float _areaThreshold;
         private readonly int[,] _areaId;
         private readonly Dictionary<int, List<Polygon>> _contours;
-        
+
         public Layer(int width, int height, int[,] areaId, int contourLength, float areaThreshold)
         {
             if (areaId.Length != width * height)
@@ -88,7 +90,8 @@ public class MapContours
 
             BuildContours();
         }
-        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
         public int GetAreaId(Vector2I tile)
         {
             if (!IsInBounds(tile.X, tile.Y))
@@ -97,11 +100,13 @@ public class MapContours
             return _areaId[tile.X, tile.Y];
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
         public List<Polygon> GetContours(int areaId)
         {
             return _contours[areaId];
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         private void BuildContours()
         {
             var isOnBorder = new bool[_width, _height];
@@ -149,7 +154,8 @@ public class MapContours
 
                     foreach (var neighbor in neighbors)
                     {
-                        if (IsInBounds(neighbor) && isOnBorder[neighbor.X, neighbor.Y] && _areaId[i, j] == GetAreaId(neighbor))
+                        if (IsInBounds(neighbor) && isOnBorder[neighbor.X, neighbor.Y] &&
+                            _areaId[i, j] == GetAreaId(neighbor))
                             graph[new Vector2I(i, j)].Add(neighbor);
                     }
                 }
@@ -215,7 +221,7 @@ public class MapContours
             {
                 var vertex = stack.Pop();
                 var (x, y) = vertex;
-                
+
                 if (!hulls.ContainsKey(component[x, y]))
                     hulls.Add(component[x, y], new List<Vector2I>());
 
@@ -229,14 +235,14 @@ public class MapContours
             }
 
             var mapArea = _width * _height;
-            
+
             foreach (var (c, hull) in hulls)
             {
                 if (hull.Count == 0)
                     continue;
 
                 var areaId = _areaId[hull[0].X, hull[0].Y];
-                
+
                 if (!_contours.ContainsKey(areaId))
                     _contours.Add(areaId, new List<Polygon>());
 
@@ -244,28 +250,32 @@ public class MapContours
                     continue;
 
                 var clusterSize = hull.Count / _contourLength;
+                //var clusterSize = 30;
 
-                if (clusterSize == 0)
-                    clusterSize = 1;
+                 if (clusterSize == 0)
+                     clusterSize = 1;
 
                 var vertices = hull
                     .Where((_, i) => i % clusterSize == 0)
                     .Select(vertex => new Vector2(vertex.X, vertex.Y));
-                
+
                 _contours[areaId].Add(new Polygon(vertices));
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
         private bool IsInBounds(int x, int y)
         {
             return x >= 0 && x < _width && y >= 0 && y < _height;
         }
-        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
         private bool IsInBounds(Vector2I tile)
         {
             return IsInBounds(tile.X, tile.Y);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
         private static void GetTileNeighbors(int x, int y, ref Span<Vector2I> neighbors)
         {
             neighbors[0] = new Vector2I(x + 1, y);

@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace EuropeDominationDemo.Scripts.Math;
 
@@ -16,6 +17,7 @@ public class Polygon {
 			_vertices.Reverse();
 	}
 
+	[MethodImpl(MethodImplOptions.AggressiveOptimization)]
 	public bool Intersects<T>(in T path) where T : IPath
 	{
 		for (var i = 0; i < _vertices.Count - 1; ++i)

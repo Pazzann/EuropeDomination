@@ -235,7 +235,7 @@ public partial class MapHandler : GameHandler
 
 		foreach (var country in EngineState.MapInfo.Scenario.Countries.Values)
 		{
-			var labels = new TextSolver(mapContours.States, country.Id, country.Name, 0.5f).FitText();
+			var labels = new TextSolver2(mapContours.States, country.Id, country.Name, 0.5f).FitText();
 
 			foreach (var label in labels)
 			{
@@ -247,7 +247,7 @@ public partial class MapHandler : GameHandler
 
 		foreach (var province in EngineState.MapInfo.Scenario.Map)
 		{
-			var labels = new TextSolver(mapContours.Provinces, province.Id, province.Name, 0.5f).FitText();
+			var labels = new TextSolver2(mapContours.Provinces, province.Id, province.Name, 0.5f).FitText();
 		
 			foreach (var label in labels)
 			{

@@ -1,15 +1,7 @@
-﻿using Godot;
+﻿using System.Runtime.CompilerServices;
+using Godot;
 
 namespace EuropeDominationDemo.Scripts;
-
-public static class MathUtils
-{
-    public static Vector2I RoundToInt(this Vector2 v)
-    {
-        var (x, y) = v;
-        return new Vector2I(Mathf.RoundToInt(x), Mathf.RoundToInt(y));
-    }
-}
 
 public class Dsu
 {
@@ -28,6 +20,7 @@ public class Dsu
         }
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     public int Find(int set)
     {
         if (_parent[set] == set)
@@ -37,11 +30,13 @@ public class Dsu
         return _parent[set];
     }
     
+    [MethodImpl(MethodImplOptions.AggressiveOptimization | MethodImplOptions.AggressiveInlining)]
     public int GetSize(int set)
     {
         return _size[set];
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     public void Union(int a, int b)
     {
         a = Find(a);
