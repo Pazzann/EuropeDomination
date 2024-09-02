@@ -60,6 +60,9 @@ public partial class GUIResources : VBoxContainer
 				if (building is Factory factory && factory.TransportationRoute != null && factory.TransportationRoute.ProvinceIdTo == data.Id)
 					AllResourcesChange[(int)factory.TransportationRoute.TransportationGood] +=
 						factory.TransportationRoute.Amount;
+				if (building is StockAndTrade stockAndTrade)
+					foreach (var route in stockAndTrade.TransportationRoutes.Where(a => a!=null && a.ProvinceIdTo == data.Id))
+							AllResourcesChange[(int)route.TransportationGood] += route.Amount;
 			}
 		}
 		
@@ -77,6 +80,17 @@ public partial class GUIResources : VBoxContainer
 				if (factory.TransportationRoute != null)
 				{
 					AllResourcesChange[(int)factory.Recipe.Output] -= factory.TransportationRoute.Amount;
+				}
+			}
+
+			if (building is StockAndTrade stockAndTrade)
+			{
+				foreach (var route in stockAndTrade.TransportationRoutes)
+				{
+					if (route != null)
+					{
+						AllResourcesChange[(int)route.TransportationGood] -= route.Amount;
+					}
 				}
 			}
 		}

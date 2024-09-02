@@ -42,6 +42,7 @@ public partial class CameraBehaviour : Camera2D
 			_cameraPosition = this.Position;
 			Enabled = true;
 
+			GetViewport().SizeChanged += LimitToMap;
 		}
 
 		public override void _PhysicsProcess(double delta)
@@ -117,13 +118,23 @@ public partial class CameraBehaviour : Camera2D
 			Vector2 screenSize = GetViewport().GetVisibleRect().Size;
 
 			this.Position = mapSize / 2;
-			this._zoomAtPoint(System.Math.Max(screenSize.X/mapSize.X, screenSize.Y/mapSize.Y), mapSize/2);
+			this.Zoom = new Vector2(System.Math.Max(screenSize.X / mapSize.X, screenSize.Y / mapSize.Y),
+				                    System.Math.Max(screenSize.X / mapSize.X, screenSize.Y / mapSize.Y));
 			_minZoom = System.Math.Max(screenSize.X / mapSize.X, screenSize.Y / mapSize.Y);
 			
 			this.LimitLeft = 0;
 			this.LimitRight = (int)mapSize.X;
 			this.LimitTop = 0;
 			this.LimitBottom = (int)mapSize.Y;
+		}
+
+		public void GoToProvince(int provinceId)
+		{
+			Vector2 target = EngineState.MapInfo.Scenario.Map[provinceId].CenterOfWeight;
+			Tween tween = GetTree().CreateTween();
+			Tween tween2 = GetTree().CreateTween();
+			tween.TweenProperty(this, "position", target, 0.4f);
+			tween2.TweenProperty(this, "zoom", new Vector2(_maxZoom, _maxZoom), 0.4f);
 		}
 
 }

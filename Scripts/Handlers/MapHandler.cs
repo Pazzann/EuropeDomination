@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
@@ -32,6 +33,9 @@ public partial class MapHandler : GameHandler
 	private PackedScene _devScene;
 	private Node2D _devSpawner;
 
+	private PackedScene _transportArrowScene;
+	private Node2D _transportArrowSpawner;
+
 	private Good _goodToTransport;
 	private RouteAdressProvider _whereToAddRoute;
 	private NewTransportationRouteReciever _uiReciever;
@@ -56,6 +60,9 @@ public partial class MapHandler : GameHandler
 		_devScene = (PackedScene)GD.Load("res://Prefabs/Development.tscn");
 		_devSpawner = GetNode<Node2D>("./DevHandler");
 
+		_transportArrowScene = (PackedScene)GD.Load("res://Prefabs/TransportArrow.tscn");
+		_transportArrowSpawner = GetNode<Node2D>("TransportArrowHandler");
+
 
 		_mapMaterial.SetShaderParameter("colors", EngineState.MapInfo.MapColors);
 		_mapMaterial.SetShaderParameter("selectedID", -1);
@@ -66,6 +73,7 @@ public partial class MapHandler : GameHandler
 
 		_goodsSpawner.Visible = false;
 		_devSpawner.Visible = false;
+		_transportArrowSpawner.Visible = false;
 	}
 
 	public override bool InputHandle(InputEvent @event, int tileId)
@@ -127,12 +135,16 @@ public partial class MapHandler : GameHandler
 					_countryTextSpawner.Visible = true;
 					_provinceTextSpawner.Visible = false;
 					_devSpawner.Visible = false;
+					_transportArrowSpawner.Visible = false;
 				}
 				else
 				{
 					_countryTextSpawner.Visible = false;
 					_provinceTextSpawner.Visible = true;
 					_devSpawner.Visible = true;
+					_transportArrowSpawner.Visible = false;
+					
+					_addTransportArrows();
 				}
 
 				break;
@@ -143,6 +155,7 @@ public partial class MapHandler : GameHandler
 				_devSpawner.Visible = false;
 				_countryTextSpawner.Visible = false;
 				_provinceTextSpawner.Visible = false;
+				_transportArrowSpawner.Visible = false;
 				break;
 			}
 			case MapTypes.Terrain:
@@ -151,9 +164,15 @@ public partial class MapHandler : GameHandler
 				_countryTextSpawner.Visible = false;
 				_provinceTextSpawner.Visible = false;
 				_devSpawner.Visible = false;
+				_transportArrowSpawner.Visible = false;
 				break;
 			}
-			case MapTypes.Trade:
+			case MapTypes.Trade: //TODO: Finish
+				_goodsSpawner.Visible = false;
+				_countryTextSpawner.Visible = false;
+				_provinceTextSpawner.Visible = false;
+				_devSpawner.Visible = false;
+				_transportArrowSpawner.Visible = true;
 				break;
 			case MapTypes.Development:
 				break;
@@ -164,6 +183,7 @@ public partial class MapHandler : GameHandler
 				_countryTextSpawner.Visible = false;
 				_provinceTextSpawner.Visible = false;
 				_devSpawner.Visible = false;
+				_transportArrowSpawner.Visible = true;
 				break;
 			default:
 				throw new ArgumentOutOfRangeException();
@@ -308,6 +328,94 @@ public partial class MapHandler : GameHandler
 	}
 
 
+	private void _drawArrow(TransportationRoute route)
+	{
+		var arrow = _transportArrowScene.Instantiate() as Node2D;
+		ProvinceData[] map = EngineState.MapInfo.Scenario.Map;
+					
+		arrow.GlobalPosition = Math.MathUtils.VectorCenter(map[route.ProvinceIdFrom].CenterOfWeight, map[route.ProvinceIdTo].CenterOfWeight);
+					
+		float arrowScale = (map[route.ProvinceIdTo].CenterOfWeight - map[route.ProvinceIdFrom].CenterOfWeight).Length() / arrow.GetChild<Sprite2D>(0).Texture.GetSize().X;
+
+		arrow.Scale = new Vector2(arrowScale, arrowScale);
+					
+		arrow.LookAt(map[route.ProvinceIdFrom].CenterOfWeight);
+					
+		_transportArrowSpawner.AddChild(arrow);
+	}
+	
+	
+	private void _addTransportArrows()
+	{
+		var children = _transportArrowSpawner.GetChildren();
+		foreach (var child in children)
+		{
+			_transportArrowSpawner.RemoveChild(child);
+			child.QueueFree();
+		}
+		
+		HashSet<Tuple<int, int>> drawnArrows = new HashSet<Tuple<int, int>>();
+		foreach (LandProvinceData data in EngineState.MapInfo.Scenario.Map.Where(data => data is LandProvinceData))
+		{
+			if (data.HarvestedTransport != null)
+			{
+				if (drawnArrows.Contains(new Tuple<int, int>(data.HarvestedTransport.ProvinceIdFrom,
+					                                         data.HarvestedTransport.ProvinceIdTo)))
+				{
+					// TODO: Add [multiple] icons to transport arrow
+				}
+				else
+				{
+					_drawArrow(data.HarvestedTransport);
+					drawnArrows.Add(new Tuple<int, int>(data.HarvestedTransport.ProvinceIdFrom,
+						                                data.HarvestedTransport.ProvinceIdTo));
+				}
+			}
+
+			foreach (SpecialBuilding building in data.SpecialBuildings.Where(b => b != null))
+			{
+				if (building is Factory factory && factory.TransportationRoute != null)
+				{
+					if (drawnArrows.Contains(new Tuple<int, int>(factory.TransportationRoute.ProvinceIdFrom,
+						    factory.TransportationRoute.ProvinceIdTo)))
+					{
+						// TODO: Add [multiple] icons to transport arrow
+					}
+					else
+					{
+						_drawArrow(factory.TransportationRoute);
+						drawnArrows.Add(new Tuple<int, int>(factory.TransportationRoute.ProvinceIdFrom,
+							factory.TransportationRoute.ProvinceIdTo));
+					}
+				}
+
+				if (building is StockAndTrade stockAndTrade)
+				{
+					foreach (var route in stockAndTrade.TransportationRoutes)
+					{
+						if (route != null)
+						{
+							if (drawnArrows.Contains(new Tuple<int, int>(route.ProvinceIdFrom,
+								    route.ProvinceIdTo)))
+							{
+								// TODO: Add [multiple] icons to transport arrow
+							}
+							else
+							{
+								_drawArrow(route);
+								drawnArrows.Add(new Tuple<int, int>(route.ProvinceIdFrom,
+									route.ProvinceIdTo));
+							}
+						}
+					}
+				}
+			}
+			
+			// If any new routes get added, put them here
+		}
+	}
+
+
 	public override void DayTick()
 	{
 		foreach (var data in EngineState.MapInfo.Scenario.Map.Where(data => data is LandProvinceData))
@@ -368,6 +476,19 @@ public partial class MapHandler : GameHandler
 						var diff = data.Resources[(int)factory.Recipe.Output] - Mathf.Max(data.Resources[(int)factory.Recipe.Output] - factory.TransportationRoute.Amount, 0);
 						data.Resources[(int)factory.Recipe.Output] -= diff;
 						(EngineState.MapInfo.Scenario.Map[factory.TransportationRoute.ProvinceIdTo] as LandProvinceData).Resources[(int)factory.Recipe.Output] += diff;
+					}
+				}
+
+				if (building is StockAndTrade stockAndTrade)
+				{
+					foreach (var route in stockAndTrade.TransportationRoutes)
+					{
+						if (route != null)
+						{
+							var diff = data.Resources[(int)route.TransportationGood] - Mathf.Max(data.Resources[(int)route.TransportationGood] - route.Amount, 0);
+							data.Resources[(int)route.TransportationGood] -= diff;
+							(EngineState.MapInfo.Scenario.Map[route.ProvinceIdTo] as LandProvinceData).Resources[(int)route.TransportationGood] += diff;
+						}
 					}
 				}
 			}

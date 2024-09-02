@@ -39,6 +39,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private TextureRect _goodEditBox;
 	private GUIGoodEditPanel _goodEditBoxPanel;
 	private Good _goodToTransfer;
+	private bool _isGoodEditable = false;
 	//end.
 
 	private GUIFactory _factoryHandler;
@@ -96,7 +97,10 @@ public partial class GUILandProvinceWindow : GUIHandler
 		
 		_militaryTrainingHandler = GetNode<GUIMilitaryTrainingCamp>("HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp");
 		_dockyardHandler = GetNode<GUIDockyard>("HBoxContainer4/ProvinceWindowSprite/GuiDockyard");
+		
 		_tradeAndStockHandler = GetNode<GUIStockAndTrade>("HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade");
+		_tradeAndStockHandler.Init();
+		
 		_emptyHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding");
 		_notUnlockedHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/NotUnlockedSpecialBuilding");
 
@@ -167,6 +171,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_setBuildingMenuInfo(provinceData);
 		
 		_setBuildingsInfo(provinceData);
+		
+		_showTab(_currentTab);
 	}
 	
 	private void _showProvinceWindow()
@@ -300,17 +306,18 @@ public partial class GUILandProvinceWindow : GUIHandler
 			case MilitaryTrainingCamp:
 				_militaryTrainingHandler.Visible = true;
 				return;
-			case StockAndTrade:
+			case StockAndTrade stockAndTrade:
 				_tradeAndStockHandler.Visible = true;
+				_tradeAndStockHandler.ShowData(stockAndTrade);
 				return;
 			default:
-				if (_currentProvinceData.Development >= 10 + 10 * tabId) 
+				if (_currentProvinceData.Development >= Settings.DevForSpecialBuilding[tabId]) 
 					_emptyHandler.Visible = true;
 
 				else
 				{
 					_notUnlockedHandler.Visible = true;
-					(_notUnlockedHandler.GetChild(0) as Label).Text = "Needed dev to unlock: " + (10 + 10 * tabId).ToString();
+					(_notUnlockedHandler.GetChild(0) as Label).Text = "Needed dev to unlock: " + Settings.DevForSpecialBuilding[tabId].ToString();
 				}
 				return;
 		}
@@ -321,7 +328,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		switch (id)
 		{
 			case 0:
-				_currentProvinceData.SpecialBuildings[_currentTab] = new StockAndTrade(0, false, 100);
+				_currentProvinceData.SpecialBuildings[_currentTab] = new StockAndTrade(0, false, 100, StockAndTrade.DefaultRoutes());
 				break;
 			case 1:
 				_currentProvinceData.SpecialBuildings[_currentTab] = new Factory(null,0, false, 0.1f, 100, null);
@@ -349,6 +356,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 	{
 		_transportationRouteToEdit = transportationRoute;
 		_showTransportationMenu();
+		_setProvinceInfo(_currentProvinceData);
 	}
 
 	private void _onCloseTransportMenuPressed()
@@ -361,21 +369,36 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_routeAdressToTransfer = _currentProvinceData.SetRoute;
 		_transportationRouteToEdit = _currentProvinceData.HarvestedTransport;
 		_goodToTransfer = _currentProvinceData.Good;
+		_isGoodEditable = false;
 		_showTransportationMenu();
 	}
 	private void _onGuiFactoryTrasportationRouteMenuPressed()
 	{
-		_routeAdressToTransfer = (_currentProvinceData.SpecialBuildings[_currentTab] as Factory).SetRoute;
+		var building = (_currentProvinceData.SpecialBuildings[_currentTab] as Factory);
+		_routeAdressToTransfer = building.SetRoute;
 		_transportationRouteToEdit =
-			(_currentProvinceData.SpecialBuildings[_currentTab] as Factory).TransportationRoute;
-		_goodToTransfer = (_currentProvinceData.SpecialBuildings[_currentTab] as Factory).Recipe.Output;
+			building.TransportationRoute;
+		_goodToTransfer = building.Recipe.Output;
+		_isGoodEditable = false;
 		_showTransportationMenu();
 	}
 
-	private void _showTransportationMenu(bool isGoodEditable = false)
+	private void _onGuiStockAndTradeTrasportationRouteMenuPressed(int id)
+	{
+		var building = (_currentProvinceData.SpecialBuildings[_currentTab] as StockAndTrade);
+		building.RouteId = id;
+		_routeAdressToTransfer = building.SetRoute;
+		_transportationRouteToEdit = building.TransportationRoutes[id];
+		_goodToTransfer = Good.Iron;
+		_isGoodEditable = true;
+		_showTransportationMenu();
+
+	}
+
+	private void _showTransportationMenu()
 	{
 		_transportationHandler.Visible = true;
-		_goodEditBox.GetChild<Button>(1).Disabled = !isGoodEditable;
+		_goodEditBox.GetChild<Button>(1).Disabled = !_isGoodEditable;
 		if (_transportationRouteToEdit != null)
 		{
 			_transportSlider.Visible = true;
@@ -393,6 +416,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 			_transportButton.Text = "Create New";
 			_transportLabel.Text = "Doesn't transfering anywhere";
 			_transportSlider.Visible = false;
+			_transportSlider.Value = 0;
 			_transportSliderLabel.Visible = false;
 			_goodEditBox.Visible = false;
 		}
