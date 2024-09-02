@@ -1,25 +1,24 @@
 using System.Collections.Generic;
-using System.Linq;
-using EuropeDominationDemo.Scripts.Scenarios;
-using Microsoft.VisualBasic;
+using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
+
 
 namespace EuropeDominationDemo.Scripts.Math;
 
 public static class PathFinder
 {
-	public static int[] FindPathFromAToB(int a, int b, Scenario scenario, float eps = 0.1f)
+	public static int[] FindPathFromAToB(int a, int b, ProvinceData[] provinces, float eps = 0.1f)
 	{
 		// O(V^2) Dijkstra algorithm implementation  
 		
-		var minDistanceToProvince = new float[scenario.Map.Length];
+		var minDistanceToProvince = new float[provinces.Length];
 		
 		for (var i = 0; i < minDistanceToProvince.Length; ++i)
 			minDistanceToProvince[i] = float.MaxValue;
 		
 		minDistanceToProvince[a] = 0;
 		
-		var parent = new int[scenario.Map.Length];
-		var visited = new bool[scenario.Map.Length];
+		var parent = new int[provinces.Length];
+		var visited = new bool[provinces.Length];
 		
 		for (var i = 0; i < minDistanceToProvince.Length; ++i)
 		{
@@ -31,9 +30,9 @@ public static class PathFinder
 					curProvince = j;
 			}
 			
-			foreach (var provinceId in scenario.Map[curProvince].BorderderingProvinces)
+			foreach (var provinceId in provinces[curProvince].BorderderingProvinces)
 			{
-				var distance = (scenario.Map[curProvince].CenterOfWeight - scenario.Map[provinceId].CenterOfWeight).Length();
+				var distance = (provinces[curProvince].CenterOfWeight - provinces[provinceId].CenterOfWeight).Length();
 				
 				if (minDistanceToProvince[provinceId] - (minDistanceToProvince[curProvince] + distance) > eps)
 				{
@@ -55,5 +54,10 @@ public static class PathFinder
 		path.Add(a);
 
 		return path.ToArray();
+	}
+
+	public static bool CheckConnectionFromAToB(int a, int b, ProvinceData[] provinces, float eps = 0.1f)
+	{
+		return true;
 	}
 }
