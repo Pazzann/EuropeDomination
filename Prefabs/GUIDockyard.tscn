@@ -43,25 +43,25 @@ text = "Naval DOCKYARD"
 layout_mode = 2
 text = "Transportation:"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="TransportationContatiner" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.59
 alignment = 1
 
-[node name="GuiTransport" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_5tg7w")]
+[node name="GuiTransport" parent="PanelContainer/MarginContainer/VBoxContainer/TransportationContatiner" instance=ExtResource("2_5tg7w")]
 layout_mode = 2
 
-[node name="GuiTransport2" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_5tg7w")]
+[node name="GuiTransport2" parent="PanelContainer/MarginContainer/VBoxContainer/TransportationContatiner" instance=ExtResource("2_5tg7w")]
 layout_mode = 2
 
-[node name="GuiTransport3" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_5tg7w")]
+[node name="GuiTransport3" parent="PanelContainer/MarginContainer/VBoxContainer/TransportationContatiner" instance=ExtResource("2_5tg7w")]
 layout_mode = 2
 
-[node name="GuiTransport4" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_5tg7w")]
+[node name="GuiTransport4" parent="PanelContainer/MarginContainer/VBoxContainer/TransportationContatiner" instance=ExtResource("2_5tg7w")]
 layout_mode = 2
 
-[node name="GuiTransport5" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_5tg7w")]
+[node name="GuiTransport5" parent="PanelContainer/MarginContainer/VBoxContainer/TransportationContatiner" instance=ExtResource("2_5tg7w")]
 layout_mode = 2
 
 [node name="Label3" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
