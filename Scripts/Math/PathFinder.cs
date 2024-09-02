@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 
 
@@ -9,55 +10,115 @@ public static class PathFinder
 	public static int[] FindPathFromAToB(int a, int b, ProvinceData[] provinces, float eps = 0.1f)
 	{
 		// O(V^2) Dijkstra algorithm implementation  
+
+		var provinceDictionary = new Dictionary<int, ProvinceData>();
+		foreach (var province in provinces)
+		{
+			provinceDictionary.Add(province.Id, province);
+		}
 		
-		var minDistanceToProvince = new float[provinces.Length];
-		
-		for (var i = 0; i < minDistanceToProvince.Length; ++i)
-			minDistanceToProvince[i] = float.MaxValue;
+		var minDistanceToProvince = new Dictionary<int, float>();
+		var parent = new Dictionary<int, int>();
+		var visited = new Dictionary<int, bool>();
+
+		foreach (var province in provinceDictionary)
+		{
+			minDistanceToProvince.Add(province.Key, float.MaxValue);
+			parent.Add(province.Key, -1);
+			visited.Add(province.Key, false);
+		}
 		
 		minDistanceToProvince[a] = 0;
 		
-		var parent = new int[provinces.Length];
-		var visited = new bool[provinces.Length];
 		
-		for (var i = 0; i < minDistanceToProvince.Length; ++i)
+		
+		for(int i = 0; i < minDistanceToProvince.Count; i++)
 		{
-			var curProvince = -1;
+			var currProvince = -1;
 			
-			for (var j = 0; j < minDistanceToProvince.Length; ++j)
+			foreach(var j in minDistanceToProvince)
 			{
-				if (!visited[j] && (curProvince == -1 || minDistanceToProvince[j] < minDistanceToProvince[curProvince]))
-					curProvince = j;
+				if (!visited[j.Key] && (currProvince == -1 || minDistanceToProvince[j.Key] < minDistanceToProvince[currProvince]))
+					currProvince = j.Key;
+				
 			}
 			
-			foreach (var provinceId in provinces[curProvince].BorderderingProvinces)
-			{
-				var distance = (provinces[curProvince].CenterOfWeight - provinces[provinceId].CenterOfWeight).Length();
+			if(System.Math.Abs(currProvince - float.MaxValue) < eps)
+				break;
 				
-				if (minDistanceToProvince[provinceId] - (minDistanceToProvince[curProvince] + distance) > eps)
+			foreach (var provinceId in provinceDictionary[currProvince].BorderderingProvinces.Where(p => provinceDictionary.ContainsKey(p)))
+			{
+				var distance = (provinceDictionary[currProvince].CenterOfWeight - provinceDictionary[provinceId].CenterOfWeight).Length();
+				
+				if (minDistanceToProvince[provinceId] - (minDistanceToProvince[currProvince] + distance) > eps)
 				{
-					minDistanceToProvince[provinceId] = minDistanceToProvince[curProvince] + distance;
-					parent[provinceId] = curProvince;
+					minDistanceToProvince[provinceId] = minDistanceToProvince[currProvince] + distance;
+					parent[provinceId] = currProvince;
 				}
 			}
 
-			visited[curProvince] = true;
+			visited[currProvince] = true;
 		}
 		
 		// Recover the shortest path from a to b 
 		
 		var path = new List<int> { b };
 
-		for (var curProvince = b; parent[curProvince] != a; curProvince = parent[curProvince])
-			path.Add(parent[curProvince]);
+		for (var currProvince = b; parent[currProvince] != a; currProvince = parent[currProvince])
+		{
+			if (parent[currProvince] == -1)
+				return new int[0];
+			path.Add(parent[currProvince]);
+		}
 		
 		path.Add(a);
 
 		return path.ToArray();
 	}
 
-	public static bool CheckConnectionFromAToB(int a, int b, ProvinceData[] provinces, float eps = 0.1f)
-	{
-		return true;
+	public static bool CheckConnectionFromAToB(int a, int b, ProvinceData[] provinces) 
+	{	
+		var provinceDictionary = new Dictionary<int, ProvinceData>();
+		foreach (var province in provinces)
+		{
+			provinceDictionary.Add(province.Id, province);
+		}
+		var visited = new Dictionary<int, bool>();
+
+		foreach (var province in provinceDictionary)
+		{
+			visited.Add(province.Key, false);
+		}
+		_dfs(a, provinceDictionary, visited);
+		
+		return visited[b];
 	}
+
+	private static void _dfs(int currProvince, Dictionary<int, ProvinceData> provinceDictionary, Dictionary<int, bool> visited)
+	{
+		visited[currProvince] = true;
+		foreach (var provinceId in provinceDictionary[currProvince].BorderderingProvinces.Where(p => provinceDictionary.ContainsKey(p)))
+			if (!visited[provinceId])
+				_dfs(provinceId, provinceDictionary, visited);
+	}
+
+
+	public static Dictionary<int, bool> CheckConnectionFromAToOthers(int a, ProvinceData[] provinces)
+	{
+		var provinceDictionary = new Dictionary<int, ProvinceData>();
+		foreach (var province in provinces)
+		{
+			provinceDictionary.Add(province.Id, province);
+		}
+		var visited = new Dictionary<int, bool>();
+
+		foreach (var province in provinceDictionary)
+		{
+			visited.Add(province.Key, false);
+		}
+		_dfs(a, provinceDictionary, visited);
+		
+		return visited;
+	}
+	
 }
