@@ -93,6 +93,16 @@ public partial class GUIResources : VBoxContainer
 					}
 				}
 			}
+			if (building is Dockyard dockyard)
+			{
+				foreach (var route in dockyard.WaterTransportationRoutes)
+				{
+					if (route != null)
+					{
+						AllResourcesChange[(int)route.TransportationGood] -= route.Amount;
+					}
+				}
+			}
 		}
 		
 

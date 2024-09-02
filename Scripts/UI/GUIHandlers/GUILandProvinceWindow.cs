@@ -49,6 +49,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private GUIMilitaryTrainingCamp _militaryTrainingHandler;
 	private Control _emptyHandler;
 	private Control _notUnlockedHandler;
+
+	private TextureRect _dockyardButton;
 	
 
 	private int _currentTab;
@@ -106,6 +108,10 @@ public partial class GUILandProvinceWindow : GUIHandler
 		
 		_emptyHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding");
 		_notUnlockedHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/NotUnlockedSpecialBuilding");
+
+		_dockyardButton =
+			GetNode<TextureRect>(
+				"HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Dockyard");
 
 		_specialBuildingsTabBar = GetNode<TabBar>("HBoxContainer4/ProvinceWindowSprite/TabBar");
 
@@ -315,9 +321,11 @@ public partial class GUILandProvinceWindow : GUIHandler
 				_tradeAndStockHandler.ShowData(stockAndTrade);
 				return;
 			default:
-				if (_currentProvinceData.Development >= Settings.DevForSpecialBuilding[tabId]) 
+				if (_currentProvinceData.Development >= Settings.DevForSpecialBuilding[tabId])
+				{
 					_emptyHandler.Visible = true;
-
+					_dockyardButton.Visible = _currentProvinceData.BorderderingProvinces.Any(d => EngineState.MapInfo.Scenario.Map[d] is SeaProvinceData);
+				}
 				else
 				{
 					_notUnlockedHandler.Visible = true;

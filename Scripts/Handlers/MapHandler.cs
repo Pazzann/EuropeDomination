@@ -504,6 +504,18 @@ public partial class MapHandler : GameHandler
 						}
 					}
 				}
+				if (building is Dockyard dockyard)
+				{
+					foreach (var route in dockyard.WaterTransportationRoutes)
+					{
+						if (route != null)
+						{
+							var diff = data.Resources[(int)route.TransportationGood] - Mathf.Max(data.Resources[(int)route.TransportationGood] - route.Amount, 0);
+							data.Resources[(int)route.TransportationGood] -= diff;
+							(EngineState.MapInfo.Scenario.Map[route.ProvinceIdTo] as LandProvinceData).Resources[(int)route.TransportationGood] += diff;
+						}
+					}
+				}
 			}
 		}
 
