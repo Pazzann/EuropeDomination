@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://vn3ugau4q62q"]
+
+[ext_resource type="Script" path="res://Scripts/Units/PathArrow.cs" id="1_nkjee"]
+[ext_resource type="Texture2D" uid="uid://ikaejdv3h1fe" path="res://Sprites/Untitled-2.png" id="2_rfm8o"]
+
+[node name="TransportArrow" type="Node2D"]
+scale = Vector2(0.1, 0.1)
+script = ExtResource("1_nkjee")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+clip_children = 1
+texture = ExtResource("2_rfm8o")
+flip_h = true
+
+[node name="ProgressBar" type="ProgressBar" parent="Sprite2D"]
+offset_left = 880.0
+offset_top = 180.0
+offset_right = 2626.0
+offset_bottom = 532.0
+rotation = -3.14159
