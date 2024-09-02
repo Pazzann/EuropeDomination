@@ -30,6 +30,11 @@ layout_mode = 0
 SpriteFrames = ExtResource("3_m0kr8")
 CurrentAnimation = "goods"
 
+[node name="Button" type="Button" parent="Sprite2D"]
+layout_mode = 0
+offset_right = 68.0
+offset_bottom = 68.0
+
 [node name="Label2" type="Label" parent="."]
 layout_mode = 2
 text = "London"

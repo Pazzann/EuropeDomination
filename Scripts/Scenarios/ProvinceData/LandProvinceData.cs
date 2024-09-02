@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Transactions;
 using EuropeDominationDemo.Scripts.Enums;
+using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using Godot;
@@ -38,7 +40,7 @@ public class LandProvinceData : ProvinceData
 		}
 	}
 
-	public int UnlockedBuildingCount => 4 + Development / 5;
+	public int UnlockedBuildingCount => Settings.DevForCommonBuilding.Where(a => a <= Development).ToArray().Length;
 
 
 	public LandProvinceData(

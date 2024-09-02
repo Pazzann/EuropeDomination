@@ -370,6 +370,19 @@ public partial class MapHandler : GameHandler
 						(EngineState.MapInfo.Scenario.Map[factory.TransportationRoute.ProvinceIdTo] as LandProvinceData).Resources[(int)factory.Recipe.Output] += diff;
 					}
 				}
+
+				if (building is StockAndTrade stockAndTrade)
+				{
+					foreach (var route in stockAndTrade.TransportationRoutes)
+					{
+						if (route != null)
+						{
+							var diff = data.Resources[(int)route.TransportationGood] - Mathf.Max(data.Resources[(int)route.TransportationGood] - route.Amount, 0);
+							data.Resources[(int)route.TransportationGood] -= diff;
+							(EngineState.MapInfo.Scenario.Map[route.ProvinceIdTo] as LandProvinceData).Resources[(int)route.TransportationGood] += diff;
+						}
+					}
+				}
 			}
 		}
 
