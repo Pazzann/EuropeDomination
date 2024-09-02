@@ -678,13 +678,13 @@ offset_right = 299.631
 offset_bottom = 63.6854
 metadata/_edit_use_anchors_ = true
 
-[node name="Dockyard" type="TextureRect" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="Military" type="TextureRect" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 4
-texture = ExtResource("14_vgj6o")
+texture = ExtResource("15_sf2vu")
 
-[node name="Dockyard" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Dockyard"]
+[node name="Military" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Military"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 offset_left = -0.369052
@@ -693,13 +693,13 @@ offset_right = 299.631
 offset_bottom = 63.6854
 metadata/_edit_use_anchors_ = true
 
-[node name="Military" type="TextureRect" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="Dockyard" type="TextureRect" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 4
-texture = ExtResource("15_sf2vu")
+texture = ExtResource("14_vgj6o")
 
-[node name="Military" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Military"]
+[node name="Dockyard" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Dockyard"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 offset_left = -0.369052
@@ -799,8 +799,8 @@ offset_bottom = 422.5
 [connection signal="TrasportationRouteMenuPressed" from="HBoxContainer4/ProvinceWindowSprite/GuiFactory" to="." method="_onGuiFactoryTrasportationRouteMenuPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Stock/Stock" to="." method="_onSpecialBuildingSelectionPressed" binds= [0]]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/ProductionLine/ProductionLine" to="." method="_onSpecialBuildingSelectionPressed" binds= [1]]
-[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Dockyard/Dockyard" to="." method="_onSpecialBuildingSelectionPressed" binds= [2]]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Military/Military" to="." method="_onSpecialBuildingSelectionPressed" binds= [3]]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Dockyard/Dockyard" to="." method="_onSpecialBuildingSelectionPressed" binds= [2]]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TextureRect/Button" to="." method="_onCloseTransportMenuPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TransportButton" to="." method="_onChangeGoodTransportationRoutePressed"]
 [connection signal="value_changed" from="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TransportSlider" to="." method="_onTransportSliderValueChanged"]
