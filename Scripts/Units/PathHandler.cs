@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
+using EuropeDominationDemo.Scripts.Utils;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Units;
@@ -7,6 +9,7 @@ namespace EuropeDominationDemo.Scripts.Units;
 public partial class PathHandler : Node2D
 {
 	private PackedScene _pathArrowScene = (PackedScene)GD.Load("res://Prefabs/PathArrow.tscn");
+	private PackedScene _curvedArrowScene = (PackedScene)GD.Load("res://Prefabs/CurvedArrow.tscn");
 	private ArmyUnit _armyUnit;
 	private double _currentProgress;
 	private int _idOfCurrentProgress;
@@ -24,6 +27,9 @@ public partial class PathHandler : Node2D
 		if (!arrow.AddDay()) return;
 		unit.Path.Remove(unit.Path[^1]);
 		arrow.QueueFree();
+
+		var curvedArrow = GetChild(GetChildren().Count - 1) as CurvedArrow;
+		curvedArrow.RemovePoint(0);
 	}
 
 	public void MoveArrows(Vector2 scale, Vector2 prev, Vector2 next)
@@ -38,8 +44,12 @@ public partial class PathHandler : Node2D
 		{
 			pathArrow.QueueFree();
 		}
+
+		List<Vector2> centres = new List<Vector2>();
 		for (int i = unit.Path.Count - 2; i > -1; i--)
 		{
+			centres.Add(map.Scenario.Map[unit.Path[i + 1]].CenterOfWeight);
+			
 			var arrow = _pathArrowScene.Instantiate() as PathArrow;
 			arrow.GlobalPosition = Math.MathUtils.VectorCenter(map.Scenario.Map[unit.Path[i + 1]].CenterOfWeight, map.Scenario.Map[unit.Path[i]].CenterOfWeight) / unit.Scale;
 			
@@ -52,5 +62,12 @@ public partial class PathHandler : Node2D
 				arrow.Value = _currentProgress;
 			}
 		}
+		centres.Add(map.Scenario.Map[unit.Path[0]].CenterOfWeight);
+
+		var curvedArrow = _curvedArrowScene.Instantiate() as CurvedArrow;
+		AddChild(curvedArrow);
+		curvedArrow.Setup(centres);
+		curvedArrow.DrawLine();
+		Vector2 a = curvedArrow.GlobalPosition;
 	}
 }
