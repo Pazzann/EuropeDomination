@@ -3,6 +3,8 @@ using System;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings.FactoryRecipies;
 using EuropeDominationDemo.Scripts.Utils;
 
+namespace EuropeDominationDemo.Scripts.UI.GUIPrefabs;
+
 public partial class GUIRecipe : PanelContainer
 {
 	public void SetInfo(Recipe recipe)

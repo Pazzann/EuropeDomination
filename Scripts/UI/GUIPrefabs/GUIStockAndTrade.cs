@@ -4,6 +4,7 @@ using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.Utils;
 
+namespace EuropeDominationDemo.Scripts.UI.GUIPrefabs;
 public partial class GUIStockAndTrade : Control
 {
 	[Signal]

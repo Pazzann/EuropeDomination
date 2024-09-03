@@ -1,13 +1,12 @@
 using System.Linq;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
-using Godot;
-using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.Utils;
+using Godot;
 
-namespace EuropeDominationDemo.Scripts.UI;
+namespace EuropeDominationDemo.Scripts.UI.GUIPrefabs;
 
 public partial class GUIResources : VBoxContainer
 {

@@ -8,6 +8,7 @@ using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.UI.Events.GUI;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
+using EuropeDominationDemo.Scripts.UI.GUIPrefabs;
 using EuropeDominationDemo.Scripts.Utils;
 using Godot;
 
@@ -23,7 +24,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private AnimatedSprite2D _provinceFlag;
 	private AnimatedSprite2D _provinceGood;
 	private AnimatedSprite2D _provinceTerrain;
-	private GUIResources _provinceResources;
+	private GUIPrefabs.GUIResources _provinceResources;
 	private Label _provinceDev;
 	
 
@@ -44,9 +45,9 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private bool _waterMode = false;
 	//end.
 
-	private GUIFactory _factoryHandler;
+	private GUIPrefabs.GUIFactory _factoryHandler;
 	private GUIStockAndTrade _tradeAndStockHandler;
-	private GUIDockyard _dockyardHandler;
+	private GUIPrefabs.GUIDockyard _dockyardHandler;
 	private GUIMilitaryTrainingCamp _militaryTrainingHandler;
 	private Control _emptyHandler;
 	private Control _notUnlockedHandler;
@@ -76,7 +77,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_provinceTerrain = GetNode<AnimatedSprite2D>("HBoxContainer4/ProvinceWindowSprite/Terrain");
 		_provinceDev = GetNode<Label>("HBoxContainer4/ProvinceWindowSprite/Dev");
 		
-		_provinceResources = GetNode<GUIResources>("HBoxContainer4/ProvinceWindowSprite/ResourcesContainer/Control");
+		_provinceResources = GetNode<GUIPrefabs.GUIResources>("HBoxContainer4/ProvinceWindowSprite/ResourcesContainer/Control");
 		_provinceResources.Init();
 
 		_transportButton =
@@ -97,12 +98,12 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_goodEditBoxPanel.Init();
 		
 
-		_factoryHandler = GetNode<GUIFactory>("HBoxContainer4/ProvinceWindowSprite/GuiFactory");
+		_factoryHandler = GetNode<GUIPrefabs.GUIFactory>("HBoxContainer4/ProvinceWindowSprite/GuiFactory");
 		_factoryHandler.Init();
 		
 		_militaryTrainingHandler = GetNode<GUIMilitaryTrainingCamp>("HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp");
 		
-		_dockyardHandler = GetNode<GUIDockyard>("HBoxContainer4/ProvinceWindowSprite/GuiDockyard");
+		_dockyardHandler = GetNode<GUIPrefabs.GUIDockyard>("HBoxContainer4/ProvinceWindowSprite/GuiDockyard");
 		_dockyardHandler.Init();
 		
 		_tradeAndStockHandler = GetNode<GUIStockAndTrade>("HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade");

@@ -2,6 +2,7 @@ using Godot;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Utils;
 
+namespace EuropeDominationDemo.Scripts.UI.GUIPrefabs;
 public partial class GUIRecipeIngredientInfo : PanelContainer
 {
 	public void SetInfo(Good good, double amount)

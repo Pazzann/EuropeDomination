@@ -3,7 +3,7 @@ using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.Utils;
 using Godot;
 
-namespace EuropeDominationDemo.Scripts.UI.GUIHandlers;
+namespace EuropeDominationDemo.Scripts.UI.GUIPrefabs;
 
 public partial class GUIDockyard : Control
 {

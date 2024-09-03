@@ -4,7 +4,7 @@ using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Utils;
 using Godot;
 
-
+namespace EuropeDominationDemo.Scripts.UI.GUIPrefabs;
 public partial class GUIGoodEditPanel : PanelContainer
 {
 	[Signal]
