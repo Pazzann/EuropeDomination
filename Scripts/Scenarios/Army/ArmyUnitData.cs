@@ -1,27 +1,18 @@
 ﻿using System.Collections.Generic;
+using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
+using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Army;
 
-public class ArmyUnitData
+public class ArmyUnitData : UnitData
 {
-    public string Name { get; set; }
-    public int Owner { get; set; }
-    public int CurrentProvince { get; set; }
-    
-    public Modifiers Modifiers { get; set; }
 
     public List<ArmyRegiment> Regiments { get; set; }
 
     public General General { get; set; }
 
-    
-
-    public ArmyUnitData(string name, int owner, int currentProvince, Modifiers modifiers, List<ArmyRegiment> armyRegiments, General general)
+    public ArmyUnitData(string name, int owner, int currentProvince, Modifiers modifiers, List<ArmyRegiment> armyRegiments, General general) : base(name, owner, currentProvince, modifiers)
     {
-        Name = name;
-        Owner = owner;
-        CurrentProvince = currentProvince;
-        Modifiers = modifiers;
         Regiments = armyRegiments;
         General = general;
     }

@@ -17,8 +17,10 @@ public class CountryData
 	public int Manpower = 100;
 
 	public List<General> Generals;
+	public List<Admiral> Admirals;
+	public List<UnitData> Units;
 
-	public CountryData(int id, string name, Vector3 color, Modifiers modifiers, int money, int manpower, List<General> generals)
+	public CountryData(int id, string name, Vector3 color, Modifiers modifiers, int money, int manpower, List<General> generals, List<Admiral> admirals, List<UnitData> units)
 	{
 		Id = id;
 		Name = name;
@@ -27,5 +29,7 @@ public class CountryData
 		Money = money;
 		Manpower = manpower;
 		Generals = generals;
+		Admirals = admirals;
+		Units = units;
 	}
 }

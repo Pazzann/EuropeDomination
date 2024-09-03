@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios.Army;
+using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
+using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
@@ -15,7 +17,6 @@ namespace EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 public class EuropeScenario : Scenario
 {
     public override Dictionary<int, CountryData> Countries { get; }
-    public sealed override List<ArmyUnitData> ArmyUnits { get; set; }
     public sealed override ProvinceData.ProvinceData[] Map { get; set; }
     public sealed override DateTime Date { get; set; }
     public sealed override Image MapTexture { get; set; }
@@ -44,18 +45,20 @@ public class EuropeScenario : Scenario
 
         Date = new DateTime(1444, 11, 12);
         
-        
-        
 
         Countries = new Dictionary<int, CountryData>()
         {
-            {
-                0,
-                new CountryData(0, "Great Britain", new Vector3(0.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers(), 100,
-                    300, new List<General>())
-            },
-            { 1, new CountryData(1, "France", new Vector3(0.0f, 0.0f, 1.0f), Modifiers.DefaultModifiers(), 200, 200,new List<General>()) },
-            { 2, new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers(), 300, 100,new List<General>()) },
+            { 0, new CountryData(0, "Great Britain", new Vector3(0.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers(), 100, 300, new List<General>(), new List<Admiral>(), new List<UnitData>(){
+                    new ArmyUnitData("George Floyd", 0,3, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null),
+                    new ArmyUnitData("Idk", 0,5, Modifiers.DefaultModifiers(),new List<ArmyRegiment>(), null),
+                    new ArmyUnitData("FunnyName", 0,6, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null),
+                    new ArmyUnitData("Length", 0,7, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null),
+                })},
+            { 1, new CountryData(1, "France", new Vector3(0.0f, 0.0f, 1.0f), Modifiers.DefaultModifiers(), 200, 200,new List<General>(), new List<Admiral>(), new List<UnitData>()) },
+            { 2, new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers(), 300, 100,new List<General>(), new List<Admiral>(), new List<UnitData>() {
+                new ArmyUnitData("FunnyName", 2,2, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null),
+                new ArmyUnitData("Length", 2,9, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null),
+            }) },
         };
         WastelandProvinceColors = new Dictionary<int, Vector3>()
         {
@@ -529,14 +532,6 @@ public class EuropeScenario : Scenario
             new SeaProvinceData(418, "BlackSea", Modifiers.DefaultModifiers()),
             new SeaProvinceData(419, "BlackSea", Modifiers.DefaultModifiers()),
             new SeaProvinceData(420, "BlackSea", Modifiers.DefaultModifiers()),
-        };
-
-        ArmyUnits = new List<ArmyUnitData>()
-        {
-            new ArmyUnitData("George Floyd", 1, 3, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null),
-            new ArmyUnitData("Idk", 1, 5, Modifiers.DefaultModifiers(),new List<ArmyRegiment>(), null),
-            new ArmyUnitData("FunnyName", 1, 6, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null),
-            new ArmyUnitData("Length", 1, 7, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null),
         };
 
         Map = GameMath.CalculateBorderProvinces(Map, MapTexture);

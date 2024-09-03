@@ -19,7 +19,6 @@ public abstract class Scenario : IScenario
 	public abstract Vector3 UncolonizedColor { get; set; }
 	public abstract DateTime Date { get; set; }
 	
-	public abstract List<ArmyUnitData> ArmyUnits { get; set; }
 	public abstract List<Recipe> Recipes { get; set; }
 	
 	public abstract Image MapTexture { get; set; }

@@ -7,6 +7,7 @@ using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Handlers;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
+using EuropeDominationDemo.Scripts.Scenarios.Army;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Units;
 
@@ -19,17 +20,21 @@ public partial class ArmyHandler : GameHandler
 	public override void Init()
 	{
 		_armyScene = (PackedScene)GD.Load("res://Prefabs/ArmyUnit.tscn");
-		
-		foreach (var data in EngineState.MapInfo.Scenario.ArmyUnits)
+		foreach (var countryData in EngineState.MapInfo.Scenario.Countries)
 		{
+			foreach (var data in countryData.Value.Units)
+			{
+				if (data is ArmyUnitData a)
+				{
+					ArmyUnit obj = _armyScene.Instantiate() as ArmyUnit;
+					obj.SetupUnit(a, EngineState.MapInfo);
 
-			ArmyUnit obj = _armyScene.Instantiate() as ArmyUnit;
-			obj.SetupUnit(data, EngineState.MapInfo);
 
-
-			//TODO: NORMAL CALCULATION OF ARMY POSITION
-			obj.Position = new Vector2(EngineState.MapInfo.Scenario.Map[data.CurrentProvince].CenterOfWeight.X + 5,EngineState.MapInfo.Scenario.Map[data.CurrentProvince].CenterOfWeight.Y);
-			AddChild(obj);
+					//TODO: NORMAL CALCULATION OF ARMY POSITION
+					obj.Position = new Vector2(EngineState.MapInfo.Scenario.Map[data.CurrentProvince].CenterOfWeight.X + 5,EngineState.MapInfo.Scenario.Map[data.CurrentProvince].CenterOfWeight.Y);
+					AddChild(obj);
+				}
+			}
 		}
 	}
 

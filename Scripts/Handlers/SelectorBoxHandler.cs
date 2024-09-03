@@ -86,6 +86,7 @@ public partial class SelectorBoxHandler : GameHandler
 		var trueRect = _selectionRect.GetGlobalRect();
 		trueRect = new Rect2(new Vector2(_selectionRect.Scale.X > 0 ? trueRect.Position.X : trueRect.Position.X - trueRect.Size.X, _selectionRect.Scale.Y > 0 ? trueRect.Position.Y : trueRect.Position.Y - trueRect.Size.Y), trueRect.Size);
 		var selectedUnits = (from unit in allUnits where ((ArmyUnit)unit).IsInsideRect(trueRect) select unit as ArmyUnit).ToList();
+		selectedUnits = selectedUnits.Where(d => d.Data.Owner == EngineState.PlayerCountryId).ToList();
 		ArmyUnit.SelectUnits(allUnits, selectedUnits);
 		
 		

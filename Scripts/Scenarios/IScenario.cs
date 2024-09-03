@@ -11,8 +11,7 @@ public interface IScenario
     public ProvinceData.ProvinceData[] Map { get; set; }
     
     public ProvinceData.ProvinceData[] CountryProvinces(int countryId);
-
-    public List<ArmyUnitData> ArmyUnits { get; set; }
+    
     
     public DateTime Date { get; set; }
     public Image MapTexture { get; set; } 
