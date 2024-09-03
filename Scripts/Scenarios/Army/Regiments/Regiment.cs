@@ -10,7 +10,10 @@ public class Regiment
     public int TrainingTime;
     public bool IsFinished;
 
-    public Regiment(string name, int cost, int templateId, int timeFromStartOfTheTraining, int trainingTime, bool isFinished)
+    public int Manpower; 
+    public int MaxManpower;
+    
+    public Regiment(string name, int cost, int templateId, int timeFromStartOfTheTraining, int trainingTime, bool isFinished, int manpower, int maxManpower)
     {
         Name = name;
         Cost = cost;
@@ -20,10 +23,19 @@ public class Regiment
         TimeFromStartOfTheTraining = timeFromStartOfTheTraining;
         TrainingTime = trainingTime;
         IsFinished = isFinished;
+
+        Manpower = manpower;
+        MaxManpower = maxManpower;
+        
     }
 
+    public void Recalculate()
+    {
+        //after creation calculating stats via modifiers
+    }
+    
     public void ChangeTemplate()
     {
-        
+        // change template and things after it
     }
 }
