@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://bu78t0vf6jkaq"]
 
-[ext_resource type="PackedScene" uid="uid://bravhtaisuciw" path="res://Prefabs/CustomNodes/AnimatedTextureRect.tscn" id="1_t1uxg"]
-[ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_t5pqb"]
-[ext_resource type="SpriteFrames" uid="uid://d3n4eikp6qnq7" path="res://Prefabs/SpriteFrames/GoodSpriteFrames.tres" id="2_oml1e"]
+[ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_xegna"]
+[ext_resource type="PackedScene" uid="uid://bravhtaisuciw" path="res://Prefabs/CustomNodes/AnimatedTextureRect.tscn" id="2_mdpki"]
+[ext_resource type="SpriteFrames" uid="uid://d3n4eikp6qnq7" path="res://Prefabs/SpriteFrames/GoodSpriteFrames.tres" id="3_shsrj"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_jsk36"]
 font_size = 40
@@ -20,7 +20,7 @@ offset_bottom = -1023.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
-theme = ExtResource("1_t5pqb")
+theme = ExtResource("1_xegna")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -28,11 +28,11 @@ layout_mode = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="AnimatedTextureRect" parent="MarginContainer/HBoxContainer" instance=ExtResource("1_t1uxg")]
+[node name="AnimatedTextureRect" parent="MarginContainer/HBoxContainer" instance=ExtResource("2_mdpki")]
 layout_mode = 2
 size_flags_stretch_ratio = 1.51
 expand_mode = 2
-SpriteFrames = ExtResource("2_oml1e")
+SpriteFrames = ExtResource("3_shsrj")
 CurrentAnimation = "goods"
 
 [node name="Label" type="Label" parent="MarginContainer/HBoxContainer"]

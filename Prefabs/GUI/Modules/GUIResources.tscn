@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://uway7gdlqq10"]
 
-[ext_resource type="Script" path="res://Scripts/UI/GUIPrefabs/GUIResources.cs" id="2_ax5jd"]
+[ext_resource type="Script" path="res://Scripts/UI/GUIPrefabs/GUIResources.cs" id="1_nj1ls"]
 
 [node name="Control" type="VBoxContainer"]
 custom_minimum_size = Vector2(450, 80)
@@ -9,4 +9,4 @@ offset_top = 1.0
 offset_right = 451.0
 offset_bottom = 601.0
 scale = Vector2(2.60966, 2.60966)
-script = ExtResource("2_ax5jd")
+script = ExtResource("1_nj1ls")
