@@ -26,7 +26,7 @@ public partial class GUIDockyard : Control
 		}
 	}
 
-	public void ShowData(Dockyard dockyard)
+	public void ShowData(Dockyard dockyard, bool guestMode)
 	{
 		for (int i = 0; i < dockyard.WaterTransportationRoutes.Length; i++)
 		{

@@ -20,6 +20,7 @@ public partial class GUIFactory : Control
 	private Factory _currentlyShownFactory;
 	private TextureRect _outputGood;
 	private GridContainer _recipeIngredientBoxSpawner;
+	private Button _changeButton;
 	private Button _deleteButton;
 	private Button _transportButton;
 	public void Init()
@@ -48,6 +49,8 @@ public partial class GUIFactory : Control
 		_recipeIngredientBoxSpawner =
 			GetNode<GridContainer>(
 				"PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/IngredientsContainer/GridContainer");
+		_changeButton =
+			GetNode<Button>("PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Button");
 		_deleteButton =
 			GetNode<Button>("PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Button2");
 		_transportButton =
@@ -55,9 +58,10 @@ public partial class GUIFactory : Control
 
 	}
 	
-	public void ShowData(Factory factory)
+	public void ShowData(Factory factory, bool guestMode = false)
 	{
 		_currentlyShownFactory = factory;
+		_changeButton.Visible = !guestMode;
 		foreach (var item in _recipeIngredientBoxSpawner.GetChildren())
 		{
 			item.QueueFree();
@@ -71,8 +75,8 @@ public partial class GUIFactory : Control
 			return;
 		}
 
-		_deleteButton.Visible = true;
-		_transportButton.Visible = true;
+		_deleteButton.Visible = !guestMode;
+		_transportButton.Visible = !guestMode;
 		_outputGood.GetChild<AnimatedTextureRect>(0).SetFrame(factory.Recipe.Output.Id);
 		
 		foreach (var ingredient in factory.Recipe.Ingredients)

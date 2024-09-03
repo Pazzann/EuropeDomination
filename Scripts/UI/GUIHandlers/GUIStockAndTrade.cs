@@ -25,7 +25,7 @@ public partial class GUIStockAndTrade : Control
 		}
 	}
 
-	public void ShowData(StockAndTrade stockAndTrade)
+	public void ShowData(StockAndTrade stockAndTrade, bool guestMode)
 	{
 		for (int i = 0; i < stockAndTrade.TransportationRoutes.Length; i++)
 		{

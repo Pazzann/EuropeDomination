@@ -52,6 +52,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private Control _notUnlockedHandler;
 
 	private TextureRect _dockyardButton;
+	private VBoxContainer _specialBuildingButtons;
 	
 
 	private int _currentTab;
@@ -113,6 +114,9 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_dockyardButton =
 			GetNode<TextureRect>(
 				"HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Dockyard");
+		_specialBuildingButtons =
+			GetNode<VBoxContainer>(
+				"HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer");
 
 		_specialBuildingsTabBar = GetNode<TabBar>("HBoxContainer4/ProvinceWindowSprite/TabBar");
 
@@ -308,24 +312,25 @@ public partial class GUILandProvinceWindow : GUIHandler
 		{
 			case Factory factory:
 				_factoryHandler.Visible = true;
-				_factoryHandler.ShowData(factory);
+				_factoryHandler.ShowData(factory, _guestMode);
 				return;
 			case Dockyard dockyard:
 				_dockyardHandler.Visible = true;
-				_dockyardHandler.ShowData(dockyard);
+				_dockyardHandler.ShowData(dockyard, _guestMode);
 				return;
 			case MilitaryTrainingCamp:
 				_militaryTrainingHandler.Visible = true;
 				return;
 			case StockAndTrade stockAndTrade:
 				_tradeAndStockHandler.Visible = true;
-				_tradeAndStockHandler.ShowData(stockAndTrade);
+				_tradeAndStockHandler.ShowData(stockAndTrade, _guestMode);
 				return;
 			default:
 				if (_currentProvinceData.Development >= Settings.DevForSpecialBuilding[tabId])
 				{
 					_emptyHandler.Visible = true;
 					_dockyardButton.Visible = _currentProvinceData.BorderderingProvinces.Any(d => EngineState.MapInfo.Scenario.Map[d] is SeaProvinceData);
+					_specialBuildingButtons.Visible = !_guestMode;
 				}
 				else
 				{
@@ -379,6 +384,9 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private void _onGoodTransportManagementPressed()
 	{
+		if(_guestMode)
+			return;
+		
 		_waterMode = false;
 		
 		_routeAdressToTransfer = _currentProvinceData.SetRoute;
@@ -389,6 +397,9 @@ public partial class GUILandProvinceWindow : GUIHandler
 	}
 	private void _onGuiFactoryTrasportationRouteMenuPressed()
 	{
+		if(_guestMode)
+			return;
+		
 		_waterMode = false;
 		
 		var building = (_currentProvinceData.SpecialBuildings[_currentTab] as Factory);
@@ -402,6 +413,9 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private void _onGuiStockAndTradeTrasportationRouteMenuPressed(int id)
 	{
+		if(_guestMode)
+			return;
+		
 		_waterMode = false;
 		
 		var building = (_currentProvinceData.SpecialBuildings[_currentTab] as StockAndTrade);
@@ -416,6 +430,9 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private void _onGuiDockyardTrasportationRouteMenuPressed(int id)
 	{
+		if(_guestMode)
+			return;
+		
 		_waterMode = true;
 		
 		var building = (_currentProvinceData.SpecialBuildings[_currentTab] as Dockyard);
