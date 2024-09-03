@@ -61,6 +61,9 @@ public partial class GUIResources : VBoxContainer
 				if (building is StockAndTrade stockAndTrade)
 					foreach (var route in stockAndTrade.TransportationRoutes.Where(a => a!=null && a.ProvinceIdTo == data.Id))
 							AllResourcesChange[route.TransportationGood.Id] += route.Amount;
+				if (building is Dockyard dockyard)
+					foreach (var route in dockyard.WaterTransportationRoutes.Where(a => a!=null && a.ProvinceIdTo == data.Id))
+						AllResourcesChange[route.TransportationGood.Id] += route.Amount;
 			}
 		}
 		
