@@ -7,6 +7,7 @@ using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
+using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings.FactoryRecipies;
@@ -33,9 +34,9 @@ public class EuropeScenario : Scenario
     {
         Goods = new List<Good>()
         {
-            new HarvestedGood(0, "Iron", new Vector3(0.5f, 0.3f, 0.0f), Modifiers.DefaultModifiers()),
-            new HarvestedGood(1, "Wheat", new Vector3(0.7f, 0.8f, 0.0f), Modifiers.DefaultModifiers()),
-            new HarvestedGood(2, "Wood", new Vector3(0.0f, 0.7f, 0.4f), Modifiers.DefaultModifiers()),
+            new HarvestedGood(0, "Iron", new Vector3(0.5f, 0.3f, 0.0f)),
+            new HarvestedGood(1, "Wheat", new Vector3(0.7f, 0.8f, 0.0f)),
+            new HarvestedGood(2, "Wood", new Vector3(0.0f, 0.7f, 0.4f)),
             new Weapon(3, "Iron Sword", new Vector3(1.0f, 0.2f, 0.3f))
         };
         

@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-namespace EuropeDominationDemo.Scripts.Scenarios.Goods;
+namespace EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon;
 
 public class Weapon : Good
 {

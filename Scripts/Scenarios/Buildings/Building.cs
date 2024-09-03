@@ -1,5 +1,7 @@
 ﻿namespace EuropeDominationDemo.Scripts.Scenarios.Buildings;
 
+
+//TODO:REWRITE
 public abstract class Building
 {
     public abstract string Name { get; }
