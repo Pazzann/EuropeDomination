@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://b13nbyefub8pe"]
 
-[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUIMilitaryTrainingCamp.cs" id="1_2hbu1"]
+[ext_resource type="Script" path="res://Scripts/UI/GUIPrefabs/GUIMilitaryTrainingCamp.cs" id="1_2hbu1"]
 [ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_8kwy4"]
-[ext_resource type="PackedScene" uid="uid://ch6n7ol2i51a6" path="res://Prefabs/GUIMilitaryNeeds.tscn" id="2_ahyx4"]
+[ext_resource type="PackedScene" uid="uid://ch6n7ol2i51a6" path="res://Prefabs/GUI/Modules/GUIMilitaryNeeds.tscn" id="2_ahyx4"]
 [ext_resource type="Texture2D" uid="uid://c5dahtyolxofn" path="res://icon.svg" id="3_rh2wr"]
 
 [node name="GuiMilitaryTrainingCamp" type="Control"]

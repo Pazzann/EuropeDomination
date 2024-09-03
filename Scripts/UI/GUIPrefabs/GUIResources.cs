@@ -16,7 +16,7 @@ public partial class GUIResources : VBoxContainer
 	public void Init()
 	{
 		var resourceCount = EngineState.MapInfo.Scenario.Goods.Count;
-		GUIResource = GD.Load<PackedScene>("res://Prefabs/GUI/GUIResource.tscn");
+		GUIResource = GD.Load<PackedScene>("res://Prefabs/GUI/Modules/GUIResource.tscn");
 		(GetParent() as ScrollContainer).CustomMinimumSize = new Vector2(450.0f, 40.0f * resourceCount);
 		CustomMinimumSize = new Vector2(450.0f, 40.0f * resourceCount);
 		

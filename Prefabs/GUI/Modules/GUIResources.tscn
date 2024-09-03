@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://uway7gdlqq10"]
 
-[ext_resource type="Script" path="res://Scripts/UI/GUIResources.cs" id="2_ax5jd"]
+[ext_resource type="Script" path="res://Scripts/UI/GUIPrefabs/GUIResources.cs" id="2_ax5jd"]
 
 [node name="Control" type="VBoxContainer"]
 custom_minimum_size = Vector2(450, 80)

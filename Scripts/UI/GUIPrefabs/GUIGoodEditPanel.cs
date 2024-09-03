@@ -15,7 +15,7 @@ public partial class GUIGoodEditPanel : PanelContainer
 	public void Init()
 	{
 		_goodContainer = GetNode<GridContainer>("MarginContainer/ScrollContainer/GridContainer");
-		_goodBox = GD.Load<PackedScene>("res://Prefabs/GUIGoodSelector.tscn");
+		_goodBox = GD.Load<PackedScene>("res://Prefabs/GUI/Modules/GUIGoodSelector.tscn");
 		
 		for (int i = 0; i < EngineState.MapInfo.Scenario.Goods.Count; i++)
 		{

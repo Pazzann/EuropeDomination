@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://djn3kgt3aw2ut"]
 
-[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUIFactory.cs" id="1_o10pm"]
+[ext_resource type="Script" path="res://Scripts/UI/GUIPrefabs/GUIFactory.cs" id="1_o10pm"]
 [ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_stxd0"]
-[ext_resource type="PackedScene" uid="uid://csnvq4hwnhy3q" path="res://Prefabs/GUIGood.tscn" id="3_d6t26"]
+[ext_resource type="PackedScene" uid="uid://csnvq4hwnhy3q" path="res://Prefabs/GUI/Modules/GUIGood.tscn" id="3_d6t26"]
 [ext_resource type="Texture2D" uid="uid://cjeqbeq2oyx8h" path="res://Sprites/closeButton.png" id="5_8wvsq"]
 
 [node name="GuiFactory" type="Control"]

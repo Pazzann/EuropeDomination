@@ -10,6 +10,7 @@
     <EmbeddedResource Remove="Scripts\GUI\**" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Scripts\UI\GUIPrefabs\" />
     <Folder Include="Scripts\Units\" />
   </ItemGroup>
   <ItemGroup>

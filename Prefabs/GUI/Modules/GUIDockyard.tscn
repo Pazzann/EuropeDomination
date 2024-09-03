@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://ckkfw2dge7x22"]
 
 [ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_is0js"]
-[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUIDockyard.cs" id="1_rvy61"]
-[ext_resource type="PackedScene" uid="uid://cto5ha77c55mp" path="res://Prefabs/GUITransport.tscn" id="2_5tg7w"]
+[ext_resource type="Script" path="res://Scripts/UI/GUIPrefabs/GUIDockyard.cs" id="1_rvy61"]
+[ext_resource type="PackedScene" uid="uid://cto5ha77c55mp" path="res://Prefabs/GUI/Modules/GUITransport.tscn" id="2_5tg7w"]
 [ext_resource type="Texture2D" uid="uid://c5dahtyolxofn" path="res://icon.svg" id="2_8usbn"]
-[ext_resource type="PackedScene" uid="uid://ch6n7ol2i51a6" path="res://Prefabs/GUIMilitaryNeeds.tscn" id="4_sflcx"]
+[ext_resource type="PackedScene" uid="uid://ch6n7ol2i51a6" path="res://Prefabs/GUI/Modules/GUIMilitaryNeeds.tscn" id="4_sflcx"]
 
 [node name="GuiDockyard" type="Control"]
 layout_mode = 3

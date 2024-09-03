@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://dwo5dxs6getfu"]
 
-[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUIStockAndTrade.cs" id="1_hlxg7"]
+[ext_resource type="Script" path="res://Scripts/UI/GUIPrefabs/GUIStockAndTrade.cs" id="1_hlxg7"]
 [ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_u26rv"]
-[ext_resource type="PackedScene" uid="uid://cto5ha77c55mp" path="res://Prefabs/GUITransport.tscn" id="4_2ew6v"]
-[ext_resource type="PackedScene" uid="uid://ogjjng6fj1dk" path="res://Prefabs/GUITrading.tscn" id="4_56m0a"]
+[ext_resource type="PackedScene" uid="uid://cto5ha77c55mp" path="res://Prefabs/GUI/Modules/GUITransport.tscn" id="4_2ew6v"]
+[ext_resource type="PackedScene" uid="uid://ogjjng6fj1dk" path="res://Prefabs/GUI/Modules/GUITrading.tscn" id="4_56m0a"]
 
 [node name="GuiStockAndTrade" type="Control"]
 layout_mode = 3

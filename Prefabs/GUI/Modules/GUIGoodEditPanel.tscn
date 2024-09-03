@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://oxh0ek8o2k2u"]
 
 [ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_w377n"]
-[ext_resource type="Script" path="res://Scripts/UI/GUIGoodEditPanel.cs" id="2_tpte5"]
+[ext_resource type="Script" path="res://Scripts/UI/GUIPrefabs/GUIGoodEditPanel.cs" id="2_tpte5"]
 
 [node name="GoodEditPanel" type="PanelContainer"]
 offset_right = 240.0

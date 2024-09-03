@@ -28,7 +28,7 @@ public partial class GUIFactory : Control
 		_recipePanel = GetNode<PanelContainer>("PanelContainer2");
 		_recipeSpawner =
 			GetNode<VBoxContainer>("PanelContainer2/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer");
-		_recipeScene = GD.Load<PackedScene>("res://Prefabs/GUIRecipe.tscn");
+		_recipeScene = GD.Load<PackedScene>("res://Prefabs/GUI/Modules/GUIRecipe.tscn");
 		
 		
 
@@ -43,7 +43,7 @@ public partial class GUIFactory : Control
 			i++;
 		}
 		
-		_recipeIngredientBox = GD.Load<PackedScene>("res://Prefabs/GUIGoodFactoryInfo.tscn");
+		_recipeIngredientBox = GD.Load<PackedScene>("res://Prefabs/GUI/Modules/GUIGoodFactoryInfo.tscn");
 		_outputGood = GetNode<TextureRect>(
 			"PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/OutputGood");
 		_recipeIngredientBoxSpawner =

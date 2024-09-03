@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://bwijb6pj1ycyx"]
 
-[ext_resource type="PackedScene" uid="uid://csnvq4hwnhy3q" path="res://Prefabs/GUIGood.tscn" id="1_guklc"]
+[ext_resource type="PackedScene" uid="uid://csnvq4hwnhy3q" path="res://Prefabs/GUI/Modules/GUIGood.tscn" id="1_guklc"]
 [ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_v6ysa"]
-[ext_resource type="Script" path="res://Scripts/UI/GUIRecipeIngredientInfo.cs" id="2_76yqd"]
+[ext_resource type="Script" path="res://Scripts/UI/GUIPrefabs/GUIRecipeIngredientInfo.cs" id="2_76yqd"]
 
 [node name="GuiRecipeInfo" type="PanelContainer"]
 offset_right = 222.0
