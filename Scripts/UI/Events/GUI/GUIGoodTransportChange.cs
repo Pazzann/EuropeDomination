@@ -1,5 +1,6 @@
 ﻿using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Scenarios;
+using EuropeDominationDemo.Scripts.Scenarios.Goods;
 
 namespace EuropeDominationDemo.Scripts.UI.Events.GUI;
 

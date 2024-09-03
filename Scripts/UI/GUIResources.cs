@@ -15,14 +15,12 @@ public partial class GUIResources : VBoxContainer
 
 	public void Init()
 	{
-		//TODO: change
-		var defaultProvince = EngineState.MapInfo.Scenario.Map[0] as LandProvinceData;
-
+		var resourceCount = EngineState.MapInfo.Scenario.Goods.Count;
 		GUIResource = GD.Load<PackedScene>("res://Prefabs/GUI/GUIResource.tscn");
-		(GetParent() as ScrollContainer).CustomMinimumSize = new Vector2(450.0f, 40.0f * defaultProvince.Resources.Length);
-		CustomMinimumSize = new Vector2(450.0f, 40.0f * defaultProvince.Resources.Length);
+		(GetParent() as ScrollContainer).CustomMinimumSize = new Vector2(450.0f, 40.0f * resourceCount);
+		CustomMinimumSize = new Vector2(450.0f, 40.0f * resourceCount);
 		
-		for (int i = 0; i < defaultProvince.Resources.Length; i++)
+		for (int i = 0; i < resourceCount; i++)
 		{
 			var a = GUIResource.Instantiate();
 			(a.GetChild(0).GetChild(0).GetChild(0) as AnimatedTextureRect).SetFrame(i);
@@ -41,7 +39,7 @@ public partial class GUIResources : VBoxContainer
 
 	public void DrawResources(LandProvinceData data)
 	{
-		var AllResourcesChange = new double[data.Resources.Length];
+		var AllResourcesChange = new double[EngineState.MapInfo.Scenario.Goods.Count];
 
 		for (int i = 0; i < data.Resources.Length; i++)
 		{
@@ -50,19 +48,19 @@ public partial class GUIResources : VBoxContainer
 
 		_clearInfo(data.Resources);
 
-		foreach (LandProvinceData provinceData in EngineState.MapInfo.Scenario.Map.Where(dat => dat is LandProvinceData ))
+		foreach (LandProvinceData provinceData in EngineState.MapInfo.MapProvinces(ProvinceTypes.ColonizedProvinces))
 		{
 			if (provinceData.HarvestedTransport != null && provinceData.HarvestedTransport.ProvinceIdTo == data.Id)
-				AllResourcesChange[(int)provinceData.HarvestedTransport.TransportationGood] +=
+				AllResourcesChange[provinceData.HarvestedTransport.TransportationGood.Id] +=
 					provinceData.HarvestedTransport.Amount;
 			foreach (var building in provinceData.SpecialBuildings)
 			{
 				if (building is Factory factory && factory.TransportationRoute != null && factory.TransportationRoute.ProvinceIdTo == data.Id)
-					AllResourcesChange[(int)factory.TransportationRoute.TransportationGood] +=
+					AllResourcesChange[factory.TransportationRoute.TransportationGood.Id] +=
 						factory.TransportationRoute.Amount;
 				if (building is StockAndTrade stockAndTrade)
 					foreach (var route in stockAndTrade.TransportationRoutes.Where(a => a!=null && a.ProvinceIdTo == data.Id))
-							AllResourcesChange[(int)route.TransportationGood] += route.Amount;
+							AllResourcesChange[route.TransportationGood.Id] += route.Amount;
 			}
 		}
 		
@@ -73,13 +71,13 @@ public partial class GUIResources : VBoxContainer
 			{
 				foreach (var ingredient in factory.Recipe.Ingredients)
 				{
-					AllResourcesChange[(int)ingredient.Key] -= ingredient.Value * factory.ProductionRate;
+					AllResourcesChange[ingredient.Key.Id] -= ingredient.Value * factory.ProductionRate;
 				}
 
-				AllResourcesChange[(int)factory.Recipe.Output] += factory.ProductionRate;
+				AllResourcesChange[factory.Recipe.Output.Id] += factory.ProductionRate;
 				if (factory.TransportationRoute != null)
 				{
-					AllResourcesChange[(int)factory.Recipe.Output] -= factory.TransportationRoute.Amount;
+					AllResourcesChange[factory.Recipe.Output.Id] -= factory.TransportationRoute.Amount;
 				}
 			}
 
@@ -89,7 +87,7 @@ public partial class GUIResources : VBoxContainer
 				{
 					if (route != null)
 					{
-						AllResourcesChange[(int)route.TransportationGood] -= route.Amount;
+						AllResourcesChange[route.TransportationGood.Id] -= route.Amount;
 					}
 				}
 			}
@@ -99,16 +97,16 @@ public partial class GUIResources : VBoxContainer
 				{
 					if (route != null)
 					{
-						AllResourcesChange[(int)route.TransportationGood] -= route.Amount;
+						AllResourcesChange[route.TransportationGood.Id] -= route.Amount;
 					}
 				}
 			}
 		}
 		
 
-		AllResourcesChange[(int)data.Good] += data.ProductionRate;
+		AllResourcesChange[data.Good.Id] += data.ProductionRate;
 		if (data.HarvestedTransport != null)
-			AllResourcesChange[(int)data.HarvestedTransport.TransportationGood] -= data.HarvestedTransport.Amount;
+			AllResourcesChange[data.HarvestedTransport.TransportationGood.Id] -= data.HarvestedTransport.Amount;
 
 		for (int i = 0; i < data.Resources.Length; i++)
 		{

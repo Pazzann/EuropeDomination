@@ -15,10 +15,10 @@ animations = [{
 "texture": ExtResource("2_p77rr")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_437vr")
+"texture": ExtResource("4_ohjt5")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_ohjt5")
+"texture": ExtResource("3_437vr")
 }],
 "loop": true,
 "name": &"goods",

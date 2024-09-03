@@ -3,6 +3,7 @@ using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
+using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.UI.Events.GUI;
@@ -169,7 +170,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		
 		_provinceName.Text = provinceData.Name;
 		_provinceFlag.Frame = provinceData.Owner;
-		_provinceGood.Frame = (int)provinceData.Good;
+		_provinceGood.Frame = provinceData.Good.Id;
 		_provinceTerrain.Frame = (int)provinceData.Terrain;
 		_provinceResources.DrawResources(provinceData);
 		_provinceDev.Text = provinceData.Development.ToString();
@@ -407,7 +408,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		building.RouteId = id;
 		_routeAdressToTransfer = building.SetRoute;
 		_transportationRouteToEdit = building.TransportationRoutes[id];
-		_goodToTransfer = Good.Iron;
+		_goodToTransfer = EngineState.MapInfo.Scenario.Goods[0];
 		_isGoodEditable = true;
 		_showTransportationMenu();
 
@@ -421,7 +422,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		building.RouteId = id;
 		_routeAdressToTransfer = building.SetRoute;
 		_transportationRouteToEdit = building.WaterTransportationRoutes[id];
-		_goodToTransfer = Good.Iron;
+		_goodToTransfer = EngineState.MapInfo.Scenario.Goods[0];
 		_isGoodEditable = true;
 		_showTransportationMenu();
 	}
@@ -435,7 +436,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 			_transportSlider.Visible = true;
 			_transportSliderLabel.Visible = true;
 			_goodEditBox.Visible = true;
-			_goodEditBox.GetChild<AnimatedTextureRect>(0).SetFrame((int)_transportationRouteToEdit.TransportationGood);
+			_goodEditBox.GetChild<AnimatedTextureRect>(0).SetFrame(_transportationRouteToEdit.TransportationGood.Id);
 			_transportButton.Text = "Change";
 			_transportLabel.Text = "Transfering to:" + EngineState.MapInfo.Scenario.Map[_transportationRouteToEdit.ProvinceIdTo].Name;
 			_transportSlider.Value = _transportationRouteToEdit.Amount;
@@ -469,7 +470,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 	{
 		_goodEditBoxPanel.Visible = false;
 		_goodEditBox.GetChild<AnimatedTextureRect>(0).SetFrame(goodId);
-		_transportationRouteToEdit.TransportationGood = (Good)goodId;
+		_transportationRouteToEdit.TransportationGood = EngineState.MapInfo.Scenario.Goods[goodId];
 	}
 
 	

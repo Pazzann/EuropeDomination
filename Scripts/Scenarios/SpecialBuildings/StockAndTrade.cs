@@ -8,7 +8,7 @@ public class StockAndTrade : SpecialBuilding
     public TransportationRoute[] TransportationRoutes;
 
     public StockAndTrade(int buildingTime, bool isFinished, int cost, TransportationRoute[] transportationRoutes) :
-        base(SpecialBuildingTypes.StockAndTrade, 100, buildingTime, isFinished, cost)
+        base( 100, buildingTime, isFinished, cost)
     {
         TransportationRoutes = transportationRoutes;
     }

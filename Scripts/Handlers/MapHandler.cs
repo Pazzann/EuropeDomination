@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios;
+using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.Text;
@@ -320,10 +321,10 @@ public partial class MapHandler : GameHandler
 
 	private void _addGoods()
 	{
-		foreach (var data in EngineState.MapInfo.Scenario.Map.Where(data => data is LandProvinceData))
+		foreach (var data in EngineState.MapInfo.MapProvinces(ProvinceTypes.ColonizedProvinces))
 		{
 			AnimatedSprite2D obj = _goodsScene.Instantiate() as AnimatedSprite2D;
-			obj.Frame = (int)((LandProvinceData)data).Good;
+			obj.Frame = ((LandProvinceData)data).Good.Id;
 			obj.Position = ((LandProvinceData)data).CenterOfWeight;
 			_goodsSpawner.AddChild(obj);
 		}
@@ -331,7 +332,7 @@ public partial class MapHandler : GameHandler
 
 	private void _addDev()
 	{
-		foreach (var data in EngineState.MapInfo.Scenario.Map.Where(data => data is LandProvinceData))
+		foreach (var data in EngineState.MapInfo.MapProvinces(ProvinceTypes.ColonizedProvinces))
 		{
 			AnimatedSprite2D obj = _devScene.Instantiate() as AnimatedSprite2D;
 			obj.Frame = ((LandProvinceData)data).Development - 1;
@@ -368,7 +369,7 @@ public partial class MapHandler : GameHandler
 		}
 		
 		HashSet<Tuple<int, int>> drawnArrows = new HashSet<Tuple<int, int>>();
-		foreach (LandProvinceData data in EngineState.MapInfo.Scenario.Map.Where(data => data is LandProvinceData))
+		foreach (LandProvinceData data in EngineState.MapInfo.MapProvinces(ProvinceTypes.ColonizedProvinces))
 		{
 			if (data.HarvestedTransport != null)
 			{
@@ -431,7 +432,7 @@ public partial class MapHandler : GameHandler
 
 	public override void DayTick()
 	{
-		foreach (var data in EngineState.MapInfo.Scenario.Map.Where(data => data is LandProvinceData))
+		foreach (var data in EngineState.MapInfo.MapProvinces(ProvinceTypes.ColonizedProvinces))
 		{
 			foreach (var building in ((LandProvinceData)data).Buildings.Where(building => !building.IsFinished))
 			{
@@ -453,31 +454,31 @@ public partial class MapHandler : GameHandler
 	public override void MonthTick()
 	{
 		//goodgenerationandtransportation
-		foreach (LandProvinceData data in EngineState.MapInfo.Scenario.Map.Where(data => data is LandProvinceData))
+		foreach (LandProvinceData data in EngineState.MapInfo.MapProvinces(ProvinceTypes.ColonizedProvinces))
 		{
-			data.Resources[(int)data.Good] += data.ProductionRate;
+			data.Resources[data.Good.Id] += data.ProductionRate;
 			if (data.HarvestedTransport != null)
 			{
-				var diff = data.Resources[(int)data.Good] - Mathf.Max(data.Resources[(int)data.Good] - data.HarvestedTransport.Amount, 0);
-				data.Resources[(int)data.Good] -= diff;
-				(EngineState.MapInfo.Scenario.Map[data.HarvestedTransport.ProvinceIdTo] as LandProvinceData).Resources[(int)data.HarvestedTransport.TransportationGood] += diff;
+				var diff = data.Resources[data.Good.Id] - Mathf.Max(data.Resources[data.Good.Id] - data.HarvestedTransport.Amount, 0);
+				data.Resources[data.Good.Id] -= diff;
+				(EngineState.MapInfo.Scenario.Map[data.HarvestedTransport.ProvinceIdTo] as LandProvinceData).Resources[data.HarvestedTransport.TransportationGood.Id] += diff;
 			}
 		}
 		//factorystage
-		foreach (LandProvinceData data in EngineState.MapInfo.Scenario.Map.Where(data => data is LandProvinceData))
+		foreach (LandProvinceData data in EngineState.MapInfo.MapProvinces(ProvinceTypes.ColonizedProvinces))
 		{
 			foreach (SpecialBuilding building in data.SpecialBuildings.Where(b=> b!=null))
 			{
 				if (building is Factory factory && factory.Recipe != null)
 				{
-					if (factory.Recipe.Ingredients.Where(ingredient=> data.Resources[(int)ingredient.Key] - ingredient.Value * factory.ProductionRate < 0).ToArray().Length <= 0)
+					if (factory.Recipe.Ingredients.Where(ingredient=> data.Resources[ingredient.Key.Id] - ingredient.Value * factory.ProductionRate < 0).ToArray().Length <= 0)
 					{
 						foreach (var ingredient in factory.Recipe.Ingredients)
 						{
-							data.Resources[(int)ingredient.Key] -= ingredient.Value * factory.ProductionRate;
+							data.Resources[ingredient.Key.Id] -= ingredient.Value * factory.ProductionRate;
 						}
 
-						data.Resources[(int)factory.Recipe.Output] += factory.ProductionRate;
+						data.Resources[factory.Recipe.Output.Id] += factory.ProductionRate;
 						factory.ProductionRate = Mathf.Min(factory.ProductionRate + factory.ProductionGrowthRate, factory.MaxProductionRate);
 					}
 					else
@@ -486,9 +487,9 @@ public partial class MapHandler : GameHandler
 					}
 					if (factory.TransportationRoute != null)
 					{
-						var diff = data.Resources[(int)factory.Recipe.Output] - Mathf.Max(data.Resources[(int)factory.Recipe.Output] - factory.TransportationRoute.Amount, 0);
-						data.Resources[(int)factory.Recipe.Output] -= diff;
-						(EngineState.MapInfo.Scenario.Map[factory.TransportationRoute.ProvinceIdTo] as LandProvinceData).Resources[(int)factory.Recipe.Output] += diff;
+						var diff = data.Resources[factory.Recipe.Output.Id] - Mathf.Max(data.Resources[factory.Recipe.Output.Id] - factory.TransportationRoute.Amount, 0);
+						data.Resources[factory.Recipe.Output.Id] -= diff;
+						(EngineState.MapInfo.Scenario.Map[factory.TransportationRoute.ProvinceIdTo] as LandProvinceData).Resources[factory.Recipe.Output.Id] += diff;
 					}
 				}
 
@@ -498,9 +499,9 @@ public partial class MapHandler : GameHandler
 					{
 						if (route != null)
 						{
-							var diff = data.Resources[(int)route.TransportationGood] - Mathf.Max(data.Resources[(int)route.TransportationGood] - route.Amount, 0);
-							data.Resources[(int)route.TransportationGood] -= diff;
-							(EngineState.MapInfo.Scenario.Map[route.ProvinceIdTo] as LandProvinceData).Resources[(int)route.TransportationGood] += diff;
+							var diff = data.Resources[route.TransportationGood.Id] - Mathf.Max(data.Resources[route.TransportationGood.Id] - route.Amount, 0);
+							data.Resources[route.TransportationGood.Id] -= diff;
+							(EngineState.MapInfo.Scenario.Map[route.ProvinceIdTo] as LandProvinceData).Resources[route.TransportationGood.Id] += diff;
 						}
 					}
 				}
@@ -510,9 +511,9 @@ public partial class MapHandler : GameHandler
 					{
 						if (route != null)
 						{
-							var diff = data.Resources[(int)route.TransportationGood] - Mathf.Max(data.Resources[(int)route.TransportationGood] - route.Amount, 0);
-							data.Resources[(int)route.TransportationGood] -= diff;
-							(EngineState.MapInfo.Scenario.Map[route.ProvinceIdTo] as LandProvinceData).Resources[(int)route.TransportationGood] += diff;
+							var diff = data.Resources[route.TransportationGood.Id] - Mathf.Max(data.Resources[route.TransportationGood.Id] - route.Amount, 0);
+							data.Resources[route.TransportationGood.Id] -= diff;
+							(EngineState.MapInfo.Scenario.Map[route.ProvinceIdTo] as LandProvinceData).Resources[route.TransportationGood.Id] += diff;
 						}
 					}
 				}

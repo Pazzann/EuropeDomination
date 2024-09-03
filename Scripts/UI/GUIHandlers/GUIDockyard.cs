@@ -37,7 +37,7 @@ public partial class GUIDockyard : Control
 				var route = dockyard.WaterTransportationRoutes[i];
 				child.GetChild<Label>(0).Visible = true;
 				child.GetChild<Label>(0).Text = "-" + route.Amount.ToString("N1") + "t/m";
-				child.GetChild(1).GetChild<AnimatedTextureRect>(0).SetFrame((int)route.TransportationGood);
+				child.GetChild(1).GetChild<AnimatedTextureRect>(0).SetFrame(route.TransportationGood.Id);
 				child.GetChild<Label>(2).Text = EngineState.MapInfo.Scenario.Map[route.ProvinceIdTo].Name;
 			}
 			else

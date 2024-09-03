@@ -7,7 +7,7 @@ public partial class GUIRecipe : PanelContainer
 {
 	public void SetInfo(Recipe recipe)
 	{
-		GetNode("MarginContainer/HBoxContainer/GuiGood").GetChild<AnimatedTextureRect>(0).SetFrame((int)recipe.Output);
+		GetNode("MarginContainer/HBoxContainer/GuiGood").GetChild<AnimatedTextureRect>(0).SetFrame(recipe.Output.Id);
 		var guiIngredientInfo = GD.Load<PackedScene>("res://Prefabs/GUIRecipeIngredientInfo.tscn");
 		var spawner = GetNode<VBoxContainer>("MarginContainer/HBoxContainer/ScrollContainer/VBoxContainer");
 		foreach (var ingredient in recipe.Ingredients)

@@ -6,7 +6,7 @@ public class Dockyard : SpecialBuilding
 {
     public int RouteId = 0;
     public WaterTransportationRoute[] WaterTransportationRoutes;
-    public Dockyard( int buildingTime, bool isFinished, int cost, WaterTransportationRoute[] waterTransportationRoutes) : base(SpecialBuildingTypes.DockYard, 100, buildingTime, isFinished, cost)
+    public Dockyard( int buildingTime, bool isFinished, int cost, WaterTransportationRoute[] waterTransportationRoutes) : base(100, buildingTime, isFinished, cost)
     {
         WaterTransportationRoutes = waterTransportationRoutes;
     }

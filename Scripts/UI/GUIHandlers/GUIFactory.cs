@@ -73,12 +73,12 @@ public partial class GUIFactory : Control
 
 		_deleteButton.Visible = true;
 		_transportButton.Visible = true;
-		_outputGood.GetChild<AnimatedTextureRect>(0).SetFrame((int)factory.Recipe.Output);
+		_outputGood.GetChild<AnimatedTextureRect>(0).SetFrame(factory.Recipe.Output.Id);
 		
 		foreach (var ingredient in factory.Recipe.Ingredients)
 		{
 			var a = _recipeIngredientBox.Instantiate();
-			a.GetChild(0).GetChild<AnimatedTextureRect>(0).SetFrame((int)ingredient.Key);
+			a.GetChild(0).GetChild<AnimatedTextureRect>(0).SetFrame(ingredient.Key.Id);
 			a.GetChild<Label>(1).Text = ingredient.Value.ToString("N1");
 			_recipeIngredientBoxSpawner.AddChild(a);
 		}

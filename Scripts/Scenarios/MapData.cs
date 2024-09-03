@@ -48,6 +48,10 @@ public class MapData
                 return Scenario.Map.Where(d => d is SeaProvinceData).ToArray();
             case ProvinceTypes.LandProvinces:
                 return Scenario.Map.Where(d => d is LandProvinceData or UncolonizedProvinceData).ToArray();
+            case ProvinceTypes.ColonizedProvinces:
+                return Scenario.Map.Where(d => d is LandProvinceData).ToArray();
+            case ProvinceTypes.UncolonizedProvinces:
+                return Scenario.Map.Where(d => d is UncolonizedProvinceData).ToArray();
             case ProvinceTypes.CoastalProvincesAndSeaProvinces:
                 return Scenario.Map.Where(d =>
                     (d is LandProvinceData && d.BorderderingProvinces.Where(i => Scenario.Map[i] is SeaProvinceData)
@@ -88,7 +92,7 @@ public class MapData
                     for (int i = 0; i < Scenario.Map.Length; i++)
                     {
                         if (Scenario.Map[i] is LandProvinceData landData)
-                            colors[i] = GoodsColors.Colors[(int)landData.Good];
+                            colors[i] = landData.Good.Color;
                         else
                             colors[i] = new Vector3(0.1f, 0.1f, 0.1f);
                     }

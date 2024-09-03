@@ -4,6 +4,7 @@ using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios.Army;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
+using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings.FactoryRecipies;
@@ -22,11 +23,23 @@ public class EuropeScenario : Scenario
     public override Vector3 WaterColor { get; set; }
     public override Vector3 UncolonizedColor { get; set; }
 
+    public override List<Good> Goods { get;}
+
     public override List<Recipe> Recipes { get; set; }
 
 
     public EuropeScenario(Image mapTexture)
     {
+        Goods = new List<Good>()
+        {
+            new HarvestedGood(0, "Iron", new Vector3(0.5f, 0.3f, 0.0f), Modifiers.DefaultModifiers()),
+            new HarvestedGood(1, "Wheat", new Vector3(0.7f, 0.8f, 0.0f), Modifiers.DefaultModifiers()),
+            new HarvestedGood(2, "Wood", new Vector3(0.0f, 0.7f, 0.4f), Modifiers.DefaultModifiers()),
+            new Weapon(3, "Iron Sword", new Vector3(1.0f, 0.2f, 0.3f))
+        };
+        
+        
+        
         MapTexture = mapTexture;
 
         Date = new DateTime(1444, 11, 12);
@@ -55,64 +68,66 @@ public class EuropeScenario : Scenario
         Recipes = new List<Recipe>()
         {
             new Recipe(new Dictionary<Good, double>(){
-                { Good.Iron, 1 },
-                { Good.Wood , 0.5 }
-            }, Good.IronSword)
+                { Goods[0], 1 },
+                { Goods[2] , 0.5 }
+            }, Goods[3])
         };
+        
+        
 
         Map = new ProvinceData.ProvinceData[421]
         {
-            new LandProvinceData(0, 0, "London", Terrain.Coast, Good.Iron, 10, GoodsColors.DefaultGoods(),
+            new LandProvinceData(0, 0, "London", Terrain.Coast, Goods[0], 10, Good.DefaultGoods(),
                 new List<Building>(),
                 Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(1, 0, "London", Terrain.Field, Good.Wood, 20, GoodsColors.DefaultGoods(),
+            new LandProvinceData(1, 0, "London", Terrain.Field, Goods[2], 20, Good.DefaultGoods(),
                 new List<Building>(),
                 Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(2, 0, "London", Terrain.Field, Good.Wood, 30, GoodsColors.DefaultGoods(),
+            new LandProvinceData(2, 0, "London", Terrain.Field, Goods[2], 30, Good.DefaultGoods(),
                 new List<Building>(),
                 Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(3, 0, "London", Terrain.Forest, Good.Iron, 30, GoodsColors.DefaultGoods(),
+            new LandProvinceData(3, 0, "London", Terrain.Forest, Goods[0], 30, Good.DefaultGoods(),
                 new List<Building>(),
                 Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(4, 0, "London", Terrain.Plain, Good.Iron, 30, GoodsColors.DefaultGoods(),
+            new LandProvinceData(4, 0, "London", Terrain.Plain, Goods[0], 30, Good.DefaultGoods(),
                 new List<Building>(),
                 Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(5, 0, "Paris", Terrain.Plain, Good.Iron, 30, GoodsColors.DefaultGoods(), new List<Building>(),
+            new LandProvinceData(5, 0, "Paris", Terrain.Plain, Goods[0], 30, Good.DefaultGoods(), new List<Building>(),
                 Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(6, 2, "Lorem", Terrain.Plain, Good.Iron, 30, GoodsColors.DefaultGoods(), new List<Building>(),
+            new LandProvinceData(6, 2, "Lorem", Terrain.Plain, Goods[0], 30, Good.DefaultGoods(), new List<Building>(),
                 Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(7, 2, "FlashBang", Terrain.Plain, Good.Wheat, 1, GoodsColors.DefaultGoods(),
+            new LandProvinceData(7, 2, "FlashBang", Terrain.Plain, Goods[1], 1, Good.DefaultGoods(),
                 new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(8, 2, "CommunistPigs", Terrain.Plain, Good.Wheat, 3, GoodsColors.DefaultGoods(),
+            new LandProvinceData(8, 2, "CommunistPigs", Terrain.Plain, Goods[1], 3, Good.DefaultGoods(),
                 new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(9, 2, "Berlin", Terrain.Mountains, Good.Wheat, 1, GoodsColors.DefaultGoods(),
+            new LandProvinceData(9, 2, "Berlin", Terrain.Mountains, Goods[1], 1, Good.DefaultGoods(),
                 new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(10, 2, "LibertarianTown", Terrain.Mountains, Good.Wheat, 1, GoodsColors.DefaultGoods(),
+            new LandProvinceData(10, 2, "LibertarianTown", Terrain.Mountains, Goods[1], 1, Good.DefaultGoods(),
                 new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(11, 1, "Liberty", Terrain.Mountains, Good.Wheat, 1, GoodsColors.DefaultGoods(),
+            new LandProvinceData(11, 1, "Liberty", Terrain.Mountains, Goods[1], 1, Good.DefaultGoods(),
                 new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(12, 1, "NY", Terrain.Coast, Good.Wheat, 1, GoodsColors.DefaultGoods(), new List<Building>(),
+            new LandProvinceData(12, 1, "NY", Terrain.Coast, Goods[1], 1, Good.DefaultGoods(), new List<Building>(),
                 Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(13, 1, "Los Angeles", Terrain.Coast, Good.Wheat, 1, GoodsColors.DefaultGoods(),
+            new LandProvinceData(13, 1, "Los Angeles", Terrain.Coast, Goods[1], 1, Good.DefaultGoods(),
                 new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(14, 1, "LibertarianTown", Terrain.Mountains, Good.Wheat, 1, GoodsColors.DefaultGoods(),
+            new LandProvinceData(14, 1, "LibertarianTown", Terrain.Mountains, Goods[1], 1, Good.DefaultGoods(),
                 new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(15, 1, "Liberty", Terrain.Mountains, Good.Wheat, 1, GoodsColors.DefaultGoods(),
+            new LandProvinceData(15, 1, "Liberty", Terrain.Mountains, Goods[1], 1, Good.DefaultGoods(),
                 new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(16, 1, "NY", Terrain.Coast, Good.Wheat, 1, GoodsColors.DefaultGoods(), new List<Building>(),
+            new LandProvinceData(16, 1, "NY", Terrain.Coast, Goods[1], 1, Good.DefaultGoods(), new List<Building>(),
                 Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(17, 1, "Los Angeles", Terrain.Coast, Good.Wheat, 1, GoodsColors.DefaultGoods(),
+            new LandProvinceData(17, 1, "Los Angeles", Terrain.Coast, Goods[1], 1, Good.DefaultGoods(),
                 new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(18, 1, "LibertarianTown", Terrain.Mountains, Good.Wheat, 1, GoodsColors.DefaultGoods(),
+            new LandProvinceData(18, 1, "LibertarianTown", Terrain.Mountains, Goods[1], 1, Good.DefaultGoods(),
                 new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(19, 1, "Liberty", Terrain.Mountains, Good.Wheat, 1, GoodsColors.DefaultGoods(),
+            new LandProvinceData(19, 1, "Liberty", Terrain.Mountains, Goods[1], 1, Good.DefaultGoods(),
                 new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(20, 1, "NY", Terrain.Coast, Good.Wheat, 1, GoodsColors.DefaultGoods(), new List<Building>(),
+            new LandProvinceData(20, 1, "NY", Terrain.Coast, Goods[1], 1, Good.DefaultGoods(), new List<Building>(),
                 Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(21, 1, "Los Angeles", Terrain.Coast, Good.Wheat, 1, GoodsColors.DefaultGoods(),
+            new LandProvinceData(21, 1, "Los Angeles", Terrain.Coast, Goods[1], 1, Good.DefaultGoods(),
                 new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new UncolonizedProvinceData(22, "DefaultName"),
-            new LandProvinceData(23, 0, "London", Terrain.Coast, Good.Iron, 10, GoodsColors.DefaultGoods(),
+            new LandProvinceData(23, 0, "London", Terrain.Coast, Goods[0], 10, Good.DefaultGoods(),
                 new List<Building>(),
                 Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new UncolonizedProvinceData(24, "DefaultName"),
@@ -131,7 +146,7 @@ public class EuropeScenario : Scenario
             new UncolonizedProvinceData(37, "DefaultName"),
             new UncolonizedProvinceData(38, "DefaultName"),
             new UncolonizedProvinceData(39, "DefaultName"),
-            new LandProvinceData(40, 0, "London", Terrain.Coast, Good.Iron, 10, GoodsColors.DefaultGoods(),
+            new LandProvinceData(40, 0, "London", Terrain.Coast, Goods[0], 10, Good.DefaultGoods(),
                 new List<Building>(),
                 Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new UncolonizedProvinceData(41, "DefaultName"),

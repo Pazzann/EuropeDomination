@@ -1,4 +1,4 @@
-﻿using EuropeDominationDemo.Scripts.Scenarios.Weapons;
+﻿using EuropeDominationDemo.Scripts.Scenarios.Goods;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Army;
 

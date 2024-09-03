@@ -4,6 +4,8 @@ public enum ProvinceTypes
 {
     SeaProvinces = 0,
     LandProvinces = 1,
-    CoastalProvincesAndSeaProvinces = 2,
-    CoastalProvinces = 3,
+    ColonizedProvinces = 2,
+    UncolonizedProvinces = 3,
+    CoastalProvincesAndSeaProvinces = 4,
+    CoastalProvinces = 5,
 }

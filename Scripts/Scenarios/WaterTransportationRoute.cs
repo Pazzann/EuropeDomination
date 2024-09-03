@@ -1,4 +1,5 @@
 ﻿using EuropeDominationDemo.Scripts.Enums;
+using EuropeDominationDemo.Scripts.Scenarios.Goods;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
 

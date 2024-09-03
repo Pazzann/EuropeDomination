@@ -14,13 +14,10 @@ public partial class GUIGoodEditPanel : PanelContainer
 	private PackedScene _goodBox;
 	public void Init()
 	{
-		//TODO: change
-		var defaultProvince = EngineState.MapInfo.Scenario.Map[0] as LandProvinceData;
-		
 		_goodContainer = GetNode<GridContainer>("MarginContainer/ScrollContainer/GridContainer");
 		_goodBox = GD.Load<PackedScene>("res://Prefabs/GUIGoodSelector.tscn");
 		
-		for (int i = 0; i < defaultProvince.Resources.Length; i++)
+		for (int i = 0; i < EngineState.MapInfo.Scenario.Goods.Count; i++)
 		{
 			var WhyDoIEVENNEEDTHISSHIT = i;
 			var a = _goodBox.Instantiate();

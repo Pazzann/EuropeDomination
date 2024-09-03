@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EuropeDominationDemo.Scripts.Scenarios.Army;
+using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings.FactoryRecipies;
 using Godot;
@@ -22,6 +23,7 @@ public abstract class Scenario : IScenario
 	public abstract List<Recipe> Recipes { get; set; }
 	
 	public abstract Image MapTexture { get; set; }
+	public abstract List<Good> Goods { get; }
 	
 
 	public TimeSpan Ts => new(1, 0, 0, 0);

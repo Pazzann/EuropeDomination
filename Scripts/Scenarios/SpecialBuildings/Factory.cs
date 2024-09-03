@@ -11,7 +11,7 @@ public class Factory : SpecialBuilding
     public float ProductionGrowthRate = 0.1f;
     public float MaxProductionRate = 1.0f;
     public TransportationRoute TransportationRoute;
-    public Factory(Recipe recipe, int buildingTime, bool isFinished, float productionRate, int cost, TransportationRoute transportationRoute) : base(SpecialBuildingTypes.Factory, 100, buildingTime, isFinished, cost)
+    public Factory(Recipe recipe, int buildingTime, bool isFinished, float productionRate, int cost, TransportationRoute transportationRoute) : base( 100, buildingTime, isFinished, cost)
     {
         Recipe = recipe;
         ProductionRate = productionRate;
