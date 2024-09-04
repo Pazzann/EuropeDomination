@@ -9,7 +9,7 @@ namespace EuropeDominationDemo.Scripts.Units;
 public partial class PathHandler : Node2D
 {
 	private PackedScene _pathArrowScene = (PackedScene)GD.Load("res://Prefabs/PathArrow.tscn");
-	private PackedScene _curvedArrowScene = (PackedScene)GD.Load("res://Prefabs/CurvedArrow.tscn");
+	private PackedScene _curvedArrowScene = (PackedScene)GD.Load("res://Prefabs/CustomNodes/CurvedArrow.tscn");
 	private ArmyUnit _armyUnit;
 	private double _currentProgress;
 	private int _idOfCurrentProgress;
