@@ -1,0 +1,115 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7c04tkqvrhno"]
+
+[ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_wdfw5"]
+[ext_resource type="Script" path="res://Scripts/UI/GUIPrefabs/GUIArmyWindow.cs" id="2_6ak3e"]
+[ext_resource type="PackedScene" uid="uid://cwa0e16eej7ad" path="res://Prefabs/GUI/Modules/GUIRegimentInfo.tscn" id="2_liwau"]
+
+[node name="GuiArmyViewer" type="VBoxContainer"]
+custom_minimum_size = Vector2(471, 590)
+anchors_preset = -1
+anchor_right = 0.245
+anchor_bottom = 0.563
+offset_right = 0.599976
+offset_bottom = -8.04004
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_wdfw5")
+script = ExtResource("2_6ak3e")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="OverallStats" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.29
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/OverallStats"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/OverallStats/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/OverallStats/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Namehere"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/OverallStats/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/OverallStats/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Artillery: 0"
+
+[node name="Label2" type="Label" parent="VBoxContainer/OverallStats/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Infantry: 0"
+
+[node name="Label3" type="Label" parent="VBoxContainer/OverallStats/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Cavallary: 0"
+
+[node name="AdditionalInfo" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Controls" type="PanelContainer" parent="VBoxContainer/AdditionalInfo"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.49
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/AdditionalInfo/Controls"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/AdditionalInfo/Controls/MarginContainer"]
+layout_mode = 2
+
+[node name="MergeReg" type="Button" parent="VBoxContainer/AdditionalInfo/Controls/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "MergeRegiments"
+
+[node name="Button" type="Button" parent="VBoxContainer/AdditionalInfo/Controls/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "PutInBoat
+"
+
+[node name="Regiments" type="PanelContainer" parent="VBoxContainer/AdditionalInfo"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/AdditionalInfo/Regiments"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/AdditionalInfo/Regiments/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/AdditionalInfo/Regiments/MarginContainer/ScrollContainer"]
+layout_mode = 2
+
+[node name="GuiRegimentInfo" parent="VBoxContainer/AdditionalInfo/Regiments/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_liwau")]
+layout_mode = 2
+
+[node name="GuiRegimentInfo2" parent="VBoxContainer/AdditionalInfo/Regiments/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_liwau")]
+layout_mode = 2
+
+[node name="GuiRegimentInfo3" parent="VBoxContainer/AdditionalInfo/Regiments/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_liwau")]
+layout_mode = 2
+
+[node name="GuiRegimentInfo4" parent="VBoxContainer/AdditionalInfo/Regiments/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_liwau")]
+layout_mode = 2
+
+[node name="GuiRegimentInfo5" parent="VBoxContainer/AdditionalInfo/Regiments/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_liwau")]
+layout_mode = 2
