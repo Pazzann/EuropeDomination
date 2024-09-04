@@ -24,7 +24,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private AnimatedSprite2D _provinceFlag;
 	private AnimatedSprite2D _provinceGood;
 	private AnimatedSprite2D _provinceTerrain;
-	private GUIPrefabs.GUIResources _provinceResources;
+	private GUIResources _provinceResources;
 	private Label _provinceDev;
 	
 
@@ -45,9 +45,9 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private bool _waterMode = false;
 	//end.
 
-	private GUIPrefabs.GUIFactory _factoryHandler;
+	private GUIFactory _factoryHandler;
 	private GUIStockAndTrade _tradeAndStockHandler;
-	private GUIPrefabs.GUIDockyard _dockyardHandler;
+	private GUIDockyard _dockyardHandler;
 	private GUIMilitaryTrainingCamp _militaryTrainingHandler;
 	private Control _emptyHandler;
 	private Control _notUnlockedHandler;
@@ -98,12 +98,12 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_goodEditBoxPanel.Init();
 		
 
-		_factoryHandler = GetNode<GUIPrefabs.GUIFactory>("HBoxContainer4/ProvinceWindowSprite/GuiFactory");
+		_factoryHandler = GetNode<GUIFactory>("HBoxContainer4/ProvinceWindowSprite/GuiFactory");
 		_factoryHandler.Init();
 		
 		_militaryTrainingHandler = GetNode<GUIMilitaryTrainingCamp>("HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp");
 		
-		_dockyardHandler = GetNode<GUIPrefabs.GUIDockyard>("HBoxContainer4/ProvinceWindowSprite/GuiDockyard");
+		_dockyardHandler = GetNode<GUIDockyard>("HBoxContainer4/ProvinceWindowSprite/GuiDockyard");
 		_dockyardHandler.Init();
 		
 		_tradeAndStockHandler = GetNode<GUIStockAndTrade>("HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade");

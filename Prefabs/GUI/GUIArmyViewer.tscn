@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpfjytkgv6w6s"]
+
+[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUIArmyViewer.cs" id="1_5bna0"]
+[ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_6qqn8"]
+
+[node name="GuiArmyViewer" type="Control"]
+custom_minimum_size = Vector2(487, 637)
+layout_mode = 3
+anchor_right = 0.259
+anchor_bottom = 0.59
+offset_right = -7.28
+offset_bottom = 3.80005
+grow_horizontal = 2
+grow_vertical = 2
+mouse_force_pass_scroll_events = false
+theme = ExtResource("1_6qqn8")
+script = ExtResource("1_5bna0")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+custom_minimum_size = Vector2(487, 637)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ManagamentButtons" type="PanelContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/ManagamentButtons"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Merge" type="Button" parent="PanelContainer/VBoxContainer/ManagamentButtons/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Merge"
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ManagamentButtons/HBoxContainer"]
+layout_mode = 2
+text = "Close"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 8
