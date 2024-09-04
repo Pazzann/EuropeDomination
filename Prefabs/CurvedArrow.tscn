@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dct87g74iw5ol"]
+[gd_scene load_steps=3 format=3 uid="uid://dct87g74iw5ol"]
 
 [ext_resource type="Script" path="res://Scripts/Utils/CurvedArrow.cs" id="1_onx32"]
+[ext_resource type="Texture2D" uid="uid://8a42n8at3v4g" path="res://Sprites/2749246-200.png" id="2_y1pk1"]
 
 [node name="CurvedArrow" type="Node2D"]
 scale = Vector2(0.1, 0.1)
@@ -11,3 +12,9 @@ script = ExtResource("1_onx32")
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
 
 [node name="Line2D" type="Line2D" parent="."]
+
+[node name="ProgressLine2D" type="Line2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(3, 3)
+texture = ExtResource("2_y1pk1")

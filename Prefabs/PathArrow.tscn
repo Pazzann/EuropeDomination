@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ikaejdv3h1fe" path="res://Sprites/Untitled-2.png" id="1_skiji"]
 
 [node name="PathArrow" type="Node2D"]
+visible = false
 scale = Vector2(0.1, 0.1)
 script = ExtResource("1_nql47")
 

@@ -19,17 +19,26 @@ public partial class PathHandler : Node2D
 		_armyUnit = unit;
 	}
 
-	public void UpdateDayTick(ArmyUnit unit)
+	public void UpdateDayTick(ArmyUnit unit) // TODO: Move unit movement calculations to units instead of arrows
 	{
 		var arrow = (GetChild(0) as PathArrow);
 		_currentProgress = arrow.Value;
 		_idOfCurrentProgress = unit.Path[^2];
+		
+		var curvedArrow = GetChild(GetChildren().Count - 1) as CurvedArrow;
+		curvedArrow.Value += 1f;
+		
 		if (!arrow.AddDay()) return;
+
+		if (curvedArrow.RemovePoint(0))
+		{
+			curvedArrow.MaxValue -= (float)arrow.Value;
+			curvedArrow.Value -= (float)arrow.Value;
+		}
+
 		unit.Path.Remove(unit.Path[^1]);
 		arrow.QueueFree();
-
-		var curvedArrow = GetChild(GetChildren().Count - 1) as CurvedArrow;
-		curvedArrow.RemovePoint(0);
+		
 	}
 
 	public void MoveArrows(Vector2 scale, Vector2 prev, Vector2 next)
@@ -46,6 +55,7 @@ public partial class PathHandler : Node2D
 		}
 
 		List<Vector2> centres = new List<Vector2>();
+		float totalDistance = 0f;
 		for (int i = unit.Path.Count - 2; i > -1; i--)
 		{
 			centres.Add(map.Scenario.Map[unit.Path[i + 1]].CenterOfWeight);
@@ -56,6 +66,7 @@ public partial class PathHandler : Node2D
 			arrow.LookAt(map.Scenario.Map[unit.Path[i + 1]].CenterOfWeight / unit.Scale);
 			AddChild(arrow);
 			arrow.Setup(Mathf.RoundToInt((map.Scenario.Map[unit.Path[i]].CenterOfWeight - map.Scenario.Map[unit.Path[i+1]].CenterOfWeight).Length()));
+			totalDistance += (map.Scenario.Map[unit.Path[i]].CenterOfWeight - map.Scenario.Map[unit.Path[i + 1]].CenterOfWeight).Length();
 
 			if (unit.Path[^2] == _idOfCurrentProgress && unit.Path.Count - 2 == i)
 			{
@@ -68,6 +79,6 @@ public partial class PathHandler : Node2D
 		AddChild(curvedArrow);
 		curvedArrow.Setup(centres);
 		curvedArrow.DrawLine();
-		Vector2 a = curvedArrow.GlobalPosition;
+		curvedArrow.MaxValue = totalDistance;
 	}
 }
