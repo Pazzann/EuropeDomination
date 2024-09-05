@@ -50,15 +50,15 @@ public class EuropeScenario : Scenario
         Countries = new Dictionary<int, CountryData>()
         {
             { 0, new CountryData(0, "Great Britain", new Vector3(0.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers(), 100, 300, new List<General>(), new List<Admiral>(), new List<UnitData>(){
-                    new ArmyUnitData("George Floyd", 0,3, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null),
-                    new ArmyUnitData("Idk", 0,5, Modifiers.DefaultModifiers(),new List<ArmyRegiment>(), null),
-                    new ArmyUnitData("FunnyName", 0,6, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null),
-                    new ArmyUnitData("Length", 0,7, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null),
+                    new ArmyUnitData("George Floyd", 0,3, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null, new List<KeyValuePair<int,int>>(), 0),
+                    new ArmyUnitData("Idk", 0,5, Modifiers.DefaultModifiers(),new List<ArmyRegiment>(), null, new List<KeyValuePair<int,int>>(), 0),
+                    new ArmyUnitData("FunnyName", 0,6, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null, new List<KeyValuePair<int,int>>(), 0),
+                    new ArmyUnitData("Length", 0,7, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null, new List<KeyValuePair<int,int>>(), 0),
                 })},
             { 1, new CountryData(1, "France", new Vector3(0.0f, 0.0f, 1.0f), Modifiers.DefaultModifiers(), 200, 200,new List<General>(), new List<Admiral>(), new List<UnitData>()) },
             { 2, new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers(), 300, 100,new List<General>(), new List<Admiral>(), new List<UnitData>() {
-                new ArmyUnitData("FunnyName", 2,2, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null),
-                new ArmyUnitData("Length", 2,9, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null),
+                new ArmyUnitData("FunnyName", 2,2, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null, new List<KeyValuePair<int,int>>(), 0),
+                new ArmyUnitData("Length", 2,9, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null, new List<KeyValuePair<int,int>>(), 0),
             }) },
         };
         WastelandProvinceColors = new Dictionary<int, Vector3>()

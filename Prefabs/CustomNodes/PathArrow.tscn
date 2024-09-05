@@ -1,16 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://cfcic1lxa4vsx"]
+[gd_scene load_steps=2 format=3 uid="uid://cfcic1lxa4vsx"]
 
-[ext_resource type="Script" path="res://Scripts/Units/PathArrow.cs" id="1_nql47"]
-[ext_resource type="Texture2D" uid="uid://ikaejdv3h1fe" path="res://Sprites/Untitled-2.png" id="1_skiji"]
+[ext_resource type="Texture2D" uid="uid://ikaejdv3h1fe" path="res://Sprites/Untitled-2.png" id="2_7wdku"]
 
 [node name="PathArrow" type="Node2D"]
 visible = false
 scale = Vector2(0.1, 0.1)
-script = ExtResource("1_nql47")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 clip_children = 1
-texture = ExtResource("1_skiji")
+texture = ExtResource("2_7wdku")
 flip_h = true
 
 [node name="ProgressBar" type="ProgressBar" parent="Sprite2D"]

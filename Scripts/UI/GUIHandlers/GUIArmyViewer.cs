@@ -25,14 +25,14 @@ public partial class GUIArmyViewer : GUIHandler
 	{
 		switch (@event)
 		{
-			case ToGUIEventShowArmyViewerEvent e:
+			case ToGUIShowArmyViewerEvent e:
 			{
 				_currentlyShownArmyUnits = e.ArmyUnits;
 				_setInfo();
 				Visible = true;
 				return;
 			}
-			case ToGUIEventHideArmyViewerEvent:
+			case ToGUIHideArmyViewerEvent:
 			{
 				Visible = false;
 				return;

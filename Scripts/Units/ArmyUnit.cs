@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.Army;
 using Godot;
@@ -18,7 +19,6 @@ public partial class ArmyUnit : Node2D
 
 	private PathHandler _pathHandler;
 
-	public List<int> Path = new List<int>();
 
 	private bool _isSelected = false;
 	public bool IsSelected
@@ -35,36 +35,48 @@ public partial class ArmyUnit : Node2D
 		} 
 	}
 
+	private List<KeyValuePair<int, int>> _evaluatePath(List<int> path)
+	{
+		var a = new List<KeyValuePair<int, int>>(); 
+		path.Reverse();
+		for (int i = 0; i < path.Count-1; i++)
+		{
+			a.Add(new KeyValuePair<int, int>(path[i], Mathf.RoundToInt((EngineState.MapInfo.Scenario.Map[path[i]].CenterOfWeight - EngineState.MapInfo.Scenario.Map[path[i+1]].CenterOfWeight).Length())));
+		}
+		a.Add(new KeyValuePair<int,int>(path[^1], 0));
+		a.Reverse();
+		return a;
+	}
 	public void AddPath(int[] path)
 	{
-		var prev = Path;
-		path = path.Take(path.Count() - 1).ToArray();
-		Path = new List<int>();
-		Path.AddRange(path);
-		Path.AddRange(prev);
-		_pathHandler.DrawArrows(this, _mapData);
+		var prev = Data.MovementQueue;
+		Data.MovementQueue = new List<KeyValuePair<int, int>>();
+		Data.MovementQueue.AddRange(_evaluatePath(path.Take(path.Count() - 1).ToList()));
+		Data.MovementQueue.AddRange(prev);
+		_pathHandler.DrawArrows(this);
 	}
+	
 
 	public void NewPath(int[] path)
 	{
-		Path = new List<int>();
-		Path.AddRange(path);
-		_pathHandler.DrawArrows(this, _mapData);
+		Data.MovementQueue = new List<KeyValuePair<int,int>>();
+		Data.MovementQueue.AddRange(_evaluatePath(path.ToList()));
+		_pathHandler.DrawArrows(this);
 	}
 
 	public void UpdateDayTick()
 	{
-		if (Path.Count is 1 or 0)
+		if (Data.MovementQueue.Count is 1 or 0)
 			return;
-		var previousLength = Path.Count;
+		var previousLength = Data.MovementQueue.Count;
 		_pathHandler.UpdateDayTick(this);
-		if (Path.Count < previousLength)
+		if (Data.MovementQueue.Count < previousLength)
 		{
-			_pathHandler.MoveArrows(Scale, GlobalPosition, _mapData.Scenario.Map[Path[^1]].CenterOfWeight);
-			GlobalPosition = _mapData.Scenario.Map[Path[^1]].CenterOfWeight;
-			Data.CurrentProvince = Path[^1];
-			if (Path.Count is 1)
-				Path = new List<int>();
+			_pathHandler.MoveArrows(Scale, GlobalPosition, _mapData.Scenario.Map[Data.MovementQueue[^1].Key].CenterOfWeight);
+			GlobalPosition = _mapData.Scenario.Map[Data.MovementQueue[^1].Key].CenterOfWeight;
+			Data.CurrentProvince = Data.MovementQueue[^1].Key;
+			if (Data.MovementQueue.Count is 1)
+				Data.MovementQueue = new List<KeyValuePair<int,int>>();
 		}
 			
 	}

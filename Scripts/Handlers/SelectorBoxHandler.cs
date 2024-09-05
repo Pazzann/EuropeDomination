@@ -89,19 +89,19 @@ public partial class SelectorBoxHandler : GameHandler
 		var selectedUnits = (from unit in allUnits where ((ArmyUnit)unit).IsInsideRect(trueRect) select unit as ArmyUnit).ToList();
 		selectedUnits = selectedUnits.Where(d => d.Data.Owner == EngineState.PlayerCountryId).ToList();
 		ArmyUnit.SelectUnits(allUnits, selectedUnits);
-		InvokeToGUIEvent(new ToGUIEventShowArmyViewerEvent(selectedUnits));
+		InvokeToGUIEvent(new ToGUIShowArmyViewerEvent(selectedUnits));
 		
 		
 		EngineState.MapInfo.CurrentSelectedUnits = selectedUnits;
 
 		if (selectedUnits.Count > 0)
 		{
-			InvokeToGUIEvent(new ToGUIEventShowArmyViewerEvent(selectedUnits));
+			InvokeToGUIEvent(new ToGUIShowArmyViewerEvent(selectedUnits));
             			_wasSelectedUnit = true;
 		}
 		else
 		{
-			InvokeToGUIEvent(new ToGUIEventHideArmyViewerEvent());
+			InvokeToGUIEvent(new ToGUIHideArmyViewerEvent());
 		}
 			
 	}

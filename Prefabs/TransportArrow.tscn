@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://vn3ugau4q62q"]
 
-[ext_resource type="Script" path="res://Scripts/Units/PathArrow.cs" id="1_nkjee"]
+[ext_resource type="Script" path="res://Scripts/Utils/PathArrow.cs" id="1_nkjee"]
 [ext_resource type="Texture2D" uid="uid://ikaejdv3h1fe" path="res://Sprites/Untitled-2.png" id="2_rfm8o"]
 
 [node name="TransportArrow" type="Node2D"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dx2y3s8dsllua"]
+[gd_scene load_steps=10 format=3 uid="uid://dx2y3s8dsllua"]
 
 [ext_resource type="Script" path="res://Scripts/UI/GUI.cs" id="1_itu4p"]
 [ext_resource type="PackedScene" uid="uid://bgb7s0ynl6r2t" path="res://Prefabs/GUI/GUIProvinceWindow.tscn" id="2_8vun8"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://djlumxa1btokx" path="res://Prefabs/GUI/GUIConsole.tscn" id="6_fsmcp"]
 [ext_resource type="PackedScene" uid="uid://bji08w2m23kup" path="res://Prefabs/GUI/GUIInfoBox.tscn" id="7_g3en8"]
 [ext_resource type="PackedScene" uid="uid://cpfjytkgv6w6s" path="res://Prefabs/GUI/GUIArmyViewer.tscn" id="8_dk6or"]
+[ext_resource type="PackedScene" uid="uid://bw0gswtlmq4km" path="res://Prefabs/GUI/GUICountryWindow.tscn" id="9_x2nqo"]
 
 [node name="GUI" type="Control"]
 layout_direction = 1
@@ -46,7 +47,9 @@ layout_mode = 1
 [node name="GuiArmyViewer" parent="." instance=ExtResource("8_dk6or")]
 visible = false
 layout_mode = 1
-offset_left = 55.0
-offset_top = 257.0
-offset_right = 55.72
-offset_bottom = 256.8
+offset_right = 0.719971
+offset_bottom = -0.199951
+
+[node name="GuiCountryWindow" parent="." instance=ExtResource("9_x2nqo")]
+visible = false
+layout_mode = 1

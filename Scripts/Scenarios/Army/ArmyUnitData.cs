@@ -11,7 +11,7 @@ public class ArmyUnitData : UnitData
 
     public General General { get; set; }
 
-    public ArmyUnitData(string name, int owner, int currentProvince, Modifiers modifiers, List<ArmyRegiment> armyRegiments, General general) : base(name, owner, currentProvince, modifiers)
+    public ArmyUnitData(string name, int owner, int currentProvince, Modifiers modifiers, List<ArmyRegiment> armyRegiments, General general, List<KeyValuePair<int,int>> movementQueue, int movementProgress) : base(name, owner, currentProvince, modifiers,movementQueue, movementProgress)
     {
         Regiments = armyRegiments;
         General = general;

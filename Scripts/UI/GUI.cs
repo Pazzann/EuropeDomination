@@ -28,6 +28,7 @@ public partial class GUI : Control
 		allGUIHandlers.Add(GetNode<GUIConsole>("./Console"));
 		allGUIHandlers.Add(GetNode<GUIInfoBox>("./GuiInfoBox"));
 		allGUIHandlers.Add(GetNode<GUIArmyViewer>("./GuiArmyViewer"));
+		allGUIHandlers.Add(GetNode<GUICountryWindow>("GuiCountryWindow"));
 
 		foreach (var guiHandler in allGUIHandlers)
 		{

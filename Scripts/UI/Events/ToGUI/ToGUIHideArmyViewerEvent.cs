@@ -1,6 +1,6 @@
 ﻿namespace EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 
-public class ToGUIEventHideArmyViewerEvent: ToGUIEvent
+public class ToGUIHideArmyViewerEvent: ToGUIEvent
 {
     
 }

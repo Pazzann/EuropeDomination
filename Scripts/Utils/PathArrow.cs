@@ -1,6 +1,6 @@
 using Godot;
 
-namespace EuropeDominationDemo.Scripts.Units;
+namespace EuropeDominationDemo.Scripts.Utils;
 
 public partial class PathArrow : Node2D
 {
