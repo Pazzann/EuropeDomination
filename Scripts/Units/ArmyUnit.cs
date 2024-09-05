@@ -52,6 +52,7 @@ public partial class ArmyUnit : Node2D
 		var prev = Data.MovementQueue;
 		Data.MovementQueue = new List<KeyValuePair<int, int>>();
 		Data.MovementQueue.AddRange(_evaluatePath(path.Take(path.Count() - 1).ToList()));
+		prev[0] = new KeyValuePair<int, int>(prev[0].Key, Mathf.RoundToInt((EngineState.MapInfo.Scenario.Map[prev[0].Key].CenterOfWeight - EngineState.MapInfo.Scenario.Map[Data.MovementQueue[^1].Key].CenterOfWeight).Length()));
 		Data.MovementQueue.AddRange(prev);
 		_pathHandler.DrawArrows(this);
 	}

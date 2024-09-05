@@ -19,14 +19,14 @@ public partial class PathHandler : Node2D
 	public void UpdateDayTick(ArmyUnit unit) 
 	{
 		var curvedArrow = GetChild(GetChildren().Count - 1) as CurvedArrow;
-		curvedArrow.Value += 1f;
+		curvedArrow.Value = (float)unit.Data.MovementProgress;
 		
 		if (!_armyUnit.Data.AddDay()) return;
 
 		if (curvedArrow.RemovePoint(0))
 		{
 			curvedArrow.MaxValue -= (float)unit.Data.MovementProgress;
-			curvedArrow.Value -= (float)unit.Data.MovementProgress;
+			curvedArrow.Value = 0;
 		}
 
 		unit.Data.MovementQueue.Remove(unit.Data.MovementQueue[^1]);
@@ -41,6 +41,13 @@ public partial class PathHandler : Node2D
 
 	public void DrawArrows(ArmyUnit unit)
 	{
+		if (GetChildren().Count > 0)
+		{
+			var oldCurvedArrow = GetChild(GetChildren().Count - 1) as CurvedArrow;
+			if (oldCurvedArrow != null)
+				oldCurvedArrow.QueueFree();
+		}
+
 		GlobalPosition = Vector2.Zero;
 		var curvedArrow = _curvedArrowScene.Instantiate() as CurvedArrow;
 		AddChild(curvedArrow);
