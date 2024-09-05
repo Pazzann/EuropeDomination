@@ -2,10 +2,12 @@
 
 public class Template
 {
-    private Regiment _regiment;
+    public string Name;
+    public int Id;
 
-    public Template(Regiment regiment)
+    public Template(string name, int id)
     {
-        _regiment = regiment;
+        Name = name;
+        Id = id;
     }
 }
