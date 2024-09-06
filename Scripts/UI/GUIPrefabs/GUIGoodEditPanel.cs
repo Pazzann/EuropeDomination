@@ -1,5 +1,6 @@
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
+using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Utils;
 using Godot;
@@ -17,14 +18,23 @@ public partial class GUIGoodEditPanel : PanelContainer
 		_goodContainer = GetNode<GridContainer>("MarginContainer/ScrollContainer/GridContainer");
 		_goodBox = GD.Load<PackedScene>("res://Prefabs/GUI/Modules/GUIGoodSelector.tscn");
 		
-		for (int i = 0; i < EngineState.MapInfo.Scenario.Goods.Count; i++)
+		ChangeGoods(EngineState.MapInfo.Scenario.Goods.ToArray());
+	}
+	
+
+	public void ChangeGoods(Good[] newGoods)
+	{
+		foreach (var child in GetChildren())
 		{
-			var WhyDoIEVENNEEDTHISSHIT = i;
+			child.QueueFree();
+		}
+
+		foreach (var good in newGoods)
+		{
 			var a = _goodBox.Instantiate();
-			a.GetChild<AnimatedTextureRect>(0).SetFrame(i);
-			a.GetChild(0).GetChild<Button>(0).Pressed += () => _goodPressed(WhyDoIEVENNEEDTHISSHIT);
+			a.GetChild<AnimatedTextureRect>(0).SetFrame(good.Id);
+			a.GetChild(0).GetChild<Button>(0).Pressed += () => _goodPressed(good.Id);
 			_goodContainer.AddChild(a);
-				
 		}
 	}
 

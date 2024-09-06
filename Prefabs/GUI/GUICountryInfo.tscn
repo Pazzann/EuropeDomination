@@ -35,9 +35,15 @@ script = ExtResource("1_cgdqq")
 
 [node name="CountryFlag" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(992, 971)
+position = Vector2(993, 974)
 scale = Vector2(3.35, 4.47917)
 sprite_frames = SubResource("SpriteFrames_oc4y2")
+
+[node name="Button" type="Button" parent="CountryFlag"]
+offset_left = -31.0
+offset_top = -25.0
+offset_right = 30.0
+offset_bottom = 24.0
 
 [node name="MainUi" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -121,3 +127,5 @@ offset_right = -112.0
 offset_bottom = 110.0
 text = "0"
 metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="CountryFlag/Button" to="." method="_onOpenCountryUIPressed"]

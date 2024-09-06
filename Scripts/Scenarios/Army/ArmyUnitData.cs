@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 
@@ -11,7 +12,7 @@ public class ArmyUnitData : UnitData
 
     public General General { get; set; }
 
-    public ArmyUnitData(string name, int owner, int currentProvince, Modifiers modifiers, List<ArmyRegiment> armyRegiments, General general, List<KeyValuePair<int,int>> movementQueue, int movementProgress) : base(name, owner, currentProvince, modifiers,movementQueue, movementProgress)
+    public ArmyUnitData(string name, int owner, int currentProvince, Modifiers modifiers, List<ArmyRegiment> armyRegiments, General general, List<KeyValuePair<int,int>> movementQueue, int movementProgress,UnitStates unitState) : base(name, owner, currentProvince, modifiers,movementQueue, movementProgress, unitState)
     {
         Regiments = armyRegiments;
         General = general;

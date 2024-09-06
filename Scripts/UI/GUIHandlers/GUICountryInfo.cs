@@ -1,5 +1,6 @@
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
+using EuropeDominationDemo.Scripts.UI.Events.GUI;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using Godot;
 
@@ -35,5 +36,10 @@ public partial class GUICountryInfo : GUIHandler
 			default:
 				return;
 		}
+	}
+
+	private void _onOpenCountryUIPressed()
+	{
+		InvokeGUIEvent(new GUIShowCountryWindowEvent());
 	}
 }

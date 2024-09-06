@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using EuropeDominationDemo.Scripts.Enums;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Army;
 
@@ -14,7 +15,9 @@ public class UnitData
     public List<KeyValuePair<int,int>> MovementQueue { get; set; }
     public int MovementProgress;
 
-    public UnitData(string name, int owner, int currentProvince, Modifiers modifiers,List<KeyValuePair<int,int>> movementQueue, int movementProgress)
+    public UnitStates UnitState;
+
+    public UnitData(string name, int owner, int currentProvince, Modifiers modifiers,List<KeyValuePair<int,int>> movementQueue, int movementProgress, UnitStates unitState)
     {
         Name = name;
         CurrentProvince = currentProvince;
@@ -22,6 +25,7 @@ public class UnitData
         Owner = owner;
         MovementQueue = movementQueue;
         MovementProgress = movementProgress;
+        UnitState = unitState;
     }
     
     public bool AddDay()

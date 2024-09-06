@@ -119,6 +119,9 @@ public partial class GlobalStrategyEngine : Node2D
 			case GUISwitchCountry:
 				InvokeToGUIEvent(new ToGUIUpdateCountryInfo());
 				return;
+			case GUIShowCountryWindowEvent:
+				InvokeToGUIEvent(new ToGUIShowCountryWindowEvent());
+				return;
 			case GUIGoToProvince e:
 				Camera.GoToProvince(e.Id);
 				return;

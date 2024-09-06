@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://rc00o8th0yea"]
+
+[node name="GuiRegimentTemplate" type="PanelContainer"]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "test"
+
+[node name="Button" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Edit"
