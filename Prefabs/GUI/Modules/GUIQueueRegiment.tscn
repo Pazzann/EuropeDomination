@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://c7hpno4rin032"]
+
+[node name="GuiQueueRegiment" type="PanelContainer"]
+offset_right = 80.0
+offset_bottom = 23.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Alloha"
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 2

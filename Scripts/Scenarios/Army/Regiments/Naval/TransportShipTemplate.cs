@@ -6,4 +6,6 @@ public class TransportShipTemplate : ShipTemplate
     {
         
     }
+
+    public override int TrainingTime { get; }
 }

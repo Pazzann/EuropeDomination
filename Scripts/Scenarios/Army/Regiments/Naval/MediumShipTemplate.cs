@@ -6,4 +6,6 @@ public class MediumShipTemplate : ShipTemplate
     {
         
     }
+    
+    public override int TrainingTime { get; }
 }

@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.Linq;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios;
+using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
@@ -102,6 +104,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_factoryHandler.Init();
 		
 		_militaryTrainingHandler = GetNode<GUIMilitaryTrainingCamp>("HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp");
+		_militaryTrainingHandler.Init();
 		
 		_dockyardHandler = GetNode<GUIDockyard>("HBoxContainer4/ProvinceWindowSprite/GuiDockyard");
 		_dockyardHandler.Init();
@@ -151,6 +154,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 				_closeAllTabs();
 				_specialBuildingsTabBar.CurrentTab = 0;
 				_currentTab = 0;
+				_militaryTrainingHandler.UpdateTemplates();
 				_showTab(_currentTab);
 				_setProvinceInfo(e.ShowProvinceData);
 				return;
@@ -319,8 +323,9 @@ public partial class GUILandProvinceWindow : GUIHandler
 				_dockyardHandler.Visible = true;
 				_dockyardHandler.ShowData(dockyard, _guestMode);
 				return;
-			case MilitaryTrainingCamp:
+			case MilitaryTrainingCamp militaryTrainingCamp:
 				_militaryTrainingHandler.Visible = true;
+				_militaryTrainingHandler.ShowInfo(militaryTrainingCamp);
 				return;
 			case StockAndTrade stockAndTrade:
 				_tradeAndStockHandler.Visible = true;
@@ -356,7 +361,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 				_currentProvinceData.SpecialBuildings[_currentTab] = new Dockyard(0, false, 100, Dockyard.DefaultWaterTransportationRoutes());
 				break;
 			case 3:
-				_currentProvinceData.SpecialBuildings[_currentTab] = new MilitaryTrainingCamp(0, false, 100);
+				_currentProvinceData.SpecialBuildings[_currentTab] = new MilitaryTrainingCamp(0, false, 100, new Queue<ArmyRegiment>());
 				break;
 			default:
 				return;

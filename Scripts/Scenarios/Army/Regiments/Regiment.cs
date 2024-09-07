@@ -63,8 +63,9 @@ public class Regiment
         // change template and things after it
     }
 
-    public void DayTick()
+    public bool DayTick()
     {
-        
+        TimeFromStartOfTheTraining++;
+        return TimeFromStartOfTheTraining >= TrainingTime;
     }
 }

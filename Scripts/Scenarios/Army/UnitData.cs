@@ -14,7 +14,9 @@ public class UnitData
     
     public List<KeyValuePair<int,int>> MovementQueue { get; set; }
     public int MovementProgress;
-
+    
+    
+    
     public UnitStates UnitState;
 
     public UnitData(string name, int owner, int currentProvince, Modifiers modifiers,List<KeyValuePair<int,int>> movementQueue, int movementProgress, UnitStates unitState)

@@ -8,6 +8,7 @@ using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon;
+using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon.LandWeapon;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings.FactoryRecipies;
@@ -37,7 +38,7 @@ public class EuropeScenario : Scenario
             new HarvestedGood(0, "Iron", new Vector3(0.5f, 0.3f, 0.0f)),
             new HarvestedGood(1, "Wheat", new Vector3(0.7f, 0.8f, 0.0f)),
             new HarvestedGood(2, "Wood", new Vector3(0.0f, 0.7f, 0.4f)),
-            new Weapon(3, "Iron Sword", new Vector3(1.0f, 0.2f, 0.3f))
+            new InfantryWeapon(3, "Iron Sword", new Vector3(1.0f, 0.2f, 0.3f), 0.01f, 0.01f, 0.0f, 1.0f, Modifiers.DefaultModifiers(additionalTrainingEfficiency: 1.3f), 10)
         };
         
         
@@ -49,17 +50,12 @@ public class EuropeScenario : Scenario
 
         Countries = new Dictionary<int, CountryData>()
         {
-            { 0, new CountryData(0, "Great Britain", new Vector3(0.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers(), 100, 300, new List<General>(), new List<Admiral>(), new List<UnitData>(){
-                    new ArmyUnitData("George Floyd", 0,3, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null, new List<KeyValuePair<int,int>>(), 0, UnitStates.Standing),
-                    new ArmyUnitData("Idk", 0,5, Modifiers.DefaultModifiers(),new List<ArmyRegiment>(), null, new List<KeyValuePair<int,int>>(), 0, UnitStates.Standing),
-                    new ArmyUnitData("FunnyName", 0,6, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null, new List<KeyValuePair<int,int>>(), 0, UnitStates.Standing),
-                    new ArmyUnitData("Length", 0,7, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null, new List<KeyValuePair<int,int>>(), 0, UnitStates.Standing),
-                }, new List<Template>())},
+            { 0, new CountryData(0, "Great Britain", new Vector3(0.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers(), 100, 300, new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>()
+                {
+                    new ArmyInfantryRegimentTemplate("Test", 0, Goods[3] as InfantryWeapon, null, null, null, null)
+                })},
             { 1, new CountryData(1, "France", new Vector3(0.0f, 0.0f, 1.0f), Modifiers.DefaultModifiers(), 200, 200,new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>()) },
-            { 2, new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers(), 300, 100,new List<General>(), new List<Admiral>(), new List<UnitData>() {
-                new ArmyUnitData("FunnyName", 2,2, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null, new List<KeyValuePair<int,int>>(), 0, UnitStates.Standing),
-                new ArmyUnitData("Length", 2,9, Modifiers.DefaultModifiers(), new List<ArmyRegiment>(), null, new List<KeyValuePair<int,int>>(), 0, UnitStates.Standing),
-            }, new List<Template>()) },
+            { 2, new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers(), 300, 100,new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>()) },
         };
         WastelandProvinceColors = new Dictionary<int, Vector3>()
         {

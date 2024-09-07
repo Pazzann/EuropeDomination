@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using EuropeDominationDemo.Scripts.UI.Events.GUI;
 using Godot;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using EuropeDominationDemo.Scripts.UI.GUIHandlers;
@@ -21,6 +22,11 @@ public partial class GUIArmyViewer : GUIHandler
 		
 	}
 
+	private void _onMergePressed()
+	{
+		InvokeGUIEvent(new GUIMergeUnitsEvent(_currentlyShownArmyUnits));
+	}
+	
 	public override void ToGUIHandleEvent(ToGUIEvent @event)
 	{
 		switch (@event)
@@ -52,6 +58,8 @@ public partial class GUIArmyViewer : GUIHandler
 		foreach (var armyUnit in _currentlyShownArmyUnits)
 		{
 			var window = _armyWindowScene.Instantiate() as GUIArmyWindow;
+			window.ShowInfo(armyUnit.Data);
+			if(_currentlyShownArmyUnits.Count>1) window.HideHalfInfo();
 			_armyWindowSpawner.AddChild(window);
 		}
 		

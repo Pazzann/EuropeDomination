@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios;
+using EuropeDominationDemo.Scripts.Scenarios.Army;
+using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
@@ -432,14 +434,30 @@ public partial class MapHandler : GameHandler
 
 	public override void DayTick()
 	{
-		foreach (var data in EngineState.MapInfo.MapProvinces(ProvinceTypes.ColonizedProvinces))
+		foreach (LandProvinceData data in EngineState.MapInfo.MapProvinces(ProvinceTypes.ColonizedProvinces))
 		{
-			foreach (var building in ((LandProvinceData)data).Buildings.Where(building => !building.IsFinished))
+			foreach (var building in data.Buildings.Where(building => !building.IsFinished))
 			{
 				building.BuildingTime++;
 				if (building.BuildingTime == building.TimeToBuild)
 				{
 					building.IsFinished = true;
+				}
+			}
+			foreach (var specialBuilding in data.SpecialBuildings.Where(d=>d !=null))
+			{
+				if (specialBuilding is MilitaryTrainingCamp camp)
+				{
+					if (camp.TrainingList.Count > 0 && camp.TrainingList.Peek().DayTick())
+					{
+						var a = camp.TrainingList.Dequeue();
+						a.IsFinished = true;
+						var b = new ArmyUnitData("test", data.Owner, data.Id, Modifiers.DefaultModifiers(),
+							new List<ArmyRegiment>() { a }, null, new List<KeyValuePair<int, int>>(), 0,
+							UnitStates.Standing);
+						EngineState.MapInfo.Scenario.Countries[data.Owner].Units.Add(b);
+						InvokeToEngineEvent(new ToEngineAddArmyUnitEvent(b));
+					}
 				}
 			}
 		}

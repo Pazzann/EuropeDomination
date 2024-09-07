@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bw0gswtlmq4km"]
+[gd_scene load_steps=7 format=3 uid="uid://bw0gswtlmq4km"]
 
 [ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_frl1o"]
 [ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUICountryWindow.cs" id="1_w0fs2"]
@@ -6,8 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://dcl8ke0y26dfo" path="res://Prefabs/GUI/Modules/GUIGoodTemplate.tscn" id="3_8yous"]
 [ext_resource type="PackedScene" uid="uid://rc00o8th0yea" path="res://Prefabs/GUI/Modules/GUIRegimentTemplate.tscn" id="3_ysjvy"]
 [ext_resource type="PackedScene" uid="uid://oxh0ek8o2k2u" path="res://Prefabs/GUI/Modules/GUIGoodEditPanel.tscn" id="6_s5d5n"]
-
-[sub_resource type="ButtonGroup" id="ButtonGroup_6g2cl"]
 
 [node name="GuiCountryWindow" type="Control"]
 layout_mode = 3
@@ -119,6 +117,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="TemplateDesigner" type="PanelContainer" parent="TabContainer/Army/MarginContainer/VBoxContainer/TabContainer/Templates/HBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.51
@@ -152,15 +151,14 @@ text = "Delete"
 layout_mode = 2
 text = "Cancel"
 
-[node name="MenuButton" type="MenuButton" parent="TabContainer/Army/MarginContainer/VBoxContainer/TabContainer/Templates/HBoxContainer/TemplateDesigner/MarginContainer/VBoxContainer"]
+[node name="OptionButton" type="OptionButton" parent="TabContainer/Army/MarginContainer/VBoxContainer/TabContainer/Templates/HBoxContainer/TemplateDesigner/MarginContainer/VBoxContainer"]
 layout_mode = 2
-button_group = SubResource("ButtonGroup_6g2cl")
-text = "Choose RegimentType"
+selected = 0
 item_count = 3
-popup/item_0/text = "InrantryRegiment"
-popup/item_1/text = "CavallaryRegiment"
+popup/item_0/text = "Infantry Template"
+popup/item_1/text = "Cavallary Template"
 popup/item_1/id = 1
-popup/item_2/text = "ArtilleryRegiment"
+popup/item_2/text = "Artillery Template"
 popup/item_2/id = 2
 
 [node name="GoodContainer" type="GridContainer" parent="TabContainer/Army/MarginContainer/VBoxContainer/TabContainer/Templates/HBoxContainer/TemplateDesigner/MarginContainer/VBoxContainer"]
@@ -240,10 +238,17 @@ offset_right = 23.0
 offset_bottom = 24.0
 
 [node name="GoodEditPanel" parent="." instance=ExtResource("6_s5d5n")]
+visible = false
 layout_mode = 0
 offset_left = 621.0
 offset_top = 356.0
 offset_right = 861.0
 offset_bottom = 556.0
 
+[connection signal="pressed" from="TabContainer/Army/MarginContainer/VBoxContainer/TabContainer/Templates/HBoxContainer/TemplatesList/VBoxContainer/Button" to="." method="_onCreateNewArmyTemplatePressed"]
+[connection signal="pressed" from="TabContainer/Army/MarginContainer/VBoxContainer/TabContainer/Templates/HBoxContainer/TemplateDesigner/MarginContainer/VBoxContainer/HBoxContainer2/Button" to="." method="_onSaveArmyTemplatePressed"]
+[connection signal="pressed" from="TabContainer/Army/MarginContainer/VBoxContainer/TabContainer/Templates/HBoxContainer/TemplateDesigner/MarginContainer/VBoxContainer/HBoxContainer2/Button2" to="." method="_onDeleteArmyTemplateButtonPressed"]
+[connection signal="pressed" from="TabContainer/Army/MarginContainer/VBoxContainer/TabContainer/Templates/HBoxContainer/TemplateDesigner/MarginContainer/VBoxContainer/HBoxContainer2/Button3" to="." method="_onCancelArmyTemplateEditionButtonPressed"]
+[connection signal="item_selected" from="TabContainer/Army/MarginContainer/VBoxContainer/TabContainer/Templates/HBoxContainer/TemplateDesigner/MarginContainer/VBoxContainer/OptionButton" to="." method="_onOptionArmyTemplateButtonItemSelected"]
 [connection signal="pressed" from="TextureRect/Button" to="." method="_onCloseMenuPressed"]
+[connection signal="GoodChangePressed" from="GoodEditPanel" to="." method="_onGoodEditPanelGoodChangePressed"]

@@ -1,6 +1,6 @@
 ﻿namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
 
-public class Template
+public abstract class Template
 {
     public string Name;
     public int Id;
@@ -10,4 +10,6 @@ public class Template
         Name = name;
         Id = id;
     }
+
+    public abstract int TrainingTime { get; }
 }

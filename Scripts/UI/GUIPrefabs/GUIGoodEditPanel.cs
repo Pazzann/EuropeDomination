@@ -13,6 +13,7 @@ public partial class GUIGoodEditPanel : PanelContainer
 	
 	private GridContainer _goodContainer;
 	private PackedScene _goodBox;
+	
 	public void Init()
 	{
 		_goodContainer = GetNode<GridContainer>("MarginContainer/ScrollContainer/GridContainer");
@@ -20,15 +21,14 @@ public partial class GUIGoodEditPanel : PanelContainer
 		
 		ChangeGoods(EngineState.MapInfo.Scenario.Goods.ToArray());
 	}
-	
 
 	public void ChangeGoods(Good[] newGoods)
 	{
-		foreach (var child in GetChildren())
+		foreach (var child in _goodContainer.GetChildren())
 		{
 			child.QueueFree();
 		}
-
+		
 		foreach (var good in newGoods)
 		{
 			var a = _goodBox.Instantiate();

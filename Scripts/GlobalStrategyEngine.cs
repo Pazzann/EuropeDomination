@@ -143,6 +143,9 @@ public partial class GlobalStrategyEngine : Node2D
 			case ToEngineViewModUpdate:
 				ViewModeChange();
 				return;
+			case ToEngineAddArmyUnitEvent e:
+				AllHandlersControls.GUIInteractionHandler(new GUIAddArmyUnitEvent(e.ArmyUnitData));
+				return;
 			default:
 				return;
 		}

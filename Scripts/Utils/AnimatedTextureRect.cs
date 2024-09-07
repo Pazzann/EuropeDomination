@@ -29,8 +29,19 @@ public partial class AnimatedTextureRect : TextureRect
 
 	public void SetFrame(int value)
 	{
+		if (value == -1)
+		{
+			SetEmptyFrame();
+			return;	
+		}
 		Texture = SpriteFrames.GetFrameTexture(CurrentAnimation, value);
 		FrameIndex = value;
+	}
+
+	public void SetEmptyFrame()
+	{
+		Texture = null;
+		FrameIndex = -1;
 	}
 
 	public override void _Ready()
