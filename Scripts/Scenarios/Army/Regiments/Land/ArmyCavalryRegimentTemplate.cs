@@ -3,14 +3,14 @@ using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon.LandWeapon;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 
-public class ArmyCavallaryRegimentTemplate: ArmyRegimentTemplate
+public class ArmyCavalryRegimentTemplate: ArmyRegimentTemplate
 {
     public InfantryWeapon Weapon;
     public Horse Horse;
     public Helmet Helmet;
     public Armor Armor;
     public AdditionalSlotGood AdditionalSlot;
-    public ArmyCavallaryRegimentTemplate(string name, int id, InfantryWeapon weapon, Horse horse, Helmet helmet, Armor armor, AdditionalSlotGood additionalSlotGood) : base(name, id)
+    public ArmyCavalryRegimentTemplate(string name, int id, InfantryWeapon weapon, Horse horse, Helmet helmet, Armor armor, AdditionalSlotGood additionalSlotGood) : base(name, id)
     {
         Weapon = weapon;
         Horse = horse;

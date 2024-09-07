@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Scenarios.Army;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
+using EuropeDominationDemo.Scripts.Scenarios.DiplomacyAgreements;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
 
 public class CountryData
 {
-
+	
 	public int Id { get; }
 
 	public string Name;
@@ -22,7 +23,8 @@ public class CountryData
 	public List<UnitData> Units;
 	public List<Template> RegimentTemplates;
 
-	public CountryData(int id, string name, Vector3 color, Modifiers modifiers, int money, int manpower, List<General> generals, List<Admiral> admirals, List<UnitData> units, List<Template> templates)
+	public Dictionary<int, List<DiplomacyAgreement>> DiplomacyAgreements;
+	public CountryData(int id, string name, Vector3 color, Modifiers modifiers, int money, int manpower, List<General> generals, List<Admiral> admirals, List<UnitData> units, List<Template> templates, Dictionary<int, List<DiplomacyAgreement>> diplomacyAgreements)
 	{
 		Id = id;
 		Name = name;
@@ -34,5 +36,6 @@ public class CountryData
 		Admirals = admirals;
 		Units = units;
 		RegimentTemplates = templates;
+		DiplomacyAgreements = diplomacyAgreements;
 	}
 }

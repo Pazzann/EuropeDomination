@@ -4,10 +4,9 @@ using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios.Army;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
-using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
+using EuropeDominationDemo.Scripts.Scenarios.DiplomacyAgreements;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
-using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon;
 using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon.LandWeapon;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
@@ -29,6 +28,7 @@ public class EuropeScenario : Scenario
     public override List<Good> Goods { get;}
 
     public override List<Recipe> Recipes { get; set; }
+    public override List<BattleData> Battles { get; set; }
 
 
     public EuropeScenario(Image mapTexture)
@@ -50,28 +50,27 @@ public class EuropeScenario : Scenario
 
         Countries = new Dictionary<int, CountryData>()
         {
-            { 0, new CountryData(0, "Great Britain", new Vector3(0.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers(), 100, 300, new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>()
-                {
-                    new ArmyInfantryRegimentTemplate("Test", 0, Goods[3] as InfantryWeapon, null, null, null, null)
-                })},
-            { 1, new CountryData(1, "France", new Vector3(0.0f, 0.0f, 1.0f), Modifiers.DefaultModifiers(), 200, 200,new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>()) },
-            { 2, new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers(), 300, 100,new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>()) },
+            { 0, new CountryData(0, "Great Britain", new Vector3(0.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers(), 100, 300, new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(), new Dictionary<int, List<DiplomacyAgreement>>())},
+            { 1, new CountryData(1, "France", new Vector3(0.0f, 0.0f, 1.0f), Modifiers.DefaultModifiers(), 200, 200,new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(), new Dictionary<int, List<DiplomacyAgreement>>()) },
+            { 2, new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers(), 300, 100,new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(), new Dictionary<int, List<DiplomacyAgreement>>()) },
         };
         WastelandProvinceColors = new Dictionary<int, Vector3>()
         {
             { 230, new Vector3(1.0f, 1.0f, 0.0f) },
             { 333, new Vector3(0.0f, 0.5f, 1.0f) }
         };
-        WaterColor = new Vector3(0.2f, 0.5f, 1.0f);
+        WaterColor = new Vector3(0.2f, 0.5f, 1.0f); 
         UncolonizedColor = new Vector3(0.7f, 1.0f, 1.0f);
 
         Recipes = new List<Recipe>()
         {
-            new Recipe(new Dictionary<Good, double>(){
+            new(new Dictionary<Good, double>(){
                 { Goods[0], 1 },
                 { Goods[2] , 0.5 }
             }, Goods[3])
         };
+
+        Battles = new List<BattleData>();
         
         
 

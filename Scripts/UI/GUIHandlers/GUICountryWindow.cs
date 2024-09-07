@@ -193,7 +193,7 @@ public partial class GUICountryWindow : GUIHandler
 					
 					break;
 				}
-				case ArmyCavallaryRegimentTemplate template:
+				case ArmyCavalryRegimentTemplate template:
 				{
 					var weaponIndex = _goodArmyTemplateSpawner.GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0)
 						.FrameIndex;
@@ -279,7 +279,7 @@ public partial class GUICountryWindow : GUIHandler
 					var additionalSlotIndex = _goodArmyTemplateSpawner.GetChild(4).GetChild(0).GetChild<AnimatedTextureRect>(0)
 						.FrameIndex;
 					
-					EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].RegimentTemplates.Add(new ArmyCavallaryRegimentTemplate(
+					EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].RegimentTemplates.Add(new ArmyCavalryRegimentTemplate(
 						_lineEditNameArmyTemplate.Text,
 						EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].RegimentTemplates.Count,
 						weaponIndex == -1 ? null : EngineState.MapInfo.Scenario.Goods[weaponIndex] as InfantryWeapon,
@@ -468,7 +468,7 @@ public partial class GUICountryWindow : GUIHandler
 				
 				return;
 			}
-			case ArmyCavallaryRegimentTemplate armyCavallary:
+			case ArmyCavalryRegimentTemplate armyCavallary:
 			{
 				_optionButtonTypeArmyTemplate.Selected = 1;
 				

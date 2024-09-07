@@ -23,6 +23,7 @@ public abstract class Scenario : IScenario
 	
 	public abstract Image MapTexture { get; set; }
 	public abstract List<Good> Goods { get; }
+	public abstract List<BattleData> Battles { get; set; }
 	
 
 	public TimeSpan Ts => new(1, 0, 0, 0);

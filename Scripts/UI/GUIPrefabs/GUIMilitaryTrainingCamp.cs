@@ -118,7 +118,7 @@ public partial class GUIMilitaryTrainingCamp : Control
 				_goodContainer.GetChild(4).GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0).SetFrame(template.AdditionalSlot?.Id ?? -1);
 				return;
 			}
-			case ArmyCavallaryRegimentTemplate template:
+			case ArmyCavalryRegimentTemplate template:
 			{
 				_goodContainer.GetChild(0).GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0).SetFrame(template.Weapon?.Id ?? -1);
 				_goodContainer.GetChild(1).GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0).SetFrame(template.Horse?.Id ?? -1);
