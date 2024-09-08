@@ -35,10 +35,10 @@ public partial class GUIBattleWindow : GUIHandler
 						color = (_currentlyShownBattleData.Attacker as ArmyUnitData).Regiments.Contains(d)? MapDefaultColors.AttackerInfantryInBattle : MapDefaultColors.DefenderInfantryInBattle;
 						break;
 					case ArmyArtilleryRegiment d:
-						color = (_currentlyShownBattleData.Attacker as ArmyUnitData).Regiments.Contains(d)? MapDefaultColors.AttackerInfantryInBattle : MapDefaultColors.DefenderInfantryInBattle;
+						color = (_currentlyShownBattleData.Attacker as ArmyUnitData).Regiments.Contains(d)? MapDefaultColors.AttackerCavalryInBattle : MapDefaultColors.DefenderCavalryInBattle;
 						break;
 					case ArmyCavalryRegiment d:
-						color = (_currentlyShownBattleData.Attacker as ArmyUnitData).Regiments.Contains(d)? MapDefaultColors.AttackerInfantryInBattle : MapDefaultColors.DefenderInfantryInBattle;
+						color = (_currentlyShownBattleData.Attacker as ArmyUnitData).Regiments.Contains(d)? MapDefaultColors.AttackerArtilleryInBattle : MapDefaultColors.DefenderArtilleryInBattle;
 						break;
 					default:
 						color = MapDefaultColors.EmptyInBattle;
