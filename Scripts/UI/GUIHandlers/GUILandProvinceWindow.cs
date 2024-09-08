@@ -148,6 +148,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 				_hideProvinceWindow();
 				return;
 			case ToGuiShowLandProvinceDataEvent e:
+			{
 				_transportationHandler.Visible = false;
 				_showProvinceWindow();
 				_currentProvinceData = e.ShowProvinceData;
@@ -158,10 +159,20 @@ public partial class GUILandProvinceWindow : GUIHandler
 				_showTab(_currentTab);
 				_setProvinceInfo(e.ShowProvinceData);
 				return;
+			}
 			case ToGUIUpdateLandProvinceDataEvent e:
+			{
 				_currentProvinceData = e.UpdateProvinceData;
 				_setProvinceInfo(e.UpdateProvinceData);
 				return;
+			}
+			case ToGUIShowCountryWindowEvent:
+			case ToGUIShowArmyViewerEvent:
+			case ToGUIShowDiplomacyWindow:
+			{
+				_hideProvinceWindow();
+				return;
+			}
 			default:
 				return;
 		}

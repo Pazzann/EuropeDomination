@@ -83,6 +83,17 @@ public partial class MapHandler : GameHandler
 
 	public override bool InputHandle(InputEvent @event, int tileId)
 	{
+		if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Right, Pressed: false })
+		{
+			if (EngineState.MapInfo.Scenario.Map[tileId] is LandProvinceData countryProvince)
+			{
+				if(countryProvince.Owner == EngineState.PlayerCountryId)
+					InvokeToGUIEvent(new ToGUIShowCountryWindowEvent());
+				else
+					InvokeToGUIEvent(new ToGUIShowDiplomacyWindow(EngineState.MapInfo.Scenario.Countries[countryProvince.Owner]));
+			}
+		}
+		
 		if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true })
 		{
 			_lastClickTimestamp = Time.GetTicksMsec() / 1000f;

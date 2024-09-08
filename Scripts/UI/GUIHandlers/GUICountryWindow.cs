@@ -85,6 +85,13 @@ public partial class GUICountryWindow : GUIHandler
 				_showCountryData();
 				Visible = true;
 				return;
+			case ToGuiShowLandProvinceDataEvent:
+			case ToGUIShowArmyViewerEvent:
+			case ToGUIShowDiplomacyWindow:
+			{
+				Visible = false;
+				return;
+			}
 		}
 	}
 

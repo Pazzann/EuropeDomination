@@ -4,24 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33a1544e-32e3-4b27-84a9-fe9a146be581" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/EuropeDominationDemo.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Scripts/Scenarios/BattleData.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Scripts/Scenarios/DiplomacyAgreements/DiplomacyAgreement.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Scripts/Scenarios/DiplomacyAgreements/War.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scripts/GlobalStates/Settings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/GlobalStates/Settings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scripts/Scenarios/Army/Regiments/Land/ArmyCavallaryRegiment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/Scenarios/Army/Regiments/Land/ArmyCavalryRegiment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scripts/Scenarios/Army/Regiments/Land/ArmyCavallaryRegimentTemplate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/Scenarios/Army/Regiments/Land/ArmyCavalryRegimentTemplate.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scripts/Scenarios/Army/Regiments/Land/ArmyInfarntryRegiment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/Scenarios/Army/Regiments/Land/ArmyInfantryRegiment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scripts/Scenarios/CountryData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/Scenarios/CountryData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scripts/Scenarios/CreatedScenarios/EuropeScenario.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/Scenarios/CreatedScenarios/EuropeScenario.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scripts/Scenarios/Scenario.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/Scenarios/Scenario.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scripts/UI/GUIHandlers/GUICountryWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/UI/GUIHandlers/GUICountryWindow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scripts/UI/GUIPrefabs/GUIMilitaryTrainingCamp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/UI/GUIPrefabs/GUIMilitaryTrainingCamp.cs" afterDir="false" />
-    </list>
+    <list default="true" id="33a1544e-32e3-4b27-84a9-fe9a146be581" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,9 +16,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2lknXXDDTQxLUkM5AnXyYucMMiS" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -46,7 +29,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/manto/OneDrive/Documents/GitHub/EuropeDominationDemo",
+    "last_opened_file_path": "C:/Users/manto/OneDrive/Documents/GitHub/mafia-bot",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -55,6 +38,13 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-WS-242.21829.149" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -64,6 +54,7 @@
       <option name="presentableId" value="Default" />
       <updated>1725732981697</updated>
       <workItem from="1725732982769" duration="5069000" />
+      <workItem from="1725739069668" duration="236000" />
     </task>
     <servers />
   </component>
