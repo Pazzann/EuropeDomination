@@ -31,6 +31,7 @@ public partial class GUI : Control
 		allGUIHandlers.Add(GetNode<GUICountryWindow>("GuiCountryWindow"));
 		allGUIHandlers.Add(GetNode<GUIDiplomacyWindow>("./GuiDiplomacyWindow"));
 		allGUIHandlers.Add(GetNode<GUIBattleWindow>("./GuiBattleWindow"));
+		allGUIHandlers.Add(GetNode<GUIColonizeProvinceInfo>("./GuiColonizeProvinceInfo"));
 
 		foreach (var guiHandler in allGUIHandlers)
 		{

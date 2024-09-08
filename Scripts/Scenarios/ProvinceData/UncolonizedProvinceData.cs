@@ -1,9 +1,20 @@
-﻿namespace EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
+﻿using EuropeDominationDemo.Scripts.Enums;
+using EuropeDominationDemo.Scripts.Scenarios.Goods;
 
-public class UncolonizedProvinceData : ProvinceData
+namespace EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
+
+public class UncolonizedProvinceData : LandProvinceData
 {
-    public UncolonizedProvinceData(int id, string name) : base(id, name)
+    public int SettlersCombined;
+    public int SettlersNeeded;
+    public CountryData CurrentlyColonizedByCountry;
+    
+    public Modifiers Modifiers;
+    public UncolonizedProvinceData(int id, string name, Terrain terrain, Good good, Modifiers modifiers, int settlersCombined = 0, int settlersNeeded = 5000, CountryData currentlyColonizedByCountry = null) : base(id, name, terrain, good)
     {
-        Name = name;
+        SettlersCombined = settlersCombined;
+        SettlersNeeded = settlersNeeded;
+        CurrentlyColonizedByCountry = currentlyColonizedByCountry;
+        Modifiers = modifiers;
     }
 }

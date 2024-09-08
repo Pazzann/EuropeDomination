@@ -30,6 +30,6 @@ public abstract class Scenario : IScenario
 
 	public ProvinceData.ProvinceData[] CountryProvinces(int countryId)
 	{
-		return Map.Where(t  => t is LandProvinceData data && countryId == data.Owner).ToArray();
+		return Map.Where(t  => t is LandColonizedProvinceData data && countryId == data.Owner).ToArray();
 	}
 }

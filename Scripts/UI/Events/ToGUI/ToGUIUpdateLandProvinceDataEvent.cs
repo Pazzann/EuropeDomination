@@ -5,10 +5,10 @@ namespace EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 
 public class ToGUIUpdateLandProvinceDataEvent : ToGUIEvent
 {
-    public LandProvinceData UpdateProvinceData;
+    public LandColonizedProvinceData UpdateColonizedProvinceData;
 
-    public ToGUIUpdateLandProvinceDataEvent(LandProvinceData updateProvinceData)
+    public ToGUIUpdateLandProvinceDataEvent(LandColonizedProvinceData updateColonizedProvinceData)
     {
-        UpdateProvinceData = updateProvinceData;
+        UpdateColonizedProvinceData = updateColonizedProvinceData;
     }
 }

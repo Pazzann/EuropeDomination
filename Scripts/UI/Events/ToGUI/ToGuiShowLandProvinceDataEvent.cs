@@ -5,9 +5,9 @@ namespace EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 
 public class ToGuiShowLandProvinceDataEvent : ToGUIEvent
 {
-    public LandProvinceData ShowProvinceData;
-    public ToGuiShowLandProvinceDataEvent(LandProvinceData showProvinceData)
+    public LandColonizedProvinceData ShowColonizedProvinceData;
+    public ToGuiShowLandProvinceDataEvent(LandColonizedProvinceData showColonizedProvinceData)
     {
-        ShowProvinceData = showProvinceData;
+        ShowColonizedProvinceData = showColonizedProvinceData;
     }
 }

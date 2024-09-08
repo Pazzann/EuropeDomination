@@ -26,7 +26,7 @@ public class MapData
             Vector3[] colors = new Vector3[Scenario.Map.Length];
             for (int i = 0; i < Scenario.Map.Length; i++)
             {
-                if (Scenario.Map[i] is LandProvinceData landData)
+                if (Scenario.Map[i] is LandColonizedProvinceData landData)
                     colors[i] = Scenario.Countries[landData.Owner].Color;
                 if (Scenario.Map[i] is SeaProvinceData)
                     colors[i] = Scenario.WaterColor;
@@ -47,18 +47,18 @@ public class MapData
             case ProvinceTypes.SeaProvinces:
                 return Scenario.Map.Where(d => d is SeaProvinceData).ToArray();
             case ProvinceTypes.LandProvinces:
-                return Scenario.Map.Where(d => d is LandProvinceData or UncolonizedProvinceData).ToArray();
-            case ProvinceTypes.ColonizedProvinces:
                 return Scenario.Map.Where(d => d is LandProvinceData).ToArray();
+            case ProvinceTypes.ColonizedProvinces:
+                return Scenario.Map.Where(d => d is LandColonizedProvinceData).ToArray();
             case ProvinceTypes.UncolonizedProvinces:
                 return Scenario.Map.Where(d => d is UncolonizedProvinceData).ToArray();
             case ProvinceTypes.CoastalProvincesAndSeaProvinces:
                 return Scenario.Map.Where(d =>
-                    (d is LandProvinceData && d.BorderderingProvinces.Where(i => Scenario.Map[i] is SeaProvinceData)
+                    (d is LandColonizedProvinceData && d.BorderderingProvinces.Where(i => Scenario.Map[i] is SeaProvinceData)
                         .ToArray().Length > 0) || d is SeaProvinceData).ToArray();
             case ProvinceTypes.CoastalProvinces:
                 return Scenario.Map.Where(d =>
-                    d is LandProvinceData && d.BorderderingProvinces.Where(i => Scenario.Map[i] is SeaProvinceData)
+                    d is LandColonizedProvinceData && d.BorderderingProvinces.Where(i => Scenario.Map[i] is SeaProvinceData)
                         .ToArray().Length > 0).ToArray();
             default:
                 return Scenario.Map;
@@ -112,7 +112,7 @@ public class MapData
                     var connections = PathFinder.CheckConnectionFromAToOthers(CurrentSelectedProvinceId, landprovinces);
                     for (int i = 0; i < landprovinces.Length; i++)
                     {
-                        if (landprovinces[i] is LandProvinceData landData &&
+                        if (landprovinces[i] is LandColonizedProvinceData landData &&
                             landData.Owner == EngineState.PlayerCountryId &&
                             connections[landData.Id])
                         {
@@ -135,7 +135,7 @@ public class MapData
                     var connections = PathFinder.CheckConnectionFromAToOthers(CurrentSelectedProvinceId, coastalAndSeaProvinces);
                     for (int i = 0; i < coastalAndSeaProvinces.Length; i++)
                     {
-                        if (coastalAndSeaProvinces[i] is LandProvinceData landData &&
+                        if (coastalAndSeaProvinces[i] is LandColonizedProvinceData landData &&
                             landData.Owner == EngineState.PlayerCountryId &&
                             connections[landData.Id]
                            )

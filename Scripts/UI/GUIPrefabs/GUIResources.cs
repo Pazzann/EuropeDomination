@@ -36,7 +36,7 @@ public partial class GUIResources : VBoxContainer
 		}
 	}
 
-	public void DrawResources(LandProvinceData data)
+	public void DrawResources(LandColonizedProvinceData data)
 	{
 		var AllResourcesChange = new double[EngineState.MapInfo.Scenario.Goods.Count];
 
@@ -47,7 +47,7 @@ public partial class GUIResources : VBoxContainer
 
 		_clearInfo(data.Resources);
 
-		foreach (LandProvinceData provinceData in EngineState.MapInfo.MapProvinces(ProvinceTypes.ColonizedProvinces))
+		foreach (LandColonizedProvinceData provinceData in EngineState.MapInfo.MapProvinces(ProvinceTypes.ColonizedProvinces))
 		{
 			if (provinceData.HarvestedTransport != null && provinceData.HarvestedTransport.ProvinceIdTo == data.Id)
 				AllResourcesChange[provinceData.HarvestedTransport.TransportationGood.Id] +=

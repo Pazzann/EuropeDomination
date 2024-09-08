@@ -62,7 +62,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private TabBar _specialBuildingsTabBar;
 
-	private LandProvinceData _currentProvinceData;
+	private LandColonizedProvinceData _currentColonizedProvinceData;
 
 
 	private bool _isCurrentlyShown = false;
@@ -151,19 +151,19 @@ public partial class GUILandProvinceWindow : GUIHandler
 			{
 				_transportationHandler.Visible = false;
 				_showProvinceWindow();
-				_currentProvinceData = e.ShowProvinceData;
+				_currentColonizedProvinceData = e.ShowColonizedProvinceData;
 				_closeAllTabs();
 				_specialBuildingsTabBar.CurrentTab = 0;
 				_currentTab = 0;
 				_militaryTrainingHandler.UpdateTemplates();
 				_showTab(_currentTab);
-				_setProvinceInfo(e.ShowProvinceData);
+				_setProvinceInfo(e.ShowColonizedProvinceData);
 				return;
 			}
 			case ToGUIUpdateLandProvinceDataEvent e:
 			{
-				_currentProvinceData = e.UpdateProvinceData;
-				_setProvinceInfo(e.UpdateProvinceData);
+				_currentColonizedProvinceData = e.UpdateColonizedProvinceData;
+				_setProvinceInfo(e.UpdateColonizedProvinceData);
 				return;
 			}
 			case ToGUIShowCountryWindowEvent:
@@ -183,24 +183,24 @@ public partial class GUILandProvinceWindow : GUIHandler
 		
 	}
 
-	private void _setProvinceInfo(LandProvinceData provinceData)
+	private void _setProvinceInfo(LandColonizedProvinceData colonizedProvinceData)
 	{
-		_guestMode = provinceData.Owner != EngineState.PlayerCountryId;
+		_guestMode = colonizedProvinceData.Owner != EngineState.PlayerCountryId;
 		
 		
-		_provinceName.Text = provinceData.Name;
-		_provinceFlag.Frame = provinceData.Owner;
-		_provinceGood.Frame = provinceData.Good.Id;
-		_provinceTerrain.Frame = (int)provinceData.Terrain;
-		_provinceResources.DrawResources(provinceData);
-		_provinceDev.Text = provinceData.Development.ToString();
+		_provinceName.Text = colonizedProvinceData.Name;
+		_provinceFlag.Frame = colonizedProvinceData.Owner;
+		_provinceGood.Frame = colonizedProvinceData.Good.Id;
+		_provinceTerrain.Frame = (int)colonizedProvinceData.Terrain;
+		_provinceResources.DrawResources(colonizedProvinceData);
+		_provinceDev.Text = colonizedProvinceData.Development.ToString();
 		
 		if(_transportationHandler.Visible)
 			_showTransportationMenu();
 		
-		_setBuildingMenuInfo(provinceData);
+		_setBuildingMenuInfo(colonizedProvinceData);
 		
-		_setBuildingsInfo(provinceData);
+		_setBuildingsInfo(colonizedProvinceData);
 		
 		_showTab(_currentTab);
 	}
@@ -244,14 +244,14 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_buildingsMenu.Visible = true;
 	}
 
-	private void _setBuildingMenuInfo(LandProvinceData provinceData)
+	private void _setBuildingMenuInfo(LandColonizedProvinceData colonizedProvinceData)
 	{
 		//TODO: REWRITE
 		
 		
 		var workshopSprite = _possibleBuildings.GetChild(0) as AnimatedSprite2D;
 		(workshopSprite.GetChild(0) as Label).Text = Building.Buildings[1].Cost.ToString();
-		if (provinceData.Buildings.Exists(i => i.ID == 1))
+		if (colonizedProvinceData.Buildings.Exists(i => i.ID == 1))
 		{
 			workshopSprite.SelfModulate = new Color(0.5f, 1.0f, 0.5f);
 			(workshopSprite.GetChild(1) as Button).Disabled = true;
@@ -263,10 +263,10 @@ public partial class GUILandProvinceWindow : GUIHandler
 		}
 	}
 
-	private void _setBuildingsInfo(LandProvinceData provinceData)
+	private void _setBuildingsInfo(LandColonizedProvinceData colonizedProvinceData)
 	{
 		int g = 0;
-		foreach (var building in provinceData.Buildings)
+		foreach (var building in colonizedProvinceData.Buildings)
 		{
 			if (building.IsFinished)
 			{
@@ -291,7 +291,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 			g++;
 		}
 
-		for (var i = provinceData.Buildings.Count; i < 10; i++)
+		for (var i = colonizedProvinceData.Buildings.Count; i < 10; i++)
 		{
 			
 			(_buildingsHandler.GetChild(i).GetChild(0) as AnimatedSprite2D).Frame = 0;
@@ -299,7 +299,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 			
 			(_buildingsHandler.GetChild(i).GetChild(3) as Sprite2D).Visible = false;
 			(_buildingsHandler.GetChild(i).GetChild(3).GetChild(0) as Button).Disabled = true;
-			if (i > provinceData.UnlockedBuildingCount - 1)
+			if (i > colonizedProvinceData.UnlockedBuildingCount - 1)
 			{
 				(_buildingsHandler.GetChild(i).GetChild(0) as AnimatedSprite2D).SelfModulate = new Color(0.5f, 0.5f, 0.5f);
 				(_buildingsHandler.GetChild(i).GetChild(2) as Sprite2D).Visible = true;
@@ -324,7 +324,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private void _showTab(int tabId)
 	{
-		switch (_currentProvinceData.SpecialBuildings[tabId])
+		switch (_currentColonizedProvinceData.SpecialBuildings[tabId])
 		{
 			case Factory factory:
 				_factoryHandler.Visible = true;
@@ -343,10 +343,10 @@ public partial class GUILandProvinceWindow : GUIHandler
 				_tradeAndStockHandler.ShowData(stockAndTrade, _guestMode);
 				return;
 			default:
-				if (_currentProvinceData.Development >= Settings.DevForSpecialBuilding[tabId])
+				if (_currentColonizedProvinceData.Development >= Settings.DevForSpecialBuilding[tabId])
 				{
 					_emptyHandler.Visible = true;
-					_dockyardButton.Visible = _currentProvinceData.BorderderingProvinces.Any(d => EngineState.MapInfo.Scenario.Map[d] is SeaProvinceData);
+					_dockyardButton.Visible = _currentColonizedProvinceData.BorderderingProvinces.Any(d => EngineState.MapInfo.Scenario.Map[d] is SeaProvinceData);
 					_specialBuildingButtons.Visible = !_guestMode;
 				}
 				else
@@ -363,16 +363,16 @@ public partial class GUILandProvinceWindow : GUIHandler
 		switch (id)
 		{
 			case 0:
-				_currentProvinceData.SpecialBuildings[_currentTab] = new StockAndTrade(0, false, 100, StockAndTrade.DefaultRoutes());
+				_currentColonizedProvinceData.SpecialBuildings[_currentTab] = new StockAndTrade(0, false, 100, StockAndTrade.DefaultRoutes());
 				break;
 			case 1:
-				_currentProvinceData.SpecialBuildings[_currentTab] = new Factory(null,0, false, 0.1f, 100, null);
+				_currentColonizedProvinceData.SpecialBuildings[_currentTab] = new Factory(null,0, false, 0.1f, 100, null);
 				break;
 			case 2:
-				_currentProvinceData.SpecialBuildings[_currentTab] = new Dockyard(0, false, 100, Dockyard.DefaultWaterTransportationRoutes());
+				_currentColonizedProvinceData.SpecialBuildings[_currentTab] = new Dockyard(0, false, 100, Dockyard.DefaultWaterTransportationRoutes());
 				break;
 			case 3:
-				_currentProvinceData.SpecialBuildings[_currentTab] = new MilitaryTrainingCamp(0, false, 100, new Queue<ArmyRegiment>());
+				_currentColonizedProvinceData.SpecialBuildings[_currentTab] = new MilitaryTrainingCamp(0, false, 100, new Queue<ArmyRegiment>());
 				break;
 			default:
 				return;
@@ -391,7 +391,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 	{
 		_transportationRouteToEdit = transportationRoute;
 		_showTransportationMenu();
-		_setProvinceInfo(_currentProvinceData);
+		_setProvinceInfo(_currentColonizedProvinceData);
 	}
 
 	private void _onCloseTransportMenuPressed()
@@ -406,9 +406,9 @@ public partial class GUILandProvinceWindow : GUIHandler
 		
 		_waterMode = false;
 		
-		_routeAdressToTransfer = _currentProvinceData.SetRoute;
-		_transportationRouteToEdit = _currentProvinceData.HarvestedTransport;
-		_goodToTransfer = _currentProvinceData.Good;
+		_routeAdressToTransfer = _currentColonizedProvinceData.SetRoute;
+		_transportationRouteToEdit = _currentColonizedProvinceData.HarvestedTransport;
+		_goodToTransfer = _currentColonizedProvinceData.Good;
 		_isGoodEditable = false;
 		_showTransportationMenu();
 	}
@@ -419,7 +419,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		
 		_waterMode = false;
 		
-		var building = (_currentProvinceData.SpecialBuildings[_currentTab] as Factory);
+		var building = (_currentColonizedProvinceData.SpecialBuildings[_currentTab] as Factory);
 		_routeAdressToTransfer = building.SetRoute;
 		_transportationRouteToEdit =
 			building.TransportationRoute;
@@ -435,7 +435,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		
 		_waterMode = false;
 		
-		var building = (_currentProvinceData.SpecialBuildings[_currentTab] as StockAndTrade);
+		var building = (_currentColonizedProvinceData.SpecialBuildings[_currentTab] as StockAndTrade);
 		building.RouteId = id;
 		_routeAdressToTransfer = building.SetRoute;
 		_transportationRouteToEdit = building.TransportationRoutes[id];
@@ -452,7 +452,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		
 		_waterMode = true;
 		
-		var building = (_currentProvinceData.SpecialBuildings[_currentTab] as Dockyard);
+		var building = (_currentColonizedProvinceData.SpecialBuildings[_currentTab] as Dockyard);
 		building.RouteId = id;
 		_routeAdressToTransfer = building.SetRoute;
 		_transportationRouteToEdit = building.WaterTransportationRoutes[id];
