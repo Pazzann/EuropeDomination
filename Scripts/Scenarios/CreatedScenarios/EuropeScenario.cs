@@ -113,7 +113,7 @@ public class EuropeScenario : Scenario
                 new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new LandProvinceData(15, 1, "Liberty", Terrain.Mountains, Goods[1], 1, Good.DefaultGoods(),
                 new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
-            new LandProvinceData(16, 1, "NY", Terrain.Coast, Goods[1], 1, Good.DefaultGoods(), new List<Building>(),
+            new LandProvinceData(16, 1, "NY", Terrain.Coast, Goods[1], 30, Good.DefaultGoods(), new List<Building>(),
                 Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),
             new LandProvinceData(17, 1, "Los Angeles", Terrain.Coast, Goods[1], 1, Good.DefaultGoods(),
                 new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] {null, null, null}, null),

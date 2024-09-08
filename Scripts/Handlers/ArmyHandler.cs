@@ -29,7 +29,7 @@ public partial class ArmyHandler : GameHandler
 				if (data is ArmyUnitData a)
 				{
 					ArmyUnit obj = _armyScene.Instantiate() as ArmyUnit;
-					obj.SetupUnit(a, EngineState.MapInfo);
+					obj.SetupUnit(a, EngineState.MapInfo, this);
 
 
 					//TODO: NORMAL CALCULATION OF ARMY POSITION
@@ -43,7 +43,7 @@ public partial class ArmyHandler : GameHandler
 	private void _addArmyUnit(ArmyUnitData a)
 	{
 		ArmyUnit obj = _armyScene.Instantiate() as ArmyUnit;
-		obj.SetupUnit(a, EngineState.MapInfo);
+		obj.SetupUnit(a, EngineState.MapInfo, this);
 
 
 		//TODO: NORMAL CALCULATION OF ARMY POSITION
@@ -73,6 +73,7 @@ public partial class ArmyHandler : GameHandler
 					}
 					armyUnit.NewPath(
 						PathFinder.FindPathFromAToB(armyUnit.Data.CurrentProvince, tileId,  EngineState.MapInfo.MapProvinces(ProvinceTypes.LandProvinces)));
+					armyUnit.Data.UnitState = UnitStates.Walking;
 				}
 			else
 				foreach (var armyUnit in EngineState.MapInfo.CurrentSelectedUnits)
@@ -132,6 +133,9 @@ public partial class ArmyHandler : GameHandler
 		{
 			(armyUnit as ArmyUnit).UpdateDayTick();
 		}
+		
+		
+		
 	}
 
 	public override void MonthTick()

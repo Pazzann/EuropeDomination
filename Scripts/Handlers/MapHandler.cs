@@ -240,6 +240,8 @@ public partial class MapHandler : GameHandler
 
 	public override void GUIInteractionHandler(GUIEvent @event)
 	{
+		if(EngineState.MapInfo.CurrentSelectedProvinceId < 0)
+			return;
 		if (EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] is LandProvinceData data)
 			switch (@event)
 			{

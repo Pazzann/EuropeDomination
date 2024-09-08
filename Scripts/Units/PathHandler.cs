@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.Army;
 using EuropeDominationDemo.Scripts.Utils;
@@ -31,6 +32,10 @@ public partial class PathHandler : Node2D
 
 		unit.Data.MovementQueue.Remove(unit.Data.MovementQueue[^1]);
 		unit.Data.MovementProgress = 0;
+		if (unit.Data.MovementQueue.Count == 0)
+		{
+			unit.Data.UnitState = UnitStates.Standing;
+		}
 
 	}
 
