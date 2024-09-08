@@ -4,6 +4,7 @@ using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.Army;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
+using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
 
@@ -19,113 +20,72 @@ public class BattleData
         Attacker = attacker;
         Defender = defender;
 
-        var infantry = new Stack<ArmyInfantryRegiment>(attacker.Regiments.OfType<ArmyInfantryRegiment>());
-        var cavalry = new Stack<ArmyCavalryRegiment>(attacker.Regiments.OfType<ArmyCavalryRegiment>());
-        var artillery = new Stack<ArmyArtilleryRegiment>(attacker.Regiments.OfType<ArmyArtilleryRegiment>());
+        _battleDataPlacement(18, 19, attacker);
+        _battleDataPlacement(1, 0, defender);
+    }
 
-        int[,] positions = {
-            { 18, 0 }, { 18, 1 }, { 18, 18 }, { 18, 19 },
-            { 19, 0 }, { 19, 1 }, { 19, 18 }, { 19, 19 }
+    private void _battleDataPlacement(int frontRow, int backRow, ArmyUnitData army)
+    {
+        var infantry = new Stack<ArmyInfantryRegiment>(army.Regiments.OfType<ArmyInfantryRegiment>());
+        var cavalry = new Stack<ArmyCavalryRegiment>(army.Regiments.OfType<ArmyCavalryRegiment>());
+        var artillery = new Stack<ArmyArtilleryRegiment>(army.Regiments.OfType<ArmyArtilleryRegiment>());
+
+        //placing corner cavalry
+        Vector2I[] cavalryPrimaryPositions =
+        {
+            new(frontRow, 0), new(frontRow, 19), new(frontRow, 1), new(frontRow, 18),
+            new(backRow, 0), new(backRow, 19), new(backRow, 1), new(backRow, 18)
         };
-
-        foreach (var position in positions)
+        for (var positionIndex = 0;
+             positionIndex < cavalryPrimaryPositions.Length && cavalry.Count > 0;
+             positionIndex++)
         {
-            if (cavalry.Count > 0)
+            var position = cavalryPrimaryPositions[positionIndex];
+            Battlefield[position.X, position.Y] = cavalry.Pop();
+        }
+
+        //filling front row
+        for (var rightPosition = 10;
+             rightPosition < 20 && Battlefield[frontRow, rightPosition] == null &&
+             (infantry.Count > 0 || cavalry.Count > 0);
+             rightPosition++)
+        {
+            if (infantry.Count > 0) Battlefield[frontRow, rightPosition] = infantry.Pop();
+            else Battlefield[frontRow, rightPosition] = cavalry.Pop();
+            if (infantry.Count > 0 || cavalry.Count > 0)
             {
-                Battlefield[position[0], position[1]] = cavalry.Pop();
+                var leftPosition = 19 - rightPosition;
+                if (Battlefield[frontRow, leftPosition] == null)
+                {
+                    if (infantry.Count > 0) Battlefield[frontRow, leftPosition] = infantry.Pop();
+                    else Battlefield[frontRow, leftPosition] = cavalry.Pop();
+                }
             }
         }
 
-        var firstRowColumnLeft = 10;
-        var firstRowColumnRight = 11;
-
-        while (infantry.Count != 0)
+        //filling back row
+        for (var rightPosition = 10;
+             rightPosition < 20 && Battlefield[backRow, rightPosition] == null &&
+             (artillery.Count > 0 || infantry.Count > 0 || cavalry.Count > 0);
+             rightPosition++)
         {
-            var regiment = infantry.Pop();
-
-            if (10 - firstRowColumnLeft >= firstRowColumnRight - 11)
+            if (artillery.Count > 0) Battlefield[backRow, rightPosition] = artillery.Pop();
+            else if (infantry.Count > 0) Battlefield[backRow, rightPosition] = infantry.Pop();
+            else Battlefield[backRow, rightPosition] = cavalry.Pop();
+            if (artillery.Count > 0 || infantry.Count > 0 || cavalry.Count > 0)
             {
-                Battlefield[18, firstRowColumnRight] = regiment;
-
-                if (firstRowColumnRight == 19)
-                    break;
-
-                firstRowColumnRight++;
-            }
-            else
-            {
-                Battlefield[18, firstRowColumnLeft] = regiment;
-
-                if (firstRowColumnLeft == 0)
-                    break;
-
-                firstRowColumnLeft--;
+                var leftPosition = 19 - rightPosition;
+                if (Battlefield[backRow, leftPosition] == null)
+                {
+                    if (artillery.Count > 0) Battlefield[backRow, leftPosition] = artillery.Pop();
+                    else if (infantry.Count > 0) Battlefield[backRow, leftPosition] = infantry.Pop();
+                    else Battlefield[backRow, leftPosition] = cavalry.Pop();
+                }
             }
         }
-
-        foreach (var regiment in attacker.Regiments)
-        {
-            if (!used.Contains(regiment) && regiment is ArmyInfantryRegiment)
-            {
-                if (10 - firstRowColumnLeft >= firstRowColumnRight - 11)
-                {
-                    Battlefield[18, firstRowColumnRight] = regiment;
-
-                    if (firstRowColumnRight == 19)
-                        break;
-
-                    firstRowColumnRight++;
-                }
-                else
-                {
-                    Battlefield[18, firstRowColumnLeft] = regiment;
-
-                    if (firstRowColumnLeft == 0)
-                        break;
-
-                    firstRowColumnLeft--;
-                }
-
-                used.Add(regiment);
-            }
-        }
-
-        var secondRowColumnLeft = 10;
-        var secondRowColumnRight = 11;
-
-        foreach (var regiment in attacker.Regiments)
-        {
-            if (!used.Contains(regiment) && regiment is ArmyArtilleryRegiment)
-            {
-                if (10 - secondRowColumnLeft >= secondRowColumnRight - 11)
-                {
-                    Battlefield[19, secondRowColumnRight] = regiment;
-
-                    if (secondRowColumnRight == 19)
-                        break;
-
-                    secondRowColumnRight++;
-                }
-                else
-                {
-                    Battlefield[19, secondRowColumnLeft] = regiment;
-
-                    if (secondRowColumnLeft == 0)
-                        break;
-
-                    secondRowColumnLeft--;
-                }
-
-                used.Add(regiment);
-            }
-        }
-
-
-        
     }
 
     public void DayTick()
     {
-        
     }
 }
