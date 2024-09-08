@@ -97,8 +97,29 @@ public partial class GUIMilitaryTrainingCamp : Control
 
 	private void _onTrainUnitPressed()
 	{
-		if(_currentSelectedTemplate != null)
-			_militaryTrainingCamp.TrainingList.Enqueue(new ArmyRegiment(_currentSelectedTemplate.Name, 0, _currentSelectedTemplate.Id, 0, _currentSelectedTemplate.TrainingTime, false, 0, 0));
+		if (_currentSelectedTemplate != null)
+		{
+			switch (_currentSelectedTemplate)
+			{
+				//todo: fix constructors
+				case ArmyInfantryRegimentTemplate template:
+				{
+					_militaryTrainingCamp.TrainingList.Enqueue(new ArmyInfantryRegiment(_currentSelectedTemplate.Name, 0, _currentSelectedTemplate.Id, 0, _currentSelectedTemplate.TrainingTime, false, 0, 0));
+					return;
+				}
+				case ArmyCavalryRegimentTemplate template:
+				{
+					_militaryTrainingCamp.TrainingList.Enqueue(new ArmyCavalryRegiment(_currentSelectedTemplate.Name, 0, _currentSelectedTemplate.Id, 0, _currentSelectedTemplate.TrainingTime, false, 0, 0));
+					return;
+				}
+				case ArmyArtilleryRegimentTemplate template:
+				{
+					_militaryTrainingCamp.TrainingList.Enqueue(new ArmyArtilleryRegiment(_currentSelectedTemplate.Name, 0, _currentSelectedTemplate.Id, 0, _currentSelectedTemplate.TrainingTime, false, 0, 0));
+					return;
+				}
+					
+			}
+		}
 	}
 	
 	private void _selectUnitTemplate(int unitTemplateId)
