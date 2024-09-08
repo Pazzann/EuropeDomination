@@ -130,6 +130,11 @@ custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
 
+[node name="ColorRect20" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
 [node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
@@ -225,6 +230,11 @@ layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
 
 [node name="ColorRect19" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect20" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
@@ -328,6 +338,11 @@ custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
 
+[node name="ColorRect20" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
 [node name="HBoxContainer4" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
@@ -423,6 +438,11 @@ layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
 
 [node name="ColorRect19" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer4"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect20" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer4"]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
@@ -526,6 +546,11 @@ custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
 
+[node name="ColorRect20" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer5"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
 [node name="HBoxContainer6" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
@@ -621,6 +646,11 @@ layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
 
 [node name="ColorRect19" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer6"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect20" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer6"]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
@@ -724,6 +754,11 @@ custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
 
+[node name="ColorRect20" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer7"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
 [node name="HBoxContainer8" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
@@ -819,6 +854,11 @@ layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
 
 [node name="ColorRect19" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer8"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect20" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer8"]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
@@ -922,6 +962,11 @@ custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
 
+[node name="ColorRect20" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer9"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
 [node name="HBoxContainer10" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
@@ -1017,6 +1062,11 @@ layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
 
 [node name="ColorRect19" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer10"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect20" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer10"]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
@@ -1120,6 +1170,11 @@ custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
 
+[node name="ColorRect20" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer11"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
 [node name="HBoxContainer12" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
@@ -1215,6 +1270,11 @@ layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
 
 [node name="ColorRect19" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer12"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect20" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer12"]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
@@ -1318,6 +1378,11 @@ custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
 
+[node name="ColorRect20" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer13"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
 [node name="HBoxContainer14" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
@@ -1413,6 +1478,11 @@ layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
 
 [node name="ColorRect19" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer14"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect20" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer14"]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
@@ -1516,6 +1586,11 @@ custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
 
+[node name="ColorRect20" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer15"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
 [node name="HBoxContainer16" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
@@ -1611,6 +1686,11 @@ layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
 
 [node name="ColorRect19" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer16"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect20" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer16"]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
@@ -1714,6 +1794,11 @@ custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
 
+[node name="ColorRect20" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer17"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
 [node name="HBoxContainer18" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
@@ -1813,6 +1898,11 @@ custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
 
+[node name="ColorRect20" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer18"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
 [node name="HBoxContainer19" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
@@ -1908,6 +1998,115 @@ layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
 
 [node name="ColorRect19" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer19"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect20" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer19"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="HBoxContainer20" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer20"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer20"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer20"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer20"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect5" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer20"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect6" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer20"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect7" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer20"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect8" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer20"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect9" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer20"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect10" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer20"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect11" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer20"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect12" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer20"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect13" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer20"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect14" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer20"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect15" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer20"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect16" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer20"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect17" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer20"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect18" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer20"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect19" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer20"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+color = Color(0.137255, 0.145098, 1, 1)
+
+[node name="ColorRect20" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer20"]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 color = Color(0.137255, 0.145098, 1, 1)
