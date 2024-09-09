@@ -76,16 +76,16 @@ public class EuropeScenario : Scenario
 
         Terrains = new List<Terrain>()
         {
-            new Terrain("Mountains", 0, new Vector3(0.1f, 0.0f, 0.0f), Modifiers.DefaultModifiers()),
-            new Terrain("Plain", 1, new Vector3(0.2f, 0.2f, 0.6f), Modifiers.DefaultModifiers()),
-            new Terrain("Forest", 2, new Vector3(0.4f, 0.2f, 0.0f), Modifiers.DefaultModifiers()),
-            new Terrain("Field", 3, new Vector3(0.4f, 0.8f, 0.0f), Modifiers.DefaultModifiers()),
-            new Terrain("Coast", 4, new Vector3(0.1f, 0.8f, 0.3f), Modifiers.DefaultModifiers()),
+            new ("Mountains", 0, new Vector3(0.1f, 0.0f, 0.0f), Modifiers.DefaultModifiers()),
+            new ("Plain", 1, new Vector3(0.2f, 0.2f, 0.6f), Modifiers.DefaultModifiers()),
+            new ("Forest", 2, new Vector3(0.4f, 0.2f, 0.0f), Modifiers.DefaultModifiers()),
+            new ("Field", 3, new Vector3(0.4f, 0.8f, 0.0f), Modifiers.DefaultModifiers()),
+            new ("Coast", 4, new Vector3(0.1f, 0.8f, 0.3f), Modifiers.DefaultModifiers()),
         };
 
         Buildings = new List<Building>()
         {
-            new Building("Workshop", 0, 100, 100, 0, false, Modifiers.DefaultModifiers(productionEfficiency: 1.5f)),
+            new ("Workshop", 0, 100, 100, 0, false, Modifiers.DefaultModifiers(productionEfficiency: 1.5f)),
         };
         
         
