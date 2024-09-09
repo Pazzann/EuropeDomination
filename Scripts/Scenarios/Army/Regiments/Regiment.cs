@@ -45,6 +45,13 @@ public class Regiment
     {
         get => 1f + 0;//add all bonuses
     }
+
+    /* TODO
+    public float MaxManpower
+    {
+        
+    }
+    */
     public float CombatReadiness
     {
         //should be calculated by resource amount needed and in availability (max 1f)

@@ -31,6 +31,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private GUIResources _provinceResources;
 	private Label _provinceDev;
 	
+	private RichTextLabel _provinceStats;
+	
 
 	private Node2D _buildingsHandler;
 
@@ -91,6 +93,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_provinceGood = GetNode<AnimatedSprite2D>("HBoxContainer4/ProvinceWindowSprite/Good");
 		_provinceTerrain = GetNode<AnimatedSprite2D>("HBoxContainer4/ProvinceWindowSprite/Terrain");
 		_provinceDev = GetNode<Label>("HBoxContainer4/ProvinceWindowSprite/Dev");
+
+		_provinceStats = GetNode<RichTextLabel>("HBoxContainer4/ProvinceWindowSprite/StatsLabel");
 		
 		_provinceResources = GetNode<GUIPrefabs.GUIResources>("HBoxContainer4/ProvinceWindowSprite/ResourcesContainer/Control");
 		_provinceResources.Init();
@@ -206,6 +210,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_provinceTerrain.Frame = colonizedProvinceData.Terrain.Id;
 		_provinceResources.DrawResources(colonizedProvinceData);
 		_provinceDev.Text = colonizedProvinceData.Development.ToString();
+
+		_provinceStats.Text = $"Tax income: {colonizedProvinceData.TaxIncome:F1}\nManpower growth:{colonizedProvinceData.ManpowerGrowth:N0}";
 		
 		if(_transportationHandler.Visible)
 			_showTransportationMenu();

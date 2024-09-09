@@ -17,7 +17,7 @@ public partial class GUIConsole : GUIHandler
 
 	private HashSet<string> _history =  new HashSet<string>();
 	private int _scrollingIndex = 0;
-	private List<string> _commandList = new List<string>(){"SwitchToCountry", "Clear()", "DebugMode()", "GoToProvince"};
+	private List<string> _commandList = new (){"SwitchToCountry(0)", "Clear()", "DebugMode()", "GoToProvince(0)"};
 	private int _tabScrollingIndex = 0;
 	private string _lastStroke = "";
 	private string _lastResult = "";

@@ -23,22 +23,10 @@ public class LandColonizedProvinceData : LandProvinceData
 	
 	public Modifiers Modifiers;
 
-	public float ProductionRate
-	{
-		get
-		{
-			var resourceProduced = 1.0f;
-			foreach (var building in Buildings)
-			{
-				if (building.IsFinished)
-					resourceProduced *= building.Modifiers.ProductionEfficiency;
-			}
-
-			return resourceProduced;
-		}
-	}
-
+	public float ProductionRate => Buildings.Where(d => d.IsFinished).Aggregate(Settings.InitialProduction, (acc, x) => acc * x.Modifiers.ProductionEfficiency);
 	public int UnlockedBuildingCount => Settings.DevForCommonBuilding.Where(a => a <= Development).ToArray().Length;
+	public float TaxIncome => Development * Settings.TaxEarningPerDev;
+	public float ManpowerGrowth => Development * Settings.ManpowerPerDev;
 
 
 	public LandColonizedProvinceData(

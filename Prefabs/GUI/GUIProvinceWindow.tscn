@@ -128,11 +128,12 @@ mouse_force_pass_scroll_events = false
 [node name="Control" parent="HBoxContainer4/ProvinceWindowSprite/ResourcesContainer" instance=ExtResource("6_8tdh2")]
 layout_mode = 2
 
-[node name="StatsLabel" type="Label" parent="HBoxContainer4/ProvinceWindowSprite"]
+[node name="StatsLabel" type="RichTextLabel" parent="HBoxContainer4/ProvinceWindowSprite"]
 offset_left = 149.0
 offset_top = -6.0
-offset_right = 364.0
-offset_bottom = 20.0
+offset_right = 319.0
+offset_bottom = 372.0
+bbcode_enabled = true
 text = "Max resourse: 20"
 
 [node name="Buildings" type="Node2D" parent="HBoxContainer4/ProvinceWindowSprite"]

@@ -1,10 +1,12 @@
 using Godot;
 using System;
+using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using EuropeDominationDemo.Scripts.UI.GUIHandlers;
 
 public partial class GUIColonizeProvinceInfo : GUIHandler
 {
+	private UncolonizedProvinceData _currentlyShownProvince;
 	public override void Init()
 	{
 		
@@ -17,6 +19,14 @@ public partial class GUIColonizeProvinceInfo : GUIHandler
 
 	public override void ToGUIHandleEvent(ToGUIEvent @event)
 	{
-		
+		switch (@event)
+		{
+			case ToGUIShowUncolonizedProvinceData e:
+			{
+				_currentlyShownProvince = e.UncolonizedProvinceData;
+				Visible = true;
+				return;
+			}
+		}
 	}
 }

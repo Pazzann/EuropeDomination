@@ -72,7 +72,8 @@ public partial class MapHandler : GameHandler
 		_mapMaterial.SetShaderParameter("colors", EngineState.MapInfo.MapColors);
 		_mapMaterial.SetShaderParameter("selectedID", -1);
 
-		_updateText();
+		_updateCountryText();
+		_updateProvinceText();
 		_addGoods();
 		_addDev();
 
@@ -104,33 +105,18 @@ public partial class MapHandler : GameHandler
 		if (Time.GetTicksMsec() / 1000f - _lastClickTimestamp > 0.2f) return false;
 
 		
-		//todo: rewrite
-		if (EngineState.MapInfo.CurrentMapMode == MapTypes.TransportationSelection && EngineState.MapInfo.MapColors[tileId] != MapDefaultColors.Unselectable)
-		{
-			if (EngineState.MapInfo.MapColors[tileId] ==  MapDefaultColors.Selectable)
-			{
-				var route = new TransportationRoute(tileId, EngineState.MapInfo.CurrentSelectedProvinceId, _goodToTransport,
-					_transportationAmount);
-				_whereToAddRoute.Invoke(route);
-				_uiReciever.Invoke(route);
-			}else if (EngineState.MapInfo.MapColors[tileId] ==  MapDefaultColors.OwnProvince)
-			{
-				_whereToAddRoute = null;
-			}
-			
-			EngineState.MapInfo.CurrentMapMode = MapTypes.Political;
-			InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent(EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] as LandColonizedProvinceData));
-			InvokeToEngineEvent(new ToEngineViewModUpdate());
-			return true;
-		}
+		
 
-		if (EngineState.MapInfo.CurrentMapMode == MapTypes.SeaTransportationSelection &&
+		if ((EngineState.MapInfo.CurrentMapMode == MapTypes.SeaTransportationSelection || EngineState.MapInfo.CurrentMapMode == MapTypes.TransportationSelection) &&
 		    EngineState.MapInfo.MapColors[tileId] != MapDefaultColors.Unselectable)
 		{
 			if (EngineState.MapInfo.MapColors[tileId] ==  MapDefaultColors.Selectable)
 			{
-				var route = new WaterTransportationRoute(tileId, EngineState.MapInfo.CurrentSelectedProvinceId, _goodToTransport,
-					_transportationAmount);
+				TransportationRoute route;
+				if (EngineState.MapInfo.CurrentMapMode == MapTypes.TransportationSelection)
+					route = new TransportationRoute(tileId, EngineState.MapInfo.CurrentSelectedProvinceId, _goodToTransport, _transportationAmount);
+				else
+					route = new WaterTransportationRoute(tileId, EngineState.MapInfo.CurrentSelectedProvinceId, _goodToTransport, _transportationAmount);
 				_whereToAddRoute.Invoke(route);
 				_uiReciever.Invoke(route);
 			}else if (EngineState.MapInfo.MapColors[tileId] ==  MapDefaultColors.OwnProvince)
@@ -139,8 +125,8 @@ public partial class MapHandler : GameHandler
 			}
 			
 			EngineState.MapInfo.CurrentMapMode = MapTypes.Political;
-			InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent(EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] as LandColonizedProvinceData));
 			InvokeToEngineEvent(new ToEngineViewModUpdate());
+			InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent(EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] as LandColonizedProvinceData));
 			return true;
 		}
 
@@ -157,6 +143,8 @@ public partial class MapHandler : GameHandler
 		_mapMaterial.SetShaderParameter("selectedID", tileId);
 		if (EngineState.MapInfo.Scenario.Map[tileId] is LandColonizedProvinceData data)
 			InvokeToGUIEvent(new ToGuiShowLandProvinceDataEvent(data));
+		if (EngineState.MapInfo.Scenario.Map[tileId] is UncolonizedProvinceData uncolonizedProvinceData)
+			InvokeToGUIEvent(new ToGUIShowUncolonizedProvinceData(uncolonizedProvinceData));
 		return false;
 	}
 
@@ -280,12 +268,6 @@ public partial class MapHandler : GameHandler
 	}
 
 
-	private void _clearText()
-	{
-		var texts = _countryTextSpawner.GetChildren();
-		foreach (var text in texts)
-			text.Free();
-	}
 
 	public void DeselectProvince()
 	{
@@ -293,46 +275,64 @@ public partial class MapHandler : GameHandler
 		EngineState.MapInfo.CurrentSelectedProvinceId = -1;
 		_mapMaterial.SetShaderParameter("selectedID", EngineState.MapInfo.CurrentSelectedProvinceId);
 	}
-
-	private void _updateText()
+	private void _clearCountryText()
 	{
-		_clearText();
-
-        var mapContours = new MapContours(EngineState.MapInfo, EngineState.MapInfo.Scenario.MapTexture);
-        var allLabels = new ConcurrentBag<CurvedText>();
-
-        Parallel.ForEach(EngineState.MapInfo.Scenario.Countries.Values, country =>
-        {
-            var labels = new TextSolver2(mapContours.States, country.Id, country.Name, 0.5f).FitText();
-
-            foreach (var label in labels)
-                allLabels.Add(label);
-        });
-        
-        foreach (var label in allLabels)
-        {
-            var node = _textScene.Instantiate() as CurvedLabel;
-            node!.Text = label;
-            _countryTextSpawner.AddChild(node);
-        }
-        
-        allLabels.Clear();
-
-        Parallel.ForEach(EngineState.MapInfo.Scenario.Map, province =>
-        {
-            var labels = new TextSolver2(mapContours.Provinces, province.Id, province.Name, 0.5f).FitText();
-
-            foreach (var label in labels)
-                allLabels.Add(label);
-        });
-
-        foreach (var label in allLabels)
-        {
-            var node = _textScene.Instantiate() as CurvedLabel;
-            node!.Text = label;
-            _provinceTextSpawner.AddChild(node);
-        }
+		foreach (var text in _countryTextSpawner.GetChildren())
+			text.Free();
 	}
+
+	private void _clearProvinceText()
+	{
+		foreach (var text in _provinceTextSpawner.GetChildren())
+			text.Free();
+	}
+
+	private void _updateProvinceText()
+	{
+		_clearProvinceText();
+		
+		var mapContours = new MapContours(EngineState.MapInfo, EngineState.MapInfo.Scenario.MapTexture);
+		var allLabels = new ConcurrentBag<CurvedText>();
+		
+		Parallel.ForEach(EngineState.MapInfo.Scenario.Map, province =>
+		{
+			var labels = new TextSolver2(mapContours.Provinces, province.Id, province.Name, 0.5f).FitText();
+
+			foreach (var label in labels)
+				allLabels.Add(label);
+		});
+
+		foreach (var label in allLabels)
+		{
+			var node = _textScene.Instantiate() as CurvedLabel;
+			node!.Text = label;
+			_provinceTextSpawner.AddChild(node);
+		}
+		
+	}
+
+	private void _updateCountryText()
+	{
+		_clearCountryText();
+		var mapContours = new MapContours(EngineState.MapInfo, EngineState.MapInfo.Scenario.MapTexture);
+		var allLabels = new ConcurrentBag<CurvedText>();
+
+		Parallel.ForEach(EngineState.MapInfo.Scenario.Countries.Values, country =>
+		{
+			var labels = new TextSolver2(mapContours.States, country.Id, country.Name, 0.5f).FitText();
+
+			foreach (var label in labels)
+				allLabels.Add(label);
+		});
+        
+		foreach (var label in allLabels)
+		{
+			var node = _textScene.Instantiate() as CurvedLabel;
+			node!.Text = label;
+			_countryTextSpawner.AddChild(node);
+		}
+	}
+	
 
 	private void _addGoods()
 	{
@@ -487,7 +487,8 @@ public partial class MapHandler : GameHandler
 		//goodgenerationandtransportation and tax income
 		foreach (LandColonizedProvinceData data in EngineState.MapInfo.MapProvinces(ProvinceTypes.ColonizedProvinces))
 		{
-			EngineState.MapInfo.Scenario.Countries[data.Owner].Money += data.Development * Settings.TaxEarningPerDev;
+			EngineState.MapInfo.Scenario.Countries[data.Owner].Money += data.TaxIncome;
+			EngineState.MapInfo.Scenario.Countries[data.Owner].Manpower += (int)data.ManpowerGrowth;
 			
 			
 			data.Resources[data.Good.Id] += data.ProductionRate;
@@ -564,5 +565,6 @@ public partial class MapHandler : GameHandler
 
 	public override void YearTick()
 	{
+		
 	}
 }
