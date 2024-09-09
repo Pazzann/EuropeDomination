@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using EuropeDominationDemo.Scripts.Scenarios.Army;
+using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings.FactoryRecipies;
@@ -23,6 +23,9 @@ public abstract class Scenario : IScenario
 	
 	public abstract Image MapTexture { get; set; }
 	public abstract List<Good> Goods { get; }
+	public abstract List<Terrain> Terrains { get; }
+	public abstract List<Building> Buildings { get; }
+	
 	public abstract List<BattleData> Battles { get; set; }
 	
 

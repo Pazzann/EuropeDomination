@@ -2,8 +2,8 @@
 
 public class MediumShip : Ship
 {
-    public MediumShip(string name, int cost, int templateId, int timeFromStartOfTheTraining, int trainingTime,
-        bool isFinished, int manpower, int maxManpower) : base(name, cost, templateId, timeFromStartOfTheTraining, trainingTime, isFinished, manpower, maxManpower)
+    public MediumShip(string name,  int templateId, int timeFromStartOfTheTraining, int trainingTime,
+        bool isFinished, int manpower, int maxManpower) : base(name, templateId, timeFromStartOfTheTraining, trainingTime, isFinished, manpower, maxManpower)
     {
         
     }

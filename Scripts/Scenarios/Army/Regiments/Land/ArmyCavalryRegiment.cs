@@ -10,8 +10,8 @@ public class ArmyCavalryRegiment : ArmyRegiment
     public Helmet Helmet;
     public Armor Armor;
     public AdditionalSlotGood AdditionalSlot;
-    public ArmyCavalryRegiment(string name, int cost, int templateId, int timeFromStartOfTheTraining, int trainingTime,
-        bool isFinished, int manpower, int maxManpower) : base(name, cost, templateId, timeFromStartOfTheTraining, trainingTime, isFinished, manpower, maxManpower)
+    public ArmyCavalryRegiment(string name, int templateId, int timeFromStartOfTheTraining, int trainingTime,
+        bool isFinished, int manpower, int maxManpower) : base(name,  templateId, timeFromStartOfTheTraining, trainingTime, isFinished, manpower, maxManpower)
     {
         
     }

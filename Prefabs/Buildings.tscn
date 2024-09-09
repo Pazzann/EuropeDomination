@@ -1,22 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://clf8v6lyqbsx6"]
+[gd_scene load_steps=2 format=3 uid="uid://dmgj77qhh4qfg"]
 
-[ext_resource type="Texture2D" uid="uid://bqnb5xmt8ynkb" path="res://Sprites/Building/Empty.png" id="1_ok8g5"]
-[ext_resource type="Texture2D" uid="uid://dbwtigl47r3pc" path="res://Sprites/Building/Wokshop.png" id="2_pmrn7"]
+[ext_resource type="SpriteFrames" uid="uid://ba70vwr4tj46r" path="res://Prefabs/SpriteFrames/Buildings.tres" id="1_o14ov"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_e6xyi"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_ok8g5")
-}, {
-"duration": 1.0,
-"texture": ExtResource("2_pmrn7")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
-[node name="Buildings" type="AnimatedSprite2D"]
-texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_e6xyi")
+[node name="Building" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_o14ov")

@@ -17,10 +17,14 @@ public partial class GUIInfoBox : GUIHandler
 		_infoLabel.BbcodeEnabled = true;
 		return;
 	}
+
+	public override void _Process(double delta)
+	{
+		_infoBox.Position = GetViewport().GetMousePosition() + new Vector2(10, 10);
+	}
+
 	public override void InputHandle(InputEvent @event)
 	{
-		if (@event is InputEventMouseMotion mouseEvent)
-			_infoBox.Position = mouseEvent.Position + new Vector2(10, 10);
 	}
 	public override void ToGUIHandleEvent(ToGUIEvent @event)
 	{
@@ -29,8 +33,8 @@ public partial class GUIInfoBox : GUIHandler
 			case ToGUIShowInfoBoxProvinceEvent e:
 				_infoBox.Size = new Vector2(_infoBox.Size.X, 10);
 				_infoLabel.Text = "[color=yellow]" + e.ProvinceData.Name + "[/color]" + "\n"
-								  + ((e.ProvinceData is LandColonizedProvinceData landProvinceData)? "Good: "+ landProvinceData.Good.Name:"")
-								  +  ((e.ProvinceData is LandColonizedProvinceData landProvinceData2)? "\n" + "Terrain	: "+ landProvinceData2.Terrain:"")
+								  + ((e.ProvinceData is LandProvinceData landProvinceData)? "Good: "+ landProvinceData.Good.Name:"")
+								  +  ((e.ProvinceData is LandProvinceData landProvinceData2)? "\n" + "Terrain	: "+ landProvinceData2.Terrain.Name:"")
 								  +  ((e.ProvinceData is LandColonizedProvinceData landProvinceData3)? "\n" + "Developement	: "+ landProvinceData3.Development:"")
 					+ ((EngineState.DebugMode)?"Debug data:" + "\n" + "Id:" + e.ProvinceData.Id  + ((e.ProvinceData is LandColonizedProvinceData landProvinceData4)?"\n" + "Owner ID: " + landProvinceData4.Owner: "") :"");
 				Visible = true;

@@ -13,6 +13,8 @@ public class BattleData
     public Regiment[,] Battlefield { get; }
     public UnitData Attacker { get; }
     public UnitData Defender { get; }
+    
+    //add dice
 
     public BattleData(ArmyUnitData attacker, ArmyUnitData defender)
     {

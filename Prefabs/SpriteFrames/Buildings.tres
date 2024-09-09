@@ -1,0 +1,23 @@
+[gd_resource type="SpriteFrames" load_steps=3 format=3 uid="uid://ba70vwr4tj46r"]
+
+[ext_resource type="Texture2D" uid="uid://bqnb5xmt8ynkb" path="res://Sprites/Building/Empty.png" id="1_lxrwl"]
+[ext_resource type="Texture2D" uid="uid://dbwtigl47r3pc" path="res://Sprites/Building/Wokshop.png" id="2_avi18"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_avi18")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_lxrwl")
+}],
+"loop": true,
+"name": &"none",
+"speed": 5.0
+}]

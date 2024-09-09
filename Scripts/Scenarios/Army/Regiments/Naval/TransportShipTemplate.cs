@@ -8,4 +8,8 @@ public class TransportShipTemplate : ShipTemplate
     }
 
     public override int TrainingTime { get; }
+    public override float Cost
+    {
+        get => 7f;
+    }
 }

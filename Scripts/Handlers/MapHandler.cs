@@ -484,9 +484,12 @@ public partial class MapHandler : GameHandler
 
 	public override void MonthTick()
 	{
-		//goodgenerationandtransportation
+		//goodgenerationandtransportation and tax income
 		foreach (LandColonizedProvinceData data in EngineState.MapInfo.MapProvinces(ProvinceTypes.ColonizedProvinces))
 		{
+			EngineState.MapInfo.Scenario.Countries[data.Owner].Money += data.Development * Settings.TaxEarningPerDev;
+			
+			
 			data.Resources[data.Good.Id] += data.ProductionRate;
 			if (data.HarvestedTransport != null)
 			{
@@ -550,7 +553,9 @@ public partial class MapHandler : GameHandler
 				}
 			}
 		}
-
+		
+		InvokeToGUIEvent(new ToGUIUpdateCountryInfo());
+		
 		if (EngineState.MapInfo.CurrentSelectedProvinceId > -1 && EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] is LandColonizedProvinceData landData)
 		{
 			InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent(landData));

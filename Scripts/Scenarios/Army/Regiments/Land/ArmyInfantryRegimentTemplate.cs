@@ -34,4 +34,9 @@ public class ArmyInfantryRegimentTemplate : ArmyRegimentTemplate
             (AdditionalSlot?.Modifiers.AdditionalTrainingEfficiency ?? 1.0f)
         );
     }
+
+    public override float Cost
+    {
+        get => 7f;
+    }
 }

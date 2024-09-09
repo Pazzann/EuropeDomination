@@ -12,4 +12,5 @@ public abstract class Template
     }
 
     public abstract int TrainingTime { get; }
+    public abstract float Cost { get; }
 }

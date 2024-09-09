@@ -19,8 +19,10 @@ namespace EuropeDominationDemo.Scripts.UI.GUIHandlers;
 public partial class GUILandProvinceWindow : GUIHandler
 {
 	private bool _guestMode;
-	private Sprite2D _buildingsMenu;
-	private Control _possibleBuildings;
+	private PanelContainer _buildingsMenu;
+	private GridContainer _possibleBuildingsSpawner;
+
+	private PackedScene BuildingScene;
 
 	private Label _provinceName;
 	private AnimatedSprite2D _provinceFlag;
@@ -70,8 +72,19 @@ public partial class GUILandProvinceWindow : GUIHandler
 	
 	public override void Init()
 	{
-		_buildingsMenu = GetNode<Sprite2D>("HBoxContainer4/BuildingMenu");
-		_possibleBuildings = GetNode<Control>("HBoxContainer4/BuildingMenu/PossibleBuildings");
+		_buildingsMenu = GetNode<PanelContainer>("HBoxContainer4/BuildingMenu");
+		_possibleBuildingsSpawner = GetNode<GridContainer>("HBoxContainer4/BuildingMenu/MarginContainer/VBoxContainer/GridContainer");
+		BuildingScene = GD.Load<PackedScene>("res://Prefabs/GUI/Modules/GUIBuilding.tscn");
+
+		foreach (var building in EngineState.MapInfo.Scenario.Buildings)
+		{
+			var a = BuildingScene.Instantiate();
+			a.GetChild<AnimatedTextureRect>(0).SetFrame(building.Id);
+			a.GetChild<Label>(1).Text = building.Cost.ToString();
+			a.GetChild(0).GetChild<Button>(0).Pressed += () => InvokeGUIEvent(new GUIBuildBuildingEvent(building.Clone()));;
+			_possibleBuildingsSpawner.AddChild(a);
+		}
+		
 
 		_provinceName = GetNode<Label>("HBoxContainer4/ProvinceWindowSprite/ProvinceName");
 		_provinceFlag = GetNode<AnimatedSprite2D>("HBoxContainer4/ProvinceWindowSprite/Flag");
@@ -137,7 +150,6 @@ public partial class GUILandProvinceWindow : GUIHandler
 			(buildingSlots[i].GetChild(3).GetChild(0) as Button).Pressed += () => _onDestroyBuildingPressed(i);
 		}
 
-		_possibleBuildings.GetNode<Button>("./Workshop/BuildButton").Pressed += () => _onBuildBuildingOnMenuPressed(new Workshop());
 	}
 
 	public override void ToGUIHandleEvent(ToGUIEvent @event)
@@ -191,7 +203,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_provinceName.Text = colonizedProvinceData.Name;
 		_provinceFlag.Frame = colonizedProvinceData.Owner;
 		_provinceGood.Frame = colonizedProvinceData.Good.Id;
-		_provinceTerrain.Frame = (int)colonizedProvinceData.Terrain;
+		_provinceTerrain.Frame = colonizedProvinceData.Terrain.Id;
 		_provinceResources.DrawResources(colonizedProvinceData);
 		_provinceDev.Text = colonizedProvinceData.Development.ToString();
 		
@@ -246,21 +258,14 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private void _setBuildingMenuInfo(LandColonizedProvinceData colonizedProvinceData)
 	{
-		//TODO: REWRITE
-		
-		
-		var workshopSprite = _possibleBuildings.GetChild(0) as AnimatedSprite2D;
-		(workshopSprite.GetChild(0) as Label).Text = Building.Buildings[1].Cost.ToString();
-		if (colonizedProvinceData.Buildings.Exists(i => i.ID == 1))
+		for (int i = 0; i < _possibleBuildingsSpawner.GetChildren().Count; i++)
 		{
-			workshopSprite.SelfModulate = new Color(0.5f, 1.0f, 0.5f);
-			(workshopSprite.GetChild(1) as Button).Disabled = true;
+			var building = _possibleBuildingsSpawner.GetChild(i);
+			var exists = colonizedProvinceData.Buildings.Exists(g => g.Id == i);
+			building.GetChild(0).GetChild<Button>(0).Disabled = exists;
+			building.GetChild<AnimatedTextureRect>(0).SelfModulate = exists ? new Color(0.5f, 1.0f, 0.5f) : new Color(1.0f, 1.0f, 1.0f);
 		}
-		else
-		{
-			workshopSprite.SelfModulate = new Color(1.0f, 1.0f, 1.0f);
-			(workshopSprite.GetChild(1) as Button).Disabled = false;
-		}
+		
 	}
 
 	private void _setBuildingsInfo(LandColonizedProvinceData colonizedProvinceData)
@@ -268,16 +273,17 @@ public partial class GUILandProvinceWindow : GUIHandler
 		int g = 0;
 		foreach (var building in colonizedProvinceData.Buildings)
 		{
+			(_buildingsHandler.GetChild(g).GetChild(0) as AnimatedSprite2D).Animation = "default";
+			(_buildingsHandler.GetChild(g).GetChild(0) as AnimatedSprite2D).Frame = building.Id;
 			if (building.IsFinished)
 			{
 				(_buildingsHandler.GetChild(g).GetChild(0) as AnimatedSprite2D).SelfModulate = new Color(1.0f, 1.0f, 1.0f);
-				(_buildingsHandler.GetChild(g).GetChild(0) as AnimatedSprite2D).Frame = building.ID;
 				(_buildingsHandler.GetChild(g).GetChild(1) as ProgressBar).Visible = false;
 			}
 			else
 			{
 				(_buildingsHandler.GetChild(g).GetChild(0) as AnimatedSprite2D).SelfModulate = new Color(0.5f, 0.5f, 0.5f);
-				(_buildingsHandler.GetChild(g).GetChild(0) as AnimatedSprite2D).Frame = building.ID;
+				
 				var progressBar = _buildingsHandler.GetChild(g).GetChild(1) as ProgressBar;
 				progressBar.Visible = true;
 				progressBar.MaxValue = building.TimeToBuild;
@@ -293,7 +299,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 		for (var i = colonizedProvinceData.Buildings.Count; i < 10; i++)
 		{
-			
+			(_buildingsHandler.GetChild(i).GetChild(0) as AnimatedSprite2D).Animation = "none";
 			(_buildingsHandler.GetChild(i).GetChild(0) as AnimatedSprite2D).Frame = 0;
 			(_buildingsHandler.GetChild(i).GetChild(1) as ProgressBar).Visible = false;
 			
@@ -520,10 +526,6 @@ public partial class GUILandProvinceWindow : GUIHandler
 	}
 
 	
-	private void _onBuildBuildingOnMenuPressed(Building building)
-	{
-		InvokeGUIEvent(new GUIBuildBuildingEvent(building));
-	}
 	
 
 }

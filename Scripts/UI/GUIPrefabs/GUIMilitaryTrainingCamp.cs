@@ -104,17 +104,17 @@ public partial class GUIMilitaryTrainingCamp : Control
 				//todo: fix constructors
 				case ArmyInfantryRegimentTemplate template:
 				{
-					_militaryTrainingCamp.TrainingList.Enqueue(new ArmyInfantryRegiment(_currentSelectedTemplate.Name, 0, _currentSelectedTemplate.Id, 0, _currentSelectedTemplate.TrainingTime, false, 0, 0));
+					_militaryTrainingCamp.TrainingList.Enqueue(new ArmyInfantryRegiment(_currentSelectedTemplate.Name,  _currentSelectedTemplate.Id, 0, _currentSelectedTemplate.TrainingTime, false, 0, 0));
 					return;
 				}
 				case ArmyCavalryRegimentTemplate template:
 				{
-					_militaryTrainingCamp.TrainingList.Enqueue(new ArmyCavalryRegiment(_currentSelectedTemplate.Name, 0, _currentSelectedTemplate.Id, 0, _currentSelectedTemplate.TrainingTime, false, 0, 0));
+					_militaryTrainingCamp.TrainingList.Enqueue(new ArmyCavalryRegiment(_currentSelectedTemplate.Name,  _currentSelectedTemplate.Id, 0, _currentSelectedTemplate.TrainingTime, false, 0, 0));
 					return;
 				}
 				case ArmyArtilleryRegimentTemplate template:
 				{
-					_militaryTrainingCamp.TrainingList.Enqueue(new ArmyArtilleryRegiment(_currentSelectedTemplate.Name, 0, _currentSelectedTemplate.Id, 0, _currentSelectedTemplate.TrainingTime, false, 0, 0));
+					_militaryTrainingCamp.TrainingList.Enqueue(new ArmyArtilleryRegiment(_currentSelectedTemplate.Name, _currentSelectedTemplate.Id, 0, _currentSelectedTemplate.TrainingTime, false, 0, 0));
 					return;
 				}
 					

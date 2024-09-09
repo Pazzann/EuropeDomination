@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://ctauw3mt5l7cf" path="res://Prefabs/Terrain.tscn" id="5_afqlh"]
 [ext_resource type="PackedScene" uid="uid://uway7gdlqq10" path="res://Prefabs/GUI/Modules/GUIResources.tscn" id="6_8tdh2"]
 [ext_resource type="Texture2D" uid="uid://dkdupthlvtc12" path="res://Sprites/ProvinceTypeSelection/bg.png" id="8_j1vcm"]
-[ext_resource type="PackedScene" uid="uid://clf8v6lyqbsx6" path="res://Prefabs/Buildings.tscn" id="9_863be"]
+[ext_resource type="PackedScene" uid="uid://dmgj77qhh4qfg" path="res://Prefabs/Buildings.tscn" id="9_863be"]
 [ext_resource type="Texture2D" uid="uid://bl2u1qda5j8n4" path="res://Sprites/ProvinceTypeSelection/productionLine.png" id="11_3bjrh"]
 [ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="11_hg8qy"]
 [ext_resource type="Texture2D" uid="uid://dx08b2wttihu" path="res://Sprites/Building/Lock.png" id="11_jtd3g"]
@@ -39,7 +39,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_y47fr")
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="."]
+[node name="HBoxContainer4" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -49,53 +49,34 @@ offset_top = -340.0
 offset_right = -25.0
 offset_bottom = 430.0
 grow_vertical = 2
-mouse_filter = 0
 
-[node name="BuildingMenu" type="Sprite2D" parent="HBoxContainer4"]
+[node name="BuildingMenu" type="PanelContainer" parent="HBoxContainer4"]
 visible = false
-position = Vector2(730.85, 389.95)
-scale = Vector2(4.8, 4.8)
-texture = ExtResource("8_j1vcm")
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+offset_left = 631.0
+offset_top = 168.0
+offset_right = 931.0
+offset_bottom = 468.0
 
-[node name="PossibleBuildings" type="Control" parent="HBoxContainer4/BuildingMenu"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer4/BuildingMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
-[node name="Workshop" parent="HBoxContainer4/BuildingMenu/PossibleBuildings" instance=ExtResource("9_863be")]
-position = Vector2(-24.1354, -24.3646)
-scale = Vector2(0.15, 0.15)
-frame = 1
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/BuildingMenu/MarginContainer"]
+layout_mode = 2
 
-[node name="BuildingCost" type="Label" parent="HBoxContainer4/BuildingMenu/PossibleBuildings/Workshop"]
-offset_left = -18.0556
-offset_top = 31.9447
-offset_right = 21.9444
-offset_bottom = 54.9447
-text = "100dsfsdf"
+[node name="ExitButton" type="Button" parent="HBoxContainer4/BuildingMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "exit"
 
-[node name="BuildButton" type="Button" parent="HBoxContainer4/BuildingMenu/PossibleBuildings/Workshop"]
-self_modulate = Color(1, 1, 1, 0)
-offset_left = -31.0
-offset_top = 33.0
-offset_right = -21.0
-offset_bottom = 44.0
-scale = Vector2(6.1175, -5.83068)
-
-[node name="Bg" type="Sprite2D" parent="HBoxContainer4/BuildingMenu"]
-modulate = Color(1, 0.321569, 1, 1)
-position = Vector2(29.4062, -29.5729)
-scale = Vector2(0.0585938, 0.0585938)
-texture = ExtResource("8_j1vcm")
-
-[node name="ExitButton" type="Button" parent="HBoxContainer4/BuildingMenu/Bg"]
-self_modulate = Color(1, 1, 1, 0)
-offset_left = -31.0
-offset_top = 32.0
-offset_right = -21.0
-offset_bottom = 43.0
-scale = Vector2(6.1175, -5.83068)
+[node name="GridContainer" type="GridContainer" parent="HBoxContainer4/BuildingMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 
 [node name="ProvinceWindowSprite" type="Sprite2D" parent="HBoxContainer4"]
 texture_filter = 1
@@ -168,6 +149,7 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/0" instance=ExtResource("9_863be")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
+animation = &"none"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/0"]
 layout_mode = 0
@@ -209,6 +191,7 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/1" instance=ExtResource("9_863be")]
 position = Vector2(4.08664, 4.07324)
 scale = Vector2(0.118129, -0.12394)
+animation = &"none"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/1"]
 layout_mode = 0
@@ -250,6 +233,7 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/2" instance=ExtResource("9_863be")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
+animation = &"none"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/2"]
 layout_mode = 0
@@ -291,6 +275,7 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/3" instance=ExtResource("9_863be")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
+animation = &"none"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/3"]
 layout_mode = 0
@@ -332,6 +317,7 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/4" instance=ExtResource("9_863be")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
+animation = &"none"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/4"]
 layout_mode = 0
@@ -373,6 +359,7 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/5" instance=ExtResource("9_863be")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
+animation = &"none"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/5"]
 layout_mode = 0
@@ -414,6 +401,7 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/6" instance=ExtResource("9_863be")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
+animation = &"none"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/6"]
 layout_mode = 0
@@ -455,6 +443,7 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/7" instance=ExtResource("9_863be")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
+animation = &"none"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/7"]
 layout_mode = 0
@@ -496,6 +485,7 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/8" instance=ExtResource("9_863be")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
+animation = &"none"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/8"]
 layout_mode = 0
@@ -537,6 +527,7 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/9" instance=ExtResource("9_863be")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
+animation = &"none"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/9"]
 layout_mode = 0
@@ -791,7 +782,7 @@ offset_top = 222.5
 offset_right = 915.0
 offset_bottom = 422.5
 
-[connection signal="pressed" from="HBoxContainer4/BuildingMenu/Bg/ExitButton" to="." method="_onExitBuildingMenuButtonPressed"]
+[connection signal="pressed" from="HBoxContainer4/BuildingMenu/MarginContainer/VBoxContainer/ExitButton" to="." method="_onExitBuildingMenuButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/closeButton" to="." method="_onCloseProvinceMenuButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/Good/GoodTransportManagement" to="." method="_onGoodTransportManagementPressed"]
 [connection signal="DockyardTrasportationRouteMenuPressed" from="HBoxContainer4/ProvinceWindowSprite/GuiDockyard" to="." method="_onGuiDockyardTrasportationRouteMenuPressed"]

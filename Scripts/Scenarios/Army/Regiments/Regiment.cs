@@ -5,7 +5,6 @@ namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
 public class Regiment
 {
     public string Name;
-    public int Cost;
     public int TemplateId;
 
     public int TimeFromStartOfTheTraining;
@@ -26,10 +25,9 @@ public class Regiment
     public Modifiers Modifiers;
     
     
-    public Regiment(string name, int cost, int templateId, int timeFromStartOfTheTraining, int trainingTime, bool isFinished, int manpower, int maxManpower)
+    public Regiment(string name, int templateId, int timeFromStartOfTheTraining, int trainingTime, bool isFinished, int manpower, int maxManpower)
     {
         Name = name;
-        Cost = cost;
         TemplateId = templateId;
         
         
@@ -43,6 +41,10 @@ public class Regiment
     }
 
 
+    public float MaxMorale
+    {
+        get => 1f + 0;//add all bonuses
+    }
     public float CombatReadiness
     {
         //should be calculated by resource amount needed and in availability (max 1f)

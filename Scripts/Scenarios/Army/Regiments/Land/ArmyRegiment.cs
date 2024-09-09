@@ -5,8 +5,8 @@ namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 
 public class ArmyRegiment : Regiment
 {
-    public ArmyRegiment(string name, int cost, int templateId, int timeFromStartOfTheTraining, int trainingTime,
-        bool isFinished, int manpower, int maxManpower) : base(name, cost, templateId, timeFromStartOfTheTraining, trainingTime, isFinished, manpower, maxManpower)
+    public ArmyRegiment(string name, int templateId, int timeFromStartOfTheTraining, int trainingTime,
+        bool isFinished, int manpower, int maxManpower) : base(name,  templateId, timeFromStartOfTheTraining, trainingTime, isFinished, manpower, maxManpower)
     {
         
     }

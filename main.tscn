@@ -68,7 +68,7 @@ wait_time = 0.221
 one_shot = true
 
 [node name="MouseinactivityTimer" type="Timer" parent="."]
-wait_time = 0.75
+wait_time = 0.095
 one_shot = true
 
 [connection signal="timeout" from="DayTimer" to="." method="TimeTick"]

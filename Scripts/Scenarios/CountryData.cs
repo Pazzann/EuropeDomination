@@ -15,7 +15,7 @@ public class CountryData
 	public Vector3 Color;
 	public Modifiers Modifiers;
 
-	public int Money = 100;
+	public float Money = 100;
 	public int Manpower = 100;
 
 	public List<General> Generals;

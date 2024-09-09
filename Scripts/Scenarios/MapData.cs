@@ -79,7 +79,7 @@ public class MapData
                     for (int i = 0; i < Scenario.Map.Length; i++)
                     {
                         if (Scenario.Map[i] is LandProvinceData landData)
-                            colors[i] = TerrainColors.Colors[(int)landData.Terrain];
+                            colors[i] = landData.Terrain.Color;
                         else
                             colors[i] = new Vector3(0.1f, 0.1f, 0.1f);
                     }

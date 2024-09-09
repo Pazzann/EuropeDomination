@@ -30,7 +30,7 @@ public partial class GUICountryInfo : GUIHandler
 		{
 			case ToGUIUpdateCountryInfo:
 				_flag.Frame = EngineState.PlayerCountryId;
-				_moneyLabel.Text = EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].Money.ToString();
+				_moneyLabel.Text = EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].Money.ToString("N0");
 				_manpowerLabel.Text = EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].Manpower.ToString();
 				return;
 			default:

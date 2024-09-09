@@ -10,8 +10,8 @@ public class ArmyInfantryRegiment : ArmyRegiment
     public Armor Armor;
     public Boots Boots;
     public AdditionalSlotGood AdditionalSlot;
-    public ArmyInfantryRegiment(string name, int cost, int templateId, int timeFromStartOfTheTraining, int trainingTime,
-        bool isFinished, int manpower, int maxManpower) : base(name, cost, templateId, timeFromStartOfTheTraining, trainingTime, isFinished, manpower, maxManpower)
+    public ArmyInfantryRegiment(string name, int templateId, int timeFromStartOfTheTraining, int trainingTime,
+        bool isFinished, int manpower, int maxManpower) : base(name, templateId, timeFromStartOfTheTraining, trainingTime, isFinished, manpower, maxManpower)
     {
         
     }
