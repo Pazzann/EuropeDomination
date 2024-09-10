@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://j6ltwuki2cil"]
+
+[node name="GuiBuySelect" type="PanelContainer"]
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
+text = "sdfsfsdfds"

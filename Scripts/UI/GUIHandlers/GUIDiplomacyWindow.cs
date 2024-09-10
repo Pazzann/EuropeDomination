@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using EuropeDominationDemo.Scripts.GlobalStates;
@@ -10,24 +9,46 @@ using EuropeDominationDemo.Scripts.UI.GUIHandlers;
 
 public partial class GUIDiplomacyWindow : GUIHandler
 {
-	
 	private CountryData _currentlyViewedCountry;
 	private Label _currentlyViewedCountryNameLabel;
+	private Button _currentlyViewedCountryWarButton;
+	private Label _currentlyViewedCountryWarLabel;
+	private Button _currentlyViewedCountryTradeButton;
+	private Label _currentlyViewedCountryTradeLabel;
+
 	public override void Init()
 	{
-		_currentlyViewedCountryNameLabel = GetNode<Label>("PanelContainer/MarginContainer/VBoxContainer/Label");	
+		_currentlyViewedCountryNameLabel = GetNode<Label>("PanelContainer/MarginContainer/VBoxContainer/NameLabel");
+		_currentlyViewedCountryWarLabel = GetNode<Label>("PanelContainer/MarginContainer/VBoxContainer/WarLabel");
+		_currentlyViewedCountryWarButton = GetNode<Button>("PanelContainer/MarginContainer/VBoxContainer/WarButton");
+		_currentlyViewedCountryTradeLabel = GetNode<Label>("PanelContainer/MarginContainer/VBoxContainer/TradeLabel");
+		_currentlyViewedCountryTradeButton =
+			GetNode<Button>("PanelContainer/MarginContainer/VBoxContainer/TradeButton");
 	}
 
 	public override void InputHandle(InputEvent @event)
 	{
-		
 	}
 
 	private void _showData()
 	{
-		
-		_currentlyViewedCountryNameLabel.Text = _currentlyViewedCountry.Name + (EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].DiplomacyAgreements.ContainsKey(_currentlyViewedCountry.Id) && EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].DiplomacyAgreements[_currentlyViewedCountry.Id].OfType<War>().Any()? " at war" :" not at war");
-
+		_currentlyViewedCountryNameLabel.Text = _currentlyViewedCountry.Name;
+		_currentlyViewedCountryWarLabel.Text =
+			EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].DiplomacyAgreements
+				.ContainsKey(_currentlyViewedCountry.Id) &&
+			EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId]
+				.DiplomacyAgreements[_currentlyViewedCountry.Id].OfType<War>().Any()
+				? " at war"
+				: " not at war";
+		_currentlyViewedCountryTradeLabel.Text =
+			EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId]
+				.DiplomacyAgreements
+				.ContainsKey(_currentlyViewedCountry.Id) &&
+			EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId]
+				.DiplomacyAgreements[_currentlyViewedCountry.Id].OfType<TradeAgreement>()
+				.Any()
+				? " at trade"
+				: " not at trade";
 	}
 
 	public override void ToGUIHandleEvent(ToGUIEvent @event)
@@ -36,7 +57,8 @@ public partial class GUIDiplomacyWindow : GUIHandler
 		{
 			case ToGUIShowDiplomacyWindow e:
 			{
-				_currentlyViewedCountry = e.CountryData;Visible = true;
+				_currentlyViewedCountry = e.CountryData;
+				Visible = true;
 				_showData();
 				return;
 			}
@@ -49,7 +71,7 @@ public partial class GUIDiplomacyWindow : GUIHandler
 			}
 		}
 	}
-	
+
 
 	private void _onDeclareWarButtonPressed()
 	{
@@ -65,6 +87,25 @@ public partial class GUIDiplomacyWindow : GUIHandler
 			a.DiplomacyAgreements.Add(_currentlyViewedCountry.Id, new List<DiplomacyAgreement>() { war });
 			_currentlyViewedCountry.DiplomacyAgreements.Add(a.Id, new List<DiplomacyAgreement>() { war });
 		}
+
+		_showData();
+	}
+
+	private void _onTradeAgreementPressed()
+	{
+		var a = EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId];
+		var trade = new TradeAgreement(a.Id, _currentlyViewedCountry.Id, EngineState.MapInfo.Scenario.Date);
+		if (a.DiplomacyAgreements.ContainsKey(_currentlyViewedCountry.Id))
+		{
+			a.DiplomacyAgreements[_currentlyViewedCountry.Id].Add(trade);
+			_currentlyViewedCountry.DiplomacyAgreements[a.Id].Add(trade);
+		}
+		else
+		{
+			a.DiplomacyAgreements.Add(_currentlyViewedCountry.Id, new List<DiplomacyAgreement>() { trade });
+			_currentlyViewedCountry.DiplomacyAgreements.Add(a.Id, new List<DiplomacyAgreement>() { trade });
+		}
+
 		_showData();
 	}
 }

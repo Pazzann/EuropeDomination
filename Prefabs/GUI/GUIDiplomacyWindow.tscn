@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cy5i4t644rhfa"]
+[gd_scene load_steps=3 format=3 uid="uid://cy5i4t644rhfa"]
 
 [ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUIDiplomacyWindow.cs" id="1_5uoy7"]
+[ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_mdxku"]
 
 [node name="GuiDiplomacyWindow" type="Control"]
 layout_mode = 3
@@ -10,6 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource("1_mdxku")
 script = ExtResource("1_5uoy7")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
@@ -30,14 +32,30 @@ theme_override_constants/margin_bottom = 20
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="NameLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Country Name"
 
-[node name="Button" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="WarButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Declare War"
 
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Button" to="." method="_onDeclareWarButtonPressed"]
+[node name="WarLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Country Name"
+
+[node name="TradeButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Trade Agreement"
+
+[node name="TradeLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Country Name"
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/WarButton" to="." method="_onDeclareWarButtonPressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/TradeButton" to="." method="_onTradeAgreementPressed"]

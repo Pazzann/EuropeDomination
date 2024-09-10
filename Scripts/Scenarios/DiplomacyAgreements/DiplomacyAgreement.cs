@@ -2,7 +2,7 @@
 
 namespace EuropeDominationDemo.Scripts.Scenarios.DiplomacyAgreements;
 
-public class DiplomacyAgreement
+public abstract class DiplomacyAgreement
 {
     public int Initiator;
     public int Consequenter;
