@@ -225,6 +225,7 @@ offset_right = 66.0
 offset_bottom = 69.0
 
 [node name="BuyMenu" type="PanelContainer" parent="."]
+layout_mode = 0
 offset_left = 925.0
 offset_top = 104.0
 offset_right = 1229.0
@@ -301,6 +302,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="GoodEditPanel" parent="." instance=ExtResource("8_aymxl")]
+layout_mode = 0
 offset_left = 587.0
 offset_top = 476.0
 offset_right = 827.0

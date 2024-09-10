@@ -38,6 +38,9 @@ public partial class MapHandler : GameHandler
 	private PackedScene _devScene;
 	private Node2D _devSpawner;
 
+	private PackedScene _capitalScene;
+	private Node2D _capitalSpawner;
+
 	private PackedScene _transportArrowScene;
 	private Node2D _transportArrowSpawner;
 
@@ -65,6 +68,9 @@ public partial class MapHandler : GameHandler
 		_devScene = (PackedScene)GD.Load("res://Prefabs/Development.tscn");
 		_devSpawner = GetNode<Node2D>("./DevHandler");
 
+		_capitalScene = GD.Load<PackedScene>("res://Prefabs/GUI/Capital.tscn");
+		_capitalSpawner = GetNode<Node2D>("./CapitalHandler");
+
 		_transportArrowScene = (PackedScene)GD.Load("res://Prefabs/TransportArrow.tscn");
 		_transportArrowSpawner = GetNode<Node2D>("TransportArrowHandler");
 
@@ -75,6 +81,7 @@ public partial class MapHandler : GameHandler
 		_updateCountryText();
 		_updateProvinceText();
 		_addGoods();
+		_addCapitals();
 		_addDev();
 
 		_goodsSpawner.Visible = false;
@@ -332,7 +339,16 @@ public partial class MapHandler : GameHandler
 			_countryTextSpawner.AddChild(node);
 		}
 	}
-	
+
+	private void _addCapitals()
+	{
+		foreach (var data in EngineState.MapInfo.Scenario.Countries)
+		{
+			var obj = _capitalScene.Instantiate() as Node2D;
+			obj.Position = EngineState.MapInfo.Scenario.Map[data.Value.CapitalId].CenterOfWeight;
+			_capitalSpawner.AddChild(obj);
+		}
+	}
 
 	private void _addGoods()
 	{

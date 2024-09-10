@@ -52,9 +52,9 @@ public class EuropeScenario : Scenario
 
         Countries = new Dictionary<int, CountryData>()
         {
-            { 0, new CountryData(0, "Great Britain", new Vector3(0.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers(), 100, 300, new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(), new Dictionary<int, List<DiplomacyAgreement>>())},
-            { 1, new CountryData(1, "France", new Vector3(0.0f, 0.0f, 1.0f), Modifiers.DefaultModifiers(), 200, 200,new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(), new Dictionary<int, List<DiplomacyAgreement>>()) },
-            { 2, new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers(), 300, 100,new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(), new Dictionary<int, List<DiplomacyAgreement>>()) },
+            { 0, new CountryData(0, "Great Britain", new Vector3(0.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers(), 100, 300, new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(), new Dictionary<int, List<DiplomacyAgreement>>(), 2)},
+            { 1, new CountryData(1, "France", new Vector3(0.0f, 0.0f, 1.0f), Modifiers.DefaultModifiers(), 200, 200,new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(), new Dictionary<int, List<DiplomacyAgreement>>(), 6) },
+            { 2, new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers(), 300, 100,new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(), new Dictionary<int, List<DiplomacyAgreement>>(), 11) },
         };
         WastelandProvinceColors = new Dictionary<int, Vector3>()
         {

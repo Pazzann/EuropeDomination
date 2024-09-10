@@ -24,7 +24,8 @@ public class CountryData
 	public List<Template> RegimentTemplates;
 
 	public Dictionary<int, List<DiplomacyAgreement>> DiplomacyAgreements;
-	public CountryData(int id, string name, Vector3 color, Modifiers modifiers, int money, int manpower, List<General> generals, List<Admiral> admirals, List<UnitData> units, List<Template> templates, Dictionary<int, List<DiplomacyAgreement>> diplomacyAgreements)
+	public int CapitalId;
+	public CountryData(int id, string name, Vector3 color, Modifiers modifiers, int money, int manpower, List<General> generals, List<Admiral> admirals, List<UnitData> units, List<Template> templates, Dictionary<int, List<DiplomacyAgreement>> diplomacyAgreements, int capitalId)
 	{
 		Id = id;
 		Name = name;
@@ -37,5 +38,6 @@ public class CountryData
 		Units = units;
 		RegimentTemplates = templates;
 		DiplomacyAgreements = diplomacyAgreements;
+		CapitalId = capitalId;
 	}
 }

@@ -54,6 +54,8 @@ visible = false
 
 [node name="TransportArrowHandler" type="Node2D" parent="MapHandler"]
 
+[node name="CapitalHandler" type="Node2D" parent="MapHandler"]
+
 [node name="ArmyHandler" type="Node2D" parent="."]
 script = ExtResource("8_7wvqb")
 

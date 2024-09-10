@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cdpi1jo7cm5is"]
+
+[ext_resource type="Texture2D" uid="uid://b6skkt8hbhcmo" path="res://Sprites/Capital.png" id="1_mytvb"]
+
+[node name="Capital" type="Node2D"]
+scale = Vector2(0.205, 0.205)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_mytvb")
