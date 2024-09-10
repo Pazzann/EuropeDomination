@@ -5,6 +5,7 @@ using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings.FactoryRecipies;
+using EuropeDominationDemo.Scripts.Scenarios.Technology;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
@@ -27,6 +28,8 @@ public abstract class Scenario : IScenario
 	public abstract List<Building> Buildings { get; }
 	
 	public abstract List<BattleData> Battles { get; set; }
+	
+	public abstract TechnologyTree[] TechnologyTrees { get; }
 	
 
 	public TimeSpan Ts => new(1, 0, 0, 0);

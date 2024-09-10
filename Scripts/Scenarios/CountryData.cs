@@ -25,7 +25,11 @@ public class CountryData
 
 	public Dictionary<int, List<DiplomacyAgreement>> DiplomacyAgreements;
 	public int CapitalId;
-	public CountryData(int id, string name, Vector3 color, Modifiers modifiers, int money, int manpower, List<General> generals, List<Admiral> admirals, List<UnitData> units, List<Template> templates, Dictionary<int, List<DiplomacyAgreement>> diplomacyAgreements, int capitalId)
+
+	// tech tree => tech level => list of researched technologies
+	public Dictionary<int, Dictionary<int, List<int>>> ResearchedList;
+	
+	public CountryData(int id, string name, Vector3 color, Modifiers modifiers, int money, int manpower, List<General> generals, List<Admiral> admirals, List<UnitData> units, List<Template> templates, Dictionary<int, List<DiplomacyAgreement>> diplomacyAgreements, int capitalId, Dictionary<int, Dictionary<int, List<int>>> researchedList)
 	{
 		Id = id;
 		Name = name;
@@ -39,5 +43,6 @@ public class CountryData
 		RegimentTemplates = templates;
 		DiplomacyAgreements = diplomacyAgreements;
 		CapitalId = capitalId;
+		ResearchedList = researchedList;
 	}
 }

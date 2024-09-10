@@ -11,6 +11,7 @@ using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon.LandWeapon;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings.FactoryRecipies;
+using EuropeDominationDemo.Scripts.Scenarios.Technology;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
@@ -31,6 +32,7 @@ public class EuropeScenario : Scenario
 
     public override List<Recipe> Recipes { get; set; }
     public override List<BattleData> Battles { get; set; }
+    public override TechnologyTree[] TechnologyTrees { get; }
 
 
     public EuropeScenario(Image mapTexture)
@@ -42,19 +44,28 @@ public class EuropeScenario : Scenario
             new HarvestedGood(2, "Wood", new Vector3(0.0f, 0.7f, 0.4f)),
             new InfantryWeapon(3, "Iron Sword", new Vector3(1.0f, 0.2f, 0.3f), 0.01f, 0.01f, 0.0f, 1.0f, Modifiers.DefaultModifiers(additionalTrainingEfficiency: 1.3f), 10)
         };
-        
-        
+
+        TechnologyTrees = new[]
+        {
+            new TechnologyTree(new List<TechnologyLevel>()
+            {
+                new TechnologyLevel(new List<Technology.Technology>()
+                {
+                    new Technology.Technology(Modifiers.DefaultModifiers(), 100, 100, Good.DefaultGoods())
+                }, new DateTime(1701, 1, 1)),
+            })
+        };
         
         MapTexture = mapTexture;
 
-        Date = new DateTime(1444, 11, 12);
+        Date = new DateTime(1700, 1, 1);
         
 
         Countries = new Dictionary<int, CountryData>()
         {
-            { 0, new CountryData(0, "Great Britain", new Vector3(0.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers(), 100, 300, new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(), new Dictionary<int, List<DiplomacyAgreement>>(), 2)},
-            { 1, new CountryData(1, "France", new Vector3(0.0f, 0.0f, 1.0f), Modifiers.DefaultModifiers(), 200, 200,new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(), new Dictionary<int, List<DiplomacyAgreement>>(), 6) },
-            { 2, new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers(), 300, 100,new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(), new Dictionary<int, List<DiplomacyAgreement>>(), 11) },
+            { 0, new CountryData(0, "Great Britain", new Vector3(0.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers(), 100, 300, new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(), new Dictionary<int, List<DiplomacyAgreement>>(), 2, new Dictionary<int, Dictionary<int, List<int>>>())},
+            { 1, new CountryData(1, "France", new Vector3(0.0f, 0.0f, 1.0f), Modifiers.DefaultModifiers(), 200, 200,new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(), new Dictionary<int, List<DiplomacyAgreement>>(), 6, new Dictionary<int, Dictionary<int, List<int>>>()) },
+            { 2, new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers(), 300, 100,new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(), new Dictionary<int, List<DiplomacyAgreement>>(), 11, new Dictionary<int, Dictionary<int, List<int>>>()) },
         };
         WastelandProvinceColors = new Dictionary<int, Vector3>()
         {
