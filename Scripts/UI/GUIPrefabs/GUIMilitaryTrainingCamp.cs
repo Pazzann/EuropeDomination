@@ -1,9 +1,12 @@
 using Godot;
 using System;
 using System.Linq;
+using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
+using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
+using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.Utils;
 
@@ -104,17 +107,17 @@ public partial class GUIMilitaryTrainingCamp : Control
 				//todo: fix constructors
 				case ArmyInfantryRegimentTemplate template:
 				{
-					_militaryTrainingCamp.TrainingList.Enqueue(new ArmyInfantryRegiment(_currentSelectedTemplate.Name,  _currentSelectedTemplate.Id, 0, _currentSelectedTemplate.TrainingTime, false, 0, 0));
+					_militaryTrainingCamp.TrainingList.Enqueue(new ArmyInfantryRegiment(_currentSelectedTemplate.Name, EngineState.PlayerCountryId,  _currentSelectedTemplate.Id, 0, _currentSelectedTemplate.TrainingTime, false, 0, 0, Good.DefaultGoods(), BehavioralPatterns.Attack, Modifiers.DefaultModifiers()));
 					return;
 				}
 				case ArmyCavalryRegimentTemplate template:
 				{
-					_militaryTrainingCamp.TrainingList.Enqueue(new ArmyCavalryRegiment(_currentSelectedTemplate.Name,  _currentSelectedTemplate.Id, 0, _currentSelectedTemplate.TrainingTime, false, 0, 0));
+					_militaryTrainingCamp.TrainingList.Enqueue(new ArmyCavalryRegiment(_currentSelectedTemplate.Name,EngineState.PlayerCountryId,  _currentSelectedTemplate.Id, 0, _currentSelectedTemplate.TrainingTime, false, 0, 0, Good.DefaultGoods(), BehavioralPatterns.Attack, Modifiers.DefaultModifiers()));
 					return;
 				}
 				case ArmyArtilleryRegimentTemplate template:
 				{
-					_militaryTrainingCamp.TrainingList.Enqueue(new ArmyArtilleryRegiment(_currentSelectedTemplate.Name, _currentSelectedTemplate.Id, 0, _currentSelectedTemplate.TrainingTime, false, 0, 0));
+					_militaryTrainingCamp.TrainingList.Enqueue(new ArmyArtilleryRegiment(_currentSelectedTemplate.Name,EngineState.PlayerCountryId, _currentSelectedTemplate.Id, 0, _currentSelectedTemplate.TrainingTime, false, 0, 0, Good.DefaultGoods(), BehavioralPatterns.Attack, Modifiers.DefaultModifiers()));
 					return;
 				}
 					

@@ -2,9 +2,10 @@
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
 
-public class Regiment
+public abstract class Regiment
 {
     public string Name;
+    public int Owner;
     public int TemplateId;
 
     public int TimeFromStartOfTheTraining;
@@ -12,22 +13,17 @@ public class Regiment
     public bool IsFinished;
 
     public int Manpower; 
-    public int MaxManpower;
 
-    public BehavioralPatterns BehavioralPattern;
     public float Morale;
     public double[] Resources;
-    public float CombatAbility;
-    public float Defense;
-    public float MovementSpeed;
-    public float SurvivalIndex;
-
+    
+    public BehavioralPatterns BehavioralPattern;    
     public Modifiers Modifiers;
     
-    
-    public Regiment(string name, int templateId, int timeFromStartOfTheTraining, int trainingTime, bool isFinished, int manpower, int maxManpower)
+    public Regiment(string name, int owner, int templateId, int timeFromStartOfTheTraining, int trainingTime, bool isFinished, int manpower, float morale, double[] resources, BehavioralPatterns behavioralPattern, Modifiers modifiers)
     {
         Name = name;
+        Owner = owner;
         TemplateId = templateId;
         
         
@@ -36,41 +32,27 @@ public class Regiment
         IsFinished = isFinished;
 
         Manpower = manpower;
-        MaxManpower = maxManpower;
+        Morale = morale;
+        Resources = resources;
+        
+        BehavioralPattern = behavioralPattern;
+        Modifiers = modifiers;
         
     }
-
-
-    public float MaxMorale
-    {
-        get => 1f + 0;//add all bonuses
-    }
-
-    /* TODO
-    public float MaxManpower
-    {
-        
-    }
-    */
-    public float CombatReadiness
-    {
-        //should be calculated by resource amount needed and in availability (max 1f)
-        get => 1f;
-    }
     
-    public void Consume()
-    {
-        //consumes resources in their rate
-    }
-    public void Recalculate()
-    {
-        //after creation calculating stats via modifiers
-    }
     
-    public void ChangeTemplate()
-    {
-        // change template and things after it
-    }
+    public abstract float MaxMorale { get; }
+    public abstract float MoraleIncrease { get; }
+    public abstract int ManpowerGrowth { get; }
+    public abstract int MaxManpower { get; }
+    public abstract float CombatReadiness { get; }
+    public abstract void Consume();
+    public abstract void Recalculate();
+    public abstract void ChangeTemplate();
+    public abstract float CombatAbility{ get; }
+    public abstract float Defense{ get; }
+    public abstract float MovementSpeed{ get; }
+    public abstract float SurvivalIndex{ get; }
 
     public bool DayTick()
     {

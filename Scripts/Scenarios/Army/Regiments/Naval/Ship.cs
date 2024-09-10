@@ -1,10 +1,13 @@
-﻿namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Naval;
+﻿using EuropeDominationDemo.Scripts.Enums;
 
-public class Ship : Regiment
+namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Naval;
+
+public abstract class Ship : Regiment
 {
-    public Ship(string name, int templateId, int timeFromStartOfTheTraining, int trainingTime,
-        bool isFinished, int manpower, int maxManpower) : base(name,  templateId, timeFromStartOfTheTraining,
-        trainingTime, isFinished, manpower, maxManpower)
+    public Ship(string name, int owner, int templateId, int timeFromStartOfTheTraining, int trainingTime,
+        bool isFinished, int manpower, float morale, double[] resources, BehavioralPatterns behavioralPattern, Modifiers modifiers) : base(name, owner,  templateId, timeFromStartOfTheTraining,
+        trainingTime, isFinished, manpower, morale, resources, behavioralPattern, modifiers)
     {
     }
+    
 }
