@@ -8,6 +8,7 @@ using EuropeDominationDemo.Scripts.UI;
 using EuropeDominationDemo.Scripts.UI.Events.GUI;
 using EuropeDominationDemo.Scripts.UI.Events.ToEngine;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
+using EuropeDominationDemo.Scripts.UI.GUIHandlers;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts;
@@ -43,6 +44,7 @@ public partial class GlobalStrategyEngine : Node2D
 		
 		Scenario scenario = new EuropeScenario(map);
 		EngineState.MapInfo = new MapData(scenario);
+		GlobalResources.GoodSpriteFrames = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/GoodSpriteFrames.tres");
 		
 
 		Camera = GetNode<CameraBehaviour>("./Camera");
@@ -74,7 +76,7 @@ public partial class GlobalStrategyEngine : Node2D
 	{
 		var tile = _findTile();
 		if(tile > -1)
-			InvokeToGUIEvent(new ToGUIShowInfoBoxProvinceEvent(EngineState.MapInfo.Scenario.Map[tile]));
+			InvokeToGUIEvent(new ToGUIShowInfoBoxEvent(InfoBoxFactory.ProvinceDataInfoBox(EngineState.MapInfo.Scenario.Map[tile])));
 	}
 	
 	public void TimeTick()
@@ -124,6 +126,9 @@ public partial class GlobalStrategyEngine : Node2D
 				return;
 			case GUIGoToProvince e:
 				Camera.GoToProvince(e.Id);
+				return;
+			case GUIShowInfoBox e:
+				InvokeToGUIEvent(new ToGUIShowInfoBoxEvent(e.InfoBoxBuilder));
 				return;
 			default:
 				AllHandlersControls.GUIInteractionHandler(@event);

@@ -5,6 +5,7 @@ using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.Army;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
+using EuropeDominationDemo.Scripts.UI.Events.GUI;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using EuropeDominationDemo.Scripts.UI.GUIHandlers;
 
@@ -15,11 +16,25 @@ public partial class GUIBattleWindow : GUIHandler
 	public override void Init()
 	{
 		_battleMatrixContainer = GetNode<VBoxContainer>("PanelContainer/MarginContainer/VBoxContainer");
+		for (int i = 0; i < 20; i++)
+		{
+			for (int j = 0; j < 20; j++)
+			{
+				var coords = new Vector2I(i, j);
+				_battleMatrixContainer.GetChild(i).GetChild<ColorRect>(j).MouseEntered += () => _updateInfoBox(coords);
+			}
+		}
+		
 	}
 
 	public override void InputHandle(InputEvent @event)
 	{
 		
+	}
+
+	private void _updateInfoBox(Vector2I coords)
+	{
+		InvokeGUIEvent(new GUIShowInfoBox(InfoBoxFactory.BattleRegimentData(_currentlyShownBattleData.Battlefield[coords.X, coords.Y] as ArmyRegiment)));
 	}
 
 	private void _showData()

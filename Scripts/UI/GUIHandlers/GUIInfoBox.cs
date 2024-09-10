@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.GlobalStates;
+using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using Godot;
@@ -10,6 +12,7 @@ public partial class GUIInfoBox : GUIHandler
 {
 	private RichTextLabel _infoLabel;
 	private PanelContainer _infoBox;
+
 	public override void Init()
 	{
 		_infoLabel = GetNode<RichTextLabel>("BoxContainer/MarginContainer/RichTextLabel");
@@ -26,17 +29,14 @@ public partial class GUIInfoBox : GUIHandler
 	public override void InputHandle(InputEvent @event)
 	{
 	}
+
 	public override void ToGUIHandleEvent(ToGUIEvent @event)
 	{
 		switch (@event)
 		{
-			case ToGUIShowInfoBoxProvinceEvent e:
+			case ToGUIShowInfoBoxEvent e:
 				_infoBox.Size = new Vector2(_infoBox.Size.X, 10);
-				_infoLabel.Text = "[color=yellow]" + e.ProvinceData.Name + "[/color]" + "\n"
-								  + ((e.ProvinceData is LandProvinceData landProvinceData)? "Good: "+ landProvinceData.Good.Name:"")
-								  +  ((e.ProvinceData is LandProvinceData landProvinceData2)? "\n" + "Terrain	: "+ landProvinceData2.Terrain.Name:"")
-								  +  ((e.ProvinceData is LandColonizedProvinceData landProvinceData3)? "\n" + "Developement	: "+ landProvinceData3.Development:"")
-					+ ((EngineState.DebugMode)?"Debug data:" + "\n" + "Id:" + e.ProvinceData.Id  + ((e.ProvinceData is LandColonizedProvinceData landProvinceData4)?"\n" + "Owner ID: " + landProvinceData4.Owner: "") :"");
+				_infoLabel.Text = e.InfoBoxBuilder.Text;
 				Visible = true;
 				return;
 			case ToGUIHideInfoBox:
@@ -46,6 +46,130 @@ public partial class GUIInfoBox : GUIHandler
 			default:
 				return;
 		}
+	}
+}
+
+public static class InfoBoxFactory
+{
+	public static InfoBoxBuilder ProvinceDataInfoBox(ProvinceData provinceData)
+	{
+		var infoBoxBuilder = new InfoBoxBuilder().Header(provinceData.Name).NewLine();
+		if (provinceData is LandProvinceData landProvinceData)
+		{
+			infoBoxBuilder.AppendText("Good: " + landProvinceData.Good.Name).NewLine();
+			infoBoxBuilder.AppendText("Terrain: " + landProvinceData.Terrain.Name).NewLine();
+		}
+
+		if (provinceData is LandColonizedProvinceData landprovinceData)
+		{ 
+			infoBoxBuilder.AppendText("Developement: " + landprovinceData.Development).NewLine();
+			infoBoxBuilder.ShowNotZeroGoods(landprovinceData.Resources);
+		}
+
+		if (EngineState.DebugMode)
+		{
+			infoBoxBuilder.Header("Debug Data").NewLine();
+			infoBoxBuilder.AppendText("Id: " + provinceData.Id).NewLine();
+			if (provinceData is LandColonizedProvinceData landColonizedProvinceData)
+				infoBoxBuilder.AppendText("Owner ID: " + landColonizedProvinceData.Owner);
+		}
+
+		return infoBoxBuilder;
+	}
+
+	public static InfoBoxBuilder BattleRegimentData(ArmyRegiment armyRegiment)
+	{
 		
+		var infoBoxBuilder = new InfoBoxBuilder();
+		if (armyRegiment == null)
+		{
+			infoBoxBuilder.Header("Empty Space");
+			return infoBoxBuilder;
+		}
+		infoBoxBuilder.Header(armyRegiment.Name).NewLine();
+		
+		switch (armyRegiment)
+		{
+			case ArmyInfantryRegiment:
+				infoBoxBuilder.AppendText("Type: Army Infantry").NewLine();
+				break;
+			case ArmyCavalryRegiment:
+				infoBoxBuilder.AppendText("Type: Army Cavalry").NewLine();
+				break;
+			case ArmyArtilleryRegiment:
+				infoBoxBuilder.AppendText("Type: Army Artillery").NewLine();
+				break;
+		}
+		//infoBoxBuilder.ShowNotZeroGoods(armyRegiment.Resources);
+		infoBoxBuilder.AppendText($"Manpower: {armyRegiment.Manpower}").NewLine();
+		infoBoxBuilder.AppendText($"Morale: {armyRegiment.Morale}");
+		
+		return infoBoxBuilder;
+	}
+}
+
+public class InfoBoxBuilder
+{
+	private string _text = "";
+	public string Text => _text;
+
+	public InfoBoxBuilder AppendText(string text)
+	{
+		_text += text;
+		return this;
+	}
+
+	public InfoBoxBuilder Header(string text)
+	{
+		_text += $"[b][color=yellow]{text}[/color][/b]";
+		return this;
+	}
+
+	public InfoBoxBuilder NewLine()
+	{
+		_text += "\n";
+		return this;
+	}
+
+	public InfoBoxBuilder StartBold()
+	{
+		_text += "[b]";
+		return this;
+	}
+
+	public InfoBoxBuilder EndBold()
+	{
+		_text += "[/b]";
+		return this;
+	}
+
+	public InfoBoxBuilder StartColor(string color)
+	{
+		_text += $"[color={color}]";
+		return this;
+	}
+
+	public InfoBoxBuilder EndColor()
+	{
+		_text += "[/color]";
+		return this;
+	}
+
+	public InfoBoxBuilder ShowNotZeroGoods(double[] resources)
+	{
+		var goodIndexes = new List<int>();
+		for (int i = 0; i < resources.Length; i++)
+		{
+			if(resources[i] > 0)
+				goodIndexes.Add(i);
+		}
+
+		foreach (var index in goodIndexes)
+		{
+			_text += $"[img=30px, center]{GlobalResources.GoodSpriteFrames.GetFrameTexture("goods", index).ResourcePath}[/img]: {resources[index]}";
+		}
+
+		NewLine();
+		return this;
 	}
 }

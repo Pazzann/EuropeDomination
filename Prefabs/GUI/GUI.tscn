@@ -44,9 +44,6 @@ layout_mode = 1
 [node name="Console" parent="." instance=ExtResource("6_fsmcp")]
 layout_mode = 1
 
-[node name="GuiInfoBox" parent="." instance=ExtResource("7_g3en8")]
-layout_mode = 1
-
 [node name="GuiArmyViewer" parent="." instance=ExtResource("8_dk6or")]
 visible = false
 layout_mode = 1
@@ -67,4 +64,7 @@ layout_mode = 1
 
 [node name="GuiColonizeProvinceInfo" parent="." instance=ExtResource("12_r08wx")]
 visible = false
+layout_mode = 1
+
+[node name="GuiInfoBox" parent="." instance=ExtResource("7_g3en8")]
 layout_mode = 1
