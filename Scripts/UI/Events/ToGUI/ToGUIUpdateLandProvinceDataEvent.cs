@@ -3,7 +3,7 @@ using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 
 namespace EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 
-public class ToGUIUpdateLandProvinceDataEvent : ToGUIEvent
+public struct ToGUIUpdateLandProvinceDataEvent : ToGUIEvent
 {
     public LandColonizedProvinceData UpdateColonizedProvinceData;
 

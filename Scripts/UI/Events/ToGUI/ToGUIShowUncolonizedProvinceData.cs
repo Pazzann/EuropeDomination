@@ -2,7 +2,7 @@
 
 namespace EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 
-public class ToGUIShowUncolonizedProvinceData : ToGUIEvent
+public struct ToGUIShowUncolonizedProvinceData : ToGUIEvent
 {
     public UncolonizedProvinceData UncolonizedProvinceData;
 

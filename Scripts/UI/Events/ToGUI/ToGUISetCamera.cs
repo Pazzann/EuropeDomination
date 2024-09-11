@@ -2,7 +2,7 @@
 
 namespace EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 
-public class ToGUISetCamera : ToGUIEvent
+public struct ToGUISetCamera : ToGUIEvent
 {
     public CameraBehaviour Camera;
     public Viewport Viewport;

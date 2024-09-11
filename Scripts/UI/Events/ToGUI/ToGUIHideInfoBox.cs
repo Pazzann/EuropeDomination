@@ -1,6 +1,6 @@
 ﻿namespace EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 
-public class ToGUIHideInfoBox : ToGUIEvent
+public struct ToGUIHideInfoBox : ToGUIEvent
 {
     
 }

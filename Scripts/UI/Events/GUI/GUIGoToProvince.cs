@@ -3,7 +3,7 @@ using EuropeDominationDemo.Scripts.Enums;
 
 namespace EuropeDominationDemo.Scripts.UI.Events.GUI;
 
-public class GUIGoToProvince : GUIEvent
+public struct GUIGoToProvince : GUIEvent
 {
     public int Id;
 

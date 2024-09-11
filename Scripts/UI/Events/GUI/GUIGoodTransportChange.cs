@@ -6,7 +6,7 @@ namespace EuropeDominationDemo.Scripts.UI.Events.GUI;
 
 public delegate void RouteAdressProvider(TransportationRoute route);
 public delegate void NewTransportationRouteReciever(TransportationRoute transportationRoute);
-public class GUIGoodTransportChange: GUIEvent
+public struct GUIGoodTransportChange: GUIEvent
 {
     public Good GoodToTransport;
     public double Amount;

@@ -2,6 +2,6 @@
 
 namespace EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 
-public class ToGUIUpdateCountryInfo : ToGUIEvent
+public struct ToGUIUpdateCountryInfo : ToGUIEvent
 {
 }

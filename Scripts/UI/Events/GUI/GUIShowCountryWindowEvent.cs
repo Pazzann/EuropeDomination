@@ -1,6 +1,6 @@
 ﻿namespace EuropeDominationDemo.Scripts.UI.Events.GUI;
 
-public class GUIShowCountryWindowEvent : GUIEvent
+public struct GUIShowCountryWindowEvent : GUIEvent
 {
     
 }

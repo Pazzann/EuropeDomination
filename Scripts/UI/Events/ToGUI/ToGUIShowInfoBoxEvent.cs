@@ -3,7 +3,7 @@ using EuropeDominationDemo.Scripts.UI.GUIHandlers;
 
 namespace EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 
-public class ToGUIShowInfoBoxEvent : ToGUIEvent
+public struct ToGUIShowInfoBoxEvent : ToGUIEvent
 {
     public InfoBoxBuilder InfoBoxBuilder;
 

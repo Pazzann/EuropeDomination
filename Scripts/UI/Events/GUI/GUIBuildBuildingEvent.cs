@@ -2,7 +2,7 @@
 
 namespace EuropeDominationDemo.Scripts.UI.Events.GUI;
 
-public class GUIBuildBuildingEvent : GUIEvent
+public struct GUIBuildBuildingEvent : GUIEvent
 {
     public Building NewBuilding;
 

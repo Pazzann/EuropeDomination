@@ -2,7 +2,7 @@
 
 namespace EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 
-public class ToGUIShowDiplomacyWindow : ToGUIEvent
+public struct ToGUIShowDiplomacyWindow : ToGUIEvent
 {
     public CountryData CountryData;
 

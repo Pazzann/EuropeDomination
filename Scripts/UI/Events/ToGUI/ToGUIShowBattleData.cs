@@ -2,7 +2,7 @@
 
 namespace EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 
-public class ToGUIShowBattleData : ToGUIEvent
+public struct ToGUIShowBattleData : ToGUIEvent
 {
     public BattleData BattleData;
 

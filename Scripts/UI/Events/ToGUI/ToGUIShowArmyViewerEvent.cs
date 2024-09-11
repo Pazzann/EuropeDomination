@@ -3,7 +3,7 @@ using EuropeDominationDemo.Scripts.Units;
 
 namespace EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 
-public class ToGUIShowArmyViewerEvent : ToGUIEvent
+public struct ToGUIShowArmyViewerEvent : ToGUIEvent
 {
     public List<ArmyUnit> ArmyUnits;
 

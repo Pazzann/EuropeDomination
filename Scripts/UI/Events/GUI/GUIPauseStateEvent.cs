@@ -1,6 +1,6 @@
 ﻿namespace EuropeDominationDemo.Scripts.UI.Events.GUI;
 
-public class GUIPauseStateEvent : GUIEvent
+public struct GUIPauseStateEvent : GUIEvent
 {
     public bool IsPaused;
 

@@ -2,7 +2,7 @@
 
 namespace EuropeDominationDemo.Scripts.UI.Events.GUI;
 
-public class GUIShowInfoBox: GUIEvent
+public struct GUIShowInfoBox: GUIEvent
 {
     public InfoBoxBuilder InfoBoxBuilder;
 

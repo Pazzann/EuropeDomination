@@ -2,7 +2,7 @@
 
 namespace EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 
-public class ToGUISetDateEvent : ToGUIEvent
+public struct ToGUISetDateEvent : ToGUIEvent
 {
     public DateTime DateTime;
 

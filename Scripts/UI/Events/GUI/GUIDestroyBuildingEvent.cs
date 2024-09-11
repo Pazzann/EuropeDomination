@@ -1,6 +1,6 @@
 ﻿namespace EuropeDominationDemo.Scripts.UI.Events.GUI;
 
-public class GUIDestroyBuildingEvent : GUIEvent
+public struct GUIDestroyBuildingEvent : GUIEvent
 {
     public int DestroyedId;
 

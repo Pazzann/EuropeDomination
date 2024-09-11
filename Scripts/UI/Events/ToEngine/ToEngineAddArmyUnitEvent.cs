@@ -2,7 +2,7 @@
 
 namespace EuropeDominationDemo.Scripts.UI.Events.ToEngine;
 
-public class ToEngineAddArmyUnitEvent : ToEngine
+public struct ToEngineAddArmyUnitEvent : ToEngine
 {
     public ArmyUnitData ArmyUnitData;
 

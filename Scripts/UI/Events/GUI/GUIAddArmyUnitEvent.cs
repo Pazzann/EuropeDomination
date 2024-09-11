@@ -2,7 +2,7 @@
 
 namespace EuropeDominationDemo.Scripts.UI.Events.GUI;
 
-public class GUIAddArmyUnitEvent : GUIEvent
+public struct GUIAddArmyUnitEvent : GUIEvent
 {
     public ArmyUnitData ArmyUnitData;
 
