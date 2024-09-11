@@ -21,6 +21,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private bool _guestMode;
 	private PanelContainer _buildingsMenu;
 	private GridContainer _possibleBuildingsSpawner;
+	
+	private TextureRect _provinceSprite;
 
 	private PackedScene BuildingScene;
 
@@ -30,6 +32,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private AnimatedSprite2D _provinceTerrain;
 	private GUIResources _provinceResources;
 	private Label _provinceDev;
+	private Button _provinceDevButton;
 	
 	private RichTextLabel _provinceStats;
 	
@@ -74,7 +77,10 @@ public partial class GUILandProvinceWindow : GUIHandler
 	
 	public override void Init()
 	{
+		_provinceSprite = GetNode<TextureRect>("HBoxContainer4/ProvinceWindowSprite");
+		_provinceSprite.MouseEntered += () => InvokeGUIEvent(new GUIHideInfoBoxEvent());
 		_buildingsMenu = GetNode<PanelContainer>("HBoxContainer4/BuildingMenu");
+		_buildingsMenu.MouseEntered += () => InvokeGUIEvent(new GUIHideInfoBoxEvent());
 		_possibleBuildingsSpawner = GetNode<GridContainer>("HBoxContainer4/BuildingMenu/MarginContainer/VBoxContainer/GridContainer");
 		BuildingScene = GD.Load<PackedScene>("res://Prefabs/GUI/Modules/GUIBuilding.tscn");
 
@@ -84,6 +90,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 			a.GetChild<AnimatedTextureRect>(0).SetFrame(building.Id);
 			a.GetChild<Label>(1).Text = building.Cost.ToString();
 			a.GetChild(0).GetChild<Button>(0).Pressed += () => InvokeGUIEvent(new GUIBuildBuildingEvent(building.Clone()));;
+			a.GetChild(0).GetChild<Button>(0).MouseEntered += () => _showBuildingInfoBox(building.Id);
+			a.GetChild(0).GetChild<Button>(0).MouseExited += () => InvokeGUIEvent(new GUIHideInfoBoxEvent());
 			_possibleBuildingsSpawner.AddChild(a);
 		}
 		
@@ -93,6 +101,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_provinceGood = GetNode<AnimatedSprite2D>("HBoxContainer4/ProvinceWindowSprite/Good");
 		_provinceTerrain = GetNode<AnimatedSprite2D>("HBoxContainer4/ProvinceWindowSprite/Terrain");
 		_provinceDev = GetNode<Label>("HBoxContainer4/ProvinceWindowSprite/Dev");
+		_provinceDevButton = GetNode<Button>("HBoxContainer4/ProvinceWindowSprite/DevButton");
+		_provinceDevButton.MouseEntered += () => _showDevInfoBox();
 
 		_provinceStats = GetNode<RichTextLabel>("HBoxContainer4/ProvinceWindowSprite/StatsLabel");
 		
@@ -261,6 +271,31 @@ public partial class GUILandProvinceWindow : GUIHandler
 	{
 		_buildingsMenu.Visible = true;
 	}
+
+	private void _onDevButtonPressed()
+	{
+		var requirments = Settings.ResourceAndCostRequirmentsToDev(_currentColonizedProvinceData.Development);
+		if (EngineState.MapInfo.Scenario.Countries[_currentColonizedProvinceData.Owner].Money - requirments.Key >= 0f &&
+			Good.CheckIfMeetsRequirements(_currentColonizedProvinceData.Resources, requirments.Value))
+		{
+			EngineState.MapInfo.Scenario.Countries[_currentColonizedProvinceData.Owner].Money -= requirments.Key;
+			_currentColonizedProvinceData.Resources = Good.DecreaseGoodsByGoods(_currentColonizedProvinceData.Resources, requirments.Value);
+			_currentColonizedProvinceData.Development++;
+			_setProvinceInfo(_currentColonizedProvinceData);
+			_showDevInfoBox();
+		}
+	}
+
+	private void _showDevInfoBox()
+	{
+		InvokeGUIEvent(new GUIShowInfoBox(InfoBoxFactory.DevButtonData(_currentColonizedProvinceData)));
+	}
+
+	private void _showBuildingInfoBox(int id)
+	{
+		InvokeGUIEvent(new GUIShowInfoBox(InfoBoxFactory.BuildingData(EngineState.MapInfo.Scenario.Buildings[id])));
+	}
+	
 
 	private void _setBuildingMenuInfo(LandColonizedProvinceData colonizedProvinceData)
 	{

@@ -243,9 +243,11 @@ public partial class MapHandler : GameHandler
 				case GUIBuildBuildingEvent e:
 					var province = (LandColonizedProvinceData)EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId];
 					if (EngineState.PlayerCountryId == province.Owner &&
-						EngineState.MapInfo.Scenario.Countries[province.Owner].Money - e.NewBuilding.Cost >= 0)
+						EngineState.MapInfo.Scenario.Countries[province.Owner].Money - e.NewBuilding.Cost >= 0 &&
+						Good.CheckIfMeetsRequirements(province.Resources, e.NewBuilding.ResourceCost))
 					{
 						EngineState.MapInfo.Scenario.Countries[province.Owner].Money -= e.NewBuilding.Cost;
+						province.Resources = Good.DecreaseGoodsByGoods(province.Resources,e.NewBuilding.ResourceCost);
 						data.Buildings.Add(e.NewBuilding);
 						InvokeToGUIEvent(
 							new ToGUIUpdateLandProvinceDataEvent(

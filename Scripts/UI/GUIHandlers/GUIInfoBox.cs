@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.Reflection;
 using EuropeDominationDemo.Scripts.GlobalStates;
+using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
+using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using Godot;
@@ -35,12 +38,14 @@ public partial class GUIInfoBox : GUIHandler
 		switch (@event)
 		{
 			case ToGUIShowInfoBoxEvent e:
+				_infoLabel.Text = "";
 				_infoBox.Size = new Vector2(_infoBox.Size.X, 10);
 				_infoLabel.Text = e.InfoBoxBuilder.Text;
 				Visible = true;
 				return;
 			case ToGUIHideInfoBox:
 				_infoLabel.Text = "";
+				_infoBox.Size = new Vector2(_infoBox.Size.X, 10);
 				Visible = false;
 				return;
 			default:
@@ -106,6 +111,25 @@ public static class InfoBoxFactory
 		
 		return infoBoxBuilder;
 	}
+
+	public static InfoBoxBuilder DevButtonData(LandColonizedProvinceData provinceData)
+	{
+		var req = Settings.ResourceAndCostRequirmentsToDev(provinceData.Development);
+		return new InfoBoxBuilder()
+			.Header("Needed To Dev").NewLine()
+			.AppendText($"Cost: {req.Key}").NewLine()
+			.ShowNotZeroGoods(req.Value);
+	}
+
+	public static InfoBoxBuilder BuildingData(Building building)
+	{
+		return new InfoBoxBuilder()
+			.Header(building.Name).NewLine()
+			.AppendText($"Cost: {building.Cost}").NewLine()
+			.AppendText("Resource Cost: ").ShowNotZeroGoods(building.ResourceCost)
+			.Header("Modifiers:")
+			.ShowModifiers(building.Modifiers);
+	}
 }
 
 public class InfoBoxBuilder
@@ -170,6 +194,39 @@ public class InfoBoxBuilder
 		}
 
 		NewLine();
+		return this;
+	}
+
+	public InfoBoxBuilder ShowModifiers(Modifiers modifiers)
+	{
+		var defMod = Modifiers.DefaultModifiers();
+		
+		foreach (var propertyInfo in modifiers.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+		{
+			
+			var val = propertyInfo.GetValue(modifiers);
+			var defVal = propertyInfo.GetValue(defMod);
+			if ((float)val - (float)defVal > EngineVariables.Eps)
+			{
+				NewLine();
+				AppendText($"{propertyInfo.Name}: ");
+				if (propertyInfo.Name.Contains("Bonus"))
+				{
+					if ((float)val >= 0)
+						StartColor("green").AppendText($"+{val}").EndColor();
+					else
+						StartColor("red").AppendText($"-{val}").EndColor();
+				}
+				else
+				{
+					if ((float)val >= 1.0f)
+						StartColor("green").AppendText($"+{Mathf.RoundToInt(100 * ((float)val-1.0f))}%").EndColor();
+					else
+						StartColor("red").AppendText($"-{Mathf.RoundToInt(100 * ((float)val-1.0f))}%").EndColor();
+				}
+			}
+		}
+
 		return this;
 	}
 }

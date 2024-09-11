@@ -1,4 +1,8 @@
-﻿namespace EuropeDominationDemo.Scripts.GlobalStates;
+﻿using System.Collections.Generic;
+using EuropeDominationDemo.Scripts.Scenarios.Goods;
+using Godot;
+
+namespace EuropeDominationDemo.Scripts.GlobalStates;
 
 public static class Settings
 {
@@ -9,4 +13,30 @@ public static class Settings
     public static float ManpowerPerDev = 0.5f;
     public static float InitialProduction = 1.0f;
     public static float MoraleRecoveryPerDay = 0.01f;
+    
+    public static List<KeyValuePair<int, double>> ResourceRequirmentsPer10Dev = new List<KeyValuePair<int, double>>()
+    {
+        new (0, 0.25), // each index for 10 dev, value is to increment for dev
+        new (2, 0.5),
+        new (2, 0.5),
+        new (2, 0.5),
+        new (2, 0.5),
+        new (2, 0.5),
+        new (2, 0.5),
+        new (2, 0.5),
+        new (2, 0.5),
+        new (2, 0.5),
+    };
+
+    public static int CostIncrementPerDev = 10;
+    public static KeyValuePair<int, double[]> ResourceAndCostRequirmentsToDev(int dev)
+    {
+        var cost = dev * CostIncrementPerDev;
+        var resources = Good.DefaultGoods();
+        for (var i = 0; i < Mathf.FloorToInt(dev / 10); i++)
+        {
+            resources[ResourceRequirmentsPer10Dev[i].Key] += (dev - i * 10) * ResourceRequirmentsPer10Dev[i].Value;
+        }
+        return new KeyValuePair<int, double[]>(cost, resources);
+    }
 }

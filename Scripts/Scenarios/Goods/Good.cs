@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using System.Collections.Generic;
+using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Goods;
 
@@ -16,8 +17,35 @@ public abstract class Good
     }
     
     
-    public static double[] DefaultGoods()
+    public static double[] DefaultGoods(Dictionary<int, double> notNullGoods = null)
     {
-        return new double[] { 0, 0, 0, 0 };
+        var a = new double[] { 0, 0, 0, 0 };
+        if(notNullGoods == null) return a;
+        foreach (var kvp in notNullGoods)
+        {
+            a[kvp.Key] = kvp.Value;
+        }
+        
+        return a;
+    }
+
+    public static bool CheckIfMeetsRequirements(double[] availableGoods, double[] neededGoods)
+    {
+        for (var i = 0; i < availableGoods.Length; i++)
+        {
+            if (availableGoods[i] - neededGoods[i] < 0) return false;
+        }
+
+        return true;
+    }
+
+    public static double[] DecreaseGoodsByGoods(double[] availableGoods, double[] neededGoods)
+    {
+        for (var i = 0; i < availableGoods.Length; i++)
+        {
+            availableGoods[i] -= neededGoods[i];
+        }
+
+        return availableGoods;
     }
 }

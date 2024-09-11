@@ -96,7 +96,7 @@ public class EuropeScenario : Scenario
 
         Buildings = new List<Building>()
         {
-            new ("Workshop", 0, 100, 100, 0, false, Modifiers.DefaultModifiers(productionEfficiency: 1.5f)),
+            new ("Workshop", 0, 100, Good.DefaultGoods(new Dictionary<int, double>(){{0, 4f}, {2, 4f}}), 100, 0, false, Modifiers.DefaultModifiers(productionEfficiency: 1.5f)),
         };
         
         

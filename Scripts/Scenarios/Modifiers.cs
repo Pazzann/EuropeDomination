@@ -3,7 +3,7 @@
 public class Modifiers
 {
     public float ProductionEfficiency { get; set; }
-    public float TransportationCapacity { get; set; }
+    public float TransportationBonus { get; set; }
 
 
     public float AdditionalTrainingEfficiency { get; set; }
@@ -11,15 +11,15 @@ public class Modifiers
     public float MaxMoraleBonus { get; set; }
     public float MaxMoraleEfficiency { get; set; }
     public float MoraleIncreaseEfficiency { get; set; }
-    public int MaxManpowerBonus {get; set;}
+    public float MaxManpowerBonus {get; set;}
     public float MaxManpowerEfficiency { get; set; }
     public float ManpowerIncreaseEfficiency { get; set; }
 
-    public Modifiers(float productionEfficiency, float transportationCapacity, float additionalTrainingEfficiency,
+    public Modifiers(float productionEfficiency, float transportationBonus, float additionalTrainingEfficiency,
         float maxMoraleBonus, float maxMoraleEfficiency, float moraleIncreaseEfficiency, int maxManpowerBonus, float maxManpowerEfficiency, float manpowerIncreaseEfficiency)
     {
         ProductionEfficiency = productionEfficiency;
-        TransportationCapacity = transportationCapacity;
+        TransportationBonus = transportationBonus;
         AdditionalTrainingEfficiency = additionalTrainingEfficiency;
         MaxMoraleBonus = maxMoraleBonus;
         MaxMoraleEfficiency = maxMoraleEfficiency;
@@ -30,7 +30,7 @@ public class Modifiers
     }
 
 
-    public static Modifiers DefaultModifiers(float productionEfficiency = 0.0f, float transportationCapacity = 0.0f,
+    public static Modifiers DefaultModifiers(float productionEfficiency = 1.0f, float transportationCapacity = 0.0f,
         float additionalTrainingEfficiency = 1.0f, float maxMoraleBonus = 0.0f, float maxMoraleEfficiency = 1.0f, float moraleIncreaseEfficiency = 1.0f,
         int maxManpowerBonus = 0, float maxManpowerEfficiency = 1.0f, float manpowerIncreaseEfficiency = 1.0f)
     {

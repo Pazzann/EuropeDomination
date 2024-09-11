@@ -78,29 +78,35 @@ text = "exit"
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ProvinceWindowSprite" type="Sprite2D" parent="HBoxContainer4"]
+[node name="ProvinceWindowSprite" type="TextureRect" parent="HBoxContainer4"]
 texture_filter = 1
-position = Vector2(255, 399)
+layout_mode = 0
+offset_left = -22.0
+offset_top = -44.0
+offset_right = 678.0
+offset_bottom = 956.0
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("1_dqhfl")
 
 [node name="closeButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite"]
 self_modulate = Color(1, 1, 1, 0)
-offset_left = 278.0
-offset_top = -493.0
-offset_right = 318.0
-offset_bottom = -475.0
+layout_mode = 0
+offset_left = 628.0
+offset_top = 7.50002
+offset_right = 668.0
+offset_bottom = 25.5
 
 [node name="ProvinceName" type="Label" parent="HBoxContainer4/ProvinceWindowSprite"]
-offset_left = -292.0
-offset_top = -465.0
-offset_right = 68.0
-offset_bottom = -427.0
+layout_mode = 0
+offset_left = 58.0
+offset_top = 35.5
+offset_right = 418.0
+offset_bottom = 73.5
 text = "fdgfdgfdgdfgdfgdf"
 label_settings = SubResource("LabelSettings_0rrit")
 
 [node name="Good" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("3_j1a0c")]
-position = Vector2(277.5, 416.25)
+position = Vector2(627.5, 916.75)
 scale = Vector2(1.02031, 1.02031)
 
 [node name="GoodTransportManagement" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Good"]
@@ -110,18 +116,19 @@ offset_right = 40.0
 offset_bottom = 33.0
 
 [node name="Flag" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("4_fkosd")]
-position = Vector2(112.5, -444.25)
+position = Vector2(462.5, 56.2501)
 scale = Vector2(1.04167, 0.96875)
 
 [node name="Terrain" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("5_afqlh")]
-position = Vector2(234.875, -420)
+position = Vector2(584.875, 80.5001)
 scale = Vector2(1.00141, 1)
 
 [node name="ResourcesContainer" type="ScrollContainer" parent="HBoxContainer4/ProvinceWindowSprite"]
-offset_left = -297.0
-offset_top = 183.0
-offset_right = 142.0
-offset_bottom = 448.0
+layout_mode = 0
+offset_left = 53.0
+offset_top = 683.5
+offset_right = 492.0
+offset_bottom = 948.5
 mouse_filter = 0
 mouse_force_pass_scroll_events = false
 
@@ -129,15 +136,16 @@ mouse_force_pass_scroll_events = false
 layout_mode = 2
 
 [node name="StatsLabel" type="RichTextLabel" parent="HBoxContainer4/ProvinceWindowSprite"]
-offset_left = 149.0
-offset_top = -6.0
-offset_right = 319.0
-offset_bottom = 372.0
+layout_mode = 0
+offset_left = 499.0
+offset_top = 494.5
+offset_right = 669.0
+offset_bottom = 872.5
 bbcode_enabled = true
 text = "Max resourse: 20"
 
 [node name="Buildings" type="Node2D" parent="HBoxContainer4/ProvinceWindowSprite"]
-position = Vector2(237.5, -52.5)
+position = Vector2(587.5, 448)
 
 [node name="0" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
 self_modulate = Color(1, 1, 1, 0)
@@ -561,40 +569,44 @@ scale = Vector2(6.1175, -5.83068)
 
 [node name="GuiMilitaryTrainingCamp" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("11_mqc8b")]
 visible = false
-offset_left = -303.75
-offset_top = -371.25
-offset_right = -553.75
-offset_bottom = -821.25
+layout_mode = 1
+offset_left = 46.25
+offset_top = 129.25
+offset_right = -203.75
+offset_bottom = -320.75
 
 [node name="GuiDockyard" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("12_3n8ik")]
 visible = false
-offset_left = -307.5
-offset_top = -368.75
-offset_right = -1007.5
-offset_bottom = -898.75
+layout_mode = 1
+offset_left = 42.5
+offset_top = 131.75
+offset_right = -657.5
+offset_bottom = -398.25
 
 [node name="GuiStockAndTrade" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("13_p7ifk")]
 visible = false
-offset_left = -305.0
-offset_top = -372.5
-offset_right = -1005.0
-offset_bottom = -822.5
+layout_mode = 1
+offset_left = 45.0
+offset_top = 128.0
+offset_right = -655.0
+offset_bottom = -322.0
 
 [node name="GuiFactory" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("14_ltsyw")]
 visible = false
-offset_left = -302.5
-offset_top = -371.25
-offset_right = -552.5
-offset_bottom = -821.25
+layout_mode = 1
+offset_left = 47.5
+offset_top = 129.25
+offset_right = -202.5
+offset_bottom = -320.75
 
 [node name="NotUnlockedSpecialBuilding" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
 visible = false
 layout_mode = 3
 anchors_preset = 0
-offset_left = -305.0
-offset_top = -391.25
-offset_right = 145.0
-offset_bottom = 178.75
+offset_left = 45.0
+offset_top = 109.25
+offset_right = 495.0
+offset_bottom = 679.25
 
 [node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/NotUnlockedSpecialBuilding"]
 layout_mode = 0
@@ -608,10 +620,10 @@ text = "Needed dev to unlock:10"
 visible = false
 layout_mode = 3
 anchors_preset = 0
-offset_left = -305.0
-offset_top = -392.5
-offset_right = 145.0
-offset_bottom = 177.5
+offset_left = 45.0
+offset_top = 108.0
+offset_right = 495.0
+offset_bottom = 678.0
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding"]
 layout_mode = 0
@@ -701,17 +713,27 @@ offset_bottom = 63.6854
 metadata/_edit_use_anchors_ = true
 
 [node name="Dev" type="Label" parent="HBoxContainer4/ProvinceWindowSprite"]
-offset_left = 78.75
-offset_top = -407.5
-offset_right = 118.75
-offset_bottom = -384.5
+layout_mode = 0
+offset_left = 428.75
+offset_top = 93.0
+offset_right = 468.75
+offset_bottom = 116.0
+
+[node name="DevButton" type="Button" parent="HBoxContainer4/ProvinceWindowSprite"]
+layout_mode = 0
+offset_left = 362.5
+offset_top = 91.7501
+offset_right = 400.5
+offset_bottom = 122.75
+text = "Dev"
 
 [node name="TransferManagementBox" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite"]
 visible = false
-offset_left = 436.25
-offset_top = 223.75
-offset_right = 636.25
-offset_bottom = 423.75
+layout_mode = 0
+offset_left = 786.25
+offset_top = 724.25
+offset_right = 986.25
+offset_bottom = 933.25
 theme = ExtResource("11_hg8qy")
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox"]
@@ -766,10 +788,11 @@ offset_right = 66.0
 offset_bottom = 69.0
 
 [node name="TabBar" type="TabBar" parent="HBoxContainer4/ProvinceWindowSprite"]
-offset_left = -304.0
-offset_top = -415.0
-offset_right = 5.0
-offset_bottom = -375.0
+layout_mode = 0
+offset_left = 46.0
+offset_top = 85.5
+offset_right = 355.0
+offset_bottom = 125.5
 current_tab = 0
 tab_count = 3
 tab_0/title = "Slot1"
@@ -778,10 +801,11 @@ tab_2/title = "Slot3"
 
 [node name="GoodEditPanel" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("24_qo3qi")]
 visible = false
-offset_left = 675.0
-offset_top = 222.5
-offset_right = 915.0
-offset_bottom = 422.5
+layout_mode = 0
+offset_left = 1025.0
+offset_top = 723.0
+offset_right = 1265.0
+offset_bottom = 923.0
 
 [connection signal="pressed" from="HBoxContainer4/BuildingMenu/MarginContainer/VBoxContainer/ExitButton" to="." method="_onExitBuildingMenuButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/closeButton" to="." method="_onCloseProvinceMenuButtonPressed"]
@@ -793,6 +817,7 @@ offset_bottom = 422.5
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/ProductionLine/ProductionLine" to="." method="_onSpecialBuildingSelectionPressed" binds= [1]]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Military/Military" to="." method="_onSpecialBuildingSelectionPressed" binds= [3]]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Dockyard/Dockyard" to="." method="_onSpecialBuildingSelectionPressed" binds= [2]]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/DevButton" to="." method="_onDevButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TextureRect/Button" to="." method="_onCloseTransportMenuPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TransportButton" to="." method="_onChangeGoodTransportationRoutePressed"]
 [connection signal="value_changed" from="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/TransportSlider" to="." method="_onTransportSliderValueChanged"]

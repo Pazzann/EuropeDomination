@@ -21,7 +21,6 @@ public partial class GlobalStrategyEngine : Node2D
 	public GUI GUIHandler;
 
 	private Timer _timer;
-	private Timer _mouseInactivityTimer;
 	
 	public override void _Ready()
 	{
@@ -61,7 +60,6 @@ public partial class GlobalStrategyEngine : Node2D
 		_timer = GetNode<Timer>("./DayTimer");
 		_timer.Start();
 
-		_mouseInactivityTimer = GetNode<Timer>("./MouseinactivityTimer");
 		
 		InvokeToGUIEvent(new ToGUISetCamera(Camera, GetViewport()));
 	}
@@ -70,13 +68,6 @@ public partial class GlobalStrategyEngine : Node2D
 	public void ViewModeChange()
 	{
 		AllHandlersControls.ViewModUpdate(Camera.Zoom.X);
-	}
-
-	private void _onMouseInactivityTimerTimeout()
-	{
-		var tile = _findTile();
-		if(tile > -1)
-			InvokeToGUIEvent(new ToGUIShowInfoBoxEvent(InfoBoxFactory.ProvinceDataInfoBox(EngineState.MapInfo.Scenario.Map[tile])));
 	}
 	
 	public void TimeTick()
@@ -94,9 +85,8 @@ public partial class GlobalStrategyEngine : Node2D
 		GUIHandler.InputHandle(@event);
 		if (@event is InputEventMouseMotion e)
 		{
-			_mouseInactivityTimer.Stop();
-			_mouseInactivityTimer.Start();
-			InvokeToGUIEvent(new ToGUIHideInfoBox());
+			if(tileId > -1)
+				InvokeToGUIEvent(new ToGUIShowInfoBoxEvent(InfoBoxFactory.ProvinceDataInfoBox(EngineState.MapInfo.Scenario.Map[tileId])));
 		}
 	}
 
@@ -129,6 +119,9 @@ public partial class GlobalStrategyEngine : Node2D
 				return;
 			case GUIShowInfoBox e:
 				InvokeToGUIEvent(new ToGUIShowInfoBoxEvent(e.InfoBoxBuilder));
+				return;
+			case GUIHideInfoBoxEvent e:
+				InvokeToGUIEvent(new ToGUIHideInfoBox());
 				return;
 			default:
 				AllHandlersControls.GUIInteractionHandler(@event);
