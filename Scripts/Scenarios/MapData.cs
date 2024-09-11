@@ -186,6 +186,22 @@ public class MapData
                     d is LandColonizedProvinceData && d.BorderderingProvinces
                         .Where(i => Scenario.Map[i] is SeaProvinceData)
                         .ToArray().Length > 0).ToArray();
+            case ProvinceTypes.CurrentCountryProvinces:
+                return Scenario.Map.Where(d =>
+                    d is LandColonizedProvinceData landData&& landData.Owner == EngineState.PlayerCountryId)
+                    .ToArray();
+            case ProvinceTypes.CurrentCountryProvincesAndBordering:
+            {
+                var visible = new HashSet<int>();
+                foreach (var provinceData in Scenario.Map)
+                    if (provinceData is LandColonizedProvinceData landData && landData.Owner == EngineState.PlayerCountryId)
+                    {
+                        visible.Add(landData.Id);
+                        foreach (var provinceDataBorderderingProvince in provinceData.BorderderingProvinces)
+                            visible.Add(provinceDataBorderderingProvince);
+                    }
+                return Scenario.Map.Where(d => visible.Contains(d.Id)).ToArray();
+            }
             default:
                 return Scenario.Map;
         }

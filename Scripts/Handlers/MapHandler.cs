@@ -158,7 +158,27 @@ public partial class MapHandler : GameHandler
         if (EngineState.MapInfo.Scenario.Map[tileId] is LandColonizedProvinceData data)
             InvokeToGUIEvent(new ToGuiShowLandProvinceDataEvent(data));
         if (EngineState.MapInfo.Scenario.Map[tileId] is UncolonizedProvinceData uncolonizedProvinceData)
-            InvokeToGUIEvent(new ToGUIShowUncolonizedProvinceData(uncolonizedProvinceData));
+        {
+            bool isPossibleToColonize = !(uncolonizedProvinceData.CurrentlyColonizedByCountry != null);
+            
+            //Some Crazy condition
+            if (!EngineState.MapInfo.MapProvinces(ProvinceTypes.CurrentCountryProvincesAndBordering).Contains(uncolonizedProvinceData))
+                if (!EngineState.MapInfo.MapProvinces(ProvinceTypes.CurrentCountryProvinces)
+                        .Where(d => (d as LandColonizedProvinceData).SpecialBuildings.Any(b => b is Dockyard))
+                        .Any(d =>
+                        {
+                            var searchPr = EngineState.MapInfo.MapProvinces(ProvinceTypes.SeaProvinces).ToList();
+                            searchPr.Add(d);
+                            searchPr.Add(uncolonizedProvinceData);
+                            return PathFinder.CheckConnectionFromAToB(d.Id, uncolonizedProvinceData.Id,
+                                       searchPr.ToArray()) &&
+                                   PathFinder.FindPathFromAToB(d.Id, uncolonizedProvinceData.Id, searchPr.ToArray()
+                                   ).Length < 6;
+                        }))
+                    isPossibleToColonize = false;
+            InvokeToGUIEvent(new ToGUIShowUncolonizedProvinceData(uncolonizedProvinceData, isPossibleToColonize));
+
+        }
         return false;
     }
 

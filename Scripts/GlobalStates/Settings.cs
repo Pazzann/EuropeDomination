@@ -38,4 +38,21 @@ public static class Settings
             resources[ResourceRequirmentsPer10Dev[i].Key] += (dev - i * 10) * ResourceRequirmentsPer10Dev[i].Value;
         return new KeyValuePair<int, double[]>(cost, resources);
     }
+
+
+    public static float InitialMoneyCostColony = 50;
+    public static int InitialManpowerCostColony = 100;
+    public static float MoneyConsumptionPerMonthColony(int colonyNumber)
+    {
+        float initial = 2f;
+        float sum = initial;
+        for (int i = 1; i < colonyNumber; i++)
+        {
+            initial *= 2;
+            sum += initial;
+        }
+        return sum;
+    }
+    //add 3 to your value
+    public static int NavalColonizationRange = 6;
 }
