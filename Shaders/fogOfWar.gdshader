@@ -7,7 +7,7 @@ uniform uint colorMode = 0;
 //TODO: Add blur on the borders
 
 uniform float timescale = 0.01f;
-uniform int pixelSize = 6;
+uniform int pixelSize = 3;
 uniform float hScrollSpeedFactor = 1.;
 uniform float vScrollSpeedFactor = 1.;
 uniform float entropyFactor = 10.;
