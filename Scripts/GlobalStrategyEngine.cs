@@ -38,8 +38,8 @@ public partial class GlobalStrategyEngine : Node2D
 		}
 		
 		AllHandlersControls = new CallMulticaster(allHandlers);
-		
-		var map = Image.LoadFromFile("res://Sprites/EuropeMap.png");
+
+		var map = GetNode<Sprite2D>("MapHandler/Map").Texture.GetImage();
 		
 		Scenario scenario = new EuropeScenario(map);
 		EngineState.MapInfo = new MapData(scenario);
