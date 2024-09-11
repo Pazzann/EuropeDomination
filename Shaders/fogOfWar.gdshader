@@ -4,16 +4,16 @@ uniform bool colors[421];
 
 uniform uint colorMode = 0;
 
-//TODO: Add distorshion on the borders and pixelation
+//TODO: Add blur on the borders
 
 uniform float timescale = 0.01f;
 uniform int pixelSize = 6;
 uniform float hScrollSpeedFactor = 1.;
 uniform float vScrollSpeedFactor = 1.;
-uniform float entropyFactor = 1.;
+uniform float entropyFactor = 10.;
 uniform float sharpness = 10.;
 
-const vec4 emptycolor = vec4(0.0f, 0.0f, 0.0f, 1.0f);
+const vec4 emptycolor = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
 int provinceID(vec3 provinceColor){
 	return int((provinceColor.r + provinceColor.g*256.0f + provinceColor.b*256.0f*256.0f)*255.0f) - 1;
@@ -63,7 +63,7 @@ vec4 mainImage( in vec2 _uv )
             (shard_noise(16.0*uv,sharpness) * .125) +
             (shard_noise(8.0*uv,sharpness) * .25) +
             (shard_noise(4.0*uv,sharpness) * .5)
-        ),0.6f);
+        ),1.0f);
 
     return C;
 }
@@ -84,11 +84,13 @@ void fragment()
 	float grid_uv_y = round(UV.y * yFactor) / yFactor;
 
     vec4 noise = mainImage(vec2(grid_uv_x, grid_uv_y));
-
+	vec4 finalColor = mix(noise, emptycolor, 0.5f);
 
     if(colors[tileId]){
 		COLOR = vec4(0,0,0,0);
+	}else if (finalColor.r > 0.75f){
+		COLOR = finalColor;
 	}else{
-		COLOR = mix(noise, emptycolor, 0.5f);
+		COLOR = mix(finalColor, vec4(0.2f,0.2f,0.2f,0.2f), 0.5f);
 	}
 }

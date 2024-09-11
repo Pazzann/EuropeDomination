@@ -779,8 +779,8 @@ texture = ExtResource("21_l8wyd")
 
 [node name="AnimatedTextureRect" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/GoodRect" instance=ExtResource("22_fe1rx")]
 layout_mode = 0
-SpriteFrames = ExtResource("23_rpnlq")
 CurrentAnimation = "goods"
+SpriteFrames = ExtResource("23_rpnlq")
 
 [node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/GoodRect"]
 layout_mode = 0

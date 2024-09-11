@@ -216,8 +216,8 @@ texture = ExtResource("5_xqmuv")
 
 [node name="AnimatedTextureRect" parent="SellMenu/MarginContainer/VBoxContainer/GoodRect" instance=ExtResource("6_os4m7")]
 layout_mode = 0
-SpriteFrames = ExtResource("7_do048")
 CurrentAnimation = "goods"
+SpriteFrames = ExtResource("7_do048")
 
 [node name="Button" type="Button" parent="SellMenu/MarginContainer/VBoxContainer/GoodRect"]
 layout_mode = 0
@@ -249,8 +249,8 @@ texture = ExtResource("5_xqmuv")
 
 [node name="AnimatedTextureRect" parent="BuyMenu/MarginContainer/VBoxContainer/GoodRect" instance=ExtResource("6_os4m7")]
 layout_mode = 0
-SpriteFrames = ExtResource("7_do048")
 CurrentAnimation = "goods"
+SpriteFrames = ExtResource("7_do048")
 
 [node name="Button" type="Button" parent="BuyMenu/MarginContainer/VBoxContainer/GoodRect"]
 layout_mode = 0
