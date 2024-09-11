@@ -2,5 +2,4 @@
 
 public struct ToGUIShowCountryWindowEvent : ToGUIEvent
 {
-    
 }

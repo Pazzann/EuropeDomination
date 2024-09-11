@@ -1,4 +1,3 @@
-using System;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Math;
@@ -21,17 +20,17 @@ public readonly struct SolidPath<T> : IPath where T : IPath
     {
         return _path.GetPoint(t);
     }
-    
+
     public Vector2 GetPointUpper(float t)
     {
         return _path.GetPoint(t) + _normal * (_thickness * 0.5f);
     }
-    
+
     public Vector2 GetPointLower(float t)
     {
         return _path.GetPoint(t) - _normal * (_thickness * 0.5f);
     }
-    
+
     public Vector2 GetTangent(float t)
     {
         return _path.GetTangent(t);
@@ -73,7 +72,7 @@ public readonly struct SolidPath<T> : IPath where T : IPath
     {
         var offset = _normal * (_thickness * 0.5f);
         return _path.Intersects(segment.Translated(offset)) || _path.Intersects(segment.Translated(-offset));
-        
+
         // var start = GetPoint(0f);
         // var end = GetPoint(1f);
 

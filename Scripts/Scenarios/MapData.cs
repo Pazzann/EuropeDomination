@@ -3,7 +3,6 @@ using System.Linq;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Math;
-using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Units;
 using Godot;
@@ -13,19 +12,23 @@ namespace EuropeDominationDemo.Scripts.Scenarios;
 
 public class MapData
 {
-    public Scenario Scenario;
     public MapTypes CurrentMapMode = MapTypes.Political;
-    public List<ArmyUnit> CurrentSelectedUnits = new List<ArmyUnit> { };
     public int CurrentSelectedProvinceId = -2;
-    
-    
+    public List<ArmyUnit> CurrentSelectedUnits = new();
+    public Scenario Scenario;
+
+    public MapData(Scenario scenario)
+    {
+        Scenario = scenario;
+    }
+
 
     private Vector3[] _mapColors
     {
         get
         {
-            Vector3[] colors = new Vector3[Scenario.Map.Length];
-            for (int i = 0; i < Scenario.Map.Length; i++)
+            var colors = new Vector3[Scenario.Map.Length];
+            for (var i = 0; i < Scenario.Map.Length; i++)
             {
                 if (Scenario.Map[i] is LandColonizedProvinceData landData)
                     colors[i] = Scenario.Countries[landData.Owner].Color;
@@ -38,6 +41,126 @@ public class MapData
             }
 
             return colors;
+        }
+    }
+
+    public Vector3[] MapColors
+    {
+        get
+        {
+            switch (CurrentMapMode)
+            {
+                case MapTypes.Political:
+                    return _mapColors;
+                case MapTypes.Terrain:
+                {
+                    var colors = new Vector3[Scenario.Map.Length];
+                    for (var i = 0; i < Scenario.Map.Length; i++)
+                        if (Scenario.Map[i] is LandProvinceData landData)
+                            colors[i] = landData.Terrain.Color;
+                        else
+                            colors[i] = new Vector3(0.1f, 0.1f, 0.1f);
+
+                    return colors;
+                }
+                case MapTypes.Goods:
+                {
+                    var colors = new Vector3[Scenario.Map.Length];
+                    for (var i = 0; i < Scenario.Map.Length; i++)
+                        if (Scenario.Map[i] is LandProvinceData landData)
+                            colors[i] = landData.Good.Color;
+                        else
+                            colors[i] = new Vector3(0.1f, 0.1f, 0.1f);
+
+                    return colors;
+                }
+                case MapTypes.Trade:
+                    return _mapColors;
+                case MapTypes.Development:
+                    return _mapColors;
+                case MapTypes.Factories:
+                    return _mapColors;
+                case MapTypes.TransportationSelection:
+                {
+                    var colors = new Vector3[Scenario.Map.Length];
+                    var landprovinces = MapProvinces(ProvinceTypes.LandProvinces);
+                    var connections = PathFinder.CheckConnectionFromAToOthers(CurrentSelectedProvinceId, landprovinces);
+                    for (var i = 0; i < landprovinces.Length; i++)
+                        if (landprovinces[i] is LandColonizedProvinceData landData &&
+                            landData.Owner == EngineState.PlayerCountryId &&
+                            connections[landData.Id])
+                        {
+                            if (landData.Id == CurrentSelectedProvinceId)
+                                colors[landprovinces[i].Id] = MapDefaultColors.OwnProvince;
+                            else
+                                colors[landprovinces[i].Id] = MapDefaultColors.Selectable;
+                        }
+                        else
+                        {
+                            colors[landprovinces[i].Id] = MapDefaultColors.Unselectable;
+                        }
+
+                    return colors;
+                }
+
+                case MapTypes.SeaTransportationSelection:
+                {
+                    var colors = new Vector3[Scenario.Map.Length];
+                    var coastalAndSeaProvinces = MapProvinces(ProvinceTypes.CoastalProvincesAndSeaProvinces);
+                    var connections =
+                        PathFinder.CheckConnectionFromAToOthers(CurrentSelectedProvinceId, coastalAndSeaProvinces);
+                    for (var i = 0; i < coastalAndSeaProvinces.Length; i++)
+                        if (coastalAndSeaProvinces[i] is LandColonizedProvinceData landData &&
+                            landData.Owner == EngineState.PlayerCountryId &&
+                            connections[landData.Id]
+                           )
+                        {
+                            if (landData.Id == CurrentSelectedProvinceId)
+                                colors[landData.Id] = MapDefaultColors.OwnProvince;
+                            else
+                                colors[landData.Id] = MapDefaultColors.Selectable;
+                        }
+                        else if (coastalAndSeaProvinces[i] is SeaProvinceData)
+                        {
+                            colors[coastalAndSeaProvinces[i].Id] = MapDefaultColors.WaterUnselectable;
+                        }
+                        else
+                        {
+                            colors[coastalAndSeaProvinces[i].Id] = MapDefaultColors.Unselectable;
+                        }
+
+                    return colors;
+                }
+
+                default:
+                    return _mapColors;
+            }
+        }
+    }
+
+    public Array<bool> VisionZone
+    {
+        get
+        {
+            var visionZone = new bool[Scenario.Map.Length];
+            var visible = new HashSet<int>();
+            foreach (var provinceData in Scenario.Map)
+                if (provinceData is LandColonizedProvinceData landData && landData.Owner == EngineState.PlayerCountryId)
+                {
+                    visible.Add(landData.Id);
+                    foreach (var provinceDataBorderderingProvince in provinceData.BorderderingProvinces)
+                        visible.Add(provinceDataBorderderingProvince);
+                }
+
+            foreach (var unit in Scenario.Countries[EngineState.PlayerCountryId].Units)
+            {
+                visible.Add(unit.CurrentProvince);
+                foreach (var provinceDataBorderderingProvince in Scenario.Map[unit.CurrentProvince]
+                             .BorderderingProvinces) visible.Add(provinceDataBorderderingProvince);
+            }
+
+            for (var i = 0; i < visionZone.Length; i++) visionZone[i] = visible.Contains(i);
+            return new Array<bool>(visionZone);
         }
     }
 
@@ -55,149 +178,16 @@ public class MapData
                 return Scenario.Map.Where(d => d is UncolonizedProvinceData).ToArray();
             case ProvinceTypes.CoastalProvincesAndSeaProvinces:
                 return Scenario.Map.Where(d =>
-                    (d is LandColonizedProvinceData && d.BorderderingProvinces.Where(i => Scenario.Map[i] is SeaProvinceData)
+                    (d is LandColonizedProvinceData && d.BorderderingProvinces
+                        .Where(i => Scenario.Map[i] is SeaProvinceData)
                         .ToArray().Length > 0) || d is SeaProvinceData).ToArray();
             case ProvinceTypes.CoastalProvinces:
                 return Scenario.Map.Where(d =>
-                    d is LandColonizedProvinceData && d.BorderderingProvinces.Where(i => Scenario.Map[i] is SeaProvinceData)
+                    d is LandColonizedProvinceData && d.BorderderingProvinces
+                        .Where(i => Scenario.Map[i] is SeaProvinceData)
                         .ToArray().Length > 0).ToArray();
             default:
                 return Scenario.Map;
         }
-    }
-
-    public Vector3[] MapColors
-    {
-        get
-        {
-            switch (CurrentMapMode)
-            {
-                case MapTypes.Political:
-                    return _mapColors;
-                case MapTypes.Terrain:
-                {
-                    Vector3[] colors = new Vector3[Scenario.Map.Length];
-                    for (int i = 0; i < Scenario.Map.Length; i++)
-                    {
-                        if (Scenario.Map[i] is LandProvinceData landData)
-                            colors[i] = landData.Terrain.Color;
-                        else
-                            colors[i] = new Vector3(0.1f, 0.1f, 0.1f);
-                    }
-
-                    return colors;
-                }
-                case MapTypes.Goods:
-                {
-                    Vector3[] colors = new Vector3[Scenario.Map.Length];
-                    for (int i = 0; i < Scenario.Map.Length; i++)
-                    {
-                        if (Scenario.Map[i] is LandProvinceData landData)
-                            colors[i] = landData.Good.Color;
-                        else
-                            colors[i] = new Vector3(0.1f, 0.1f, 0.1f);
-                    }
-
-                    return colors;
-                }
-                case MapTypes.Trade:
-                    return _mapColors;
-                case MapTypes.Development:
-                    return _mapColors;
-                case MapTypes.Factories:
-                    return _mapColors;
-                case MapTypes.TransportationSelection:
-                {
-                    Vector3[] colors = new Vector3[Scenario.Map.Length];
-                    var landprovinces = MapProvinces(ProvinceTypes.LandProvinces);
-                    var connections = PathFinder.CheckConnectionFromAToOthers(CurrentSelectedProvinceId, landprovinces);
-                    for (int i = 0; i < landprovinces.Length; i++)
-                    {
-                        if (landprovinces[i] is LandColonizedProvinceData landData &&
-                            landData.Owner == EngineState.PlayerCountryId &&
-                            connections[landData.Id])
-                        {
-                            if (landData.Id == CurrentSelectedProvinceId)
-                                colors[landprovinces[i].Id] = MapDefaultColors.OwnProvince;
-                            else
-                                colors[landprovinces[i].Id] = MapDefaultColors.Selectable;
-                        }
-                        else
-                            colors[landprovinces[i].Id] = MapDefaultColors.Unselectable;
-                    }
-
-                    return colors;
-                }
-
-                case MapTypes.SeaTransportationSelection:
-                {
-                    Vector3[] colors = new Vector3[Scenario.Map.Length];
-                    var coastalAndSeaProvinces = MapProvinces(ProvinceTypes.CoastalProvincesAndSeaProvinces);
-                    var connections = PathFinder.CheckConnectionFromAToOthers(CurrentSelectedProvinceId, coastalAndSeaProvinces);
-                    for (int i = 0; i < coastalAndSeaProvinces.Length; i++)
-                    {
-                        if (coastalAndSeaProvinces[i] is LandColonizedProvinceData landData &&
-                            landData.Owner == EngineState.PlayerCountryId &&
-                            connections[landData.Id]
-                           )
-                        {
-                            if (landData.Id == CurrentSelectedProvinceId)
-                                colors[landData.Id] = MapDefaultColors.OwnProvince;
-                            else
-                                colors[landData.Id] = MapDefaultColors.Selectable;
-                        }
-                        else if (coastalAndSeaProvinces[i] is SeaProvinceData)
-                            colors[coastalAndSeaProvinces[i].Id] = MapDefaultColors.WaterUnselectable;
-                        else
-                            colors[coastalAndSeaProvinces[i].Id] = MapDefaultColors.Unselectable;
-                    }
-
-                    return colors; 
-                }
-                    
-                default:
-                    return _mapColors;
-            }
-        }
-    }
-
-    public Array<bool> VisionZone
-    {
-        get
-        {
-            var visionZone = new bool[Scenario.Map.Length];
-            var visible = new HashSet<int>() { };
-            foreach (var provinceData in Scenario.Map)
-            {
-                if (provinceData is LandColonizedProvinceData landData && landData.Owner == EngineState.PlayerCountryId)
-                {
-                    visible.Add(landData.Id);
-                    foreach (var provinceDataBorderderingProvince in provinceData.BorderderingProvinces)
-                    {
-                        visible.Add(provinceDataBorderderingProvince);
-                    }
-                }
-            }
-
-            foreach (var unit in Scenario.Countries[EngineState.PlayerCountryId].Units)
-            {
-                visible.Add(unit.CurrentProvince);
-                foreach (var provinceDataBorderderingProvince in Scenario.Map[unit.CurrentProvince].BorderderingProvinces)
-                {
-                    visible.Add(provinceDataBorderderingProvince);
-                }
-            }
-
-            for (int i = 0; i < visionZone.Length; i++)
-            {
-                visionZone[i] = visible.Contains(i);
-            }
-            return new Array<bool>(visionZone);
-        }
-    }
-
-    public MapData(Scenario scenario)
-    {
-        Scenario = scenario;
     }
 }

@@ -3,7 +3,7 @@ using EuropeDominationDemo.Scripts.Units;
 
 namespace EuropeDominationDemo.Scripts.UI.Events.GUI;
 
-public struct GUIMergeUnitsEvent: GUIEvent
+public struct GUIMergeUnitsEvent : GUIEvent
 {
     public List<ArmyUnit> UnitsToMerge;
 

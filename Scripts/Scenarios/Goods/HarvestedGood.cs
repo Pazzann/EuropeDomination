@@ -6,6 +6,5 @@ public class HarvestedGood : Good
 {
     public HarvestedGood(int id, string name, Vector3 color) : base(id, name, color)
     {
-        
     }
 }

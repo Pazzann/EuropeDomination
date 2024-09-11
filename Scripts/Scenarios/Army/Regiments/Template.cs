@@ -2,8 +2,8 @@
 
 public abstract class Template
 {
-    public string Name;
     public int Id;
+    public string Name;
 
     public Template(string name, int id)
     {

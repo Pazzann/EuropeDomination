@@ -1,6 +1,4 @@
-﻿using EuropeDominationDemo.Scripts.Enums;
-
-namespace EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
+﻿namespace EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 
 public class StockAndTrade : SpecialBuilding
 {
@@ -8,7 +6,7 @@ public class StockAndTrade : SpecialBuilding
     public TransportationRoute[] TransportationRoutes;
 
     public StockAndTrade(int buildingTime, bool isFinished, int cost, TransportationRoute[] transportationRoutes) :
-        base( 100, buildingTime, isFinished, cost)
+        base(100, buildingTime, isFinished, cost)
     {
         TransportationRoutes = transportationRoutes;
     }

@@ -8,225 +8,219 @@ using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using Godot;
 
-
 namespace EuropeDominationDemo.Scripts.UI.GUIHandlers;
 
 public partial class GUIInfoBox : GUIHandler
 {
-	private RichTextLabel _infoLabel;
-	private PanelContainer _infoBox;
+    private PanelContainer _infoBox;
+    private RichTextLabel _infoLabel;
 
-	public override void Init()
-	{
-		_infoLabel = GetNode<RichTextLabel>("BoxContainer/MarginContainer/RichTextLabel");
-		_infoBox = GetNode<PanelContainer>("BoxContainer");
-		_infoLabel.BbcodeEnabled = true;
-		return;
-	}
+    public override void Init()
+    {
+        _infoLabel = GetNode<RichTextLabel>("BoxContainer/MarginContainer/RichTextLabel");
+        _infoBox = GetNode<PanelContainer>("BoxContainer");
+        _infoLabel.BbcodeEnabled = true;
+    }
 
-	public override void _Process(double delta)
-	{
-		_infoBox.Position = GetViewport().GetMousePosition() + new Vector2(10, 10);
-	}
+    public override void _Process(double delta)
+    {
+        _infoBox.Position = GetViewport().GetMousePosition() + new Vector2(10, 10);
+    }
 
-	public override void InputHandle(InputEvent @event)
-	{
-	}
+    public override void InputHandle(InputEvent @event)
+    {
+    }
 
-	public override void ToGUIHandleEvent(ToGUIEvent @event)
-	{
-		switch (@event)
-		{
-			case ToGUIShowInfoBoxEvent e:
-				_infoLabel.Text = "";
-				_infoBox.Size = new Vector2(10, 10);
-				_infoLabel.Text = e.InfoBoxBuilder.Text;
-				Visible = true;
-				return;
-			case ToGUIHideInfoBox:
-				_infoLabel.Text = "";
-				_infoBox.Size = new Vector2(10, 10);
-				Visible = false;
-				return;
-			default:
-				return;
-		}
-	}
+    public override void ToGUIHandleEvent(ToGUIEvent @event)
+    {
+        switch (@event)
+        {
+            case ToGUIShowInfoBoxEvent e:
+                _infoLabel.Text = "";
+                _infoBox.Size = new Vector2(10, 10);
+                _infoLabel.Text = e.InfoBoxBuilder.Text;
+                Visible = true;
+                return;
+            case ToGUIHideInfoBox:
+                _infoLabel.Text = "";
+                _infoBox.Size = new Vector2(10, 10);
+                Visible = false;
+                return;
+            default:
+                return;
+        }
+    }
 }
 
 public static class InfoBoxFactory
 {
-	public static InfoBoxBuilder ProvinceDataInfoBox(ProvinceData provinceData)
-	{
-		var infoBoxBuilder = new InfoBoxBuilder().Header(provinceData.Name).NewLine();
-		if (provinceData is LandProvinceData landProvinceData)
-		{
-			infoBoxBuilder.AppendText("Good: " + landProvinceData.Good.Name).NewLine();
-			infoBoxBuilder.AppendText("Terrain: " + landProvinceData.Terrain.Name).NewLine();
-		}
+    public static InfoBoxBuilder ProvinceDataInfoBox(ProvinceData provinceData)
+    {
+        var infoBoxBuilder = new InfoBoxBuilder().Header(provinceData.Name).NewLine();
+        if (provinceData is LandProvinceData landProvinceData)
+        {
+            infoBoxBuilder.AppendText("Good: " + landProvinceData.Good.Name).NewLine();
+            infoBoxBuilder.AppendText("Terrain: " + landProvinceData.Terrain.Name).NewLine();
+        }
 
-		if (provinceData is LandColonizedProvinceData landprovinceData)
-		{ 
-			infoBoxBuilder.AppendText("Developement: " + landprovinceData.Development).NewLine();
-			infoBoxBuilder.ShowNotZeroGoods(landprovinceData.Resources);
-		}
+        if (provinceData is LandColonizedProvinceData landprovinceData)
+        {
+            infoBoxBuilder.AppendText("Developement: " + landprovinceData.Development).NewLine();
+            infoBoxBuilder.ShowNotZeroGoods(landprovinceData.Resources);
+        }
 
-		if (EngineState.DebugMode)
-		{
-			infoBoxBuilder.Header("Debug Data").NewLine();
-			infoBoxBuilder.AppendText("Id: " + provinceData.Id).NewLine();
-			if (provinceData is LandColonizedProvinceData landColonizedProvinceData)
-				infoBoxBuilder.AppendText("Owner ID: " + landColonizedProvinceData.Owner);
-		}
+        if (EngineState.DebugMode)
+        {
+            infoBoxBuilder.Header("Debug Data").NewLine();
+            infoBoxBuilder.AppendText("Id: " + provinceData.Id).NewLine();
+            if (provinceData is LandColonizedProvinceData landColonizedProvinceData)
+                infoBoxBuilder.AppendText("Owner ID: " + landColonizedProvinceData.Owner);
+        }
 
-		return infoBoxBuilder;
-	}
+        return infoBoxBuilder;
+    }
 
-	public static InfoBoxBuilder BattleRegimentData(ArmyRegiment armyRegiment)
-	{
-		
-		var infoBoxBuilder = new InfoBoxBuilder();
-		if (armyRegiment == null)
-		{
-			infoBoxBuilder.Header("Empty Space");
-			return infoBoxBuilder;
-		}
-		infoBoxBuilder.Header(armyRegiment.Name).NewLine();
-		
-		switch (armyRegiment)
-		{
-			case ArmyInfantryRegiment:
-				infoBoxBuilder.AppendText("Type: Army Infantry").NewLine();
-				break;
-			case ArmyCavalryRegiment:
-				infoBoxBuilder.AppendText("Type: Army Cavalry").NewLine();
-				break;
-			case ArmyArtilleryRegiment:
-				infoBoxBuilder.AppendText("Type: Army Artillery").NewLine();
-				break;
-		}
-		//infoBoxBuilder.ShowNotZeroGoods(armyRegiment.Resources);
-		infoBoxBuilder.AppendText($"Manpower: {armyRegiment.Manpower}").NewLine();
-		infoBoxBuilder.AppendText($"Morale: {armyRegiment.Morale}");
-		
-		return infoBoxBuilder;
-	}
+    public static InfoBoxBuilder BattleRegimentData(ArmyRegiment armyRegiment)
+    {
+        var infoBoxBuilder = new InfoBoxBuilder();
+        if (armyRegiment == null)
+        {
+            infoBoxBuilder.Header("Empty Space");
+            return infoBoxBuilder;
+        }
 
-	public static InfoBoxBuilder DevButtonData(LandColonizedProvinceData provinceData)
-	{
-		var req = Settings.ResourceAndCostRequirmentsToDev(provinceData.Development);
-		return new InfoBoxBuilder()
-			.Header("Needed To Dev").NewLine()
-			.AppendText($"Cost: {req.Key}").NewLine()
-			.ShowNotZeroGoods(req.Value);
-	}
+        infoBoxBuilder.Header(armyRegiment.Name).NewLine();
 
-	public static InfoBoxBuilder BuildingData(Building building)
-	{
-		return new InfoBoxBuilder()
-			.Header(building.Name).NewLine()
-			.AppendText($"Cost: {building.Cost}").NewLine()
-			.AppendText("Resource Cost: ").ShowNotZeroGoods(building.ResourceCost)
-			.Header("Modifiers:")
-			.ShowModifiers(building.Modifiers);
-	}
+        switch (armyRegiment)
+        {
+            case ArmyInfantryRegiment:
+                infoBoxBuilder.AppendText("Type: Army Infantry").NewLine();
+                break;
+            case ArmyCavalryRegiment:
+                infoBoxBuilder.AppendText("Type: Army Cavalry").NewLine();
+                break;
+            case ArmyArtilleryRegiment:
+                infoBoxBuilder.AppendText("Type: Army Artillery").NewLine();
+                break;
+        }
+
+        //infoBoxBuilder.ShowNotZeroGoods(armyRegiment.Resources);
+        infoBoxBuilder.AppendText($"Manpower: {armyRegiment.Manpower}").NewLine();
+        infoBoxBuilder.AppendText($"Morale: {armyRegiment.Morale}");
+
+        return infoBoxBuilder;
+    }
+
+    public static InfoBoxBuilder DevButtonData(LandColonizedProvinceData provinceData)
+    {
+        var req = Settings.ResourceAndCostRequirmentsToDev(provinceData.Development);
+        return new InfoBoxBuilder()
+            .Header("Needed To Dev").NewLine()
+            .AppendText($"Cost: {req.Key}").NewLine()
+            .ShowNotZeroGoods(req.Value);
+    }
+
+    public static InfoBoxBuilder BuildingData(Building building)
+    {
+        return new InfoBoxBuilder()
+            .Header(building.Name).NewLine()
+            .AppendText($"Cost: {building.Cost}").NewLine()
+            .AppendText("Resource Cost: ").ShowNotZeroGoods(building.ResourceCost)
+            .Header("Modifiers:")
+            .ShowModifiers(building.Modifiers);
+    }
 }
 
 public class InfoBoxBuilder
 {
-	private string _text = "";
-	public string Text => _text;
+    public string Text { get; private set; } = "";
 
-	public InfoBoxBuilder AppendText(string text)
-	{
-		_text += text;
-		return this;
-	}
+    public InfoBoxBuilder AppendText(string text)
+    {
+        Text += text;
+        return this;
+    }
 
-	public InfoBoxBuilder Header(string text)
-	{
-		_text += $"[b][color=yellow]{text}[/color][/b]";
-		return this;
-	}
+    public InfoBoxBuilder Header(string text)
+    {
+        Text += $"[b][color=yellow]{text}[/color][/b]";
+        return this;
+    }
 
-	public InfoBoxBuilder NewLine()
-	{
-		_text += "\n";
-		return this;
-	}
+    public InfoBoxBuilder NewLine()
+    {
+        Text += "\n";
+        return this;
+    }
 
-	public InfoBoxBuilder StartBold()
-	{
-		_text += "[b]";
-		return this;
-	}
+    public InfoBoxBuilder StartBold()
+    {
+        Text += "[b]";
+        return this;
+    }
 
-	public InfoBoxBuilder EndBold()
-	{
-		_text += "[/b]";
-		return this;
-	}
+    public InfoBoxBuilder EndBold()
+    {
+        Text += "[/b]";
+        return this;
+    }
 
-	public InfoBoxBuilder StartColor(string color)
-	{
-		_text += $"[color={color}]";
-		return this;
-	}
+    public InfoBoxBuilder StartColor(string color)
+    {
+        Text += $"[color={color}]";
+        return this;
+    }
 
-	public InfoBoxBuilder EndColor()
-	{
-		_text += "[/color]";
-		return this;
-	}
+    public InfoBoxBuilder EndColor()
+    {
+        Text += "[/color]";
+        return this;
+    }
 
-	public InfoBoxBuilder ShowNotZeroGoods(double[] resources)
-	{
-		var goodIndexes = new List<int>();
-		for (int i = 0; i < resources.Length; i++)
-		{
-			if(resources[i] > 0)
-				goodIndexes.Add(i);
-		}
+    public InfoBoxBuilder ShowNotZeroGoods(double[] resources)
+    {
+        var goodIndexes = new List<int>();
+        for (var i = 0; i < resources.Length; i++)
+            if (resources[i] > 0)
+                goodIndexes.Add(i);
 
-		foreach (var index in goodIndexes)
-		{
-			_text += $"[img=30px, center]{GlobalResources.GoodSpriteFrames.GetFrameTexture("goods", index).ResourcePath}[/img]: {resources[index]}";
-		}
+        foreach (var index in goodIndexes)
+            Text +=
+                $"[img=30px, center]{GlobalResources.GoodSpriteFrames.GetFrameTexture("goods", index).ResourcePath}[/img]: {resources[index]}";
 
-		NewLine();
-		return this;
-	}
+        NewLine();
+        return this;
+    }
 
-	public InfoBoxBuilder ShowModifiers(Modifiers modifiers)
-	{
-		var defMod = Modifiers.DefaultModifiers();
-		
-		foreach (var propertyInfo in modifiers.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
-		{
-			
-			var val = propertyInfo.GetValue(modifiers);
-			var defVal = propertyInfo.GetValue(defMod);
-			if ((float)val - (float)defVal > EngineVariables.Eps)
-			{
-				NewLine();
-				AppendText($"{propertyInfo.Name}: ");
-				if (propertyInfo.Name.Contains("Bonus"))
-				{
-					if ((float)val >= 0)
-						StartColor("green").AppendText($"+{val}").EndColor();
-					else
-						StartColor("red").AppendText($"-{val}").EndColor();
-				}
-				else
-				{
-					if ((float)val >= 1.0f)
-						StartColor("green").AppendText($"+{Mathf.RoundToInt(100 * ((float)val-1.0f))}%").EndColor();
-					else
-						StartColor("red").AppendText($"-{Mathf.RoundToInt(100 * ((float)val-1.0f))}%").EndColor();
-				}
-			}
-		}
+    public InfoBoxBuilder ShowModifiers(Modifiers modifiers)
+    {
+        var defMod = Modifiers.DefaultModifiers();
 
-		return this;
-	}
+        foreach (var propertyInfo in modifiers.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+        {
+            var val = propertyInfo.GetValue(modifiers);
+            var defVal = propertyInfo.GetValue(defMod);
+            if ((float)val - (float)defVal > EngineVariables.Eps)
+            {
+                NewLine();
+                AppendText($"{propertyInfo.Name}: ");
+                if (propertyInfo.Name.Contains("Bonus"))
+                {
+                    if ((float)val >= 0)
+                        StartColor("green").AppendText($"+{val}").EndColor();
+                    else
+                        StartColor("red").AppendText($"-{val}").EndColor();
+                }
+                else
+                {
+                    if ((float)val >= 1.0f)
+                        StartColor("green").AppendText($"+{Mathf.RoundToInt(100 * ((float)val - 1.0f))}%").EndColor();
+                    else
+                        StartColor("red").AppendText($"-{Mathf.RoundToInt(100 * ((float)val - 1.0f))}%").EndColor();
+                }
+            }
+        }
+
+        return this;
+    }
 }

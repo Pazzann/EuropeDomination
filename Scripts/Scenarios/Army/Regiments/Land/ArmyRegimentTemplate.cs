@@ -4,6 +4,5 @@ public abstract class ArmyRegimentTemplate : Template
 {
     public ArmyRegimentTemplate(string name, int id) : base(name, id)
     {
-        
     }
 }

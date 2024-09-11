@@ -7,34 +7,25 @@ namespace EuropeDominationDemo.Scripts.UI;
 
 public class GUICallMulticaster
 {
-	private readonly List<GUIHandler> _guiHandlers;
+    private readonly List<GUIHandler> _guiHandlers;
 
-	public GUICallMulticaster(List<GUIHandler> guiHandlers)
-	{
-		_guiHandlers = guiHandlers;
-	}
-	
-	public void Init()
-	{
-		foreach (var guiHandler in _guiHandlers)
-		{
-			guiHandler.Init();
-		}
-	}
+    public GUICallMulticaster(List<GUIHandler> guiHandlers)
+    {
+        _guiHandlers = guiHandlers;
+    }
 
-	public void ToGUIHandleEvent(ToGUIEvent @event)
-	{
-		foreach (var guiHandler in _guiHandlers)
-		{
-			guiHandler.ToGUIHandleEvent(@event);
-		}
-	}
+    public void Init()
+    {
+        foreach (var guiHandler in _guiHandlers) guiHandler.Init();
+    }
 
-	public void InputHandle(InputEvent @event)
-	{
-		foreach (var guiHandler in _guiHandlers)
-		{
-			guiHandler.InputHandle(@event);
-		}
-	}
+    public void ToGUIHandleEvent(ToGUIEvent @event)
+    {
+        foreach (var guiHandler in _guiHandlers) guiHandler.ToGUIHandleEvent(@event);
+    }
+
+    public void InputHandle(InputEvent @event)
+    {
+        foreach (var guiHandler in _guiHandlers) guiHandler.InputHandle(@event);
+    }
 }

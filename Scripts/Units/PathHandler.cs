@@ -9,67 +9,61 @@ namespace EuropeDominationDemo.Scripts.Units;
 
 public partial class PathHandler : Node2D
 {
-	private PackedScene _curvedArrowScene = (PackedScene)GD.Load("res://Prefabs/CustomNodes/CurvedArrow.tscn");
-	private ArmyUnit _armyUnit;
-	public  void Setup(ArmyUnit unit)
-	{
-		GlobalPosition = new Vector2(0, 0);
-		_armyUnit = unit;
-	}
+    private ArmyUnit _armyUnit;
+    private PackedScene _curvedArrowScene = (PackedScene)GD.Load("res://Prefabs/CustomNodes/CurvedArrow.tscn");
 
-	public void UpdateDayTick(ArmyUnit unit) 
-	{
-		var curvedArrow = GetChild(GetChildren().Count - 1) as CurvedArrow;
-		curvedArrow.Value = (float)unit.Data.MovementProgress;
-		
-		if (!_armyUnit.Data.AddDay()) return;
+    public void Setup(ArmyUnit unit)
+    {
+        GlobalPosition = new Vector2(0, 0);
+        _armyUnit = unit;
+    }
 
-		if (curvedArrow.RemovePoint(0))
-		{
-			curvedArrow.MaxValue -= (float)unit.Data.MovementProgress;
-			curvedArrow.Value = 0;
-		}
+    public void UpdateDayTick(ArmyUnit unit)
+    {
+        var curvedArrow = GetChild(GetChildren().Count - 1) as CurvedArrow;
+        curvedArrow.Value = unit.Data.MovementProgress;
 
-		unit.Data.MovementQueue.Remove(unit.Data.MovementQueue[^1]);
-		unit.Data.MovementProgress = 0;
-		if (unit.Data.MovementQueue.Count == 0)
-		{
-			unit.Data.UnitState = UnitStates.Standing;
-		}
+        if (!_armyUnit.Data.AddDay()) return;
 
-	}
+        if (curvedArrow.RemovePoint(0))
+        {
+            curvedArrow.MaxValue -= unit.Data.MovementProgress;
+            curvedArrow.Value = 0;
+        }
 
-	public void MoveArrows(Vector2 scale, Vector2 prev, Vector2 next)
-	{
-		Position -= (next - prev) / scale;
-	}
+        unit.Data.MovementQueue.Remove(unit.Data.MovementQueue[^1]);
+        unit.Data.MovementProgress = 0;
+        if (unit.Data.MovementQueue.Count == 0) unit.Data.UnitState = UnitStates.Standing;
+    }
 
-	public void DrawArrows(ArmyUnit unit)
-	{
-		if (GetChildren().Count > 0)
-		{
-			var oldCurvedArrow = GetChild(GetChildren().Count - 1) as CurvedArrow;
-			if (oldCurvedArrow != null)
-				oldCurvedArrow.QueueFree();
-		}
+    public void MoveArrows(Vector2 scale, Vector2 prev, Vector2 next)
+    {
+        Position -= (next - prev) / scale;
+    }
 
-		GlobalPosition = Vector2.Zero;
-		var curvedArrow = _curvedArrowScene.Instantiate() as CurvedArrow;
-		AddChild(curvedArrow);
-		curvedArrow.Setup(_getCentersList(unit.Data));
-		curvedArrow.DrawLine();
-		curvedArrow.MaxValue = unit.Data.TotalDistance;
-	}
+    public void DrawArrows(ArmyUnit unit)
+    {
+        if (GetChildren().Count > 0)
+        {
+            var oldCurvedArrow = GetChild(GetChildren().Count - 1) as CurvedArrow;
+            if (oldCurvedArrow != null)
+                oldCurvedArrow.QueueFree();
+        }
 
-	private List<Vector2> _getCentersList(UnitData data)
-	{
-		var a = new List<Vector2>();
-		foreach (var pair in data.MovementQueue)
-		{
-			a.Add(EngineState.MapInfo.Scenario.Map[pair.Key].CenterOfWeight);
-		}
+        GlobalPosition = Vector2.Zero;
+        var curvedArrow = _curvedArrowScene.Instantiate() as CurvedArrow;
+        AddChild(curvedArrow);
+        curvedArrow.Setup(_getCentersList(unit.Data));
+        curvedArrow.DrawLine();
+        curvedArrow.MaxValue = unit.Data.TotalDistance;
+    }
 
-		a.Reverse();
-		return a;
-	}
+    private List<Vector2> _getCentersList(UnitData data)
+    {
+        var a = new List<Vector2>();
+        foreach (var pair in data.MovementQueue) a.Add(EngineState.MapInfo.Scenario.Map[pair.Key].CenterOfWeight);
+
+        a.Reverse();
+        return a;
+    }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using Godot;
 
 namespace EuropeDominationDemo.Scripts;
 
@@ -29,7 +28,7 @@ public class Dsu
         _parent[set] = Find(_parent[set]);
         return _parent[set];
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveOptimization | MethodImplOptions.AggressiveInlining)]
     public int GetSize(int set)
     {

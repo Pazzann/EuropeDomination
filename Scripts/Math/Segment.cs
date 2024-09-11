@@ -7,9 +7,6 @@ public readonly record struct Segment
 {
     public readonly Line Line;
 
-    public Vector2 Point0 => Line.Point0;
-    public Vector2 Point1 => Line.Point0 + Line.Dir;
-
     [MethodImpl(MethodImplOptions.AggressiveOptimization | MethodImplOptions.AggressiveInlining)]
     public Segment(Vector2 p0, Vector2 p1)
     {
@@ -24,6 +21,9 @@ public readonly record struct Segment
     {
         Line = line;
     }
+
+    public Vector2 Point0 => Line.Point0;
+    public Vector2 Point1 => Line.Point0 + Line.Dir;
 
     [MethodImpl(MethodImplOptions.AggressiveOptimization | MethodImplOptions.AggressiveInlining)]
     public Line GetPerpendicularBisector()

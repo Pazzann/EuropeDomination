@@ -1,7 +1,4 @@
-﻿
-using EuropeDominationDemo.Scripts.Enums;
-
-namespace EuropeDominationDemo.Scripts.UI.Events.GUI;
+﻿namespace EuropeDominationDemo.Scripts.UI.Events.GUI;
 
 public struct GUIGoToProvince : GUIEvent
 {

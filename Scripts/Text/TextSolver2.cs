@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using EuropeDominationDemo.Scripts.Math;
@@ -9,20 +8,22 @@ namespace EuropeDominationDemo.Scripts.Text;
 
 public class TextSolver2
 {
-    private static readonly float[] CandidateAngles = {
+    private static readonly float[] CandidateAngles =
+    {
         //Mathf.Pi
         0f,
         Mathf.Pi / 4f,
         Mathf.Pi / 6f,
         Mathf.Pi / 8f,
-        Mathf.Pi / 10f,
+        Mathf.Pi / 10f
     };
-    
-    private readonly ILayer _layer;
+
     private readonly int _areaId;
-    private readonly string _text;
+
+    private readonly ILayer _layer;
     private readonly float _letterAspectRatio;
-    
+    private readonly string _text;
+
     public TextSolver2(ILayer layer, int areaId, string text, float letterAspectRatio)
     {
         _layer = layer;
@@ -30,7 +31,7 @@ public class TextSolver2
         _text = text;
         _letterAspectRatio = letterAspectRatio;
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     public List<CurvedText> FitText()
     {
@@ -40,7 +41,7 @@ public class TextSolver2
             .Select(contour => contour.Value)
             .ToList();
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     private CurvedText? FitText(Polygon contour, float eps)
     {
@@ -62,58 +63,59 @@ public class TextSolver2
                 bestText = text;
             }
             else
+            {
                 maxFontSize = fontSize;
+            }
         }
 
         //GD.Print(bestText.Value.FontSize);
         return bestText;
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     private CurvedText? TryFitText(Polygon contour, Vector2 letterSize)
     {
         SolidPath<Sector>? bestPath = null;
-        
+
         for (var i = 0; i < contour.Vertices.Count; ++i)
+        for (var j = i + 1; j < contour.Vertices.Count; ++j)
         {
-            for (var j = i + 1; j < contour.Vertices.Count; ++j)
+            var a = contour.Vertices[i];
+            var b = contour.Vertices[j];
+
+            var distance = a.DistanceSquaredTo(b);
+            var minDistance = letterSize.X * _text.Length * 1.5f;
+
+            if (distance * distance < minDistance * minDistance)
+                continue;
+
+            foreach (var angle in CandidateAngles)
             {
-                var a = contour.Vertices[i];
-                var b = contour.Vertices[j];
-            
-                var distance = a.DistanceSquaredTo(b);
-                var minDistance = letterSize.X * _text.Length * 1.5f;
-                
-                if (distance * distance < minDistance * minDistance)
-                    continue;
-            
-                foreach (var angle in CandidateAngles)
-                {
-                    var (upper, lower) = Sector.WithAngle(a, b, angle);
-                    FindOptimalPath(contour, upper, letterSize, ref bestPath);
-                    FindOptimalPath(contour, lower, letterSize, ref bestPath);
-                    
-                    if (bestPath != null)
-                        return new CurvedText(_text, letterSize.Y, bestPath);
-                }
+                var (upper, lower) = Sector.WithAngle(a, b, angle);
+                FindOptimalPath(contour, upper, letterSize, ref bestPath);
+                FindOptimalPath(contour, lower, letterSize, ref bestPath);
+
+                if (bestPath != null)
+                    return new CurvedText(_text, letterSize.Y, bestPath);
             }
         }
 
         return null;
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     private void FindOptimalPath(Polygon contour, in Sector sector, Vector2 letterSize, ref SolidPath<Sector>? best)
     {
         var arcLength = sector.ArcLength();
         var letterWidth = letterSize.X / arcLength;
-        
+
         var leftMostLetter = 0.5f - letterWidth * (_text.Length / 2f + 1f);
         var rightMostLetter = 0.5f + letterWidth * (_text.Length / 2f + 1f);
 
-        if (leftMostLetter * arcLength < letterSize.X * 1.5f || (1f - rightMostLetter) * arcLength < letterSize.X * 1.5f)
+        if (leftMostLetter * arcLength < letterSize.X * 1.5f ||
+            (1f - rightMostLetter) * arcLength < letterSize.X * 1.5f)
             return;
-        
+
         var cutSector = new Sector(sector.Center, sector.GetPoint(leftMostLetter), sector.GetPoint(rightMostLetter));
         var path = new SolidPath<Sector>(cutSector, letterSize.Y);
 
@@ -122,24 +124,24 @@ public class TextSolver2
 
         best = path;
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveOptimization | MethodImplOptions.AggressiveInlining)]
     private bool CheckCollisions(in SolidPath<Sector> path)
     {
         const int checkPoints = 7;
-        
+
         for (var i = 0; i < 7; ++i)
         {
             if (!ContainsPoint(path.GetPoint(1f / (checkPoints * 2) + i * 1f / checkPoints)))
                 return false;
-            
+
             if (!ContainsPoint(path.GetPointUpper(1f / (checkPoints * 2) + i * 1f / checkPoints)))
                 return false;
-            
+
             if (!ContainsPoint(path.GetPointLower(1f / (checkPoints * 2) + i * 1f / checkPoints)))
                 return false;
         }
-        
+
         return true;
     }
 

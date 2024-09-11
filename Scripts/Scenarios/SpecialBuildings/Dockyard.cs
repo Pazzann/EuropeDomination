@@ -1,12 +1,12 @@
-﻿using EuropeDominationDemo.Scripts.Enums;
-
-namespace EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
+﻿namespace EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 
 public class Dockyard : SpecialBuilding
 {
     public int RouteId = 0;
     public WaterTransportationRoute[] WaterTransportationRoutes;
-    public Dockyard( int buildingTime, bool isFinished, int cost, WaterTransportationRoute[] waterTransportationRoutes) : base(100, buildingTime, isFinished, cost)
+
+    public Dockyard(int buildingTime, bool isFinished, int cost, WaterTransportationRoute[] waterTransportationRoutes) :
+        base(100, buildingTime, isFinished, cost)
     {
         WaterTransportationRoutes = waterTransportationRoutes;
     }
@@ -15,7 +15,7 @@ public class Dockyard : SpecialBuilding
     {
         WaterTransportationRoutes[RouteId] = (WaterTransportationRoute)transportationRoute;
     }
-    
+
     public static WaterTransportationRoute[] DefaultWaterTransportationRoutes()
     {
         return new WaterTransportationRoute[5] { null, null, null, null, null };

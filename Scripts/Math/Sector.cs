@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.CompilerServices;
 using Godot;
 
@@ -75,7 +76,7 @@ public readonly struct Sector : IPath
     public Vector2 GetTangent(float t)
     {
         if (t is < 0 or > 1)
-            throw new System.ArgumentException($"Invalid interpolation parameter: {t}");
+            throw new ArgumentException($"Invalid interpolation parameter: {t}");
 
         var a = InterpolateAngle(t);
         return InterpolateAngleDerivative(t) * _radius * new Vector2(-Mathf.Sin(a), Mathf.Cos(a));
@@ -100,7 +101,7 @@ public readonly struct Sector : IPath
 
         return (ContainsPoint(p1) && segment.ContainsPoint(p1)) || (ContainsPoint(p2) && segment.ContainsPoint(p2));
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private float GetAngle()
     {

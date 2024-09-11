@@ -1,5 +1,5 @@
 ﻿namespace EuropeDominationDemo.Scripts.UI.Events.GUI;
 
-public struct GUIHideInfoBoxEvent: GUIEvent
+public struct GUIHideInfoBoxEvent : GUIEvent
 {
 }

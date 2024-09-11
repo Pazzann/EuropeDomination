@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
 
 public class TransportationRoute
 {
+    public double Amount;
     public int ProvinceIdFrom;
     public int ProvinceIdTo;
     public Good TransportationGood;
-    public double Amount;
 
     public TransportationRoute(int provinceIdTo, int provinceIdFrom, Good transportationGood, double amount)
     {

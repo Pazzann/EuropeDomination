@@ -5,116 +5,118 @@ namespace EuropeDominationDemo.Scripts.Utils;
 //[Tool]
 public partial class AnimatedTextureRect : TextureRect
 {
-	[Export] public SpriteFrames SpriteFrames;
-	[Export] public string CurrentAnimation = "default";
+    private double _fps = 30.0f;
+    private double _frameDelta;
 
-	[Export]
-	public int FrameIndex = 0;
-	/*{
-		get => FrameIndex;
-		set
-		{
-			Texture = SpriteFrames.GetFrameTexture(CurrentAnimation, value);
-			FrameIndex = value;
-		}
-	}*/
+    private float _refreshRate = 1.0f;
+    [Export] public bool AutoPlay = false;
+    [Export] public string CurrentAnimation = "default";
 
-	[Export] public double SpeedScale = 1.0f;
-	[Export] public bool AutoPlay = false;
-	[Export] public bool Playing = false;
+    [Export] public int FrameIndex;
 
-	private float _refreshRate = 1.0f;
-	private double _fps = 30.0f;
-	private double _frameDelta = 0;
+    [Export] public bool Playing;
+    /*{
+        get => FrameIndex;
+        set
+        {
+            Texture = SpriteFrames.GetFrameTexture(CurrentAnimation, value);
+            FrameIndex = value;
+        }
+    }*/
 
-	public void SetFrame(int value)
-	{
-		if (value == -1)
-		{
-			SetEmptyFrame();
-			return;	
-		}
-		Texture = SpriteFrames.GetFrameTexture(CurrentAnimation, value);
-		FrameIndex = value;
-	}
+    [Export] public double SpeedScale = 1.0f;
+    [Export] public SpriteFrames SpriteFrames;
 
-	public void SetEmptyFrame()
-	{
-		Texture = null;
-		FrameIndex = -1;
-	}
+    public void SetFrame(int value)
+    {
+        if (value == -1)
+        {
+            SetEmptyFrame();
+            return;
+        }
 
-	public override void _Ready()
-	{
-		FrameIndex = 0;
-		_fps = SpriteFrames.GetAnimationSpeed(CurrentAnimation);
-		_refreshRate = SpriteFrames.GetFrameDuration(CurrentAnimation, FrameIndex);
-		if (AutoPlay)
-			Play(CurrentAnimation);
-	}
+        Texture = SpriteFrames.GetFrameTexture(CurrentAnimation, value);
+        FrameIndex = value;
+    }
 
-	public void Play(string animationName)
-	{
-		SetFrame(1);
-		FrameIndex = 0;
-		_frameDelta = 0;
-		CurrentAnimation = animationName;
-		_getAnimationData();
-		Playing = true;
-	}
+    public void SetEmptyFrame()
+    {
+        Texture = null;
+        FrameIndex = -1;
+    }
 
-	public override void _Process(double delta)
-	{
-		if(SpriteFrames == null || !Playing)
-			return;
-		if (!SpriteFrames.HasAnimation(CurrentAnimation))
-		{
-			Playing = false;
-			return;
-		}
-		_getAnimationData();
-		_frameDelta = SpeedScale * delta;
-		if (_frameDelta >= _refreshRate / _fps)
-		{
-			Texture = _getNextFrame();
-			_frameDelta = 0;
-		}
-		
-	}
+    public override void _Ready()
+    {
+        FrameIndex = 0;
+        _fps = SpriteFrames.GetAnimationSpeed(CurrentAnimation);
+        _refreshRate = SpriteFrames.GetFrameDuration(CurrentAnimation, FrameIndex);
+        if (AutoPlay)
+            Play(CurrentAnimation);
+    }
 
-	private Texture2D _getNextFrame()
-	{
-		FrameIndex += 1;
-		var frameCount = SpriteFrames.GetFrameCount(CurrentAnimation);
-		if (FrameIndex >= frameCount)
-		{
-			FrameIndex = 0;
-			if (!SpriteFrames.GetAnimationLoop(CurrentAnimation))
-				Playing = false;
-		}
-			
-		_getAnimationData();
-		return SpriteFrames.GetFrameTexture(CurrentAnimation, FrameIndex);
-	}
+    public void Play(string animationName)
+    {
+        SetFrame(1);
+        FrameIndex = 0;
+        _frameDelta = 0;
+        CurrentAnimation = animationName;
+        _getAnimationData();
+        Playing = true;
+    }
 
-	private void _getAnimationData()
-	{
-		_fps = SpriteFrames.GetAnimationSpeed(CurrentAnimation);
-		_refreshRate = SpriteFrames.GetFrameDuration(CurrentAnimation, FrameIndex);
-	}
+    public override void _Process(double delta)
+    {
+        if (SpriteFrames == null || !Playing)
+            return;
+        if (!SpriteFrames.HasAnimation(CurrentAnimation))
+        {
+            Playing = false;
+            return;
+        }
 
-	public void Resume()
-	{
-		Playing = true;
-	}
+        _getAnimationData();
+        _frameDelta = SpeedScale * delta;
+        if (_frameDelta >= _refreshRate / _fps)
+        {
+            Texture = _getNextFrame();
+            _frameDelta = 0;
+        }
+    }
 
-	public void Pause()
-	{
-		Playing = false;
-	}
-	public void Stop()
-	{
-		FrameIndex = 0;
-		Playing = false;
-	}
+    private Texture2D _getNextFrame()
+    {
+        FrameIndex += 1;
+        var frameCount = SpriteFrames.GetFrameCount(CurrentAnimation);
+        if (FrameIndex >= frameCount)
+        {
+            FrameIndex = 0;
+            if (!SpriteFrames.GetAnimationLoop(CurrentAnimation))
+                Playing = false;
+        }
+
+        _getAnimationData();
+        return SpriteFrames.GetFrameTexture(CurrentAnimation, FrameIndex);
+    }
+
+    private void _getAnimationData()
+    {
+        _fps = SpriteFrames.GetAnimationSpeed(CurrentAnimation);
+        _refreshRate = SpriteFrames.GetFrameDuration(CurrentAnimation, FrameIndex);
+    }
+
+    public void Resume()
+    {
+        Playing = true;
+    }
+
+    public void Pause()
+    {
+        Playing = false;
+    }
+
+    public void Stop()
+    {
+        FrameIndex = 0;
+        Playing = false;
+    }
 }

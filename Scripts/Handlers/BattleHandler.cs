@@ -24,9 +24,11 @@ public partial class BattleHandler : GameHandler
     public override void DayTick()
     {
     }
+
     public override void MonthTick()
     {
     }
+
     public override void YearTick()
     {
     }

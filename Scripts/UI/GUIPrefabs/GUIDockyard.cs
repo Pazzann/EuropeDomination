@@ -7,51 +7,49 @@ namespace EuropeDominationDemo.Scripts.UI.GUIPrefabs;
 
 public partial class GUIDockyard : Control
 {
-	[Signal]
-	public delegate void DockyardTrasportationRouteMenuPressedEventHandler(int id);
-	
-	private HBoxContainer _transportationContainer;
+    [Signal]
+    public delegate void DockyardTrasportationRouteMenuPressedEventHandler(int id);
 
-	public void Init()
-	{
-		_transportationContainer =
-			GetNode<HBoxContainer>("PanelContainer/MarginContainer/VBoxContainer/TransportationContatiner");
+    private HBoxContainer _transportationContainer;
 
-		var i = 0;
-		foreach (var child in _transportationContainer.GetChildren())
-		{
-			var b = i;
-			child.GetChild(1).GetChild<Button>(1).Pressed += (() => _onTransportButtonPressed(b));
-			i++;
-		}
-	}
+    public void Init()
+    {
+        _transportationContainer =
+            GetNode<HBoxContainer>("PanelContainer/MarginContainer/VBoxContainer/TransportationContatiner");
 
-	public void ShowData(Dockyard dockyard, bool guestMode)
-	{
-		for (int i = 0; i < dockyard.WaterTransportationRoutes.Length; i++)
-		{
-			
-			var child = _transportationContainer.GetChild(i);
-			if (dockyard.WaterTransportationRoutes[i] != null)
-			{
-				var route = dockyard.WaterTransportationRoutes[i];
-				child.GetChild<Label>(0).Visible = true;
-				child.GetChild<Label>(0).Text = "-" + route.Amount.ToString("N1") + "t/m";
-				child.GetChild(1).GetChild<AnimatedTextureRect>(0).SetFrame(route.TransportationGood.Id);
-				child.GetChild<Label>(2).Text = EngineState.MapInfo.Scenario.Map[route.ProvinceIdTo].Name;
-			}
-			else
-			{
-				child.GetChild<Label>(0).Visible = false;
-				child.GetChild(1).GetChild<AnimatedTextureRect>(0).Texture = null;
-				child.GetChild<Label>(2).Text = "nowhere";
-			}
-			
-		}
-	} 
-	
-	private void _onTransportButtonPressed(int id)
-	{
-		EmitSignal(SignalName.DockyardTrasportationRouteMenuPressed, id);
-	}
+        var i = 0;
+        foreach (var child in _transportationContainer.GetChildren())
+        {
+            var b = i;
+            child.GetChild(1).GetChild<Button>(1).Pressed += () => _onTransportButtonPressed(b);
+            i++;
+        }
+    }
+
+    public void ShowData(Dockyard dockyard, bool guestMode)
+    {
+        for (var i = 0; i < dockyard.WaterTransportationRoutes.Length; i++)
+        {
+            var child = _transportationContainer.GetChild(i);
+            if (dockyard.WaterTransportationRoutes[i] != null)
+            {
+                var route = dockyard.WaterTransportationRoutes[i];
+                child.GetChild<Label>(0).Visible = true;
+                child.GetChild<Label>(0).Text = "-" + route.Amount.ToString("N1") + "t/m";
+                child.GetChild(1).GetChild<AnimatedTextureRect>(0).SetFrame(route.TransportationGood.Id);
+                child.GetChild<Label>(2).Text = EngineState.MapInfo.Scenario.Map[route.ProvinceIdTo].Name;
+            }
+            else
+            {
+                child.GetChild<Label>(0).Visible = false;
+                child.GetChild(1).GetChild<AnimatedTextureRect>(0).Texture = null;
+                child.GetChild<Label>(2).Text = "nowhere";
+            }
+        }
+    }
+
+    private void _onTransportButtonPressed(int id)
+    {
+        EmitSignal(SignalName.DockyardTrasportationRouteMenuPressed, id);
+    }
 }

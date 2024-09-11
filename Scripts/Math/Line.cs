@@ -13,18 +13,21 @@ public readonly record struct Line(Vector2 Point0, Vector2 Dir)
     }
 
     [MethodImpl(MethodImplOptions.AggressiveOptimization | MethodImplOptions.AggressiveInlining)]
-    public Line GetPerpendicularAt(float t) {
+    public Line GetPerpendicularAt(float t)
+    {
         var p = Point0 + t * Dir;
         return new Line(p, Dir.GetPerpendicular());
     }
 
     [MethodImpl(MethodImplOptions.AggressiveOptimization | MethodImplOptions.AggressiveInlining)]
-    public bool IsParallelToApprox(Line other) {
+    public bool IsParallelToApprox(Line other)
+    {
         return Mathf.Abs(Dir.Cross(other.Dir)) < 0.01f;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveOptimization | MethodImplOptions.AggressiveInlining)]
-    public bool ContainsPoint(Vector2 point) {
+    public bool ContainsPoint(Vector2 point)
+    {
         return Mathf.Abs((point - Point0).Cross(Dir)) < 0.00001f;
     }
 

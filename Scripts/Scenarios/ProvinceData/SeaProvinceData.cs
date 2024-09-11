@@ -9,6 +9,6 @@ public class SeaProvinceData : ProvinceData
         string name,
         Modifiers modifiers) : base(id, name)
     {
-        this.Modifiers = modifiers;
+        Modifiers = modifiers;
     }
 }

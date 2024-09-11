@@ -1,5 +1,4 @@
-﻿
-using EuropeDominationDemo.Scripts.Enums;
+﻿using EuropeDominationDemo.Scripts.Enums;
 
 namespace EuropeDominationDemo.Scripts.UI.Events.GUI;
 

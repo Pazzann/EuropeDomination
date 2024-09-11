@@ -1,6 +1,5 @@
 ﻿namespace EuropeDominationDemo.Scripts.UI.Events.ToEngine;
 
-public struct ToEngineViewModUpdate: ToEngine
+public struct ToEngineViewModUpdate : ToEngine
 {
-    
 }

@@ -9,5 +9,5 @@ public enum MapTypes
     Development = 4,
     Factories = 5,
     TransportationSelection = 6,
-    SeaTransportationSelection = 7,
+    SeaTransportationSelection = 7
 }

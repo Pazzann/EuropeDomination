@@ -1,21 +1,12 @@
 ﻿namespace EuropeDominationDemo.Scripts.Scenarios.Buildings;
 
-
-public  class Building
+public class Building
 {
-    public  string Name { get; }
-    public int Id { get; }
-    public int Cost { get; }
-    public double[] ResourceCost { get; }
-    public int TimeToBuild { get; }
-    public int BuildingTime = 0;
-    public bool IsFinished = false;
-    
+    public int BuildingTime;
+    public bool IsFinished;
 
-
-    public  Modifiers Modifiers { get; }
-
-    public Building(string name, int id, int cost, double[] resourceCost, int timeToBuild, int buildingTime, bool isFinished, Modifiers modifiers)
+    public Building(string name, int id, int cost, double[] resourceCost, int timeToBuild, int buildingTime,
+        bool isFinished, Modifiers modifiers)
     {
         Name = name;
         Id = id;
@@ -27,10 +18,17 @@ public  class Building
         Modifiers = modifiers;
     }
 
+    public string Name { get; }
+    public int Id { get; }
+    public int Cost { get; }
+    public double[] ResourceCost { get; }
+    public int TimeToBuild { get; }
+
+
+    public Modifiers Modifiers { get; }
+
     public Building Clone()
     {
         return new Building(Name, Id, Cost, ResourceCost, TimeToBuild, 0, false, Modifiers);
     }
-
-
 }

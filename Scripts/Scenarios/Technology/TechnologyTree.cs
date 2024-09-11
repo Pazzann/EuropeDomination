@@ -4,7 +4,7 @@ namespace EuropeDominationDemo.Scripts.Scenarios.Technology;
 
 public class TechnologyTree
 {
-    List<TechnologyLevel> TechnologyLevels;
+    private List<TechnologyLevel> TechnologyLevels;
 
     public TechnologyTree(List<TechnologyLevel> technologyLevels)
     {

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.Army;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
@@ -10,10 +9,6 @@ namespace EuropeDominationDemo.Scripts.Scenarios;
 
 public class BattleData
 {
-    public Regiment[,] Battlefield { get; }
-    public UnitData Attacker { get; }
-    public UnitData Defender { get; }
-    
     //add dice
 
     public BattleData(ArmyUnitData attacker, ArmyUnitData defender)
@@ -25,6 +20,10 @@ public class BattleData
         _battleDataPlacement(18, 19, attacker);
         _battleDataPlacement(1, 0, defender);
     }
+
+    public Regiment[,] Battlefield { get; }
+    public UnitData Attacker { get; }
+    public UnitData Defender { get; }
 
     private void _battleDataPlacement(int frontRow, int backRow, ArmyUnitData army)
     {

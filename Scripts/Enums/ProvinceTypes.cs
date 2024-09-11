@@ -7,5 +7,5 @@ public enum ProvinceTypes
     ColonizedProvinces = 2,
     UncolonizedProvinces = 3,
     CoastalProvincesAndSeaProvinces = 4,
-    CoastalProvinces = 5,
+    CoastalProvinces = 5
 }

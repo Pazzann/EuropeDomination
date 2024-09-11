@@ -4,6 +4,5 @@ public abstract class ShipTemplate : Template
 {
     public ShipTemplate(string name, int id) : base(name, id)
     {
-        
     }
 }

@@ -1,5 +1,4 @@
-﻿using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
-using EuropeDominationDemo.Scripts.UI.GUIHandlers;
+﻿using EuropeDominationDemo.Scripts.UI.GUIHandlers;
 
 namespace EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 

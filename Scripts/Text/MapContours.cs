@@ -16,9 +16,6 @@ public interface ILayer
 
 public sealed class MapContours
 {
-    public ILayer Provinces { get; private set; }
-    public ILayer States { get; private set; }
-
     [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     public MapContours(MapData mapData, Image mapImage)
     {
@@ -48,33 +45,34 @@ public sealed class MapContours
         var stateId = new int[width, height];
 
         for (var i = 0; i < width; ++i)
+        for (var j = 0; j < height; ++j)
         {
-            for (var j = 0; j < height; ++j)
+            var color = mapImage.GetPixel(i, j);
+
+            if (Mathf.Abs(color.A - 1f) > 0.01f)
             {
-                var color = mapImage.GetPixel(i, j);
-
-                if (Mathf.Abs(color.A - 1f) > 0.01f)
-                {
-                    provinceId[i, j] = stateId[i, j] = -1;
-                    continue;
-                }
-
-                provinceId[i, j] = GameMath.GetProvinceId(color);
-                stateId[i, j] = provinceToState.GetValueOrDefault(provinceId[i, j], -1);
+                provinceId[i, j] = stateId[i, j] = -1;
+                continue;
             }
+
+            provinceId[i, j] = GameMath.GetProvinceId(color);
+            stateId[i, j] = provinceToState.GetValueOrDefault(provinceId[i, j], -1);
         }
 
         Provinces = new Layer(width, height, provinceId, 30, 1e-4f);
         States = new Layer(width, height, stateId, 30, 1e-4f);
     }
 
+    public ILayer Provinces { get; private set; }
+    public ILayer States { get; private set; }
+
     private class Layer : ILayer
     {
-        private readonly int _width, _height;
-        private readonly int _contourLength;
-        private readonly float _areaThreshold;
         private readonly int[,] _areaId;
+        private readonly float _areaThreshold;
+        private readonly int _contourLength;
         private readonly Dictionary<int, List<Polygon>> _contours;
+        private readonly int _width, _height;
 
         public Layer(int width, int height, int[,] areaId, int contourLength, float areaThreshold)
         {
@@ -113,101 +111,77 @@ public sealed class MapContours
             Span<Vector2I> neighbors = stackalloc Vector2I[8];
 
             for (var i = 0; i < _width; ++i)
+            for (var j = 0; j < _height; ++j)
             {
-                for (var j = 0; j < _height; ++j)
-                {
-                    if (_areaId[i, j] == -1)
-                        continue;
+                if (_areaId[i, j] == -1)
+                    continue;
 
-                    GetTileNeighbors(i, j, ref neighbors);
+                GetTileNeighbors(i, j, ref neighbors);
 
-                    foreach (var neighbor in neighbors)
+                foreach (var neighbor in neighbors)
+                    if (_areaId[i, j] != GetAreaId(neighbor))
                     {
-                        if (_areaId[i, j] != GetAreaId(neighbor))
-                        {
-                            isOnBorder[i, j] = true;
-                            break;
-                        }
+                        isOnBorder[i, j] = true;
+                        break;
                     }
-                }
             }
 
             var graph = new Dictionary<Vector2I, HashSet<Vector2I>>();
 
             for (var i = 0; i < _width; ++i)
-            {
-                for (var j = 0; j < _height; ++j)
-                {
-                    if (isOnBorder[i, j])
-                        graph.Add(new Vector2I(i, j), new HashSet<Vector2I>());
-                }
-            }
+            for (var j = 0; j < _height; ++j)
+                if (isOnBorder[i, j])
+                    graph.Add(new Vector2I(i, j), new HashSet<Vector2I>());
 
             for (var i = 0; i < _width; ++i)
+            for (var j = 0; j < _height; ++j)
             {
-                for (var j = 0; j < _height; ++j)
-                {
-                    if (_areaId[i, j] == -1 || !isOnBorder[i, j])
-                        continue;
+                if (_areaId[i, j] == -1 || !isOnBorder[i, j])
+                    continue;
 
-                    GetTileNeighbors(i, j, ref neighbors);
+                GetTileNeighbors(i, j, ref neighbors);
 
-                    foreach (var neighbor in neighbors)
-                    {
-                        if (IsInBounds(neighbor) && isOnBorder[neighbor.X, neighbor.Y] &&
-                            _areaId[i, j] == GetAreaId(neighbor))
-                            graph[new Vector2I(i, j)].Add(neighbor);
-                    }
-                }
+                foreach (var neighbor in neighbors)
+                    if (IsInBounds(neighbor) && isOnBorder[neighbor.X, neighbor.Y] &&
+                        _areaId[i, j] == GetAreaId(neighbor))
+                        graph[new Vector2I(i, j)].Add(neighbor);
             }
 
             var component = new int[_width, _height];
 
             for (var i = 0; i < _width; ++i)
-            {
-                for (var j = 0; j < _height; ++j)
-                {
-                    if (_areaId[i, j] != -1)
-                        component[i, j] = i * _height + j;
-                }
-            }
+            for (var j = 0; j < _height; ++j)
+                if (_areaId[i, j] != -1)
+                    component[i, j] = i * _height + j;
 
             var dsu = new Dsu(_width * _height);
 
             for (var i = 0; i < _width; ++i)
+            for (var j = 0; j < _height; ++j)
             {
-                for (var j = 0; j < _height; ++j)
-                {
-                    if (_areaId[i, j] == -1)
-                        continue;
+                if (_areaId[i, j] == -1)
+                    continue;
 
-                    GetTileNeighbors(i, j, ref neighbors);
+                GetTileNeighbors(i, j, ref neighbors);
 
-                    foreach (var neighbor in neighbors)
-                    {
-                        if (_areaId[i, j] == GetAreaId(neighbor))
-                            dsu.Union(component[i, j], component[neighbor.X, neighbor.Y]);
-                    }
-                }
+                foreach (var neighbor in neighbors)
+                    if (_areaId[i, j] == GetAreaId(neighbor))
+                        dsu.Union(component[i, j], component[neighbor.X, neighbor.Y]);
             }
 
             for (var i = 0; i < _width; ++i)
+            for (var j = 0; j < _height; ++j)
             {
-                for (var j = 0; j < _height; ++j)
-                {
-                    if (_areaId[i, j] == -1)
-                        continue;
+                if (_areaId[i, j] == -1)
+                    continue;
 
-                    component[i, j] = dsu.Find(component[i, j]);
-                }
+                component[i, j] = dsu.Find(component[i, j]);
             }
 
             var start = new Dictionary<int, Vector2I>();
 
             foreach (var vertex in graph.Keys.Where(vertex => !start.ContainsKey(component[vertex.X, vertex.Y])))
-            {
                 start.Add(component[vertex.X, vertex.Y], vertex);
-            }
 
             var stack = new Stack<Vector2I>();
             var visited = new HashSet<Vector2I>();
@@ -252,8 +226,8 @@ public sealed class MapContours
                 var clusterSize = hull.Count / _contourLength;
                 //var clusterSize = 30;
 
-                 if (clusterSize == 0)
-                     clusterSize = 1;
+                if (clusterSize == 0)
+                    clusterSize = 1;
 
                 var vertices = hull
                     .Where((_, i) => i % clusterSize == 0)

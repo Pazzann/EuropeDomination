@@ -2,18 +2,11 @@
 
 public class Technology
 {
-    public Modifiers Modifiers { get;}
-    public int InitialCost { get; }
-    public int ResearchTime { get; }
-    public double[] ResourcesRequired { get;}
-    public int GoodToUnlock { get;}
-    public int BuildingToUnlock { get;}
-    public int RecipyToUnlock { get;}
     //etc
-    
-    
 
-    public Technology(Modifiers modifiers, int initialCost, int researchTime, double[] resourcesRequired, int goodToUnlock = -1, int buildingToUnlock= -1, int recipyToUnlock= -1)
+
+    public Technology(Modifiers modifiers, int initialCost, int researchTime, double[] resourcesRequired,
+        int goodToUnlock = -1, int buildingToUnlock = -1, int recipyToUnlock = -1)
     {
         Modifiers = modifiers;
         InitialCost = initialCost;
@@ -23,4 +16,12 @@ public class Technology
         BuildingToUnlock = buildingToUnlock;
         RecipyToUnlock = recipyToUnlock;
     }
+
+    public Modifiers Modifiers { get; }
+    public int InitialCost { get; }
+    public int ResearchTime { get; }
+    public double[] ResourcesRequired { get; }
+    public int GoodToUnlock { get; }
+    public int BuildingToUnlock { get; }
+    public int RecipyToUnlock { get; }
 }
