@@ -223,6 +223,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 		_provinceStats.Text = $"Tax income: {colonizedProvinceData.TaxIncome:F1}\nManpower growth:{colonizedProvinceData.ManpowerGrowth:N0}";
 		
+		_provinceDevButton.Visible = !_guestMode;
+		
 		if(_transportationHandler.Visible)
 			_showTransportationMenu();
 		
