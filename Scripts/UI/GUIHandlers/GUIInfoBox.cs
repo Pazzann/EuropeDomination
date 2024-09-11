@@ -39,13 +39,13 @@ public partial class GUIInfoBox : GUIHandler
 		{
 			case ToGUIShowInfoBoxEvent e:
 				_infoLabel.Text = "";
-				_infoBox.Size = new Vector2(_infoBox.Size.X, 10);
+				_infoBox.Size = new Vector2(10, 10);
 				_infoLabel.Text = e.InfoBoxBuilder.Text;
 				Visible = true;
 				return;
 			case ToGUIHideInfoBox:
 				_infoLabel.Text = "";
-				_infoBox.Size = new Vector2(_infoBox.Size.X, 10);
+				_infoBox.Size = new Vector2(10, 10);
 				Visible = false;
 				return;
 			default:

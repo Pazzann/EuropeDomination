@@ -7,6 +7,7 @@ using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Units;
 using Godot;
+using Godot.Collections;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
 
@@ -157,6 +158,41 @@ public class MapData
                 default:
                     return _mapColors;
             }
+        }
+    }
+
+    public Array<bool> VisionZone
+    {
+        get
+        {
+            var visionZone = new bool[Scenario.Map.Length];
+            var visible = new HashSet<int>() { };
+            foreach (var provinceData in Scenario.Map)
+            {
+                if (provinceData is LandColonizedProvinceData landData && landData.Owner == EngineState.PlayerCountryId)
+                {
+                    visible.Add(landData.Id);
+                    foreach (var provinceDataBorderderingProvince in provinceData.BorderderingProvinces)
+                    {
+                        visible.Add(provinceDataBorderderingProvince);
+                    }
+                }
+            }
+
+            foreach (var unit in Scenario.Countries[EngineState.PlayerCountryId].Units)
+            {
+                visible.Add(unit.CurrentProvince);
+                foreach (var provinceDataBorderderingProvince in Scenario.Map[unit.CurrentProvince].BorderderingProvinces)
+                {
+                    visible.Add(provinceDataBorderderingProvince);
+                }
+            }
+
+            for (int i = 0; i < visionZone.Length; i++)
+            {
+                visionZone[i] = visible.Contains(i);
+            }
+            return new Array<bool>(visionZone);
         }
     }
 

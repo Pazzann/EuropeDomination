@@ -26,6 +26,8 @@ public partial class MapHandler : GameHandler
 {
 	private Sprite2D _mapSprite;
 	private ShaderMaterial _mapMaterial;
+	private Sprite2D _fogSprite;
+	private ShaderMaterial _fogMaterial;
 
 
 	private PackedScene _textScene;
@@ -56,6 +58,9 @@ public partial class MapHandler : GameHandler
 	{
 		_mapSprite = GetNode<Sprite2D>("./Map");
 		_mapMaterial = _mapSprite.Material as ShaderMaterial;
+		_fogSprite = GetNode<Sprite2D>("Map3");
+		_fogMaterial = _fogSprite.Material as ShaderMaterial;
+		_fogMaterial.SetShaderParameter("timescale", 0.01f);
 
 
 		_textScene = (PackedScene)GD.Load("res://Prefabs/Text.tscn");
@@ -83,6 +88,7 @@ public partial class MapHandler : GameHandler
 		_addGoods();
 		_addCapitals();
 		_addDev();
+		_setFogOfWar();
 
 		_goodsSpawner.Visible = false;
 		_devSpawner.Visible = false;
@@ -155,6 +161,11 @@ public partial class MapHandler : GameHandler
 		return false;
 	}
 
+	private void _setFogOfWar()
+	{
+		_fogMaterial.SetShaderParameter("colors", EngineState.MapInfo.VisionZone);
+	}
+
 	public override void ViewModUpdate(float zoom)
 	{
 		switch (EngineState.MapInfo.CurrentMapMode)
@@ -165,6 +176,7 @@ public partial class MapHandler : GameHandler
 
 				if (zoom < 3.0f)
 				{
+					_fogSprite.Visible = false;
 					_countryTextSpawner.Visible = true;
 					_provinceTextSpawner.Visible = false;
 					_devSpawner.Visible = false;
@@ -172,6 +184,7 @@ public partial class MapHandler : GameHandler
 				}
 				else
 				{
+					_fogSprite.Visible = true;
 					_countryTextSpawner.Visible = false;
 					_provinceTextSpawner.Visible = true;
 					_devSpawner.Visible = true;
@@ -184,6 +197,7 @@ public partial class MapHandler : GameHandler
 			}
 			case MapTypes.Goods:
 			{
+				_fogSprite.Visible = false;
 				_goodsSpawner.Visible = true;
 				_devSpawner.Visible = false;
 				_countryTextSpawner.Visible = false;
@@ -193,6 +207,7 @@ public partial class MapHandler : GameHandler
 			}
 			case MapTypes.Terrain:
 			{
+				_fogSprite.Visible = false;
 				_goodsSpawner.Visible = false;
 				_countryTextSpawner.Visible = false;
 				_provinceTextSpawner.Visible = false;
@@ -201,6 +216,7 @@ public partial class MapHandler : GameHandler
 				break;
 			}
 			case MapTypes.Trade: //TODO: Finish
+				_fogSprite.Visible = false;
 				_goodsSpawner.Visible = false;
 				_countryTextSpawner.Visible = false;
 				_provinceTextSpawner.Visible = false;
@@ -212,6 +228,7 @@ public partial class MapHandler : GameHandler
 			case MapTypes.Factories:
 				break;
 			case MapTypes.TransportationSelection:
+				_fogSprite.Visible = false;
 				_goodsSpawner.Visible = false;
 				_countryTextSpawner.Visible = false;
 				_provinceTextSpawner.Visible = false;
@@ -219,6 +236,7 @@ public partial class MapHandler : GameHandler
 				_transportArrowSpawner.Visible = false;
 				break;
 			case MapTypes.SeaTransportationSelection:
+				_fogSprite.Visible = false;
 				_goodsSpawner.Visible = false;
 				_countryTextSpawner.Visible = false;
 				_provinceTextSpawner.Visible = false;

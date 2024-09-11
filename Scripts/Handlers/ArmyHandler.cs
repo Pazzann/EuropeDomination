@@ -97,6 +97,11 @@ public partial class ArmyHandler : GameHandler
 		if (EngineState.MapInfo.CurrentMapMode == MapTypes.Political && zoom > 3.0f)
 		{
 			Visible = true;
+			var vision = EngineState.MapInfo.VisionZone;
+			foreach (ArmyUnit unit in GetChildren())
+			{
+				unit.Visible = vision[unit.Data.CurrentProvince];
+			}
 			return;
 		}
 
