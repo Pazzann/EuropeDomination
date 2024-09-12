@@ -19,6 +19,7 @@ shader_parameter/colors = null
 shader = ExtResource("8_m7kc7")
 shader_parameter/colors = null
 shader_parameter/colorMode = 0
+shader_parameter/lowQualityMode = false
 shader_parameter/timescale = 0.2
 shader_parameter/pixelSize = 4
 shader_parameter/hScrollSpeedFactor = 1.0

@@ -6,6 +6,8 @@ uniform uint colorMode = 0;
 
 //TODO: Add blur on the borders
 
+uniform bool lowQualityMode = false;
+
 uniform float timescale = 0.01f;
 uniform int pixelSize = 3;
 uniform float hScrollSpeedFactor = 1.;
@@ -70,27 +72,38 @@ vec4 mainImage( in vec2 _uv )
 
 void fragment()
 {
-	ivec2 size = textureSize(TEXTURE, 0);
-
-	int xRes = size.x;
-	int yRes = size.y;
-
-	float xFactor = float(xRes) / float(pixelSize);
-	float yFactor = float(yRes) / float(pixelSize);
-
 	vec4 textureColor = texture(TEXTURE, vec2(UV.x, UV.y));
 	int tileId = provinceID(textureColor.rgb);
-	float grid_uv_x = round(UV.x * xFactor) / xFactor;
-	float grid_uv_y = round(UV.y * yFactor) / yFactor;
-
-    vec4 noise = mainImage(vec2(grid_uv_x, grid_uv_y));
-	vec4 finalColor = mix(noise, emptycolor, 0.5f);
-
-    if(colors[tileId]){
-		COLOR = vec4(0,0,0,0);
-	}else if (finalColor.r > 0.75f){
-		COLOR = finalColor;
+	if(lowQualityMode){
+		 if(colors[tileId]){
+			COLOR = vec4(0,0,0,0);
+		}else{
+			COLOR = vec4(0.0f, 0.0f, 0.0f, 0.3f);
+		}
 	}else{
-		COLOR = mix(finalColor, vec4(0.2f,0.2f,0.2f,0.2f), 0.5f);
+		ivec2 size = textureSize(TEXTURE, 0);
+
+		int xRes = size.x;
+		int yRes = size.y;
+
+		float xFactor = float(xRes) / float(pixelSize);
+		float yFactor = float(yRes) / float(pixelSize);
+
+		
+		
+		float grid_uv_x = round(UV.x * xFactor) / xFactor;
+		float grid_uv_y = round(UV.y * yFactor) / yFactor;
+
+	    vec4 noise = mainImage(vec2(grid_uv_x, grid_uv_y));
+		vec4 finalColor = mix(noise, emptycolor, 0.5f);
+
+	    if(colors[tileId]){
+			COLOR = vec4(0,0,0,0);
+		}else if (finalColor.r > 0.75f){
+			COLOR = finalColor;
+		}else{
+			COLOR = mix(finalColor, vec4(0.2f,0.2f,0.2f,0.2f), 0.5f);
+		}
 	}
+	
 }

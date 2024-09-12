@@ -61,6 +61,7 @@ public partial class MapHandler : GameHandler
         _fogSprite = GetNode<Sprite2D>("Map3");
         _fogMaterial = _fogSprite.Material as ShaderMaterial;
         _fogMaterial.SetShaderParameter("timescale", 0.01f);
+        _fogMaterial.SetShaderParameter("lowQualityMode", Settings.PerformaceMode == GraphicPreset.LowQualityMode );
 
 
         _textScene = (PackedScene)GD.Load("res://Prefabs/Text.tscn");
@@ -88,6 +89,7 @@ public partial class MapHandler : GameHandler
         _clearProvinceText();
         Task.Run(_updateCountryText);
         Task.Run(_updateProvinceText);
+        _provinceTextSpawner.Visible = false;
         _addGoods();
         _addCapitals();
         _addDev();
@@ -202,7 +204,7 @@ public partial class MapHandler : GameHandler
 
                 if (zoom < 3.0f)
                 {
-                    _fogSprite.Visible = false;
+                    _fogSprite.Visible = true;
                     _countryTextSpawner.Visible = true;
                     _provinceTextSpawner.Visible = false;
                     _devSpawner.Visible = false;
