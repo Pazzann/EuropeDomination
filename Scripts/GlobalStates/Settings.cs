@@ -8,6 +8,7 @@ namespace EuropeDominationDemo.Scripts.GlobalStates;
 public static class Settings
 {
     public static GraphicPreset PerformaceMode = GraphicPreset.HighQualityMode;
+    public static GameModes GameMode = GameModes.RandomSpawn;
     
     public static int[] DevForSpecialBuilding = new int[3] { 10, 25, 50 };
     public static int[] DevForCommonBuilding = new int[10] { 5, 10, 15, 20, 30, 40, 50, 60, 70, 80 };
@@ -48,6 +49,7 @@ public static class Settings
     public static int InitialManpowerCostColony = 100;
     public static float MoneyConsumptionPerMonthColony(int colonyNumber)
     {
+        if (colonyNumber == 0) return 0;
         float initial = 2f;
         float sum = initial;
         for (int i = 1; i < colonyNumber; i++)

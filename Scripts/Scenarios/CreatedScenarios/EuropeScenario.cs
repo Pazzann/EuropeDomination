@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios.Army;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
@@ -43,31 +44,7 @@ public class EuropeScenario : Scenario
 
         Date = new DateTime(1700, 1, 1);
 
-
-        Countries = new Dictionary<int, CountryData>
-        {
-            {
-                0,
-                new CountryData(0, "Great Britain", new Vector3(0.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers(), 100,
-                    300, new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(),
-                    new Dictionary<int, List<DiplomacyAgreement>>(), 2,
-                    new Dictionary<int, Dictionary<int, List<int>>>())
-            },
-            {
-                1,
-                new CountryData(1, "France", new Vector3(0.0f, 0.0f, 1.0f), Modifiers.DefaultModifiers(), 200, 200,
-                    new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(),
-                    new Dictionary<int, List<DiplomacyAgreement>>(), 6,
-                    new Dictionary<int, Dictionary<int, List<int>>>())
-            },
-            {
-                2,
-                new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers(), 300, 100,
-                    new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(),
-                    new Dictionary<int, List<DiplomacyAgreement>>(), 11,
-                    new Dictionary<int, Dictionary<int, List<int>>>())
-            }
-        };
+        
         WastelandProvinceColors = new Dictionary<int, Vector3>
         {
             { 230, new Vector3(1.0f, 1.0f, 0.0f) },
@@ -104,64 +81,30 @@ public class EuropeScenario : Scenario
 
         Map = new ProvinceData.ProvinceData[421]
         {
-            new LandColonizedProvinceData(0, 0, "London", Terrains[4], Goods[0], 10, Good.DefaultGoods(),
-                new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(1, 0, "London", Terrains[3], Goods[2], 20, Good.DefaultGoods(),
-                new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(2, 0, "London", Terrains[3], Goods[2], 30, Good.DefaultGoods(),
-                new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(3, 0, "London", Terrains[2], Goods[0], 30, Good.DefaultGoods(),
-                new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(4, 0, "London", Terrains[1], Goods[0], 30, Good.DefaultGoods(),
-                new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(5, 0, "Paris", Terrains[1], Goods[0], 30, Good.DefaultGoods(),
-                new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(6, 2, "Lorem", Terrains[1], Goods[0], 30, Good.DefaultGoods(),
-                new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(7, 2, "FlashBang", Terrains[1], Goods[1], 1, Good.DefaultGoods(),
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(8, 2, "CommunistPigs", Terrains[1], Goods[1], 3, Good.DefaultGoods(),
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(9, 2, "Berlin", Terrains[0], Goods[1], 1, Good.DefaultGoods(),
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(10, 2, "LibertarianTown", Terrains[0], Goods[1], 1, Good.DefaultGoods(),
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(11, 1, "Liberty", Terrains[0], Goods[1], 1, Good.DefaultGoods(),
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(12, 1, "NY", Terrains[4], Goods[1], 1, Good.DefaultGoods(),
-                new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(13, 1, "Los Angeles", Terrains[4], Goods[1], 1, Good.DefaultGoods(),
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(14, 1, "LibertarianTown", Terrains[0], Goods[1], 1, Good.DefaultGoods(),
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(15, 1, "Liberty", Terrains[0], Goods[1], 1, Good.DefaultGoods(),
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(16, 1, "NY", Terrains[4], Goods[1], 30, Good.DefaultGoods(),
-                new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(17, 1, "Los Angeles", Terrains[4], Goods[1], 1, Good.DefaultGoods(),
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(18, 1, "LibertarianTown", Terrains[0], Goods[1], 1, Good.DefaultGoods(),
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(19, 1, "Liberty", Terrains[0], Goods[1], 1, Good.DefaultGoods(),
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(20, 1, "NY", Terrains[4], Goods[1], 1, Good.DefaultGoods(),
-                new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
-            new LandColonizedProvinceData(21, 1, "Los Angeles", Terrains[4], Goods[1], 1, Good.DefaultGoods(),
-                new List<Building>(), Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
+            new UncolonizedProvinceData(0, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(1, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(2, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(3, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(4, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(5, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(6, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(7, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(8, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(9, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(10, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(11, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(12, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(13, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(14, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(15, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(16, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(17, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(18, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(19, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(20, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(21, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
             new UncolonizedProvinceData(22, "DefaultName", Terrains[2], Goods[1], Modifiers.DefaultModifiers()),
-            new LandColonizedProvinceData(23, 0, "London", Terrains[4], Goods[0], 10, Good.DefaultGoods(),
-                new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
+            new UncolonizedProvinceData(23,  "London", Terrains[4], Goods[0], Modifiers.DefaultModifiers()),
             new UncolonizedProvinceData(24, "DefaultName", Terrains[2], Goods[0], Modifiers.DefaultModifiers()),
             new UncolonizedProvinceData(25, "DefaultName", Terrains[2], Goods[0], Modifiers.DefaultModifiers()),
             new UncolonizedProvinceData(26, "DefaultName", Terrains[2], Goods[0], Modifiers.DefaultModifiers()),
@@ -178,9 +121,7 @@ public class EuropeScenario : Scenario
             new UncolonizedProvinceData(37, "DefaultName", Terrains[2], Goods[0], Modifiers.DefaultModifiers()),
             new UncolonizedProvinceData(38, "DefaultName", Terrains[2], Goods[0], Modifiers.DefaultModifiers()),
             new UncolonizedProvinceData(39, "DefaultName", Terrains[2], Goods[0], Modifiers.DefaultModifiers()),
-            new LandColonizedProvinceData(40, 0, "London", Terrains[4], Goods[0], 10, Good.DefaultGoods(),
-                new List<Building>(),
-                Modifiers.DefaultModifiers(), new SpecialBuilding[3] { null, null, null }, null),
+            new UncolonizedProvinceData(40, "DefaultName", Terrains[4], Goods[0], Modifiers.DefaultModifiers()),
             new UncolonizedProvinceData(41, "DefaultName", Terrains[2], Goods[0], Modifiers.DefaultModifiers()),
             new UncolonizedProvinceData(42, "DefaultName", Terrains[2], Goods[0], Modifiers.DefaultModifiers()),
             new UncolonizedProvinceData(43, "DefaultName", Terrains[2], Goods[0], Modifiers.DefaultModifiers()),
@@ -566,7 +507,56 @@ public class EuropeScenario : Scenario
         Map = GameMath.CalculateBorderProvinces(Map, MapTexture);
         var centers = GameMath.CalculateCenterOfProvinceWeight(MapTexture, Map.Length);
         for (var i = 0; i < Map.Length; i++) Map[i].CenterOfWeight = centers[i];
+
+
+       
+        
+        Countries = new Dictionary<int, CountryData>
+        {
+            {
+                0,
+                new CountryData(0, "Great Britain", new Vector3(0.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers(), 100,
+                    300, new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(),
+                    new Dictionary<int, List<DiplomacyAgreement>>(), 0,
+                    new Dictionary<int, Dictionary<int, List<int>>>())
+            },
+            {
+                1,
+                new CountryData(1, "France", new Vector3(0.0f, 0.0f, 1.0f), Modifiers.DefaultModifiers(), 200, 200,
+                    new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(),
+                    new Dictionary<int, List<DiplomacyAgreement>>(), 1,
+                    new Dictionary<int, Dictionary<int, List<int>>>())
+            },
+            {
+                2,
+                new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers(), 300, 100,
+                    new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(),
+                    new Dictionary<int, List<DiplomacyAgreement>>(), 3,
+                    new Dictionary<int, Dictionary<int, List<int>>>())
+            }
+        };
+        var countOfLandProvinces = Map.Where(d => d is UncolonizedProvinceData).ToArray();
+        var capitals = new HashSet<int>();
+        while (capitals.Count != Countries.Count)
+        {
+            capitals.Add(new Random().Next(0, countOfLandProvinces.Length));
+        }
+
+        var capitalsArray = capitals.ToArray();
+        
+
+        foreach (var country in Countries)
+        {
+            country.Value.CapitalId = countOfLandProvinces[capitalsArray[country.Value.Id]].Id;
+            var a = (UncolonizedProvinceData)Map[country.Value.CapitalId];
+            a.CurrentlyColonizedByCountry = country.Value;
+            var b = a.ConvertToLandProvince();
+            b.Development = 10;
+            Map[a.Id] = b;
+        }
     }
+
+    
 
     public override Dictionary<int, CountryData> Countries { get; }
     public sealed override ProvinceData.ProvinceData[] Map { get; set; }

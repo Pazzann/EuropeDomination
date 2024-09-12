@@ -149,7 +149,7 @@ public class MapData
                 {
                     visible.Add(landData.Id);
                     foreach (var provinceDataBorderderingProvince in provinceData.BorderderingProvinces)
-                        visible.Add(provinceDataBorderderingProvince);
+                        if(Scenario.Map[provinceDataBorderderingProvince] is not WastelandProvinceData) visible.Add(provinceDataBorderderingProvince);
                 }
 
             foreach (var unit in Scenario.Countries[EngineState.PlayerCountryId].Units)

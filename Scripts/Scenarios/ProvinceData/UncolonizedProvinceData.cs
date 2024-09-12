@@ -26,7 +26,7 @@ public class UncolonizedProvinceData : LandProvinceData
 
     public int ColonyGrowth => 1000;
     
-    public LandProvinceData ConvertToLandProvince()
+    public LandColonizedProvinceData ConvertToLandProvince()
     {
         if (CurrentlyColonizedByCountry == null)
             throw new Exception("YOU STUPID SHIT, YOU HAVEN'T EVEN COLONIZED IT");
