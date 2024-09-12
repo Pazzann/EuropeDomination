@@ -83,8 +83,11 @@ public partial class MapHandler : GameHandler
         _mapMaterial.SetShaderParameter("colors", EngineState.MapInfo.MapColors);
         _mapMaterial.SetShaderParameter("selectedID", -1);
 
-        _updateCountryText();
-        _updateProvinceText();
+        
+        _clearCountryText();
+        _clearProvinceText();
+        Task.Run(_updateCountryText);
+        Task.Run(_updateProvinceText);
         _addGoods();
         _addCapitals();
         _addDev();
@@ -383,13 +386,12 @@ public partial class MapHandler : GameHandler
         {
             var node = _textScene.Instantiate() as CurvedLabel;
             node!.Text = label;
-            _provinceTextSpawner.AddChild(node);
+            _provinceTextSpawner.CallDeferred("add_child", node);
         }
     }
 
     private void _updateCountryText()
     {
-        _clearCountryText();
         var mapContours = new MapContours(EngineState.MapInfo, EngineState.MapInfo.Scenario.MapTexture);
         var allLabels = new ConcurrentBag<CurvedText>();
 
@@ -405,7 +407,7 @@ public partial class MapHandler : GameHandler
         {
             var node = _textScene.Instantiate() as CurvedLabel;
             node!.Text = label;
-            _countryTextSpawner.AddChild(node);
+            _countryTextSpawner.CallDeferred("add_child", node);
         }
     }
 
@@ -531,7 +533,8 @@ public partial class MapHandler : GameHandler
     private void _updateMap()
     {
         InvokeToEngineEvent(new ToEngineViewModUpdate());
-        _updateCountryText();
+        _clearCountryText();
+        Task.Run(_updateCountryText);
         _setFogOfWar();
     }
 
