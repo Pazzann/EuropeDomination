@@ -29,6 +29,8 @@ public partial class MapHandler : GameHandler
 
     private PackedScene _devScene;
     private Node2D _devSpawner;
+    private Dictionary<int, AnimatedSprite2D> _devStorage = new ();
+    
     private ShaderMaterial _fogMaterial;
     private Sprite2D _fogSprite;
 
@@ -436,6 +438,7 @@ public partial class MapHandler : GameHandler
             obj.Frame = ((LandColonizedProvinceData)data).Development - 1;
             obj.Position = ((LandColonizedProvinceData)data).CenterOfWeight;
             _devSpawner.AddChild(obj);
+            _devStorage.Add(data.Id, obj);
         }
     }
 
@@ -565,27 +568,39 @@ public partial class MapHandler : GameHandler
 
     public override void MonthTick()
     {
+        foreach (var country in EngineState.MapInfo.Scenario.Countries)
+        {
+            country.Value.Money -= Settings.MoneyConsumptionPerMonthColony(EngineState.MapInfo
+                .MapProvinces(ProvinceTypes.UncolonizedProvinces).Count(d =>
+                    (d as UncolonizedProvinceData).CurrentlyColonizedByCountry != null &&
+                    (d as UncolonizedProvinceData).CurrentlyColonizedByCountry.Id ==
+                    country.Key));
+        }
         foreach (UncolonizedProvinceData data in EngineState.MapInfo.MapProvinces(ProvinceTypes.UncolonizedProvinces))
         {
             if (data.CurrentlyColonizedByCountry != null)
             {
-                data.CurrentlyColonizedByCountry.Money -= Settings.MoneyConsumptionPerMonthColony(EngineState.MapInfo
-                    .MapProvinces(ProvinceTypes.UncolonizedProvinces).Count(d =>
-                        (d as UncolonizedProvinceData).CurrentlyColonizedByCountry != null &&
-                        (d as UncolonizedProvinceData).CurrentlyColonizedByCountry.Id ==
-                        data.CurrentlyColonizedByCountry.Id));
+                
                 data.SettlersCombined += data.ColonyGrowth;
 
                 if (data.SettlersCombined >= data.SettlersNeeded)
                 {
                     EngineState.MapInfo.Scenario.Map[data.Id] = data.ConvertToLandProvince();
-                    InvokeToGUIEvent(new ToGuiShowLandProvinceDataEvent(EngineState.MapInfo.Scenario.Map[data.Id] as LandColonizedProvinceData));
+                    if(EngineState.MapInfo.CurrentSelectedProvinceId == data.Id)InvokeToGUIEvent(new ToGuiShowLandProvinceDataEvent(EngineState.MapInfo.Scenario.Map[data.Id] as LandColonizedProvinceData));
                     _updateMap();
+                    var obj = _devScene.Instantiate() as AnimatedSprite2D;
+                    obj.Frame = (EngineState.MapInfo.Scenario.Map[data.Id] as LandColonizedProvinceData).Development - 1;
+                    obj.Position = (EngineState.MapInfo.Scenario.Map[data.Id] as LandColonizedProvinceData).CenterOfWeight;
+                    _devSpawner.AddChild(obj);
+                    _devStorage.Add(data.Id, obj);
+                }
+                else
+                {
+                    if (EngineState.MapInfo.CurrentSelectedProvinceId == data.Id) 
+                        InvokeToGUIEvent(new ToGUIShowUncolonizedProvinceData(data, false));
                 }
                 
-                if (EngineState.MapInfo.CurrentSelectedProvinceId > -1 &&
-                    EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] is UncolonizedProvinceData) 
-                    InvokeToGUIEvent(new ToGUIShowUncolonizedProvinceData(data, false));
+                
             }
         }
         

@@ -21,6 +21,11 @@ public partial class SelectorBoxHandler : GameHandler
         _selectionRect = GetNode<ColorRect>("./SelectionRect");
     }
 
+    public override void _Process(double delta)
+    {
+        //todo: rewrite selection box in here
+    }
+
     public override bool InputHandle(InputEvent @event, int tileId)
     {
         switch (@event)

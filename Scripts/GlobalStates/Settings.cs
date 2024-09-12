@@ -34,6 +34,7 @@ public static class Settings
     {
         var cost = dev * CostIncrementPerDev;
         var resources = Good.DefaultGoods();
+        //todo:fix
         for (var i = 0; i < Mathf.FloorToInt(dev / 10); i++)
             resources[ResourceRequirmentsPer10Dev[i].Key] += (dev - i * 10) * ResourceRequirmentsPer10Dev[i].Value;
         return new KeyValuePair<int, double[]>(cost, resources);
