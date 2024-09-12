@@ -1,4 +1,8 @@
-﻿namespace EuropeDominationDemo.Scripts.Scenarios;
+﻿using System.Reflection;
+using EuropeDominationDemo.Scripts.GlobalStates;
+using Godot;
+
+namespace EuropeDominationDemo.Scripts.Scenarios;
 
 public class Modifiers
 {
@@ -39,5 +43,28 @@ public class Modifiers
         return new Modifiers(productionEfficiency, transportationCapacity, additionalTrainingEfficiency,
             maxMoraleBonus, maxMoraleEfficiency, moraleIncreaseEfficiency, maxManpowerBonus, maxManpowerEfficiency,
             manpowerIncreaseEfficiency);
+    }
+
+    public static bool IsDifferentFromDefault(Modifiers modifiers)
+    {
+        var defMod = DefaultModifiers();
+        foreach (var propertyInfo in modifiers.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+        {
+            var val = propertyInfo.GetValue(modifiers);
+            var defVal = propertyInfo.GetValue(defMod);
+            if (Mathf.Abs((float)val - (float)defVal) > EngineVariables.Eps)
+                return true;
+        }
+
+        return false;
+    }
+
+    public void ApplyModifiers(Modifiers modifiers)
+    {
+        foreach (var propertyInfo in modifiers.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+        {
+            var val = propertyInfo.GetValue(modifiers);
+            propertyInfo.SetValue(this, propertyInfo.Name.Contains("Bonus") ? ((float)propertyInfo.GetValue(this) + (float)val): ((float)propertyInfo.GetValue(this) * (float)val));
+        }
     }
 }

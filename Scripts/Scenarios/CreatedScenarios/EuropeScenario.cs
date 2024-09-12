@@ -29,16 +29,7 @@ public class EuropeScenario : Scenario
                 Modifiers.DefaultModifiers(additionalTrainingEfficiency: 1.3f), 10)
         };
 
-        TechnologyTrees = new[]
-        {
-            new TechnologyTree(new List<TechnologyLevel>
-            {
-                new(new List<Technology.Technology>
-                {
-                    new(Modifiers.DefaultModifiers(), 100, 100, Good.DefaultGoods())
-                }, new DateTime(1701, 1, 1))
-            })
-        };
+        
 
         MapTexture = mapTexture;
 
@@ -77,6 +68,22 @@ public class EuropeScenario : Scenario
         {
             new("Workshop", 0, 100, Good.DefaultGoods(new Dictionary<int, double> { { 0, 4f }, { 2, 4f } }), 100, 0,
                 false, Modifiers.DefaultModifiers(1.5f))
+        };
+        
+        TechnologyTrees = new[]
+        {
+            new TechnologyTree("Economy",new List<TechnologyLevel>
+            {
+                new(new List<Technology.Technology>
+                {
+                    new("Way of being efficient",Modifiers.DefaultModifiers(productionEfficiency: 1.5f), 100, 100, Good.DefaultGoods())
+                }, new DateTime(1701, 1, 1)),
+                new(new List<Technology.Technology>
+                {
+                    new("A weapon of not destruction",Modifiers.DefaultModifiers(), 100, 100, Good.DefaultGoods(new Dictionary<int, double>(){{0, 2.5f}}), recipyToUnlock: 0),
+                    new("Time to build", Modifiers.DefaultModifiers(), 100, 100, Good.DefaultGoods(new Dictionary<int, double>(){{0, 2.5f}}), buildingToUnlock: 0)
+                }, new DateTime(1702, 1, 1))
+            })
         };
 
         Map = new ProvinceData.ProvinceData[421]
@@ -515,24 +522,21 @@ public class EuropeScenario : Scenario
         {
             {
                 0,
-                new CountryData(0, "Great Britain", new Vector3(0.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers(), 100,
+                new CountryData(0, "Great Britain", new Vector3(0.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers(), 1000,
                     300, new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(),
-                    new Dictionary<int, List<DiplomacyAgreement>>(), 0,
-                    new Dictionary<int, Dictionary<int, List<int>>>())
+                    new Dictionary<int, List<DiplomacyAgreement>>(), 0, new Dictionary<Vector3I, int>(), new List<int>(), new List<int>())
             },
             {
                 1,
                 new CountryData(1, "France", new Vector3(0.0f, 0.0f, 1.0f), Modifiers.DefaultModifiers(), 200, 200,
                     new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(),
-                    new Dictionary<int, List<DiplomacyAgreement>>(), 1,
-                    new Dictionary<int, Dictionary<int, List<int>>>())
+                    new Dictionary<int, List<DiplomacyAgreement>>(), 1, new Dictionary<Vector3I, int>(), new List<int>(), new List<int>())
             },
             {
                 2,
                 new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers(), 300, 100,
                     new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(),
-                    new Dictionary<int, List<DiplomacyAgreement>>(), 3,
-                    new Dictionary<int, Dictionary<int, List<int>>>())
+                    new Dictionary<int, List<DiplomacyAgreement>>(), 3, new Dictionary<Vector3I, int>(), new List<int>(), new List<int>())
             }
         };
         var countOfLandProvinces = Map.Where(d => d is UncolonizedProvinceData).ToArray();
@@ -553,6 +557,7 @@ public class EuropeScenario : Scenario
             var b = a.ConvertToLandProvince();
             b.Development = 10;
             Map[a.Id] = b;
+            country.Value.ResearchedTechnologies = GenerateTechnologyArray();
         }
     }
 

@@ -1,0 +1,27 @@
+[gd_resource type="SpriteFrames" load_steps=4 format=3 uid="uid://xn867qdsrgrx"]
+
+[ext_resource type="Texture2D" uid="uid://dr7gb4yf8ft1g" path="res://Sprites/Technologies/TestTechnology1.png" id="1_fh8ww"]
+[ext_resource type="Texture2D" uid="uid://bx8jovl6irulp" path="res://Sprites/Technologies/TestTechnology2.png" id="2_5vaxg"]
+[ext_resource type="Texture2D" uid="uid://bec1a5qls70ts" path="res://Sprites/Technologies/TestTechnology3.png" id="3_dogbs"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_fh8ww")
+}],
+"loop": true,
+"name": &"0:0",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_5vaxg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_dogbs")
+}],
+"loop": true,
+"name": &"0:1",
+"speed": 5.0
+}]

@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://bra6eqcopnqo7"]
+
+[ext_resource type="PackedScene" uid="uid://bravhtaisuciw" path="res://Prefabs/CustomNodes/AnimatedTextureRect.tscn" id="1_bqr4l"]
+[ext_resource type="SpriteFrames" uid="uid://xn867qdsrgrx" path="res://Prefabs/SpriteFrames/Technology.tres" id="3_5mnl3"]
+
+[node name="GuiTechnology" type="PanelContainer"]
+custom_minimum_size = Vector2(250, 0)
+offset_right = 203.0
+offset_bottom = 74.0
+size_flags_horizontal = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(170, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "BROTHER NAME"
+autowrap_mode = 2
+
+[node name="AnimatedTextureRect" parent="MarginContainer/HBoxContainer" instance=ExtResource("1_bqr4l")]
+layout_mode = 2
+SpriteFrames = ExtResource("3_5mnl3")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 2
+size_flags_vertical = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2

@@ -1,9 +1,12 @@
 using System.Linq;
 using EuropeDominationDemo.Scripts.GlobalStates;
+using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon;
 using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon.LandWeapon;
+using EuropeDominationDemo.Scripts.Scenarios.Technology;
+using EuropeDominationDemo.Scripts.UI.Events.GUI;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using EuropeDominationDemo.Scripts.UI.GUIHandlers;
 using EuropeDominationDemo.Scripts.UI.GUIPrefabs;
@@ -12,6 +15,166 @@ using Godot;
 
 public partial class GUICountryWindow : GUIHandler
 {
+
+
+	public override void Init()
+	{
+		GetChild<TabContainer>(0).MouseEntered += () => InvokeGUIEvent(new GUIHideInfoBoxEvent());
+		_technologyInit();
+		_armyInit();
+	}
+
+	public override void ToGUIHandleEvent(ToGUIEvent @event)
+	{
+		switch (@event)
+		{
+			case ToGUIShowCountryWindowEvent:
+				_showCountryData();
+				Visible = true;
+				return;
+			case ToGUIUpdateCountryWindow:
+				_updateCountryData();
+				return;
+			case ToGuiShowLandProvinceDataEvent:
+			case ToGUIShowArmyViewerEvent:
+			case ToGUIShowDiplomacyWindow:
+			{
+				Visible = false;
+				return;
+			}
+		}
+	}
+	
+	public override void InputHandle(InputEvent @event)
+	{
+	}
+
+
+	private void _showCountryData()
+	{
+		foreach (var child in _armyRegimentTemplateContainer.GetChildren()) child.QueueFree();
+
+		foreach (var template in EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].RegimentTemplates
+					 .Where(a => a is ArmyRegimentTemplate))
+		{
+			var a = _armyRegimentTemplateScene.Instantiate();
+			a.GetChild(0).GetChild<Label>(0).Text = template.Name;
+			a.GetChild(0).GetChild<Button>(1).Pressed += () => _onEditArmyTemplatePressed(template.Id);
+			_armyRegimentTemplateContainer.AddChild(a);
+		}
+
+		_updateCountryData();
+		
+	}
+
+	private void _updateCountryData()
+	{
+		for (int x = 0; x < EngineState.MapInfo.Scenario.TechnologyTrees.Length; x++)
+		{
+			for (int y = 0; y < EngineState.MapInfo.Scenario.TechnologyTrees[x].TechnologyLevels.Count; y++)
+			{
+				for (int z = 0; z < EngineState.MapInfo.Scenario.TechnologyTrees[x].TechnologyLevels[y].Technologies.Count; z++)
+				{
+					var technology = _technologyTreeContainer.GetChild(x).GetChild(0).GetChild(0).GetChild(0)
+						.GetChild(y).GetChild(0).GetChild(0).GetChild(1).GetChild<PanelContainer>(z);
+					
+					technology.GetChild<Button>(2).Disabled = !(((y == 0 || EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ResearchedTechnologies[x][y-1].Any(d=>d)) && !EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ResearchedTechnologies[x][y][z]) && EngineState.MapInfo.Scenario.TechnologyTrees[x].TechnologyLevels[y].Technologies[z].CheckIfMeetsRequirements(EngineState.PlayerCountryId));
+					technology.SelfModulate = EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ResearchedTechnologies[x][y][z] ? new Color(0, 0.8f, 0) : new Color(1, 1, 1);
+					if (EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].CurrentlyResearching
+						.ContainsKey(new Vector3I(x, y, z)))
+					{
+						technology.GetChild<ProgressBar>(1).Visible = true;
+						technology.GetChild<ProgressBar>(1).Value = EngineState.MapInfo.Scenario
+							.Countries[EngineState.PlayerCountryId].CurrentlyResearching[new Vector3I(x, y, z)];
+						technology.GetChild<Button>(2).Disabled = true;
+					}
+					else
+					{
+						technology.GetChild<ProgressBar>(1).Visible = false;
+					}
+				}
+			}
+		}
+
+		
+	}
+
+	#region Technology
+
+	private TabContainer _technologyTreeContainer;
+	
+	private PackedScene _technologyTreeScene;
+	private PackedScene _technologyLevelScene;
+	private PackedScene _technologyScene;
+
+	private void _technologyInit()
+	{
+		_technologyTreeScene = GD.Load<PackedScene>("res://Prefabs/GUI/Modules/GUITechnologyTree.tscn");
+		_technologyLevelScene = GD.Load<PackedScene>("res://Prefabs/GUI/Modules/GUITechnologyLevel.tscn");
+		_technologyScene = GD.Load<PackedScene>("res://Prefabs/GUI/Modules/GUITechnology.tscn");
+
+		_technologyTreeContainer =
+			GetNode<TabContainer>("TabContainer/Technology/MarginContainer/TechnologyTreeSpawner");
+
+		for (int X = 0; X < EngineState.MapInfo.Scenario.TechnologyTrees.Length;X++)
+		{
+			var technologyTree = EngineState.MapInfo.Scenario.TechnologyTrees[X];
+			var technologyTreeInstance = _technologyTreeScene.Instantiate();
+			technologyTreeInstance.Name = technologyTree.Name;
+
+			var technologyLevelSpawner = technologyTreeInstance.GetChild(0).GetChild(0).GetChild<VBoxContainer>(0);
+			for (int Y = 0; Y < technologyTree.TechnologyLevels.Count; Y++) 
+			{
+				var technologyLevel = technologyTree.TechnologyLevels[Y];
+				var technologyLevelInstance = _technologyLevelScene.Instantiate();
+				technologyLevelInstance.GetChild(0).GetChild(0).GetChild<Label>(0).Text =
+					technologyLevel.Date.Year.ToString();
+				var technologySpawner = technologyLevelInstance.GetChild(0).GetChild(0).GetChild<GridContainer>(1);
+				for (int Z = 0; Z < technologyLevel.Technologies.Count; Z++)
+				{
+					var technology = technologyLevel.Technologies[Z];
+					var technologyInstance = _technologyScene.Instantiate();
+					var x = X;
+					var y = Y;
+					var z = Z;
+					technologyInstance.GetChild<Button>(2).Pressed +=
+						() => _pressedOnTechnologyButton(new Vector3I(x, y, z));
+					technologyInstance.GetChild<Button>(2).MouseEntered +=
+						() => _showInfoBoxTechnology(technology);
+					technologyInstance.GetChild<Button>(2).MouseExited +=
+						() => InvokeGUIEvent(new GUIHideInfoBoxEvent());
+					technologyInstance.GetChild(0).GetChild(0).GetChild<Label>(0).Text = technology.TechnologyName;
+					technologyInstance.GetChild<ProgressBar>(1).MaxValue = technology.ResearchTime;
+					var animatedTextureRect = technologyInstance.GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(1);
+					animatedTextureRect.CurrentAnimation = $"{X}:{Y}";
+					animatedTextureRect.SetFrame(Z);
+					technologySpawner.AddChild(technologyInstance);
+				}
+				
+				
+				technologyLevelSpawner.AddChild(technologyLevelInstance);
+			}
+			
+			_technologyTreeContainer.AddChild(technologyTreeInstance);
+		}
+	}
+
+	private void _showInfoBoxTechnology(Technology technology)
+	{
+		InvokeGUIEvent(new GUIShowInfoBox(InfoBoxFactory.TechologyData(technology)));
+	}
+
+	private void _pressedOnTechnologyButton(Vector3I technologyId)
+	{
+		InvokeGUIEvent(new GUIBeginResearch(technologyId));
+	}
+	
+	
+
+	#endregion
+
+	#region Army
+	
 	private VBoxContainer _armyRegimentTemplateContainer;
 
 	private PackedScene _armyRegimentTemplateScene;
@@ -24,8 +187,7 @@ public partial class GUICountryWindow : GUIHandler
 	private OptionButton _optionButtonTypeArmyTemplate;
 	private PanelContainer _templateDesignerPanel;
 
-
-	public override void Init()
+	private void _armyInit()
 	{
 		_templateDesignerPanel =
 			GetNode<PanelContainer>(
@@ -51,43 +213,6 @@ public partial class GUICountryWindow : GUIHandler
 			var b = i;
 			_goodArmyTemplateSpawner.GetChild(b).GetChild(0).GetChild(0).GetChild<Button>(0).Pressed +=
 				() => { _onChooseGoodPressed(b); };
-		}
-	}
-
-	public override void InputHandle(InputEvent @event)
-	{
-	}
-
-
-	private void _showCountryData()
-	{
-		foreach (var child in _armyRegimentTemplateContainer.GetChildren()) child.QueueFree();
-
-		foreach (var template in EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].RegimentTemplates
-					 .Where(a => a is ArmyRegimentTemplate))
-		{
-			var a = _armyRegimentTemplateScene.Instantiate();
-			a.GetChild(0).GetChild<Label>(0).Text = template.Name;
-			a.GetChild(0).GetChild<Button>(1).Pressed += () => _onEditArmyTemplatePressed(template.Id);
-			_armyRegimentTemplateContainer.AddChild(a);
-		}
-	}
-
-	public override void ToGUIHandleEvent(ToGUIEvent @event)
-	{
-		switch (@event)
-		{
-			case ToGUIShowCountryWindowEvent:
-				_showCountryData();
-				Visible = true;
-				return;
-			case ToGuiShowLandProvinceDataEvent:
-			case ToGUIShowArmyViewerEvent:
-			case ToGUIShowDiplomacyWindow:
-			{
-				Visible = false;
-				return;
-			}
 		}
 	}
 
@@ -618,4 +743,8 @@ public partial class GUICountryWindow : GUIHandler
 			}
 		}
 	}
+
+	#endregion
+
+	
 }

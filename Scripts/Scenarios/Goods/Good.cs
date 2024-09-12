@@ -41,4 +41,13 @@ public abstract class Good
 
         return availableGoods;
     }
+
+    public static bool IsDifferentFromNull(double[] resources)
+    {
+        foreach (var t in resources)
+            if (t > 0)
+                return true;
+
+        return false;
+    }
 }

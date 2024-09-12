@@ -4,7 +4,9 @@ using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
+using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
+using EuropeDominationDemo.Scripts.Scenarios.Technology;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using Godot;
 
@@ -129,6 +131,23 @@ public static class InfoBoxFactory
 			.Header("Modifiers:")
 			.ShowModifiers(building.Modifiers);
 	}
+
+	public static InfoBoxBuilder TechologyData(Technology technology)
+	{
+		var a = new InfoBoxBuilder()
+			.Header(technology.TechnologyName).NewLine()
+			.AppendText($"Cost: {technology.InitialCost}").NewLine()
+			.AppendText($"Research time: {technology.ResearchTime}").NewLine();
+		if (Good.IsDifferentFromNull(technology.ResourcesRequired))
+			a.AppendText("Resource Cost: ").ShowNotZeroGoods(technology.ResourcesRequired);
+		if (technology.BuildingToUnlock > -1)
+			a.AppendText($"Building to unlock: ").ShowBuilding(technology.BuildingToUnlock).NewLine();
+		if(technology.RecipyToUnlock > -1)
+			a.AppendText("Recipy To Unlock: ").ShowGood(EngineState.MapInfo.Scenario.Recipes[technology.RecipyToUnlock].Output.Id).NewLine();
+		if (Modifiers.IsDifferentFromDefault(technology.Modifiers))
+			a.Header("Modifiers:").ShowModifiers(technology.Modifiers);
+		return a;
+	}
 }
 
 public class InfoBoxBuilder
@@ -189,6 +208,20 @@ public class InfoBoxBuilder
 				$"[img=30px, center]{GlobalResources.GoodSpriteFrames.GetFrameTexture("goods", index).ResourcePath}[/img]: {resources[index]}";
 
 		NewLine();
+		return this;
+	}
+
+	public InfoBoxBuilder ShowGood(int id)
+	{
+		Text +=
+			$"[img=30px, center]{GlobalResources.GoodSpriteFrames.GetFrameTexture("goods", id).ResourcePath}[/img]";
+		return this;
+	}
+
+	public InfoBoxBuilder ShowBuilding(int id)
+	{
+		Text +=
+			$"[img=30px, center]{GlobalResources.BuildingSpriteFrames.GetFrameTexture("default", id).ResourcePath}[/img]";
 		return this;
 	}
 

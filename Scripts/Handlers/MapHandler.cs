@@ -180,7 +180,7 @@ public partial class MapHandler : GameHandler
                             return PathFinder.CheckConnectionFromAToB(d.Id, uncolonizedProvinceData.Id,
                                        searchPr.ToArray()) &&
                                    PathFinder.FindPathFromAToB(d.Id, uncolonizedProvinceData.Id, searchPr.ToArray()
-                                   ).Length < 6;
+                                   ).Length < Settings.NavalColonizationRange;
                         }))
                     isPossibleToColonize = false;
             InvokeToGUIEvent(new ToGUIShowUncolonizedProvinceData(uncolonizedProvinceData, isPossibleToColonize));
@@ -281,6 +281,22 @@ public partial class MapHandler : GameHandler
 
     public override void GUIInteractionHandler(GUIEvent @event)
     {
+        switch (@event)
+        {
+            case GUIBeginResearch e:
+            {
+                if (EngineState.MapInfo.Scenario.TechnologyTrees[e.TechnologyId.X].TechnologyLevels[e.TechnologyId.Y]
+                    .Technologies[e.TechnologyId.Z].CheckIfMeetsRequirements(EngineState.PlayerCountryId))
+                {
+                    EngineState.MapInfo.Scenario.TechnologyTrees[e.TechnologyId.X].TechnologyLevels[e.TechnologyId.Y]
+                        .Technologies[e.TechnologyId.Z].ReduceByRequirments(EngineState.PlayerCountryId);
+                    EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].CurrentlyResearching.Add(e.TechnologyId, 0);
+                    InvokeToGUIEvent(new ToGUIUpdateCountryWindow());
+                    InvokeToGUIEvent(new ToGUIUpdateCountryInfo());
+                }
+                return;
+            }
+        }
         if (EngineState.MapInfo.CurrentSelectedProvinceId < 0)
             return;
         if (EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] is UncolonizedProvinceData
@@ -564,9 +580,22 @@ public partial class MapHandler : GameHandler
                     }
         }
 
+        foreach (var country in EngineState.MapInfo.Scenario.Countries)
+        {
+            foreach (var research in country.Value.CurrentlyResearching)
+            {
+                country.Value.CurrentlyResearching[research.Key] += 1;
+                if(country.Value.CurrentlyResearching[research.Key] >= EngineState.MapInfo.Scenario.TechnologyTrees[research.Key.X].TechnologyLevels[research.Key.Y].Technologies[research.Key.Z].ResearchTime)
+                    country.Value.ApplyResearchedTechnology(research.Key);
+            }
+        }
+        InvokeToGUIEvent(new ToGUIUpdateCountryWindow());
+
         if (EngineState.MapInfo.CurrentSelectedProvinceId > -1 &&
             EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] is LandColonizedProvinceData
                 landData) InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent(landData));
+        
+        
     }
 
 
@@ -579,6 +608,8 @@ public partial class MapHandler : GameHandler
                     (d as UncolonizedProvinceData).CurrentlyColonizedByCountry != null &&
                     (d as UncolonizedProvinceData).CurrentlyColonizedByCountry.Id ==
                     country.Key));
+
+            country.Value.Money -= Settings.MoneyConsumptionPerResearc(country.Value.CurrentlyResearching.Count);
         }
         foreach (UncolonizedProvinceData data in EngineState.MapInfo.MapProvinces(ProvinceTypes.UncolonizedProvinces))
         {

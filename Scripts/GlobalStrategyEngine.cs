@@ -43,6 +43,7 @@ public partial class GlobalStrategyEngine : Node2D
 		Scenario scenario = new EuropeScenario(map);
 		EngineState.MapInfo = new MapData(scenario);
 		GlobalResources.GoodSpriteFrames = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/GoodSpriteFrames.tres");
+		GlobalResources.BuildingSpriteFrames = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/Buildings.tres");
 
 
 		Camera = GetNode<CameraBehaviour>("./Camera");
@@ -57,10 +58,12 @@ public partial class GlobalStrategyEngine : Node2D
 		InvokeToGUIEvent(new ToGUIUpdateCountryInfo());
 
 		_timer = GetNode<Timer>("./DayTimer");
-		_timer.Start();
+		
 
 
 		InvokeToGUIEvent(new ToGUISetCamera(Camera, GetViewport()));
+		InvokeToGUIEvent(new ToGUISetPause());
+		_timer.Stop();
 	}
 
 

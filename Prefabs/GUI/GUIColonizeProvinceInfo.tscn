@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cde2bs281f5yu"]
+[gd_scene load_steps=3 format=3 uid="uid://cde2bs281f5yu"]
 
 [ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUIColonizeProvinceInfo.cs" id="1_dshiy"]
+[ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_nytu3"]
 
 [node name="GuiColonizeProvinceInfo" type="Control"]
 layout_mode = 3
@@ -10,6 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource("1_nytu3")
 script = ExtResource("1_dshiy")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]

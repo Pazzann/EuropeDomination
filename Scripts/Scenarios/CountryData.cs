@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.Army;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
 using EuropeDominationDemo.Scripts.Scenarios.DiplomacyAgreements;
@@ -14,23 +15,27 @@ public class CountryData
 
     public Dictionary<int, List<DiplomacyAgreement>> DiplomacyAgreements;
 
-    public List<General> Generals;
+    public float Money = 100;
     public int Manpower = 100;
     public Modifiers Modifiers;
 
-    public float Money = 100;
+    
 
     public string Name;
+    
+    public List<General> Generals;
     public List<Template> RegimentTemplates;
-
-    // tech tree => tech level => list of researched technologies
-    public Dictionary<int, Dictionary<int, List<int>>> ResearchedList;
     public List<UnitData> Units;
+
+    public List<List<List<bool>>> ResearchedTechnologies;
+    public Dictionary<Vector3I, int> CurrentlyResearching { get; }
+    public List<int> UnlockedBuildings { get; }
+    public List<int> UnlockedRecipies { get; }
+    
 
     public CountryData(int id, string name, Vector3 color, Modifiers modifiers, int money, int manpower,
         List<General> generals, List<Admiral> admirals, List<UnitData> units, List<Template> templates,
-        Dictionary<int, List<DiplomacyAgreement>> diplomacyAgreements, int capitalId,
-        Dictionary<int, Dictionary<int, List<int>>> researchedList)
+        Dictionary<int, List<DiplomacyAgreement>> diplomacyAgreements, int capitalId, Dictionary<Vector3I, int> currentlyResearching, List<int> unlockedBuildings, List<int> unlockedRecipies)
     {
         Id = id;
         Name = name;
@@ -44,7 +49,22 @@ public class CountryData
         RegimentTemplates = templates;
         DiplomacyAgreements = diplomacyAgreements;
         CapitalId = capitalId;
-        ResearchedList = researchedList;
+        CurrentlyResearching = currentlyResearching;
+        UnlockedBuildings = unlockedBuildings;
+        UnlockedRecipies = unlockedRecipies;
+    }
+
+    public void ApplyResearchedTechnology(Vector3I technologyId)
+    {
+        CurrentlyResearching.Remove(technologyId);
+        var technology = EngineState.MapInfo.Scenario.TechnologyTrees[technologyId.X].TechnologyLevels[technologyId.Y]
+            .Technologies[technologyId.Z];
+        Modifiers.ApplyModifiers(technology.Modifiers);
+        if (technology.BuildingToUnlock > -1)
+            UnlockedBuildings.Add(technology.BuildingToUnlock);
+        if(technology.RecipyToUnlock > -1)
+            UnlockedRecipies.Add(technology.RecipyToUnlock);
+        ResearchedTechnologies[technologyId.X][technologyId.Y][technologyId.Z] = true;
     }
 
     public int Id { get; }

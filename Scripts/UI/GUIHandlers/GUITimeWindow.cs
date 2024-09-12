@@ -23,6 +23,10 @@ public partial class GUITimeWindow : GUIHandler
 			case ToGUISetDateEvent b:
 				_dateLabel.Text = b.DateTime.Day + "." + b.DateTime.Month + "." + b.DateTime.Year;
 				return;
+			case ToGUISetPause e:
+				_pauseSprite.Visible = true;
+				_isPaused = true;
+				return;
 			default:
 				return;
 		}

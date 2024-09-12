@@ -59,6 +59,18 @@ public static class Settings
         }
         return sum;
     }
+    public static float MoneyConsumptionPerResearc(int researchNumber)
+    {
+        if (researchNumber == 0) return 0;
+        float initial = 2f;
+        float sum = initial;
+        for (int i = 1; i < researchNumber; i++)
+        {
+            initial *= 2;
+            sum += initial;
+        }
+        return sum;
+    }
     //add 3 to your value
     public static int NavalColonizationRange = 6;
 }

@@ -38,4 +38,24 @@ public abstract class Scenario : IScenario
     {
         return Map.Where(t => t is LandColonizedProvinceData data && countryId == data.Owner).ToArray();
     }
+
+    public List<List<List<bool>>> GenerateTechnologyArray()
+    {
+        var technologyArray = new List<List<List<bool>>>();
+        
+        for (int i = 0; i < TechnologyTrees.Length; i++)
+        {
+            technologyArray.Add(new List<List<bool>>());
+            for (int j = 0; j < TechnologyTrees[i].TechnologyLevels.Count; j++)
+            {
+                technologyArray[i].Add(new List<bool>());
+                for (int k = 0; k < TechnologyTrees[i].TechnologyLevels[j].Technologies.Count; k++)
+                {
+                    technologyArray[i][j].Add(false);
+                }
+            }
+        }
+
+        return technologyArray;
+    }
 }
