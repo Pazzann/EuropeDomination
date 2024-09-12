@@ -276,6 +276,27 @@ public partial class MapHandler : GameHandler
     {
         if (EngineState.MapInfo.CurrentSelectedProvinceId < 0)
             return;
+        if (EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] is UncolonizedProvinceData
+            data2)
+        {
+            switch (@event)
+            {
+                
+                case GUIColonizeProvince e:
+                    var country = EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId];
+                    if (country.Money > Settings.InitialMoneyCostColony &&
+                        country.Manpower >= Settings.InitialManpowerCostColony)
+                    {
+                        country.Money -= Settings.InitialMoneyCostColony;
+                        country.Manpower -= Settings.InitialManpowerCostColony;
+                        (EngineState.MapInfo.Scenario.Map[e.ProvinceId] as UncolonizedProvinceData).CurrentlyColonizedByCountry =
+                            EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId];   
+                        InvokeToGUIEvent(new ToGUIShowUncolonizedProvinceData((EngineState.MapInfo.Scenario.Map[e.ProvinceId] as UncolonizedProvinceData), false));
+                        InvokeToGUIEvent(new ToGUIUpdateCountryInfo());
+                    }
+                    return;
+            }
+        }
         if (EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] is LandColonizedProvinceData
             data)
             switch (@event)
@@ -504,6 +525,13 @@ public partial class MapHandler : GameHandler
         }
     }
 
+    private void _updateMap()
+    {
+        InvokeToEngineEvent(new ToEngineViewModUpdate());
+        _updateCountryText();
+        _setFogOfWar();
+    }
+
 
     public override void DayTick()
     {
@@ -537,6 +565,30 @@ public partial class MapHandler : GameHandler
 
     public override void MonthTick()
     {
+        foreach (UncolonizedProvinceData data in EngineState.MapInfo.MapProvinces(ProvinceTypes.UncolonizedProvinces))
+        {
+            if (data.CurrentlyColonizedByCountry != null)
+            {
+                data.CurrentlyColonizedByCountry.Money -= Settings.MoneyConsumptionPerMonthColony(EngineState.MapInfo
+                    .MapProvinces(ProvinceTypes.UncolonizedProvinces).Count(d =>
+                        (d as UncolonizedProvinceData).CurrentlyColonizedByCountry != null &&
+                        (d as UncolonizedProvinceData).CurrentlyColonizedByCountry.Id ==
+                        data.CurrentlyColonizedByCountry.Id));
+                data.SettlersCombined += data.ColonyGrowth;
+
+                if (data.SettlersCombined >= data.SettlersNeeded)
+                {
+                    EngineState.MapInfo.Scenario.Map[data.Id] = data.ConvertToLandProvince();
+                    InvokeToGUIEvent(new ToGuiShowLandProvinceDataEvent(EngineState.MapInfo.Scenario.Map[data.Id] as LandColonizedProvinceData));
+                    _updateMap();
+                }
+                
+                if (EngineState.MapInfo.CurrentSelectedProvinceId > -1 &&
+                    EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] is UncolonizedProvinceData) 
+                    InvokeToGUIEvent(new ToGUIShowUncolonizedProvinceData(data, false));
+            }
+        }
+        
         //goodgenerationandtransportation and tax income
         foreach (LandColonizedProvinceData data in EngineState.MapInfo.MapProvinces(ProvinceTypes.ColonizedProvinces))
         {

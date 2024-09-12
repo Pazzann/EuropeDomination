@@ -17,9 +17,10 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_top = -221.0
-offset_right = 331.0
-offset_bottom = 221.0
+offset_left = 60.0
+offset_top = -219.0
+offset_right = 391.0
+offset_bottom = 223.0
 grow_vertical = 2
 mouse_force_pass_scroll_events = false
 
@@ -41,3 +42,12 @@ horizontal_alignment = 1
 [node name="Button" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Colonize"
+
+[node name="ProgressBar" type="ProgressBar" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "0/5000"
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Button" to="." method="_onColonizeButtonPressed"]
