@@ -371,7 +371,6 @@ public partial class MapHandler : GameHandler
 
     private void _updateProvinceText()
     {
-        _clearProvinceText();
 
         var mapContours = new MapContours(EngineState.MapInfo, EngineState.MapInfo.Scenario.MapTexture);
         var allLabels = new ConcurrentBag<CurvedText>();
