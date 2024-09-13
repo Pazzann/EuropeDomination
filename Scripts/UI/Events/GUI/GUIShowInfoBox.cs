@@ -1,13 +1,13 @@
-﻿using EuropeDominationDemo.Scripts.UI.GUIHandlers;
+﻿using EuropeDominationDemo.Scripts.Utils;
 
 namespace EuropeDominationDemo.Scripts.UI.Events.GUI;
 
 public struct GUIShowInfoBox : GUIEvent
 {
-    public InfoBoxBuilder InfoBoxBuilder;
+    public RichTextLabelBuilder RichTextLabelBuilder;
 
-    public GUIShowInfoBox(InfoBoxBuilder infoBoxBuilder)
+    public GUIShowInfoBox(RichTextLabelBuilder richTextLabelBuilder)
     {
-        InfoBoxBuilder = infoBoxBuilder;
+        RichTextLabelBuilder = richTextLabelBuilder;
     }
 }

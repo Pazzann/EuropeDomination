@@ -1,6 +1,7 @@
 using System.Linq;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
+using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.Utils;
@@ -50,6 +51,18 @@ public partial class GUIResources : VBoxContainer
 			if (provinceData.HarvestedTransport != null && provinceData.HarvestedTransport.ProvinceIdTo == data.Id)
 				AllResourcesChange[provinceData.HarvestedTransport.TransportationGood.Id] +=
 					provinceData.HarvestedTransport.Amount;
+
+			foreach (var country in EngineState.MapInfo.Scenario.Countries)
+			{
+				if (provinceData.Id == country.Value.CapitalId)
+				{
+					AllResourcesChange = country.Value.ConsumableGoods.Aggregate(AllResourcesChange, (doubles, pair) =>
+					{
+						doubles[pair.Key] -= (EngineState.MapInfo.Scenario.Goods[pair.Key] as ConsumableGood).ConsumptionPerMonthToActivateBonus;
+						return doubles;
+					});
+				}
+			}
 			foreach (var building in provinceData.SpecialBuildings)
 			{
 				if (building is Factory factory && factory.TransportationRoute != null &&
@@ -75,7 +88,7 @@ public partial class GUIResources : VBoxContainer
 				foreach (var ingredient in factory.Recipe.Ingredients)
 					AllResourcesChange[ingredient.Key.Id] -= ingredient.Value * factory.ProductionRate;
 
-				AllResourcesChange[factory.Recipe.Output.Id] += factory.ProductionRate;
+				AllResourcesChange[factory.Recipe.Output.Id] += factory.Recipe.OutputAmount * factory.ProductionRate;;
 				if (factory.TransportationRoute != null)
 					AllResourcesChange[factory.Recipe.Output.Id] -= factory.TransportationRoute.Amount;
 			}

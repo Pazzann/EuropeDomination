@@ -8,6 +8,6 @@ public enum ProvinceTypes
     UncolonizedProvinces = 3,
     CoastalProvincesAndSeaProvinces = 4,
     CoastalProvinces = 5,
-    CurrentCountryProvinces = 6,
-    CurrentCountryProvincesAndBordering = 7,
+    CountryProvinces = 6,
+    CountryProvincesAndBordering = 7,
 }

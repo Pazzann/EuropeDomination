@@ -5,9 +5,10 @@ namespace EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 public class Factory : SpecialBuilding
 {
     public int Cost = 100;
-    public float MaxProductionRate = 1.0f;
-    public float ProductionGrowthRate = 0.1f;
+    public float MaxProductionRate => 1.0f;
+    public float ProductionGrowthRate => 0.1f;
     public float ProductionRate;
+    public float CurrentAcceleration => ProductionRate / MaxProductionRate;
     public Recipe Recipe;
     public TransportationRoute TransportationRoute;
 

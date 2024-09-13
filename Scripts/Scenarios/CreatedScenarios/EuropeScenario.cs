@@ -27,7 +27,7 @@ public class EuropeScenario : Scenario
             new HarvestedGood(2, "Wood", new Vector3(0.0f, 0.7f, 0.4f)),
             new InfantryWeapon(3, "Iron Sword", new Vector3(1.0f, 0.2f, 0.3f), 0.01f, 0.01f, 0.0f, 1.0f,
                 Modifiers.DefaultModifiers(additionalTrainingEfficiency: 1.3f), 10),
-            new ConsumableGood(4, "Tea", new Vector3(0.7f, 0.9f, 0.3f), Modifiers.DefaultModifiers(productionEfficiency: 1.5f))
+            new ConsumableGood(4, "Tea", new Vector3(0.7f, 0.9f, 0.3f), Modifiers.DefaultModifiers(productionEfficiency: 1.5f, maxManpowerEfficiency: 1.5f), 4f)
         };
 
         
@@ -51,7 +51,11 @@ public class EuropeScenario : Scenario
             {
                 { Goods[0], 1 },
                 { Goods[2], 0.5 }
-            }, Goods[3])
+            }, Goods[3], 1f),
+            new(new Dictionary<Good, double>
+            {
+                { Goods[0], 1 }
+            }, Goods[4], 4f)
         };
 
         Battles = new List<BattleData>();

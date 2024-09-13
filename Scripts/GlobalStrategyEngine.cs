@@ -102,7 +102,6 @@ public partial class GlobalStrategyEngine : Node2D
 				return;
 			case GUISetTimeScale e:
 				_timer.WaitTime = Settings.TimeScale[e.TimeScaleId];
-				_timer.Start();
 				return;
 			case GUIPauseStateEvent e:
 				if (e.IsPaused)
@@ -120,7 +119,7 @@ public partial class GlobalStrategyEngine : Node2D
 				Camera.GoToProvince(e.Id);
 				return;
 			case GUIShowInfoBox e:
-				InvokeToGUIEvent(new ToGUIShowInfoBoxEvent(e.InfoBoxBuilder));
+				InvokeToGUIEvent(new ToGUIShowInfoBoxEvent(e.RichTextLabelBuilder));
 				return;
 			case GUIHideInfoBoxEvent e:
 				InvokeToGUIEvent(new ToGUIHideInfoBox());

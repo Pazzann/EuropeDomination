@@ -1,8 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.Army;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
 using EuropeDominationDemo.Scripts.Scenarios.DiplomacyAgreements;
+using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
@@ -72,6 +75,27 @@ public class CountryData
         if(technology.RecipyToUnlock > -1)
             UnlockedRecipies.Add(technology.RecipyToUnlock);
         ResearchedTechnologies[technologyId.X][technologyId.Y][technologyId.Z] = true;
+    }
+
+    public Modifiers ConsumableGoodsModifiers
+    {
+        get
+        {
+            var modifiers = Modifiers.DefaultModifiers();
+            foreach (var propertyInfo in modifiers.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+            {
+                foreach (var goodId in ConsumableGoods.Where(d=> d.Value))
+                {
+                    var good = EngineState.MapInfo.Scenario.Goods[goodId.Key] as ConsumableGood;
+                    if (propertyInfo.Name.Contains("Bonus"))
+                        propertyInfo.SetValue(modifiers, (float)propertyInfo.GetValue(modifiers) + (float)propertyInfo.GetValue(good.Modifiers));
+                    else
+                        propertyInfo.SetValue(modifiers, (float)propertyInfo.GetValue(modifiers) * (float)propertyInfo.GetValue(good.Modifiers));
+                }
+            }
+            
+            return modifiers;
+        }
     }
 
     public int Id { get; }

@@ -20,6 +20,7 @@ public partial class GUICountryWindow : GUIHandler
 	public override void Init()
 	{
 		GetChild<TabContainer>(0).MouseEntered += () => InvokeGUIEvent(new GUIHideInfoBoxEvent());
+		_consumableGoodsInit();
 		_technologyInit();
 		_armyInit();
 	}
@@ -71,14 +72,74 @@ public partial class GUICountryWindow : GUIHandler
 	{
 		
 		_updateTechnologyWindow();
+		_consumableGoodsUpdate();
 		
 	}
+
+	#region Overview
+
+	
+
+	#endregion
+	
+
+	#region Economy
+
+	
+
+	#endregion
 	
 	#region Consumable Goods
 
+	private PackedScene _consumableGoodScene;
+	private	VBoxContainer _consumableGoodSpawner;
+	private RichTextLabel _totalModifiersFromConsumableGoodsLabel;
+	
 	private void _consumableGoodsInit()
 	{
-			
+		_consumableGoodScene = GD.Load<PackedScene>("res://Prefabs/GUI/Modules/GUIConsumableGoodMenu.tscn");
+		_consumableGoodSpawner =
+			GetNode<VBoxContainer>(
+				"TabContainer/Consumption/MarginContainer/VBoxContainer/ScrollContainer/ConsumableGoodsSpawner");
+		_totalModifiersFromConsumableGoodsLabel =
+			GetNode<RichTextLabel>(
+				"TabContainer/Consumption/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/TotalBonusesFromConsumableGoods");
+
+		foreach (ConsumableGood good in EngineState.MapInfo.Scenario.Goods.Where(d=> d is ConsumableGood))
+		{
+			var a = _consumableGoodScene.Instantiate() as PanelContainer;
+			var consumptionContainer = a.GetChild(0).GetChild(0);
+
+			consumptionContainer.GetChild<AnimatedTextureRect>(0).SetFrame(good.Id);
+			consumptionContainer.GetChild(1).GetChild<RichTextLabel>(0).Text = new RichTextLabelBuilder()
+				.Header(good.Name).NewLine()
+				.AppendText($"Consumption: {good.ConsumptionPerMonthToActivateBonus}t/m").NewLine()
+				.Header("Modifiers:")
+				.ShowModifiers(good.Modifiers).Text;
+			consumptionContainer.GetChild<Button>(2).Text = EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoods.ContainsKey(good.Id) ? "Disable" : "Enable";
+			consumptionContainer.GetChild<Button>(2).Pressed += () => _changeConsumableGoodStatus(good.Id);
+			a.SelfModulate = EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoods.ContainsKey(good.Id) ? EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoods[good.Id] ? new Color(0, 1, 0, 1) : new Color(1, 0, 0, 1) : new Color(1, 1, 1, 1);
+			_consumableGoodSpawner.AddChild(a);
+		}
+		_totalModifiersFromConsumableGoodsLabel.Text = new RichTextLabelBuilder().Header("Total modifiiers from consumption:").ShowModifiers(EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoodsModifiers).Text;
+	}
+
+	private void _consumableGoodsUpdate()
+	{
+		int i = 0;
+		foreach (ConsumableGood good in EngineState.MapInfo.Scenario.Goods.Where(d => d is ConsumableGood))
+		{
+			var a = _consumableGoodSpawner.GetChild<PanelContainer>(i);
+			a.GetChild(0).GetChild(0).GetChild<Button>(2).Text = EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoods.ContainsKey(good.Id) ? "Disable" : "Enable";
+			a.SelfModulate = EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoods.ContainsKey(good.Id) ? EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoods[good.Id] ? new Color(0, 1, 0, 1) : new Color(1, 0, 0, 1) : new Color(1, 1, 1, 1);
+			i++;
+		}
+		_totalModifiersFromConsumableGoodsLabel.Text = new RichTextLabelBuilder().Header("Total modifiiers from consumption:").ShowModifiers(EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoodsModifiers).Text;
+	}
+
+	private void _changeConsumableGoodStatus(int goodId)
+	{
+		InvokeGUIEvent(new GUIChangeConsumableGoodStatus(goodId));
 	}
 	
 	

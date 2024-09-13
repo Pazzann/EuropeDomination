@@ -166,23 +166,7 @@ public partial class MapHandler : GameHandler
             InvokeToGUIEvent(new ToGuiShowLandProvinceDataEvent(data));
         if (EngineState.MapInfo.Scenario.Map[tileId] is UncolonizedProvinceData uncolonizedProvinceData)
         {
-            bool isPossibleToColonize = !(uncolonizedProvinceData.CurrentlyColonizedByCountry != null);
-            
-            //Some Crazy condition
-            if (!EngineState.MapInfo.MapProvinces(ProvinceTypes.CurrentCountryProvincesAndBordering).Contains(uncolonizedProvinceData))
-                if (!EngineState.MapInfo.MapProvinces(ProvinceTypes.CurrentCountryProvinces)
-                        .Where(d => (d as LandColonizedProvinceData).SpecialBuildings.Any(b => b is Dockyard))
-                        .Any(d =>
-                        {
-                            var searchPr = EngineState.MapInfo.MapProvinces(ProvinceTypes.SeaProvinces).ToList();
-                            searchPr.Add(d);
-                            searchPr.Add(uncolonizedProvinceData);
-                            return PathFinder.CheckConnectionFromAToB(d.Id, uncolonizedProvinceData.Id,
-                                       searchPr.ToArray()) &&
-                                   PathFinder.FindPathFromAToB(d.Id, uncolonizedProvinceData.Id, searchPr.ToArray()
-                                   ).Length < Settings.NavalColonizationRange;
-                        }))
-                    isPossibleToColonize = false;
+            bool isPossibleToColonize = uncolonizedProvinceData.CanBeColonizedByCountry(EngineState.PlayerCountryId);
             InvokeToGUIEvent(new ToGUIShowUncolonizedProvinceData(uncolonizedProvinceData, isPossibleToColonize));
 
         }
@@ -294,6 +278,22 @@ public partial class MapHandler : GameHandler
                     InvokeToGUIEvent(new ToGUIUpdateCountryWindow());
                     InvokeToGUIEvent(new ToGUIUpdateCountryInfo());
                 }
+                return;
+            }
+            case GUIChangeConsumableGoodStatus e:
+            {
+                if (EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoods
+                    .ContainsKey(e.GoodId))
+                {
+                    EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoods
+                        .Remove(e.GoodId);
+                }
+                else
+                {
+                    EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoods
+                        .Add(e.GoodId, false);
+                }
+                InvokeToGUIEvent(new ToGUIUpdateCountryWindow());
                 return;
             }
         }
@@ -670,7 +670,7 @@ public partial class MapHandler : GameHandler
                     foreach (var ingredient in factory.Recipe.Ingredients)
                         data.Resources[ingredient.Key.Id] -= ingredient.Value * factory.ProductionRate;
 
-                    data.Resources[factory.Recipe.Output.Id] += factory.ProductionRate;
+                    data.Resources[factory.Recipe.Output.Id] += factory.Recipe.OutputAmount * factory.ProductionRate;
                     factory.ProductionRate = Mathf.Min(factory.ProductionRate + factory.ProductionGrowthRate,
                         factory.MaxProductionRate);
                 }
@@ -712,6 +712,40 @@ public partial class MapHandler : GameHandler
                             route.TransportationGood.Id] += diff;
                     }
         }
+
+        foreach (var country in EngineState.MapInfo.Scenario.Countries)
+        {
+            foreach (var good in country.Value.ConsumableGoods)
+            {
+                if (Good.CheckIfMeetsRequirements(
+                        (EngineState.MapInfo.Scenario.Map[country.Value.CapitalId] as LandColonizedProvinceData)
+                        .Resources, Good.DefaultGoods(new Dictionary<int, double>()
+                        {
+                            {
+                                good.Key, (EngineState.MapInfo.Scenario.Goods[good.Key] as ConsumableGood)
+                                .ConsumptionPerMonthToActivateBonus
+                            }
+                        })))
+                {
+                    (EngineState.MapInfo.Scenario.Map[country.Value.CapitalId] as LandColonizedProvinceData).Resources =
+                        Good.DecreaseGoodsByGoods(
+                            (EngineState.MapInfo.Scenario.Map[country.Value.CapitalId] as LandColonizedProvinceData)
+                            .Resources, Good.DefaultGoods(new Dictionary<int, double>()
+                            {
+                                {
+                                    good.Key, (EngineState.MapInfo.Scenario.Goods[good.Key] as ConsumableGood)
+                                    .ConsumptionPerMonthToActivateBonus
+                                }
+                            }));
+                    country.Value.ConsumableGoods[good.Key] = true;
+                }
+                else
+                {
+                    country.Value.ConsumableGoods[good.Key] = false;
+                }
+            }
+        }
+
 
         InvokeToGUIEvent(new ToGUIUpdateCountryInfo());
 

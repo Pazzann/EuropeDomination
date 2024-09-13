@@ -91,6 +91,7 @@ text = "3"
 
 [node name="Button4" type="Button" parent="HBoxContainer2/GameDate/HBoxContainer"]
 layout_mode = 2
+disabled = true
 text = "4"
 
 [node name="Button5" type="Button" parent="HBoxContainer2/GameDate/HBoxContainer"]

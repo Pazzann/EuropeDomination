@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace EuropeDominationDemo.Scripts;
+namespace EuropeDominationDemo.Scripts.Math;
 
 public class Dsu
 {

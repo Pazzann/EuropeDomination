@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://56rm47l3ov1j"]
+[gd_scene load_steps=3 format=3 uid="uid://56rm47l3ov1j"]
 
 [ext_resource type="PackedScene" uid="uid://bravhtaisuciw" path="res://Prefabs/CustomNodes/AnimatedTextureRect.tscn" id="1_lws6i"]
-[ext_resource type="Texture2D" uid="uid://bv8ai81boxxm8" path="res://Sprites/Good/Iron.png" id="2_sroqy"]
 [ext_resource type="SpriteFrames" uid="uid://d3n4eikp6qnq7" path="res://Prefabs/SpriteFrames/GoodSpriteFrames.tres" id="3_5sptf"]
 
 [node name="GuiConsumableGoodMenu" type="PanelContainer"]
@@ -18,7 +17,7 @@ layout_mode = 2
 
 [node name="AnimatedTextureRect" parent="MarginContainer/HBoxContainer" instance=ExtResource("1_lws6i")]
 layout_mode = 2
-texture = ExtResource("2_sroqy")
+CurrentAnimation = "goods"
 SpriteFrames = ExtResource("3_5sptf")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/HBoxContainer"]
@@ -29,18 +28,8 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+bbcode_enabled = true
 text = "dfgfdgfdgfdgdfgfdgfdgfdgd"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Consumption t/m"
-
-[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Fullfilled Last Month: yes"
 
 [node name="Button" type="Button" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
