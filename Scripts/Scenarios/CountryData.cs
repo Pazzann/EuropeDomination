@@ -32,10 +32,15 @@ public class CountryData
     public List<int> UnlockedBuildings { get; }
     public List<int> UnlockedRecipies { get; }
     
+    public Modifiers NationalIdeas { get; }
+    
+    //bool checks if the requirments for the next month are fullfilled
+    public Dictionary<int, bool> ConsumableGoods { get; }
+    
 
     public CountryData(int id, string name, Vector3 color, Modifiers modifiers, int money, int manpower,
         List<General> generals, List<Admiral> admirals, List<UnitData> units, List<Template> templates,
-        Dictionary<int, List<DiplomacyAgreement>> diplomacyAgreements, int capitalId, Dictionary<Vector3I, int> currentlyResearching, List<int> unlockedBuildings, List<int> unlockedRecipies)
+        Dictionary<int, List<DiplomacyAgreement>> diplomacyAgreements, int capitalId, Dictionary<Vector3I, int> currentlyResearching, List<int> unlockedBuildings, List<int> unlockedRecipies, Modifiers nationalIdeas, Dictionary<int, bool> consumableGoods)
     {
         Id = id;
         Name = name;
@@ -52,6 +57,8 @@ public class CountryData
         CurrentlyResearching = currentlyResearching;
         UnlockedBuildings = unlockedBuildings;
         UnlockedRecipies = unlockedRecipies;
+        NationalIdeas = nationalIdeas;
+        ConsumableGoods = consumableGoods;
     }
 
     public void ApplyResearchedTechnology(Vector3I technologyId)

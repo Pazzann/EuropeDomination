@@ -100,6 +100,10 @@ public partial class GlobalStrategyEngine : Node2D
 				EngineState.MapInfo.CurrentMapMode = e.NewMapType;
 				ViewMode();
 				return;
+			case GUISetTimeScale e:
+				_timer.WaitTime = Settings.TimeScale[e.TimeScaleId];
+				_timer.Start();
+				return;
 			case GUIPauseStateEvent e:
 				if (e.IsPaused)
 					_timer.Stop();

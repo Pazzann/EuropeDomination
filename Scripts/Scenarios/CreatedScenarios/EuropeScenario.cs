@@ -26,7 +26,8 @@ public class EuropeScenario : Scenario
             new HarvestedGood(1, "Wheat", new Vector3(0.7f, 0.8f, 0.0f)),
             new HarvestedGood(2, "Wood", new Vector3(0.0f, 0.7f, 0.4f)),
             new InfantryWeapon(3, "Iron Sword", new Vector3(1.0f, 0.2f, 0.3f), 0.01f, 0.01f, 0.0f, 1.0f,
-                Modifiers.DefaultModifiers(additionalTrainingEfficiency: 1.3f), 10)
+                Modifiers.DefaultModifiers(additionalTrainingEfficiency: 1.3f), 10),
+            new ConsumableGood(4, "Tea", new Vector3(0.7f, 0.9f, 0.3f), Modifiers.DefaultModifiers(productionEfficiency: 1.5f))
         };
 
         
@@ -524,19 +525,19 @@ public class EuropeScenario : Scenario
                 0,
                 new CountryData(0, "Great Britain", new Vector3(0.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers(), 1000,
                     300, new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(),
-                    new Dictionary<int, List<DiplomacyAgreement>>(), 0, new Dictionary<Vector3I, int>(), new List<int>(), new List<int>())
+                    new Dictionary<int, List<DiplomacyAgreement>>(), 0, new Dictionary<Vector3I, int>(), new List<int>(), new List<int>(), Modifiers.DefaultModifiers(), new Dictionary<int, bool>())
             },
             {
                 1,
                 new CountryData(1, "France", new Vector3(0.0f, 0.0f, 1.0f), Modifiers.DefaultModifiers(), 200, 200,
                     new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(),
-                    new Dictionary<int, List<DiplomacyAgreement>>(), 1, new Dictionary<Vector3I, int>(), new List<int>(), new List<int>())
+                    new Dictionary<int, List<DiplomacyAgreement>>(), 1, new Dictionary<Vector3I, int>(), new List<int>(), new List<int>(), Modifiers.DefaultModifiers(), new Dictionary<int, bool>())
             },
             {
                 2,
                 new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers(), 300, 100,
                     new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(),
-                    new Dictionary<int, List<DiplomacyAgreement>>(), 3, new Dictionary<Vector3I, int>(), new List<int>(), new List<int>())
+                    new Dictionary<int, List<DiplomacyAgreement>>(), 3, new Dictionary<Vector3I, int>(), new List<int>(), new List<int>(), Modifiers.DefaultModifiers(), new Dictionary<int, bool>())
             }
         };
         var countOfLandProvinces = Map.Where(d => d is UncolonizedProvinceData).ToArray();

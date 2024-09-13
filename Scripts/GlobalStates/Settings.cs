@@ -10,6 +10,8 @@ public static class Settings
     public static GraphicPreset PerformaceMode = GraphicPreset.HighQualityMode;
     public static GameModes GameMode = GameModes.RandomSpawn;
     
+    public static float[] TimeScale = new []{0.5f, 0.4f, 0.3f, 0.2f, 0.1f};
+    
     public static int[] DevForSpecialBuilding = new int[3] { 10, 25, 50 };
     public static int[] DevForCommonBuilding = new int[10] { 5, 10, 15, 20, 30, 40, 50, 60, 70, 80 };
     public static int MaxRegimentWidthInBattle = 20;

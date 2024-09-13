@@ -43,4 +43,9 @@ public partial class GUITimeWindow : GUIHandler
 		_pauseSprite.Visible = _isPaused;
 		InvokeGUIEvent(new GUIPauseStateEvent(_isPaused));
 	}
+
+	private void _onChangeTimeScalePressed(int id)
+	{
+		InvokeGUIEvent(new GUISetTimeScale(id));
+	}
 }

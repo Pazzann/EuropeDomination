@@ -69,35 +69,20 @@ public partial class GUICountryWindow : GUIHandler
 
 	private void _updateCountryData()
 	{
-		for (int x = 0; x < EngineState.MapInfo.Scenario.TechnologyTrees.Length; x++)
-		{
-			for (int y = 0; y < EngineState.MapInfo.Scenario.TechnologyTrees[x].TechnologyLevels.Count; y++)
-			{
-				for (int z = 0; z < EngineState.MapInfo.Scenario.TechnologyTrees[x].TechnologyLevels[y].Technologies.Count; z++)
-				{
-					var technology = _technologyTreeContainer.GetChild(x).GetChild(0).GetChild(0).GetChild(0)
-						.GetChild(y).GetChild(0).GetChild(0).GetChild(1).GetChild<PanelContainer>(z);
-					
-					technology.GetChild<Button>(2).Disabled = !(((y == 0 || EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ResearchedTechnologies[x][y-1].Any(d=>d)) && !EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ResearchedTechnologies[x][y][z]) && EngineState.MapInfo.Scenario.TechnologyTrees[x].TechnologyLevels[y].Technologies[z].CheckIfMeetsRequirements(EngineState.PlayerCountryId));
-					technology.SelfModulate = EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ResearchedTechnologies[x][y][z] ? new Color(0, 0.8f, 0) : new Color(1, 1, 1);
-					if (EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].CurrentlyResearching
-						.ContainsKey(new Vector3I(x, y, z)))
-					{
-						technology.GetChild<ProgressBar>(1).Visible = true;
-						technology.GetChild<ProgressBar>(1).Value = EngineState.MapInfo.Scenario
-							.Countries[EngineState.PlayerCountryId].CurrentlyResearching[new Vector3I(x, y, z)];
-						technology.GetChild<Button>(2).Disabled = true;
-					}
-					else
-					{
-						technology.GetChild<ProgressBar>(1).Visible = false;
-					}
-				}
-			}
-		}
-
+		
+		_updateTechnologyWindow();
 		
 	}
+	
+	#region Consumable Goods
+
+	private void _consumableGoodsInit()
+	{
+			
+	}
+	
+	
+	#endregion
 
 	#region Technology
 
@@ -156,6 +141,36 @@ public partial class GUICountryWindow : GUIHandler
 			}
 			
 			_technologyTreeContainer.AddChild(technologyTreeInstance);
+		}
+	}
+
+	private void _updateTechnologyWindow()
+	{
+		for (int x = 0; x < EngineState.MapInfo.Scenario.TechnologyTrees.Length; x++)
+		{
+			for (int y = 0; y < EngineState.MapInfo.Scenario.TechnologyTrees[x].TechnologyLevels.Count; y++)
+			{
+				for (int z = 0; z < EngineState.MapInfo.Scenario.TechnologyTrees[x].TechnologyLevels[y].Technologies.Count; z++)
+				{
+					var technology = _technologyTreeContainer.GetChild(x).GetChild(0).GetChild(0).GetChild(0)
+						.GetChild(y).GetChild(0).GetChild(0).GetChild(1).GetChild<PanelContainer>(z);
+					
+					technology.GetChild<Button>(2).Disabled = !(((y == 0 || EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ResearchedTechnologies[x][y-1].Any(d=>d)) && !EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ResearchedTechnologies[x][y][z]) && EngineState.MapInfo.Scenario.TechnologyTrees[x].TechnologyLevels[y].Technologies[z].CheckIfMeetsRequirements(EngineState.PlayerCountryId));
+					technology.SelfModulate = EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ResearchedTechnologies[x][y][z] ? new Color(0, 0.8f, 0) : new Color(1, 1, 1);
+					if (EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].CurrentlyResearching
+						.ContainsKey(new Vector3I(x, y, z)))
+					{
+						technology.GetChild<ProgressBar>(1).Visible = true;
+						technology.GetChild<ProgressBar>(1).Value = EngineState.MapInfo.Scenario
+							.Countries[EngineState.PlayerCountryId].CurrentlyResearching[new Vector3I(x, y, z)];
+						technology.GetChild<Button>(2).Disabled = true;
+					}
+					else
+					{
+						technology.GetChild<ProgressBar>(1).Visible = false;
+					}
+				}
+			}
 		}
 	}
 
