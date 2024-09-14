@@ -1,6 +1,9 @@
+using System;
 using System.Linq;
+using System.Reflection;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios;
+using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon;
@@ -323,8 +326,7 @@ public partial class GUICountryWindow : GUIHandler
 		_optionButtonTypeArmyTemplate.Selected = 0;
 		for (var i = 0; i < 5; i++)
 		{
-			var b = i;
-			_goodArmyTemplateSpawner.GetChild(b).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
+			_goodArmyTemplateSpawner.GetChild(i).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
 		}
 	}
 
@@ -332,42 +334,15 @@ public partial class GUICountryWindow : GUIHandler
 	{
 		for (var i = 0; i < 5; i++)
 		{
-			var b = i;
-			_goodArmyTemplateSpawner.GetChild(b).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
+			_goodArmyTemplateSpawner.GetChild(i).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
 		}
 
-		switch (index)
+		Type[] options = {typeof(ArmyInfantryRegimentTemplate), typeof(ArmyCavalryRegimentTemplate), typeof(ArmyArtilleryRegimentTemplate)};
+		
+		var properties = options[index].GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+		for (var i = 0; i < 5; i++)
 		{
-			case 0:
-			{
-				_goodArmyTemplateSpawner.GetChild(0).GetChild<Label>(1).Text = "Weapon";
-				_goodArmyTemplateSpawner.GetChild(1).GetChild<Label>(1).Text = "Helmet";
-				_goodArmyTemplateSpawner.GetChild(2).GetChild<Label>(1).Text = "Armor";
-				_goodArmyTemplateSpawner.GetChild(3).GetChild<Label>(1).Text = "Boots";
-				_goodArmyTemplateSpawner.GetChild(4).GetChild<Label>(1).Text = "Additional";
-
-				return;
-			}
-			case 1:
-			{
-				_goodArmyTemplateSpawner.GetChild(0).GetChild<Label>(1).Text = "Weapon";
-				_goodArmyTemplateSpawner.GetChild(1).GetChild<Label>(1).Text = "Horse";
-				_goodArmyTemplateSpawner.GetChild(2).GetChild<Label>(1).Text = "Helmet";
-				_goodArmyTemplateSpawner.GetChild(3).GetChild<Label>(1).Text = "Armor";
-				_goodArmyTemplateSpawner.GetChild(4).GetChild<Label>(1).Text = "Additional";
-
-				return;
-			}
-			case 2:
-			{
-				_goodArmyTemplateSpawner.GetChild(0).GetChild<Label>(1).Text = "Weapon";
-				_goodArmyTemplateSpawner.GetChild(1).GetChild<Label>(1).Text = "Boots";
-				_goodArmyTemplateSpawner.GetChild(2).GetChild<Label>(1).Text = "Armor";
-				_goodArmyTemplateSpawner.GetChild(3).GetChild<Label>(1).Text = "Wheel";
-				_goodArmyTemplateSpawner.GetChild(4).GetChild<Label>(1).Text = "Additional";
-
-				return;
-			}
+			_goodArmyTemplateSpawner.GetChild(i).GetChild<Label>(1).Text = properties[i].Name;
 		}
 	}
 
@@ -400,7 +375,7 @@ public partial class GUICountryWindow : GUIHandler
 						: EngineState.MapInfo.Scenario.Goods[helmetIndex] as Helmet;
 					template.Armor = armorIndex == -1 ? null : EngineState.MapInfo.Scenario.Goods[armorIndex] as Armor;
 					template.Boots = bootsIndex == -1 ? null : EngineState.MapInfo.Scenario.Goods[bootsIndex] as Boots;
-					template.AdditionalSlot = additionalSlotIndex == -1
+					template.Additional = additionalSlotIndex == -1
 						? null
 						: EngineState.MapInfo.Scenario.Goods[additionalSlotIndex] as AdditionalSlotGood;
 
@@ -428,7 +403,7 @@ public partial class GUICountryWindow : GUIHandler
 						? null
 						: EngineState.MapInfo.Scenario.Goods[helmetIndex] as Helmet;
 					template.Armor = armorIndex == -1 ? null : EngineState.MapInfo.Scenario.Goods[armorIndex] as Armor;
-					template.AdditionalSlot = additionalSlotIndex == -1
+					template.Additional = additionalSlotIndex == -1
 						? null
 						: EngineState.MapInfo.Scenario.Goods[additionalSlotIndex] as AdditionalSlotGood;
 					break;
@@ -454,7 +429,7 @@ public partial class GUICountryWindow : GUIHandler
 					template.Boots = bootsIndex == -1 ? null : EngineState.MapInfo.Scenario.Goods[bootsIndex] as Boots;
 					template.Armor = armorIndex == -1 ? null : EngineState.MapInfo.Scenario.Goods[armorIndex] as Armor;
 					template.Wheel = wheelIndex == -1 ? null : EngineState.MapInfo.Scenario.Goods[wheelIndex] as Wheel;
-					template.AdditionalSlot = additionalSlotIndex == -1
+					template.Additional = additionalSlotIndex == -1
 						? null
 						: EngineState.MapInfo.Scenario.Goods[additionalSlotIndex] as AdditionalSlotGood;
 					break;
@@ -464,7 +439,34 @@ public partial class GUICountryWindow : GUIHandler
 		}
 		else
 		{
-			switch (_optionButtonTypeArmyTemplate.Selected)
+			Type[] options = {typeof(ArmyInfantryRegimentTemplate), typeof(ArmyCavalryRegimentTemplate), typeof(ArmyArtilleryRegimentTemplate)};
+		
+			var properties = options[_optionButtonTypeArmyTemplate.Selected].GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+			
+			var indexes = new int[5];
+			for (var i = 0; i < 5; i++)
+			{
+				indexes[i] = _goodArmyTemplateSpawner.GetChild(i).GetChild(0).GetChild<AnimatedTextureRect>(0).FrameIndex;
+			}
+			
+			EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].RegimentTemplates.Add(
+				 options[_optionButtonTypeArmyTemplate.Selected].GetConstructor(
+					 new [] {typeof(string), typeof(int), properties[0].FieldType, properties[1].FieldType, properties[2].FieldType,
+					 properties[3].FieldType, properties[4].FieldType}).Invoke(new object[] {
+					_lineEditNameArmyTemplate.Text,
+					EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].RegimentTemplates.Count,
+					indexes[0] == -1
+						? null
+						: EngineState.MapInfo.Scenario.Goods[indexes[0]],
+					indexes[1] == -1 ? null : EngineState.MapInfo.Scenario.Goods[indexes[1]],
+					indexes[2] == -1 ? null : EngineState.MapInfo.Scenario.Goods[indexes[2]],
+					indexes[3] == -1 ? null : EngineState.MapInfo.Scenario.Goods[indexes[3]],
+					indexes[4] == -1
+						? null
+						: EngineState.MapInfo.Scenario.Goods[indexes[4]]
+				 }) as Template);
+			
+			/*switch (_optionButtonTypeArmyTemplate.Selected)
 			{
 				case 0:
 				{
@@ -558,7 +560,7 @@ public partial class GUICountryWindow : GUIHandler
 						));
 					break;
 				}
-			}
+			}*/
 		}
 
 		_templateDesignerPanel.Visible = false;
@@ -585,81 +587,11 @@ public partial class GUICountryWindow : GUIHandler
 	private void _onChooseGoodPressed(int buttonId)
 	{
 		_currentlySelectingArmyTemplateGoodId = buttonId;
-		switch (_optionButtonTypeArmyTemplate.Selected)
-		{
-			case 0:
-			{
-				switch (buttonId)
-				{
-					case 0:
-						_showGoodEditBox(EngineState.MapInfo.Scenario.Goods.Where(d => d is InfantryWeapon).ToArray());
-						return;
-					case 1:
-						_showGoodEditBox(EngineState.MapInfo.Scenario.Goods.Where(d => d is Helmet).ToArray());
-						return;
-					case 2:
-						_showGoodEditBox(EngineState.MapInfo.Scenario.Goods.Where(d => d is Armor).ToArray());
-						return;
-					case 3:
-						_showGoodEditBox(EngineState.MapInfo.Scenario.Goods.Where(d => d is Boots).ToArray());
-						return;
-					case 4:
-						_showGoodEditBox(EngineState.MapInfo.Scenario.Goods.Where(d => d is AdditionalSlotGood)
-							.ToArray());
-						return;
-				}
-
-				return;
-			}
-			case 1:
-			{
-				switch (buttonId)
-				{
-					case 0:
-						_showGoodEditBox(EngineState.MapInfo.Scenario.Goods.Where(d => d is InfantryWeapon).ToArray());
-						return;
-					case 1:
-						_showGoodEditBox(EngineState.MapInfo.Scenario.Goods.Where(d => d is Horse).ToArray());
-						return;
-					case 2:
-						_showGoodEditBox(EngineState.MapInfo.Scenario.Goods.Where(d => d is Helmet).ToArray());
-						return;
-					case 3:
-						_showGoodEditBox(EngineState.MapInfo.Scenario.Goods.Where(d => d is Armor).ToArray());
-						return;
-					case 4:
-						_showGoodEditBox(EngineState.MapInfo.Scenario.Goods.Where(d => d is AdditionalSlotGood)
-							.ToArray());
-						return;
-				}
-
-				return;
-			}
-			case 2:
-			{
-				switch (buttonId)
-				{
-					case 0:
-						_showGoodEditBox(EngineState.MapInfo.Scenario.Goods.Where(d => d is ArtilleryWeapon).ToArray());
-						return;
-					case 1:
-						_showGoodEditBox(EngineState.MapInfo.Scenario.Goods.Where(d => d is Boots).ToArray());
-						return;
-					case 2:
-						_showGoodEditBox(EngineState.MapInfo.Scenario.Goods.Where(d => d is Armor).ToArray());
-						return;
-					case 3:
-						_showGoodEditBox(EngineState.MapInfo.Scenario.Goods.Where(d => d is Wheel).ToArray());
-						return;
-					case 4:
-						_showGoodEditBox(EngineState.MapInfo.Scenario.Goods.Where(d => d is AdditionalSlotGood)
-							.ToArray());
-						return;
-				}
-
-				return;
-			}
-		}
+		
+		Type[] options = {typeof(ArmyInfantryRegimentTemplate), typeof(ArmyCavalryRegimentTemplate), typeof(ArmyArtilleryRegimentTemplate)};
+		
+		var properties = options[_optionButtonTypeArmyTemplate.Selected].GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+		_showGoodEditBox(EngineState.MapInfo.Scenario.Goods.Where(d => properties[buttonId].FieldType.IsInstanceOfType(d)).ToArray());
 	}
 
 	private void _showGoodEditBox(Good[] goods)
@@ -712,11 +644,11 @@ public partial class GUICountryWindow : GUIHandler
 
 				_goodArmyTemplateSpawner.GetChild(3).GetChild<Label>(1).Text = "Boots";
 
-				if (armyInfantry.AdditionalSlot == null)
+				if (armyInfantry.Additional == null)
 					_goodArmyTemplateSpawner.GetChild(4).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
 				else
 					_goodArmyTemplateSpawner.GetChild(4).GetChild(0).GetChild<AnimatedTextureRect>(0)
-						.SetFrame(armyInfantry.AdditionalSlot.Id);
+						.SetFrame(armyInfantry.Additional.Id);
 
 				_goodArmyTemplateSpawner.GetChild(4).GetChild<Label>(1).Text = "Additional";
 
@@ -759,11 +691,11 @@ public partial class GUICountryWindow : GUIHandler
 
 				_goodArmyTemplateSpawner.GetChild(3).GetChild<Label>(1).Text = "Armor";
 
-				if (armyCavallary.AdditionalSlot == null)
+				if (armyCavallary.Additional == null)
 					_goodArmyTemplateSpawner.GetChild(4).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
 				else
 					_goodArmyTemplateSpawner.GetChild(4).GetChild(0).GetChild<AnimatedTextureRect>(0)
-						.SetFrame(armyCavallary.AdditionalSlot.Id);
+						.SetFrame(armyCavallary.Additional.Id);
 
 				_goodArmyTemplateSpawner.GetChild(4).GetChild<Label>(1).Text = "Additional";
 
@@ -807,11 +739,11 @@ public partial class GUICountryWindow : GUIHandler
 
 				_goodArmyTemplateSpawner.GetChild(3).GetChild<Label>(1).Text = "Wheel";
 
-				if (armyArtillery.AdditionalSlot == null)
+				if (armyArtillery.Additional == null)
 					_goodArmyTemplateSpawner.GetChild(4).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
 				else
 					_goodArmyTemplateSpawner.GetChild(4).GetChild(0).GetChild<AnimatedTextureRect>(0)
-						.SetFrame(armyArtillery.AdditionalSlot.Id);
+						.SetFrame(armyArtillery.Additional.Id);
 
 				_goodArmyTemplateSpawner.GetChild(4).GetChild<Label>(1).Text = "Additional";
 

@@ -146,7 +146,7 @@ public partial class GUIMilitaryTrainingCamp : Control
 				_goodContainer.GetChild(3).GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0)
 					.SetFrame(template.Boots?.Id ?? -1);
 				_goodContainer.GetChild(4).GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0)
-					.SetFrame(template.AdditionalSlot?.Id ?? -1);
+					.SetFrame(template.Additional?.Id ?? -1);
 				return;
 			}
 			case ArmyCavalryRegimentTemplate template:
@@ -160,7 +160,7 @@ public partial class GUIMilitaryTrainingCamp : Control
 				_goodContainer.GetChild(3).GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0)
 					.SetFrame(template.Armor?.Id ?? -1);
 				_goodContainer.GetChild(4).GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0)
-					.SetFrame(template.AdditionalSlot?.Id ?? -1);
+					.SetFrame(template.Additional?.Id ?? -1);
 				return;
 			}
 			case ArmyArtilleryRegimentTemplate template:
@@ -174,7 +174,7 @@ public partial class GUIMilitaryTrainingCamp : Control
 				_goodContainer.GetChild(3).GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0)
 					.SetFrame(template.Wheel?.Id ?? -1);
 				_goodContainer.GetChild(4).GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0)
-					.SetFrame(template.AdditionalSlot?.Id ?? -1);
+					.SetFrame(template.Additional?.Id ?? -1);
 				return;
 			}
 		}
