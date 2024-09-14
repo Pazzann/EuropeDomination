@@ -1258,6 +1258,36 @@ offset_right = 369.75
 offset_bottom = 220.5
 text = "Needed dev to unlock:10"
 
+[node name="LockedSpecialBuilding" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 43.75
+offset_top = 110.0
+offset_right = 493.75
+offset_bottom = 680.0
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite/LockedSpecialBuilding"]
+layout_mode = 0
+offset_top = 20.0
+offset_right = 450.0
+offset_bottom = 570.0
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer4/ProvinceWindowSprite/LockedSpecialBuilding/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 17
+theme_override_constants/margin_top = 17
+theme_override_constants/margin_right = 17
+theme_override_constants/margin_bottom = 17
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/LockedSpecialBuilding/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 46
+alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/LockedSpecialBuilding/PanelContainer/MarginContainer/VBoxContainer"]
+modulate = Color(7.70092e-07, 0.808729, 0.585173, 1)
+layout_mode = 2
+
 [node name="EmptySpecialBuilding" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
 visible = false
 layout_mode = 3

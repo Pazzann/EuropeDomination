@@ -5,8 +5,10 @@ namespace EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 
 public class MilitaryTrainingCamp : SpecialBuilding
 {
-    public MilitaryTrainingCamp(int buildingTime, bool isFinished, int cost, Queue<ArmyRegiment> trainingList) : base(
-        100, buildingTime, isFinished, cost)
+    public override int Cost => 100;
+    public override int TimeToBuild => 100;
+    public MilitaryTrainingCamp(int buildingTime, bool isFinished,  Queue<ArmyRegiment> trainingList) : base(
+        buildingTime, isFinished)
     {
         TrainingList = trainingList;
     }

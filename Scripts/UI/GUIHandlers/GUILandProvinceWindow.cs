@@ -150,6 +150,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_setBuildingMenuInfo(colonizedProvinceData);
 
 		_setBuildingsInfo(colonizedProvinceData);
+		
+		_setUnlockedRecipyInfo();
 
 		_showTab(_currentTab);
 	}
@@ -258,7 +260,9 @@ public partial class GUILandProvinceWindow : GUIHandler
 		{
 			var building = _possibleBuildingsSpawner.GetChild(i);
 			var exists = colonizedProvinceData.Buildings.Exists(g => g.Id == i);
-			building.GetChild(0).GetChild<Button>(0).Disabled = exists;
+			building.GetChild(0).GetChild<Button>(0).Disabled = exists || !EngineState.MapInfo.Scenario.Countries[colonizedProvinceData.Owner].UnlockedBuildings.Contains(i);
+			building.GetChild(0).GetChild<TextureRect>(1).Visible = !EngineState.MapInfo.Scenario
+				.Countries[colonizedProvinceData.Owner].UnlockedBuildings.Contains(i);
 			building.GetChild<AnimatedTextureRect>(0).SelfModulate =
 				exists ? new Color(0.5f, 1.0f, 0.5f) : new Color(1.0f, 1.0f, 1.0f);
 		}
@@ -462,6 +466,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_militaryTrainingHandler.Visible = false;
 		_emptyHandler.Visible = false;
 		_notUnlockedHandler.Visible = false;
+		_lockedBuildingHandler.Visible = false;
 	}
 	private void _onTabContainerTabChanged(int tabId)
 	{
@@ -472,22 +477,31 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private void _showTab(int tabId)
 	{
+		_lockedBuildingHandler.Visible = false;
 		switch (_currentColonizedProvinceData.SpecialBuildings[tabId])
 		{
 			case Factory factory:
 				_factoryHandler.Visible = true;
+				if(!factory.IsFinished)
+					_specialBuildingConstruction(factory.TimeToBuild, factory.BuildingTime);
 				_factoryShowData(factory);
 				return;
 			case Dockyard dockyard:
 				_dockyardHandler.Visible = true;
+				if(!dockyard.IsFinished)
+					_specialBuildingConstruction(dockyard.TimeToBuild, dockyard.BuildingTime);
 				_showDockyardData(dockyard);
 				return;
 			case MilitaryTrainingCamp militaryTrainingCamp:
 				_militaryTrainingHandler.Visible = true;
+				if(!militaryTrainingCamp.IsFinished)
+					_specialBuildingConstruction(militaryTrainingCamp.TimeToBuild, militaryTrainingCamp.BuildingTime);
 				_militaryTrainingCampShowData(militaryTrainingCamp);
 				return;
 			case StockAndTrade stockAndTrade:
 				_tradeAndStockHandler.Visible = true;
+				if(!stockAndTrade.IsFinished)
+					_specialBuildingConstruction(stockAndTrade.TimeToBuild, stockAndTrade.BuildingTime);
 				_tradeInStockShowData(stockAndTrade);
 				return;
 			default:
@@ -561,6 +575,18 @@ public partial class GUILandProvinceWindow : GUIHandler
 			_factoryHandler.GetNode<Button>("PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Button2");
 		_transportFactoryButton =
 			_factoryHandler.GetNode<Button>("PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Button3");
+	}
+
+	private void _setUnlockedRecipyInfo()
+	{
+		for (int i = 0; i < EngineState.MapInfo.Scenario.Recipes.Count; i++)
+		{
+			var recipe = _recipeSpawner.GetChild(i) as GUIRecipe;
+			recipe.GetChild<Button>(1).Disabled = !EngineState.MapInfo.Scenario
+				.Countries[_currentColonizedProvinceData.Owner].UnlockedRecipies.Contains(i);
+			recipe.GetChild<Panel>(2).Visible =!EngineState.MapInfo.Scenario
+				.Countries[_currentColonizedProvinceData.Owner].UnlockedRecipies.Contains(i);
+		}
 	}
 
 	private void _factoryShowData(Factory factory)
@@ -961,11 +987,22 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	#region Special Building Construction
 
-	//todo;
+	private Control _lockedBuildingHandler;
+	private ProgressBar _lockedSpecialBuildingProgress;
 
 	private void _specialBuildingConstructionInit()
 	{
-		
+		_lockedBuildingHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/LockedSpecialBuilding");
+
+		_lockedSpecialBuildingProgress =
+			_lockedBuildingHandler.GetNode<ProgressBar>("PanelContainer/MarginContainer/VBoxContainer/ProgressBar");
+	}
+
+	private void _specialBuildingConstruction(float maxVal, float curVal)
+	{
+		_lockedBuildingHandler.Visible = true;
+		_lockedSpecialBuildingProgress.Value = curVal;
+		_lockedSpecialBuildingProgress.MaxValue = maxVal;
 	}
 
 	#endregion

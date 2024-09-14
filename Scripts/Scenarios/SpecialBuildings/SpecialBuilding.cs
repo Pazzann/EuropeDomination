@@ -1,17 +1,15 @@
 ﻿namespace EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 
-public class SpecialBuilding
+public abstract class SpecialBuilding
 {
-    public readonly int TimeToBuild;
+    public abstract int TimeToBuild { get; }
     public int BuildingTime;
-    public int Cost;
+    public abstract int Cost { get; }
     public bool IsFinished;
 
-    public SpecialBuilding(int timeToBuild, int buildingTime, bool isFinished, int cost)
+    public SpecialBuilding( int buildingTime, bool isFinished)
     {
-        TimeToBuild = timeToBuild;
         BuildingTime = buildingTime;
         IsFinished = isFinished;
-        Cost = cost;
     }
 }

@@ -4,7 +4,8 @@ namespace EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 
 public class Factory : SpecialBuilding
 {
-    public int Cost = 100;
+    public override int Cost => 100;
+    public override int TimeToBuild => 100;
     public float MaxProductionRate => 1.0f;
     public float ProductionGrowthRate => 0.1f;
     public float ProductionRate;
@@ -12,8 +13,8 @@ public class Factory : SpecialBuilding
     public Recipe Recipe;
     public TransportationRoute TransportationRoute;
 
-    public Factory(Recipe recipe, int buildingTime, bool isFinished, float productionRate, int cost,
-        TransportationRoute transportationRoute) : base(100, buildingTime, isFinished, cost)
+    public Factory(Recipe recipe, int buildingTime, bool isFinished, float productionRate, 
+        TransportationRoute transportationRoute) : base( buildingTime, isFinished)
     {
         Recipe = recipe;
         ProductionRate = productionRate;
