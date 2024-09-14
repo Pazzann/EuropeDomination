@@ -38,7 +38,7 @@ public partial class Camera : Camera2D
 		Move(movement * ((float)delta * MovementSpeed) / Zoom);
 	}
 
-	public override void _Input(InputEvent @event)
+	public void HandleInput(InputEvent @event)
 	{
 		if (EnableZoom)
 		{
