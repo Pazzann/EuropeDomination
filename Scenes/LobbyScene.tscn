@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=3 uid="uid://bh4h4qq5qtehv"]
+
+[ext_resource type="Script" path="res://Scripts/Scenes/LobbyScene.cs" id="1_fsivh"]
+[ext_resource type="Texture2D" uid="uid://bgv4y6i4ul1k" path="res://Sprites/EuropeMap.png" id="1_xic6h"]
+[ext_resource type="PackedScene" uid="uid://db5dbn7ovemhi" path="res://Prefabs/Camera.tscn" id="2_jktds"]
+
+[node name="LobbyScene" type="Node2D"]
+script = ExtResource("1_fsivh")
+
+[node name="Map" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_xic6h")
+centered = false
+
+[node name="Camera" parent="." instance=ExtResource("2_jktds")]
+process_priority = -1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+offset_left = 1420.0
+offset_top = 4.0
+offset_right = 1791.0
+offset_bottom = 1081.0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PlayersContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+
+[node name="CheckButton" type="CheckButton" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Ready"
+
+[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Start"
+
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Button" to="." method="_onStartPressed"]

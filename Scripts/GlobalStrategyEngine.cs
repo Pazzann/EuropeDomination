@@ -48,7 +48,7 @@ public partial class GlobalStrategyEngine : Node2D
 
 		Camera = GetNode<Camera>("./Camera");
 		Camera.ZoomChanged += ViewMode;
-		Camera.Reset();
+		Camera.Reset(new Rect2(Vector2.Zero, map.GetSize()));
 
 		GUIHandler = GetNode<GUI>("CanvasLayer/GUI");
 		GUIHandler.GUIGlobalEvent += GUIEventHandler;

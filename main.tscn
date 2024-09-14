@@ -1,91 +1,132 @@
-[gd_scene load_steps=13 format=3 uid="uid://c3x72scirbeqy"]
+[gd_scene load_steps=5 format=3 uid="uid://78r2g0kghbxj"]
 
-[ext_resource type="Script" path="res://Scripts/GlobalStrategyEngine.cs" id="1_5tgh5"]
-[ext_resource type="PackedScene" uid="uid://db5dbn7ovemhi" path="res://Prefabs/Camera.tscn" id="1_r2m0f"]
-[ext_resource type="Material" uid="uid://bsh6h6v5qetxa" path="res://Shaders/map.tres" id="1_vjql8"]
-[ext_resource type="PackedScene" uid="uid://dx2y3s8dsllua" path="res://Prefabs/GUI/GUI.tscn" id="2_dggd8"]
-[ext_resource type="Script" path="res://Scripts/Handlers/SelectorBoxHandler.cs" id="3_kipe6"]
-[ext_resource type="Script" path="res://Scripts/Handlers/MapHandler.cs" id="3_kk5wj"]
-[ext_resource type="Shader" path="res://Shaders/occupiedmap.gdshader" id="5_q4tx4"]
-[ext_resource type="Texture2D" uid="uid://bgv4y6i4ul1k" path="res://Sprites/EuropeMap.png" id="6_d2n0v"]
-[ext_resource type="Script" path="res://Scripts/Handlers/ArmyHandler.cs" id="8_7wvqb"]
-[ext_resource type="Shader" path="res://Shaders/fogOfWar.gdshader" id="8_m7kc7"]
+[ext_resource type="Texture2D" uid="uid://buwuqxb5gqot3" path="res://Sprites/MainMenuBackground.png" id="1_qbtr7"]
+[ext_resource type="Script" path="res://Scripts/Scenes/MainScene.cs" id="2_gkmux"]
+[ext_resource type="Texture2D" uid="uid://bnd4e7vteqv4y" path="res://Sprites/MainMenuLogo.png" id="2_qry0n"]
+[ext_resource type="PackedScene" uid="uid://bu7xxga0a3bgt" path="res://Prefabs/ScenesPrefabs/LobbyListOneScene.tscn" id="3_t6sr5"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hr6fk"]
-shader = ExtResource("5_q4tx4")
-shader_parameter/colors = null
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_uxn0h"]
-shader = ExtResource("8_m7kc7")
-shader_parameter/colors = null
-shader_parameter/colorMode = 0
-shader_parameter/lowQualityMode = false
-shader_parameter/timescale = 0.2
-shader_parameter/pixelSize = 4
-shader_parameter/hScrollSpeedFactor = 1.0
-shader_parameter/vScrollSpeedFactor = 1.0
-shader_parameter/entropyFactor = 1.0
-shader_parameter/sharpness = 10.0
-
-[node name="Game" type="Node2D"]
-script = ExtResource("1_5tgh5")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 2
-
-[node name="GUI" parent="CanvasLayer" instance=ExtResource("2_dggd8")]
-mouse_force_pass_scroll_events = false
-
-[node name="Camera" parent="." instance=ExtResource("1_r2m0f")]
-process_priority = -1
-
-[node name="MapHandler" type="Node2D" parent="."]
-script = ExtResource("3_kk5wj")
-
-[node name="Map" type="Sprite2D" parent="MapHandler"]
-process_priority = 2
+[node name="Main" type="TextureRect"]
 texture_filter = 1
-material = ExtResource("1_vjql8")
-position = Vector2(0, 1)
-texture = ExtResource("6_d2n0v")
-centered = false
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("1_qbtr7")
+script = ExtResource("2_gkmux")
 
-[node name="Map2" type="Sprite2D" parent="MapHandler"]
+[node name="ButtonPanel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 2
+offset_left = 183.0
+offset_right = 633.0
+offset_bottom = 1080.0
+size_flags_stretch_ratio = 1.2
+
+[node name="MarginContainer" type="MarginContainer" parent="ButtonPanel"]
+layout_mode = 2
+theme_override_constants/margin_top = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ButtonPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 300
+
+[node name="TextureRect" type="TextureRect" parent="ButtonPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+size_flags_stretch_ratio = 20.0
+texture = ExtResource("2_qry0n")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ButtonPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="ButtonPanel/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+theme_override_font_sizes/font_size = 48
+text = "Singleplayer
+"
+
+[node name="Button2" type="Button" parent="ButtonPanel/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Multiplayer"
+
+[node name="Button3" type="Button" parent="ButtonPanel/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Settings"
+
+[node name="MultiplayerLobbys" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(800, 800)
+layout_mode = 0
+offset_left = 859.0
+offset_top = 160.0
+offset_right = 1659.0
+offset_bottom = 960.0
+
+[node name="MarginContainer" type="MarginContainer" parent="MultiplayerLobbys"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MultiplayerLobbys/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MultiplayerLobbys/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Multiplayer Lobbies"
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="MultiplayerLobbys/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MultiplayerLobbys/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MultiplayerLobbys/MarginContainer/VBoxContainer/PanelContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LobbyListOneScene" parent="MultiplayerLobbys/MarginContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_t6sr5")]
+layout_mode = 2
+
+[node name="LobbyListOneScene2" parent="MultiplayerLobbys/MarginContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_t6sr5")]
+layout_mode = 2
+
+[node name="LobbyListOneScene3" parent="MultiplayerLobbys/MarginContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_t6sr5")]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MultiplayerLobbys/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="Button" type="Button" parent="MultiplayerLobbys/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_font_sizes/font_size = 30
+text = "Create"
+
+[node name="Button2" type="Button" parent="MultiplayerLobbys/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Refresh"
+
+[node name="MainSettings" type="TabContainer" parent="."]
 visible = false
-texture_filter = 3
-material = SubResource("ShaderMaterial_hr6fk")
-texture = ExtResource("6_d2n0v")
-centered = false
+layout_mode = 2
+offset_left = 862.0
+offset_top = 156.0
+offset_right = 1662.0
+offset_bottom = 956.0
+current_tab = 0
 
-[node name="CountryTextHandler" type="Node2D" parent="MapHandler"]
+[node name="PanelContainer" type="PanelContainer" parent="MainSettings"]
+layout_mode = 2
+metadata/_tab_index = 0
 
-[node name="ProvinceTextHandler" type="Node2D" parent="MapHandler"]
-
-[node name="GoodsHandler" type="Node2D" parent="MapHandler"]
-
-[node name="DevHandler" type="Node2D" parent="MapHandler"]
-
-[node name="TransportArrowHandler" type="Node2D" parent="MapHandler"]
-
-[node name="CapitalHandler" type="Node2D" parent="MapHandler"]
-
-[node name="Map3" type="Sprite2D" parent="MapHandler"]
-texture_filter = 3
-material = SubResource("ShaderMaterial_uxn0h")
-texture = ExtResource("6_d2n0v")
-centered = false
-
-[node name="ArmyHandler" type="Node2D" parent="."]
-script = ExtResource("8_7wvqb")
-
-[node name="SelectionHandler" type="Node2D" parent="."]
-script = ExtResource("3_kipe6")
-
-[node name="SelectionRect" type="ColorRect" parent="SelectionHandler"]
-color = Color(1, 1, 1, 0.396078)
-
-[node name="DayTimer" type="Timer" parent="."]
-wait_time = 0.2
-one_shot = true
-
-[connection signal="timeout" from="DayTimer" to="." method="TimeTick"]
+[connection signal="pressed" from="ButtonPanel/MarginContainer/VBoxContainer/VBoxContainer/Button" to="." method="_onSinglePlayerPressed"]
+[connection signal="pressed" from="ButtonPanel/MarginContainer/VBoxContainer/VBoxContainer/Button2" to="." method="_onMultiPlayerPressed"]
+[connection signal="pressed" from="ButtonPanel/MarginContainer/VBoxContainer/VBoxContainer/Button3" to="." method="_onSettingsPressed"]

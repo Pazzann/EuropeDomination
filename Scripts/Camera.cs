@@ -23,7 +23,7 @@ public partial class Camera : Camera2D
 
 	public override void _Ready()
 	{
-		GetViewport().SizeChanged += Reset;
+		GetViewport().SizeChanged += () => Reset(GlobalBounds);
 	}
 
 	public override void _Process(double delta)
@@ -53,19 +53,19 @@ public partial class Camera : Camera2D
 			Move(PanSpeed * -mouseMotionEvent.Relative / Zoom);
 	}
 
-	public void Reset()
+	public void Reset(Rect2 globalBounds)
 	{
-		var mapSize = (Vector2)EngineState.MapInfo.Scenario.MapTexture.GetSize();
+		
 		var viewportSize = GetViewport().GetVisibleRect().Size;
 
 		// Compute the new camera bounds.
-		GlobalBounds = new Rect2(Vector2.Zero, mapSize);
+		GlobalBounds = globalBounds;
 
 		// Center the camera relative to the map.
-		GlobalPosition = mapSize * 0.5f;
+		GlobalPosition = globalBounds.GetCenter();
 
 		// Set `Zoom` to cover the whole map.
-		Zoom = viewportSize / mapSize;
+		Zoom = viewportSize / globalBounds.Size;
 
 		// Force uniform zoom to preserve aspect ratios.
 		Zoom = Vector2.One * Mathf.Max(Zoom.X, Zoom.Y);
