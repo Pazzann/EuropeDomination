@@ -81,7 +81,7 @@ public partial class GlobalStrategyEngine : Node2D
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
-		Camera._Input(@event);
+		//Camera._Input(@event);
 		var tileId = _findTile();
 		AllHandlersControls.InputHandle(@event, tileId);
 		GUIHandler.InputHandle(@event);

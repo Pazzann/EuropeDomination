@@ -34,7 +34,7 @@ script = ExtResource("1_5tgh5")
 layer = 2
 
 [node name="GUI" parent="CanvasLayer" instance=ExtResource("2_dggd8")]
-mouse_filter = 2
+mouse_force_pass_scroll_events = false
 
 [node name="Camera" parent="." instance=ExtResource("1_r2m0f")]
 process_priority = -1

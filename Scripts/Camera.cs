@@ -8,119 +8,140 @@ public delegate void ZoomChangedEventHandler();
 
 public partial class Camera : Camera2D
 {
-    public float MinZoom { get; private set; } = 0.2f;
-    public float MaxZoom { get; set; } = 10f;
+	public float MinZoom { get; private set; } = 0.2f;
+	public float MaxZoom { get; set; } = 10f;
 
-    public Rect2 Bounds { get; private set; } = new(-Vector2.Inf, Vector2.Inf);
+	public Rect2 GlobalBounds { get; private set; } = new(-Vector2.Inf, Vector2.Inf);
 
-    public float MovementSpeed { get; set; } = 400f;
-    public float PanSpeed { get; set; } = 0.7f;
-    public float ZoomSpeed { get; set; } = 0.03f;
+	public float MovementSpeed { get; set; } = 400f;
+	public float PanSpeed { get; set; } = 0.7f;
+	public float ZoomSpeed { get; set; } = 0.03f;
 
-    public bool EnableZoom { get; set; } = true;
-    public event ZoomChangedEventHandler ZoomChanged;
+	public bool EnableZoom { get; set; } = true;
+	
+	public event ZoomChangedEventHandler ZoomChanged;
 
-    public override void _Ready()
-    {
-        GetViewport().SizeChanged += Reset;
-    }
+	public override void _Ready()
+	{
+		GetViewport().SizeChanged += Reset;
+	}
 
-    public override void _Process(double delta)
-    {
-        var movement = Input.GetVector(
-            "camera_move_left",
-            "camera_move_right",
-            "camera_move_up",
-            "camera_move_down"
-        );
+	public override void _Process(double delta)
+	{
+		var movement = Input.GetVector(
+			"camera_move_left",
+			"camera_move_right",
+			"camera_move_up",
+			"camera_move_down"
+		);
 
-        Move(movement * ((float)delta * MovementSpeed) / Zoom);
-    }
-    
-    public override void _Input(InputEvent @event)
-    {
-        if (EnableZoom)
-        {
-            if (@event.IsAction("camera_zoom_in"))
-                ZoomAtPoint(ZoomSpeed, GetLocalMousePosition());
+		Move(movement * ((float)delta * MovementSpeed) / Zoom);
+	}
 
-            if (@event.IsAction("camera_zoom_out"))
-                ZoomAtPoint(-ZoomSpeed, GetLocalMousePosition());
-        }
+	public override void _Input(InputEvent @event)
+	{
+		if (EnableZoom)
+		{
+			if (@event.IsAction("camera_zoom_in"))
+				ZoomAtPoint(ZoomSpeed, GetLocalMousePosition());
 
-        if (Input.IsActionPressed("camera_mouse_pan") && @event is InputEventMouseMotion mouseMotionEvent)
-            Move(PanSpeed * -mouseMotionEvent.Relative / Zoom);
-    }
+			if (@event.IsAction("camera_zoom_out"))
+				ZoomAtPoint(-ZoomSpeed, GetLocalMousePosition());
+		}
 
-    public void Reset()
-    {
-        var mapSize = (Vector2)EngineState.MapInfo.Scenario.MapTexture.GetSize();
-        var viewportSize = GetViewport().GetVisibleRect().Size;
+		if (Input.IsActionPressed("camera_mouse_pan") && @event is InputEventMouseMotion mouseMotionEvent)
+			Move(PanSpeed * -mouseMotionEvent.Relative / Zoom);
+	}
 
-        // Center the camera relative to the map.
-        Position = mapSize / 2f;
+	public void Reset()
+	{
+		var mapSize = (Vector2)EngineState.MapInfo.Scenario.MapTexture.GetSize();
+		var viewportSize = GetViewport().GetVisibleRect().Size;
 
-        // Cap camera's zoom to keep the visible viewport entirely within the map.
-        MinZoom = Mathf.Max(viewportSize.X / mapSize.X, viewportSize.Y / mapSize.Y);
-        MaxZoom = Mathf.Max(MinZoom, MaxZoom);
+		// Compute the new camera bounds.
+		GlobalBounds = new Rect2(Vector2.Zero, mapSize);
 
-        // Reset camera zoom, showing the whole map.
-        Zoom = Vector2.One * MinZoom;
+		// Center the camera relative to the map.
+		GlobalPosition = mapSize * 0.5f;
 
-        Bounds = new Rect2(Vector2.Zero, mapSize);
-    }
+		// Set `Zoom` to cover the whole map.
+		Zoom = viewportSize / mapSize;
 
-    public void GoToProvince(int provinceId)
-    {
-        // `target` is in the global coordinate system.
-        var target = EngineState.MapInfo.Scenario.Map[provinceId].CenterOfWeight;
+		// Force uniform zoom to preserve aspect ratios.
+		Zoom = Vector2.One * Mathf.Max(Zoom.X, Zoom.Y);
 
-        GetTree()
-            .CreateTween()
-            .TweenProperty(this, "global_position", target, 0.4f);
+		// Update `MinZoom` to avoid zooming too far out.
+		MinZoom = Mathf.Max(Zoom.X, Zoom.Y);
 
-        GetTree()
-            .CreateTween()
-            .TweenProperty(this, "zoom", new Vector2(MaxZoom, MaxZoom), 0.4f);
-    }
+		// Ensure that `MinZoom` <= `MaxZoom`.
+		MaxZoom = Mathf.Max(MinZoom, MaxZoom);
+	}
 
-    private void Move(Vector2 delta)
-    {
-        Translate(delta);
-        AdjustPosition();
-    }
+	public void GoToProvince(int provinceId, float animDuration = 0.4f)
+	{
+		var mapCoords = EngineState.MapInfo.Scenario.Map[provinceId].CenterOfWeight;
 
-    private void ZoomAtPoint(float factor, Vector2 localPoint)
-    {
-        var globalPoint = GetGlobalTransform() * localPoint;
-        factor = ComputeZoomFactor(factor);
+		var moveTween = GetTree().CreateTween();
+		moveTween.TweenProperty(this, "global_position", mapCoords, animDuration);
 
-        Zoom += Zoom * factor;
-        GlobalPosition += factor * (globalPoint - GlobalPosition);
+		var zoomTween = moveTween.Parallel();
+		zoomTween.TweenProperty(this, "zoom", new Vector2(MaxZoom, MaxZoom), animDuration);
+	}
 
-        AdjustPosition();
-        ZoomChanged?.Invoke();
-    }
+	public void GoTo(Vector2 mapCoords, float animDuration = 0.4f)
+	{
+		var globalCoords = AdjustNewGlobalPosition(MapToGlobal(mapCoords));
+		var moveTween = GetTree().CreateTween();
+		moveTween.TweenProperty(this, "global_position", globalCoords, animDuration);
+	}
 
-    private float ComputeZoomFactor(float factor)
-    {
-        var minFactor = MinZoom / Mathf.Max(Zoom.X, Zoom.Y) - 1f;
-        var maxFactor = MaxZoom / Mathf.Min(Zoom.X, Zoom.Y) - 1f;
-        return Mathf.Clamp(factor, minFactor, maxFactor);
-    }
+	private void Move(Vector2 delta)
+	{
+		Translate(delta);
+		AdjustPosition();
+	}
 
-    private void AdjustPosition()
-    {
-        var visibleSize = GetVisibleRectSizeGlobal();
+	private void ZoomAtPoint(float factor, Vector2 localPoint)
+	{
+		var globalPoint = GetGlobalTransform() * localPoint;
+		factor = ComputeZoomFactor(factor);
 
-        var min = Bounds.Position + visibleSize * 0.5f;
-        var max = Bounds.End - 0.5f * visibleSize;
+		Zoom += Zoom * factor;
+		GlobalPosition += factor * (globalPoint - GlobalPosition);
 
-        GlobalPosition = GlobalPosition.Clamp(min, max);
-    }
+		AdjustPosition();
+		ZoomChanged?.Invoke();
+	}
 
-    private Vector2 GetVisibleRectSizeGlobal()
-    {
-        return GetViewport().GetVisibleRect().Size / Zoom;
-    }
+	private float ComputeZoomFactor(float factor)
+	{
+		var minFactor = MinZoom / Mathf.Max(Zoom.X, Zoom.Y) - 1f;
+		var maxFactor = MaxZoom / Mathf.Min(Zoom.X, Zoom.Y) - 1f;
+		return Mathf.Clamp(factor, minFactor, maxFactor);
+	}
+
+	private Vector2 MapToGlobal(Vector2 mapCoords)
+	{
+		return GlobalBounds.Position + mapCoords;
+	}
+
+	private void AdjustPosition()
+	{
+		GlobalPosition = AdjustNewGlobalPosition(GlobalPosition);
+	}
+
+	private Vector2 AdjustNewGlobalPosition(Vector2 newGlobalPosition)
+	{
+		var visibleSize = GetVisibleRectSizeGlobal();
+
+		var min = GlobalBounds.Position + visibleSize * 0.5f;
+		var max = GlobalBounds.End - 0.5f * visibleSize;
+
+		return newGlobalPosition.Clamp(min, max);
+	}
+
+	private Vector2 GetVisibleRectSizeGlobal()
+	{
+		return GetViewport().GetVisibleRect().Size / Zoom;
+	}
 }

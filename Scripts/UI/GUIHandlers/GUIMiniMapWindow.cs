@@ -60,7 +60,7 @@ public partial class GUIMiniMapWindow : GUIHandler
 
 		if (Input.IsMouseButtonPressed(MouseButton.Left))
 			if (GetLocalMousePosition().X < _minimapSprite.Size.X && GetLocalMousePosition().Y < _minimapSprite.Size.Y)
-				_camera.Position = GetLocalMousePosition() / _minimapSprite.Size * mapSize;
+				_camera.GoTo(GetLocalMousePosition() / _minimapSprite.Size * mapSize, 0.1f);
 
 		_cameraBox.PivotOffset = _cameraBox.Size / 2;
 		_cameraBox.Position = _camera.GetScreenCenterPosition() * (_minimapSprite.Size / mapSize) - _cameraBox.Size / 2;

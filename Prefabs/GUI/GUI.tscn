@@ -22,10 +22,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
+mouse_filter = 1
 script = ExtResource("1_itu4p")
 
 [node name="GuiProvinceWindow" parent="." instance=ExtResource("2_8vun8")]
 layout_mode = 1
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_force_pass_scroll_events = false
 
 [node name="GuiTimeWindow" parent="." instance=ExtResource("3_wch6m")]
 layout_mode = 1
