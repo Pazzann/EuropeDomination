@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bgb7s0ynl6r2t"]
+[gd_scene load_steps=30 format=3 uid="uid://bgb7s0ynl6r2t"]
 
 [ext_resource type="Texture2D" uid="uid://ckhuxliwwap7v" path="res://Sprites/ProvinceControl.png" id="1_dqhfl"]
 [ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUILandProvinceWindow.cs" id="1_y47fr"]
@@ -12,16 +12,20 @@
 [ext_resource type="Texture2D" uid="uid://bl2u1qda5j8n4" path="res://Sprites/ProvinceTypeSelection/productionLine.png" id="11_3bjrh"]
 [ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="11_hg8qy"]
 [ext_resource type="Texture2D" uid="uid://dx08b2wttihu" path="res://Sprites/Building/Lock.png" id="11_jtd3g"]
-[ext_resource type="PackedScene" uid="uid://b13nbyefub8pe" path="res://Prefabs/GUI/Modules/GUIMilitaryTrainingCamp.tscn" id="11_mqc8b"]
-[ext_resource type="PackedScene" uid="uid://ckkfw2dge7x22" path="res://Prefabs/GUI/Modules/GUIDockyard.tscn" id="12_3n8ik"]
 [ext_resource type="Texture2D" uid="uid://bple22hfb3hiw" path="res://Sprites/ProvinceTypeSelection/stock.png" id="12_6au65"]
-[ext_resource type="PackedScene" uid="uid://dwo5dxs6getfu" path="res://Prefabs/GUI/Modules/GUIStockAndTrade.tscn" id="13_p7ifk"]
-[ext_resource type="PackedScene" uid="uid://djn3kgt3aw2ut" path="res://Prefabs/GUI/Modules/GUIFactory.tscn" id="14_ltsyw"]
+[ext_resource type="PackedScene" uid="uid://ch6n7ol2i51a6" path="res://Prefabs/GUI/Modules/GUIMilitaryNeeds.tscn" id="12_q8v26"]
+[ext_resource type="PackedScene" uid="uid://dh66jlqqkitxc" path="res://Prefabs/GUI/Modules/GUISelectTemplate.tscn" id="13_mst1f"]
+[ext_resource type="PackedScene" uid="uid://c7hpno4rin032" path="res://Prefabs/GUI/Modules/GUIQueueRegiment.tscn" id="14_5y7gn"]
 [ext_resource type="Texture2D" uid="uid://dpwplvw1gnipo" path="res://Sprites/ProvinceTypeSelection/dockyard.png" id="14_vgj6o"]
+[ext_resource type="PackedScene" uid="uid://cto5ha77c55mp" path="res://Prefabs/GUI/Modules/GUITransport.tscn" id="15_1qmg4"]
 [ext_resource type="Texture2D" uid="uid://c0eu30ljediqw" path="res://Sprites/ProvinceTypeSelection/military.png" id="15_sf2vu"]
+[ext_resource type="Texture2D" uid="uid://c5dahtyolxofn" path="res://icon.svg" id="16_tcbr3"]
+[ext_resource type="PackedScene" uid="uid://ogjjng6fj1dk" path="res://Prefabs/GUI/Modules/GUITrading.tscn" id="17_8y24h"]
 [ext_resource type="Texture2D" uid="uid://cjeqbeq2oyx8h" path="res://Sprites/closeButton.png" id="20_6jtpg"]
+[ext_resource type="PackedScene" uid="uid://j6ltwuki2cil" path="res://Prefabs/GUI/Modules/GUIBuySelect.tscn" id="21_c5jxy"]
 [ext_resource type="Texture2D" uid="uid://cm82xxwvohiys" path="res://Sprites/Border.png" id="21_l8wyd"]
 [ext_resource type="PackedScene" uid="uid://bravhtaisuciw" path="res://Prefabs/CustomNodes/AnimatedTextureRect.tscn" id="22_fe1rx"]
+[ext_resource type="PackedScene" uid="uid://csnvq4hwnhy3q" path="res://Prefabs/GUI/Modules/GUIGood.tscn" id="23_8eh58"]
 [ext_resource type="SpriteFrames" uid="uid://d3n4eikp6qnq7" path="res://Prefabs/SpriteFrames/GoodSpriteFrames.tres" id="23_rpnlq"]
 [ext_resource type="PackedScene" uid="uid://oxh0ek8o2k2u" path="res://Prefabs/GUI/Modules/GUIGoodEditPanel.tscn" id="24_qo3qi"]
 
@@ -567,37 +571,669 @@ offset_right = -21.0
 offset_bottom = 43.0
 scale = Vector2(6.1175, -5.83068)
 
-[node name="GuiMilitaryTrainingCamp" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("11_mqc8b")]
+[node name="GuiMilitaryTrainingCamp" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
 visible = false
-layout_mode = 1
-offset_left = 46.25
-offset_top = 129.25
-offset_right = -203.75
-offset_bottom = -320.75
-
-[node name="GuiDockyard" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("12_3n8ik")]
-visible = false
-layout_mode = 1
-offset_left = 42.5
-offset_top = 131.75
-offset_right = -657.5
-offset_bottom = -398.25
-
-[node name="GuiStockAndTrade" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("13_p7ifk")]
-visible = false
-layout_mode = 1
+layout_mode = 3
+anchors_preset = 0
 offset_left = 45.0
-offset_top = 128.0
-offset_right = -655.0
-offset_bottom = -322.0
+offset_top = 108.0
+offset_right = 495.0
+offset_bottom = 678.0
 
-[node name="GuiFactory" parent="HBoxContainer4/ProvinceWindowSprite" instance=ExtResource("14_ltsyw")]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp"]
+layout_mode = 0
+offset_top = 20.0
+offset_right = 450.0
+offset_bottom = 570.0
+theme = ExtResource("11_hg8qy")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 17
+theme_override_constants/margin_top = 17
+theme_override_constants/margin_right = 17
+theme_override_constants/margin_bottom = 17
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.61
+
+[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Train here"
+
+[node name="GoodContainer" type="GridContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 2
+
+[node name="GuiMilitaryNeeds" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/GoodContainer" instance=ExtResource("12_q8v26")]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+
+[node name="GuiMilitaryNeeds2" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/GoodContainer" instance=ExtResource("12_q8v26")]
+layout_mode = 2
+
+[node name="GuiMilitaryNeeds3" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/GoodContainer" instance=ExtResource("12_q8v26")]
+layout_mode = 2
+
+[node name="GuiMilitaryNeeds4" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/GoodContainer" instance=ExtResource("12_q8v26")]
+layout_mode = 2
+
+[node name="GuiMilitaryNeeds5" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/GoodContainer" instance=ExtResource("12_q8v26")]
+layout_mode = 2
+
+[node name="TrainingTime" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Time:"
+
+[node name="Label3" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Cost:"
+
+[node name="Label4" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Manpower"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Unit to train:"
+
+[node name="SelectedNameLabel" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Empty"
+
+[node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer2"]
+layout_mode = 2
+
+[node name="TemplateContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer2/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GuiSelectTemplate" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer2/ScrollContainer/TemplateContainer" instance=ExtResource("13_mst1f")]
+layout_mode = 2
+
+[node name="GuiSelectTemplate2" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer2/ScrollContainer/TemplateContainer" instance=ExtResource("13_mst1f")]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Train"
+
+[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Queue:
+"
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer"]
+layout_mode = 2
+
+[node name="QueueContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GuiQueueRegiment" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer/ScrollContainer/QueueContainer" instance=ExtResource("14_5y7gn")]
+layout_mode = 2
+
+[node name="GuiQueueRegiment2" parent="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer/ScrollContainer/QueueContainer" instance=ExtResource("14_5y7gn")]
+layout_mode = 2
+
+[node name="GuiDockyard" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
 visible = false
-layout_mode = 1
-offset_left = 47.5
-offset_top = 129.25
-offset_right = -202.5
-offset_bottom = -320.75
+layout_mode = 3
+anchors_preset = 0
+offset_left = 45.0
+offset_top = 108.0
+offset_right = 495.0
+offset_bottom = 678.0
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard"]
+layout_mode = 0
+offset_top = 20.0
+offset_right = 450.0
+offset_bottom = 570.0
+theme = ExtResource("11_hg8qy")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 17
+theme_override_constants/margin_top = 17
+theme_override_constants/margin_right = 17
+theme_override_constants/margin_bottom = 17
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Naval DOCKYARD"
+
+[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Transportation:"
+
+[node name="TransportationContatiner" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.59
+alignment = 1
+
+[node name="GuiTransport" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/TransportationContatiner" instance=ExtResource("15_1qmg4")]
+layout_mode = 2
+
+[node name="GuiTransport2" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/TransportationContatiner" instance=ExtResource("15_1qmg4")]
+layout_mode = 2
+
+[node name="GuiTransport3" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/TransportationContatiner" instance=ExtResource("15_1qmg4")]
+layout_mode = 2
+
+[node name="GuiTransport4" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/TransportationContatiner" instance=ExtResource("15_1qmg4")]
+layout_mode = 2
+
+[node name="GuiTransport5" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/TransportationContatiner" instance=ExtResource("15_1qmg4")]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "BUILDING SHIPS"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 3
+
+[node name="GuiMilitaryNeeds" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/GridContainer" instance=ExtResource("12_q8v26")]
+layout_mode = 2
+
+[node name="GuiMilitaryNeeds2" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/GridContainer" instance=ExtResource("12_q8v26")]
+layout_mode = 2
+
+[node name="GuiMilitaryNeeds3" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/GridContainer" instance=ExtResource("12_q8v26")]
+layout_mode = 2
+
+[node name="GuiMilitaryNeeds4" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/GridContainer" instance=ExtResource("12_q8v26")]
+layout_mode = 2
+
+[node name="GuiMilitaryNeeds5" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/GridContainer" instance=ExtResource("12_q8v26")]
+layout_mode = 2
+
+[node name="GuiMilitaryNeeds6" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/GridContainer" instance=ExtResource("12_q8v26")]
+layout_mode = 2
+
+[node name="BoxContainer" type="BoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/BoxContainer"]
+position = Vector2(110.5, 68.75)
+texture = ExtResource("16_tcbr3")
+
+[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/BoxContainer"]
+layout_mode = 2
+text = "Unit to train"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer2"]
+layout_mode = 2
+text = "Time:"
+
+[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer2"]
+layout_mode = 2
+text = "Cost:"
+
+[node name="Label3" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer2"]
+layout_mode = 2
+text = "Sailors:"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer"]
+layout_mode = 2
+text = "Queue"
+
+[node name="VScrollBar" type="VScrollBar" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/GuiDockyard/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Train"
+
+[node name="GuiStockAndTrade" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 45.0
+offset_top = 108.0
+offset_right = 495.0
+offset_bottom = 678.0
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade"]
+layout_mode = 0
+offset_top = 20.0
+offset_right = 450.0
+offset_bottom = 570.0
+theme = ExtResource("11_hg8qy")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 17
+theme_override_constants/margin_top = 17
+theme_override_constants/margin_right = 17
+theme_override_constants/margin_bottom = 17
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Currently Buying"
+
+[node name="BuyContainer" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.59
+theme_override_constants/separation = 18
+
+[node name="GuiTrading" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer/BuyContainer" instance=ExtResource("17_8y24h")]
+layout_mode = 2
+
+[node name="GuiTrading2" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer/BuyContainer" instance=ExtResource("17_8y24h")]
+layout_mode = 2
+
+[node name="GuiTrading3" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer/BuyContainer" instance=ExtResource("17_8y24h")]
+layout_mode = 2
+
+[node name="GuiTrading4" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer/BuyContainer" instance=ExtResource("17_8y24h")]
+layout_mode = 2
+
+[node name="GuiTrading5" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer/BuyContainer" instance=ExtResource("17_8y24h")]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Currently Selling"
+
+[node name="SellContainer" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.69
+theme_override_constants/separation = 18
+
+[node name="GuiTrading" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer/SellContainer" instance=ExtResource("17_8y24h")]
+layout_mode = 2
+
+[node name="GuiTrading2" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer/SellContainer" instance=ExtResource("17_8y24h")]
+layout_mode = 2
+
+[node name="GuiTrading3" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer/SellContainer" instance=ExtResource("17_8y24h")]
+layout_mode = 2
+
+[node name="GuiTrading4" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer/SellContainer" instance=ExtResource("17_8y24h")]
+layout_mode = 2
+
+[node name="GuiTrading5" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer/SellContainer" instance=ExtResource("17_8y24h")]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Transporting"
+
+[node name="TransportContainer" type="GridContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 18
+theme_override_constants/v_separation = -6
+columns = 5
+
+[node name="GuiTransport" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer/TransportContainer" instance=ExtResource("15_1qmg4")]
+layout_mode = 2
+
+[node name="GuiTransport2" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer/TransportContainer" instance=ExtResource("15_1qmg4")]
+layout_mode = 2
+
+[node name="GuiTransport3" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer/TransportContainer" instance=ExtResource("15_1qmg4")]
+layout_mode = 2
+
+[node name="GuiTransport4" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer/TransportContainer" instance=ExtResource("15_1qmg4")]
+layout_mode = 2
+
+[node name="GuiTransport5" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer/TransportContainer" instance=ExtResource("15_1qmg4")]
+layout_mode = 2
+
+[node name="GuiTransport6" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer/TransportContainer" instance=ExtResource("15_1qmg4")]
+layout_mode = 2
+
+[node name="GuiTransport7" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer/TransportContainer" instance=ExtResource("15_1qmg4")]
+layout_mode = 2
+
+[node name="GuiTransport8" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer/TransportContainer" instance=ExtResource("15_1qmg4")]
+layout_mode = 2
+
+[node name="GuiTransport9" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer/TransportContainer" instance=ExtResource("15_1qmg4")]
+layout_mode = 2
+
+[node name="GuiTransport10" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/PanelContainer/MarginContainer/VBoxContainer/TransportContainer" instance=ExtResource("15_1qmg4")]
+layout_mode = 2
+
+[node name="SellMenu" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade"]
+layout_mode = 0
+offset_left = 561.0
+offset_top = 104.0
+offset_right = 826.0
+offset_bottom = 450.0
+theme = ExtResource("11_hg8qy")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer"]
+layout_mode = 2
+
+[node name="InternalMarketSell" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/InternalMarketSell"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/InternalMarketSell/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/InternalMarketSell/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Sell on internal market"
+
+[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/InternalMarketSell/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "0$/t"
+
+[node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/InternalMarketSell/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Select"
+
+[node name="ExternalMarketSell" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/ExternalMarketSell"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/ExternalMarketSell/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/ExternalMarketSell/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Sell on external market"
+
+[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/ExternalMarketSell/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "0$/t"
+
+[node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/ExternalMarketSell/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Select"
+
+[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Max capacity sell:"
+
+[node name="HSlider" type="HSlider" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="GoodRect" type="TextureRect" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("21_l8wyd")
+
+[node name="AnimatedTextureRect" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/GoodRect" instance=ExtResource("22_fe1rx")]
+layout_mode = 0
+CurrentAnimation = "goods"
+SpriteFrames = ExtResource("23_rpnlq")
+
+[node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/GoodRect"]
+layout_mode = 0
+offset_right = 66.0
+offset_bottom = 69.0
+
+[node name="BuyMenu" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade"]
+layout_mode = 0
+offset_left = 925.0
+offset_top = 104.0
+offset_right = 1229.0
+offset_bottom = 450.0
+theme = ExtResource("11_hg8qy")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer"]
+layout_mode = 2
+
+[node name="GoodRect" type="TextureRect" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("21_l8wyd")
+
+[node name="AnimatedTextureRect" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer/GoodRect" instance=ExtResource("22_fe1rx")]
+layout_mode = 0
+CurrentAnimation = "goods"
+SpriteFrames = ExtResource("23_rpnlq")
+
+[node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer/GoodRect"]
+layout_mode = 0
+offset_right = 66.0
+offset_bottom = 69.0
+
+[node name="InternalMarketBuy" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer/InternalMarketBuy"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer/InternalMarketBuy/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer/InternalMarketBuy/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Buy on internal market"
+
+[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer/InternalMarketBuy/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "0$/t"
+
+[node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer/InternalMarketBuy/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Select"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GuiBuySelect" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("21_c5jxy")]
+layout_mode = 2
+
+[node name="GuiBuySelect2" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("21_c5jxy")]
+layout_mode = 2
+
+[node name="GuiBuySelect3" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("21_c5jxy")]
+layout_mode = 2
+
+[node name="GoodEditPanel" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade" instance=ExtResource("24_qo3qi")]
+layout_mode = 0
+offset_left = 587.0
+offset_top = 476.0
+offset_right = 827.0
+offset_bottom = 676.0
+
+[node name="GuiFactory" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 45.0
+offset_top = 108.0
+offset_right = 495.0
+offset_bottom = 678.0
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory"]
+layout_mode = 0
+offset_top = 20.0
+offset_right = 450.0
+offset_bottom = 570.0
+theme = ExtResource("11_hg8qy")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 17
+theme_override_constants/margin_top = 17
+theme_override_constants/margin_right = 17
+theme_override_constants/margin_bottom = 17
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "RECIPY:"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="IngredientsContainer" type="ScrollContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.71
+
+[node name="GridContainer" type="GridContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/IngredientsContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="OutputGood" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer" instance=ExtResource("23_8eh58")]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+text = "change"
+
+[node name="Button2" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+text = "DeleteRecipe"
+
+[node name="Button3" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+text = "transport"
+
+[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "WORKFORCE: 0"
+
+[node name="Label3" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Transport to:"
+
+[node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory"]
+visible = false
+layout_mode = 0
+offset_left = 527.0
+offset_top = 165.0
+offset_right = 721.0
+offset_bottom = 404.0
+mouse_force_pass_scroll_events = false
+theme = ExtResource("11_hg8qy")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer2"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer2/MarginContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+texture = ExtResource("20_6jtpg")
+
+[node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer2/MarginContainer/VBoxContainer/TextureRect"]
+layout_mode = 0
+offset_right = 23.0
+offset_bottom = 24.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer2/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="NotUnlockedSpecialBuilding" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
 visible = false
@@ -810,9 +1446,10 @@ offset_bottom = 923.0
 [connection signal="pressed" from="HBoxContainer4/BuildingMenu/MarginContainer/VBoxContainer/ExitButton" to="." method="_onExitBuildingMenuButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/closeButton" to="." method="_onCloseProvinceMenuButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/Good/GoodTransportManagement" to="." method="_onGoodTransportManagementPressed"]
-[connection signal="DockyardTrasportationRouteMenuPressed" from="HBoxContainer4/ProvinceWindowSprite/GuiDockyard" to="." method="_onGuiDockyardTrasportationRouteMenuPressed"]
-[connection signal="StockAndTradeTrasportationRouteMenuPressed" from="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade" to="." method="_onGuiStockAndTradeTrasportationRouteMenuPressed"]
-[connection signal="TrasportationRouteMenuPressed" from="HBoxContainer4/ProvinceWindowSprite/GuiFactory" to="." method="_onGuiFactoryTrasportationRouteMenuPressed"]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/Button" to="." method="_onTrainUnitPressed"]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Button" to="." method="_onChangeRecipeButtonPressed"]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Button2" to="." method="_onDeleteRecipePressed"]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Button3" to="." method="_onFactoryTransportButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Stock/Stock" to="." method="_onSpecialBuildingSelectionPressed" binds= [0]]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/ProductionLine/ProductionLine" to="." method="_onSpecialBuildingSelectionPressed" binds= [1]]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/EmptySpecialBuilding/PanelContainer/MarginContainer/VBoxContainer/GridContainer/Military/Military" to="." method="_onSpecialBuildingSelectionPressed" binds= [3]]
