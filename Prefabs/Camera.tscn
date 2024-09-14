@@ -1,6 +1,10 @@
 [gd_scene load_steps=2 format=3 uid="uid://db5dbn7ovemhi"]
 
-[ext_resource type="Script" path="res://Scripts/CameraBehaviour.cs" id="1_oytrb"]
+[ext_resource type="Script" path="res://Scripts/Camera.cs" id="1_tmb1c"]
 
 [node name="Camera" type="Camera2D"]
-script = ExtResource("1_oytrb")
+drag_left_margin = 0.0
+drag_top_margin = 0.0
+drag_right_margin = 0.0
+drag_bottom_margin = 0.0
+script = ExtResource("1_tmb1c")

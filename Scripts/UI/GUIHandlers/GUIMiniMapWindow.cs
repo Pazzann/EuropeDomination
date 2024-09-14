@@ -8,7 +8,7 @@ namespace EuropeDominationDemo.Scripts.UI.GUIHandlers;
 
 public partial class GUIMiniMapWindow : GUIHandler
 {
-	private CameraBehaviour _camera;
+	private Camera _camera;
 	private Panel _cameraBox;
 	private bool _isMapTypesVisible = true;
 	private Sprite2D _mapTypesSprite;

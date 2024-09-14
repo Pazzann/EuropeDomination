@@ -18,7 +18,7 @@ public partial class GlobalStrategyEngine : Node2D
 	private Timer _timer;
 	public CallMulticaster AllHandlersControls;
 
-	public CameraBehaviour Camera;
+	public Camera Camera;
 	public GUI GUIHandler;
 
 	public override void _Ready()
@@ -46,9 +46,9 @@ public partial class GlobalStrategyEngine : Node2D
 		GlobalResources.BuildingSpriteFrames = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/Buildings.tres");
 
 
-		Camera = GetNode<CameraBehaviour>("./Camera");
+		Camera = GetNode<Camera>("./Camera");
 		Camera.ZoomChanged += ViewMode;
-		Camera.LimitToMap();
+		Camera.Reset();
 
 		GUIHandler = GetNode<GUI>("CanvasLayer/GUI");
 		GUIHandler.GUIGlobalEvent += GUIEventHandler;
@@ -81,7 +81,7 @@ public partial class GlobalStrategyEngine : Node2D
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
-		Camera.InputHandle(@event);
+		Camera._Input(@event);
 		var tileId = _findTile();
 		AllHandlersControls.InputHandle(@event, tileId);
 		GUIHandler.InputHandle(@event);

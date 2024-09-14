@@ -19,6 +19,7 @@ shader_parameter/colors = null
 shader = ExtResource("8_m7kc7")
 shader_parameter/colors = null
 shader_parameter/colorMode = 0
+shader_parameter/lowQualityMode = false
 shader_parameter/timescale = 0.2
 shader_parameter/pixelSize = 4
 shader_parameter/hScrollSpeedFactor = 1.0
@@ -33,10 +34,11 @@ script = ExtResource("1_5tgh5")
 layer = 2
 
 [node name="GUI" parent="CanvasLayer" instance=ExtResource("2_dggd8")]
+layout_direction = 2
 mouse_filter = 2
 
 [node name="Camera" parent="." instance=ExtResource("1_r2m0f")]
-process_priority = -1
+position = Vector2(-2, 0)
 
 [node name="MapHandler" type="Node2D" parent="."]
 script = ExtResource("3_kk5wj")
@@ -45,7 +47,6 @@ script = ExtResource("3_kk5wj")
 process_priority = 2
 texture_filter = 1
 material = ExtResource("1_vjql8")
-position = Vector2(0, 1)
 texture = ExtResource("6_d2n0v")
 centered = false
 
