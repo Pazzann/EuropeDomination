@@ -14,6 +14,7 @@ using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.Text;
 using EuropeDominationDemo.Scripts.UI.Events.GUI;
+using EuropeDominationDemo.Scripts.UI.Events.GUI.ProvinceEvents;
 using EuropeDominationDemo.Scripts.UI.Events.ToEngine;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using Godot;
@@ -325,6 +326,7 @@ public partial class MapHandler : GameHandler
             switch (@event)
             {
                 case GUIBuildBuildingEvent e:
+                {
                     var province =
                         (LandColonizedProvinceData)EngineState.MapInfo.Scenario.Map[
                             EngineState.MapInfo.CurrentSelectedProvinceId];
@@ -343,23 +345,135 @@ public partial class MapHandler : GameHandler
                     }
 
                     return;
+                }
+
                 case GUIDestroyBuildingEvent e:
-                    var province2 =
+                {
+                    var province =
                         (LandColonizedProvinceData)EngineState.MapInfo.Scenario.Map[
                             EngineState.MapInfo.CurrentSelectedProvinceId];
-                    if (EngineState.PlayerCountryId == province2.Owner)
+                    if (EngineState.PlayerCountryId == province.Owner)
                     {
                         data.Buildings.RemoveAt(e.DestroyedId);
-                        InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent(province2));
+                        InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent(province));
                     }
 
                     return;
+                }
+                    
                 case GUIGoodTransportChange e:
                     _goodToTransport = e.GoodToTransport;
                     _transportationAmount = e.Amount;
                     _whereToAddRoute = e.RouteAdress;
                     _uiReciever = e.NewTransportationRouteReciever;
                     return;
+                case GUIGoodTransportEdit e:
+                    var route = e.TransportationRouteToEdit;
+                    route.TransportationGood = e.Good;
+                    route.Amount = e.Amount;
+                    return;
+                case GUIEnqueArmyRegiment e:
+                {
+                    var province = (LandColonizedProvinceData)EngineState.MapInfo.Scenario.Map[e.ProvinceId];
+                    var militaryTrainingCamp = province.SpecialBuildings[e.TabId] as MilitaryTrainingCamp;
+                    var currentSelectedTemplate = EngineState.MapInfo.Scenario.Countries[province.Owner]
+                        .RegimentTemplates[e.TemplateId];
+                    switch (currentSelectedTemplate)
+                    {
+                        //todo: fix constructors
+                        case ArmyInfantryRegimentTemplate template:
+                        {
+                            militaryTrainingCamp.TrainingList.Enqueue(new ArmyInfantryRegiment(
+                                currentSelectedTemplate.Name,
+                                EngineState.PlayerCountryId, currentSelectedTemplate.Id, 0,
+                                currentSelectedTemplate.TrainingTime, false, 0, 0, Good.DefaultGoods(),
+                                BehavioralPatterns.Attack, Modifiers.DefaultModifiers()));
+                            
+                            return;
+                        }
+                        case ArmyCavalryRegimentTemplate template:
+                        {
+                            militaryTrainingCamp.TrainingList.Enqueue(new ArmyCavalryRegiment(
+                                currentSelectedTemplate.Name,
+                                EngineState.PlayerCountryId, currentSelectedTemplate.Id, 0,
+                                currentSelectedTemplate.TrainingTime, false, 0, 0, Good.DefaultGoods(),
+                                BehavioralPatterns.Attack, Modifiers.DefaultModifiers()));
+                            return;
+                        }
+                        case ArmyArtilleryRegimentTemplate template:
+                        {
+                            militaryTrainingCamp.TrainingList.Enqueue(new ArmyArtilleryRegiment(
+                                currentSelectedTemplate.Name,
+                                EngineState.PlayerCountryId, currentSelectedTemplate.Id, 0,
+                                currentSelectedTemplate.TrainingTime, false, 0, 0, Good.DefaultGoods(),
+                                BehavioralPatterns.Attack, Modifiers.DefaultModifiers()));
+                            return;
+                        }
+                    }
+
+                    return;
+                }
+                case GUISpecialBuildingBuild e:
+                {
+                    var province = (LandColonizedProvinceData)EngineState.MapInfo.Scenario.Map[e.ProvinceId];
+                    switch (e.SpecialBuildingId)
+                    {
+                        case 0:
+                            province.SpecialBuildings[e.TabId] =
+                                new StockAndTrade(0, false, 100, StockAndTrade.DefaultRoutes());
+                            break;
+                        case 1:
+                            province.SpecialBuildings[e.TabId] =
+                                new Factory(null, 0, false, 0.1f, 100, null);
+                            break;
+                        case 2:
+                            province.SpecialBuildings[e.TabId] =
+                                new Dockyard(0, false, 100, Dockyard.DefaultWaterTransportationRoutes());
+                            break;
+                        case 3:
+                            province.SpecialBuildings[e.TabId] =
+                                new MilitaryTrainingCamp(0, false, 100, new Queue<ArmyRegiment>());
+                            break;
+                        default:
+                            return;
+                    }
+   
+                    return;
+                }
+                case GUIRemoveRecipeFromFactory e:
+                {
+                    var province = (LandColonizedProvinceData)EngineState.MapInfo.Scenario.Map[e.ProvinceId];
+                    var factory = province.SpecialBuildings[e.TabId] as Factory;
+                    factory.Recipe = null;
+                    factory.ProductionRate = 0.1f;
+                    factory.TransportationRoute = null;
+                    return;
+                }
+                case GUISetRecipyInFactory e:
+                {
+                    var province = (LandColonizedProvinceData)EngineState.MapInfo.Scenario.Map[e.ProvinceId];
+                    var factory = province.SpecialBuildings[e.TabId] as Factory;
+                    var currentSelectedRecipy = EngineState.MapInfo.Scenario.Recipes[e.RecipyId];
+                    factory.Recipe = currentSelectedRecipy;
+                    factory.ProductionRate = 0.1f;
+                    factory.TransportationRoute = null;
+                    return;
+                }
+                case GUIDevProvinceEvent e:
+                {
+                    var province = (LandColonizedProvinceData)EngineState.MapInfo.Scenario.Map[e.ProvinceId];
+                    
+                    var requirments = Settings.ResourceAndCostRequirmentsToDev(province.Development);
+                    if (EngineState.MapInfo.Scenario.Countries[province.Owner].Money - requirments.Key >= 0f &&
+                        Good.CheckIfMeetsRequirements(province.Resources, requirments.Value))
+                    {
+                        EngineState.MapInfo.Scenario.Countries[province.Owner].Money -= requirments.Key;
+                        province.Resources =
+                            Good.DecreaseGoodsByGoods(province.Resources, requirments.Value);
+                        province.Development++;
+                    }
+                    return;
+                }
                 default:
                     return;
             }

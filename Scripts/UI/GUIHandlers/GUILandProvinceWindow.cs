@@ -8,6 +8,7 @@ using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.UI.Events.GUI;
+using EuropeDominationDemo.Scripts.UI.Events.GUI.ProvinceEvents;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using EuropeDominationDemo.Scripts.UI.GUIPrefabs;
 using EuropeDominationDemo.Scripts.Utils;
@@ -179,23 +180,29 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private void _onDevButtonPressed()
 	{
-		var requirments = Settings.ResourceAndCostRequirmentsToDev(_currentColonizedProvinceData.Development);
-		if (EngineState.MapInfo.Scenario.Countries[_currentColonizedProvinceData.Owner].Money - requirments.Key >= 0f &&
-			Good.CheckIfMeetsRequirements(_currentColonizedProvinceData.Resources, requirments.Value))
-		{
-			EngineState.MapInfo.Scenario.Countries[_currentColonizedProvinceData.Owner].Money -= requirments.Key;
-			_currentColonizedProvinceData.Resources =
-				Good.DecreaseGoodsByGoods(_currentColonizedProvinceData.Resources, requirments.Value);
-			_currentColonizedProvinceData.Development++;
-			_setProvinceInfo(_currentColonizedProvinceData);
-			_showDevInfoBox();
-		}
+		InvokeGUIEvent(new GUIDevProvinceEvent(_currentColonizedProvinceData.Id));
+		_setProvinceInfo(_currentColonizedProvinceData);
+		_showDevInfoBox();
 	}
 
 	private void _showDevInfoBox()
 	{
 		InvokeGUIEvent(new GUIShowInfoBox(InfoBoxFactory.DevButtonData(_currentColonizedProvinceData)));
 	}
+	private void _onGoodTransportManagementPressed()
+	{
+		if (_guestMode)
+			return;
+
+		_waterMode = false;
+
+		_routeAdressToTransfer = _currentColonizedProvinceData.SetRoute;
+		_transportationRouteToEdit = _currentColonizedProvinceData.HarvestedTransport;
+		_goodToTransfer = _currentColonizedProvinceData.Good;
+		_isGoodEditable = false;
+		_showTransportationMenu();
+	}
+
 
 
 	#endregion
@@ -375,19 +382,6 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_transportationHandler.Visible = false;
 	}
 
-	private void _onGoodTransportManagementPressed()
-	{
-		if (_guestMode)
-			return;
-
-		_waterMode = false;
-
-		_routeAdressToTransfer = _currentColonizedProvinceData.SetRoute;
-		_transportationRouteToEdit = _currentColonizedProvinceData.HarvestedTransport;
-		_goodToTransfer = _currentColonizedProvinceData.Good;
-		_isGoodEditable = false;
-		_showTransportationMenu();
-	}
 	
 	
 
@@ -421,8 +415,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private void _onTransportSliderValueChanged(float value)
 	{
 		_transportSliderLabel.Text = value.ToString("N1");
-		if (_transportationRouteToEdit != null)
-			_transportationRouteToEdit.Amount = _transportSlider.Value;
+		if(_transportationRouteToEdit != null)
+			InvokeGUIEvent(new GUIGoodTransportEdit(_transportationRouteToEdit, _transportSlider.Value, _transportationRouteToEdit.TransportationGood));
 	}
 
 	private void _onChangeTransportationButtonPressed()
@@ -434,7 +428,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 	{
 		_goodEditBoxPanel.Visible = false;
 		_goodEditBox.GetChild<AnimatedTextureRect>(0).SetFrame(goodId);
-		_transportationRouteToEdit.TransportationGood = EngineState.MapInfo.Scenario.Goods[goodId];
+		InvokeGUIEvent(new GUIGoodTransportEdit(_transportationRouteToEdit, _transportSlider.Value, EngineState.MapInfo.Scenario.Goods[goodId]));
 	}
 
 	#endregion
@@ -457,6 +451,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_dockyardInit();
 		_emptyInit();
 		_notUnlockedInit();
+		_specialBuildingConstructionInit();
 
 	}
 	
@@ -509,28 +504,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 	//todo: rewrite with event to map handler
 	private void _onSpecialBuildingSelectionPressed(int id)
 	{
-		switch (id)
-		{
-			case 0:
-				_currentColonizedProvinceData.SpecialBuildings[_currentTab] =
-					new StockAndTrade(0, false, 100, StockAndTrade.DefaultRoutes());
-				break;
-			case 1:
-				_currentColonizedProvinceData.SpecialBuildings[_currentTab] =
-					new Factory(null, 0, false, 0.1f, 100, null);
-				break;
-			case 2:
-				_currentColonizedProvinceData.SpecialBuildings[_currentTab] =
-					new Dockyard(0, false, 100, Dockyard.DefaultWaterTransportationRoutes());
-				break;
-			case 3:
-				_currentColonizedProvinceData.SpecialBuildings[_currentTab] =
-					new MilitaryTrainingCamp(0, false, 100, new Queue<ArmyRegiment>());
-				break;
-			default:
-				return;
-		}
-
+		InvokeGUIEvent(new GUISpecialBuildingBuild(_currentColonizedProvinceData.Id, id, _currentTab));
 		_closeAllTabs();
 		_showTab(_currentTab);
 	}
@@ -619,7 +593,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private void ChooseRecipe(int id)
 	{
-		_currentlyShownFactory.Recipe = EngineState.MapInfo.Scenario.Recipes[id];
+		InvokeGUIEvent(new GUISetRecipyInFactory(_currentColonizedProvinceData.Id, _currentTab, id));
 		_factoryShowData(_currentlyShownFactory);
 		_recipePanel.Visible = false;
 	}
@@ -631,9 +605,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private void _onDeleteRecipePressed()
 	{
-		_currentlyShownFactory.Recipe = null;
-		_currentlyShownFactory.ProductionRate = 0.1f;
-		_currentlyShownFactory.TransportationRoute = null;
+		InvokeGUIEvent(new GUIRemoveRecipeFromFactory(_currentColonizedProvinceData.Id, _currentTab));
 		_factoryShowData(_currentlyShownFactory);
 	}
 
@@ -802,8 +774,6 @@ public partial class GUILandProvinceWindow : GUIHandler
 	{
 		_militaryTrainingHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp");
 		
-		
-		
 		_templateContainer =
 			_militaryTrainingHandler.GetNode<VBoxContainer>(
 				"PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer2/ScrollContainer/TemplateContainer");
@@ -841,11 +811,9 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_selectedUnitNameLabel.Text = "Empty";
 		_currentSelectedTemplate = null;
 		_trainingTimeLabel.Text = "Time: 0";
-		_goodContainer.GetChild(0).GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
-		_goodContainer.GetChild(1).GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
-		_goodContainer.GetChild(2).GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
-		_goodContainer.GetChild(3).GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
-		_goodContainer.GetChild(4).GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
+		for (int i = 0; i < 5; i++)
+			_goodContainer.GetChild(i).GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
+		
 	}
 
 	private void _clearQueueInfo()
@@ -874,37 +842,11 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private void _onTrainUnitPressed()
 	{
 		if (_currentSelectedTemplate != null)
-			switch (_currentSelectedTemplate)
-			{
-				//todo: fix constructors
-				case ArmyInfantryRegimentTemplate template:
-				{
-					_militaryTrainingCamp.TrainingList.Enqueue(new ArmyInfantryRegiment(_currentSelectedTemplate.Name,
-						EngineState.PlayerCountryId, _currentSelectedTemplate.Id, 0,
-						_currentSelectedTemplate.TrainingTime, false, 0, 0, Good.DefaultGoods(),
-						BehavioralPatterns.Attack, Modifiers.DefaultModifiers()));
-					_militaryTrainingCampShowData(_militaryTrainingCamp);
-					return;
-				}
-				case ArmyCavalryRegimentTemplate template:
-				{
-					_militaryTrainingCamp.TrainingList.Enqueue(new ArmyCavalryRegiment(_currentSelectedTemplate.Name,
-						EngineState.PlayerCountryId, _currentSelectedTemplate.Id, 0,
-						_currentSelectedTemplate.TrainingTime, false, 0, 0, Good.DefaultGoods(),
-						BehavioralPatterns.Attack, Modifiers.DefaultModifiers()));
-					_militaryTrainingCampShowData(_militaryTrainingCamp);
-					return;
-				}
-				case ArmyArtilleryRegimentTemplate template:
-				{
-					_militaryTrainingCamp.TrainingList.Enqueue(new ArmyArtilleryRegiment(_currentSelectedTemplate.Name,
-						EngineState.PlayerCountryId, _currentSelectedTemplate.Id, 0,
-						_currentSelectedTemplate.TrainingTime, false, 0, 0, Good.DefaultGoods(),
-						BehavioralPatterns.Attack, Modifiers.DefaultModifiers()));
-					_militaryTrainingCampShowData(_militaryTrainingCamp);
-					return;
-				}
-			}
+		{
+			InvokeGUIEvent(new GUIEnqueArmyRegiment(_currentColonizedProvinceData.Id, _currentTab, _currentSelectedTemplate.Id));
+			_militaryTrainingCampShowData(_militaryTrainingCamp);
+		}
+			
 		
 	}
 
@@ -1016,6 +958,17 @@ public partial class GUILandProvinceWindow : GUIHandler
 			"Needed dev to unlock: " + Settings.DevForSpecialBuilding[_currentTab];
 	}
 	
+	#endregion
+
+	#region Special Building Construction
+
+	//todo;
+
+	private void _specialBuildingConstructionInit()
+	{
+		
+	}
+
 	#endregion
 
 	#endregion
