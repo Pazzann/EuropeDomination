@@ -100,6 +100,9 @@ public partial class GlobalStrategyEngine : Node2D
 				EngineState.MapInfo.CurrentMapMode = e.NewMapType;
 				ViewMode();
 				return;
+			case GUISetTimeScale e:
+				_timer.WaitTime = Settings.TimeScale[e.TimeScaleId];
+				return;
 			case GUIPauseStateEvent e:
 				if (e.IsPaused)
 					_timer.Stop();
@@ -116,7 +119,7 @@ public partial class GlobalStrategyEngine : Node2D
 				Camera.GoToProvince(e.Id);
 				return;
 			case GUIShowInfoBox e:
-				InvokeToGUIEvent(new ToGUIShowInfoBoxEvent(e.InfoBoxBuilder));
+				InvokeToGUIEvent(new ToGUIShowInfoBoxEvent(e.RichTextLabelBuilder));
 				return;
 			case GUIHideInfoBoxEvent e:
 				InvokeToGUIEvent(new ToGUIHideInfoBox());

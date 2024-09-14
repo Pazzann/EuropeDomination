@@ -71,4 +71,36 @@ offset_top = -54.1
 offset_right = -98.8
 offset_bottom = -48.5
 
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer2/GameDate"]
+offset_left = -80.015
+offset_top = 16.2056
+offset_right = -40.015
+offset_bottom = 56.2056
+
+[node name="Button" type="Button" parent="HBoxContainer2/GameDate/HBoxContainer"]
+layout_mode = 2
+text = "1"
+
+[node name="Button2" type="Button" parent="HBoxContainer2/GameDate/HBoxContainer"]
+layout_mode = 2
+text = "2"
+
+[node name="Button3" type="Button" parent="HBoxContainer2/GameDate/HBoxContainer"]
+layout_mode = 2
+text = "3"
+
+[node name="Button4" type="Button" parent="HBoxContainer2/GameDate/HBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "4"
+
+[node name="Button5" type="Button" parent="HBoxContainer2/GameDate/HBoxContainer"]
+layout_mode = 2
+text = "5"
+
 [connection signal="pressed" from="HBoxContainer2/GameDate/PauseButton" to="." method="_onPauseButtonPressed"]
+[connection signal="pressed" from="HBoxContainer2/GameDate/HBoxContainer/Button" to="." method="_onChangeTimeScalePressed" binds= [0]]
+[connection signal="pressed" from="HBoxContainer2/GameDate/HBoxContainer/Button2" to="." method="_onChangeTimeScalePressed" binds= [1]]
+[connection signal="pressed" from="HBoxContainer2/GameDate/HBoxContainer/Button3" to="." method="_onChangeTimeScalePressed" binds= [2]]
+[connection signal="pressed" from="HBoxContainer2/GameDate/HBoxContainer/Button4" to="." method="_onChangeTimeScalePressed" binds= [3]]
+[connection signal="pressed" from="HBoxContainer2/GameDate/HBoxContainer/Button5" to="." method="_onChangeTimeScalePressed" binds= [4]]

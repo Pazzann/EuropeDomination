@@ -19,7 +19,7 @@ public abstract class Good
 
     public static double[] DefaultGoods(Dictionary<int, double> notNullGoods = null)
     {
-        var a = new double[] { 0, 0, 0, 0 };
+        var a = new double[] { 0, 0, 0, 0, 0 };
         if (notNullGoods == null) return a;
         foreach (var kvp in notNullGoods) a[kvp.Key] = kvp.Value;
 

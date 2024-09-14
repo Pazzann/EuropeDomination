@@ -1,9 +1,10 @@
-[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://d3n4eikp6qnq7"]
+[gd_resource type="SpriteFrames" load_steps=6 format=3 uid="uid://d3n4eikp6qnq7"]
 
 [ext_resource type="Texture2D" uid="uid://bv8ai81boxxm8" path="res://Sprites/Good/Iron.png" id="1_lv1x1"]
 [ext_resource type="Texture2D" uid="uid://ita1qm2e07x0" path="res://Sprites/Good/Wheat.png" id="2_p77rr"]
 [ext_resource type="Texture2D" uid="uid://pjsvdf2s8gcq" path="res://Sprites/Good/IronSword.png" id="3_437vr"]
 [ext_resource type="Texture2D" uid="uid://bw5l7g3gpynw2" path="res://Sprites/Good/Wood.png" id="4_ohjt5"]
+[ext_resource type="Texture2D" uid="uid://dnfejddpuriga" path="res://Sprites/Good/Tea.png" id="5_6f5eb"]
 
 [resource]
 animations = [{
@@ -19,6 +20,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("3_437vr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_6f5eb")
 }],
 "loop": true,
 "name": &"goods",
