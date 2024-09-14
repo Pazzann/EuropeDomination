@@ -2,11 +2,13 @@
 
 public class StockAndTrade : SpecialBuilding
 {
+    public override int Cost => 100;
+    public override int TimeToBuild => 100;
     public int RouteId = 0;
     public TransportationRoute[] TransportationRoutes;
 
-    public StockAndTrade(int buildingTime, bool isFinished, int cost, TransportationRoute[] transportationRoutes) :
-        base(100, buildingTime, isFinished, cost)
+    public StockAndTrade(int buildingTime, bool isFinished, TransportationRoute[] transportationRoutes) :
+        base( buildingTime, isFinished)
     {
         TransportationRoutes = transportationRoutes;
     }

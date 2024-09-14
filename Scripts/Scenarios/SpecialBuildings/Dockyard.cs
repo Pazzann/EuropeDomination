@@ -3,10 +3,12 @@
 public class Dockyard : SpecialBuilding
 {
     public int RouteId = 0;
+    public override int Cost => 100;
+    public override int TimeToBuild => 100;
     public WaterTransportationRoute[] WaterTransportationRoutes;
 
-    public Dockyard(int buildingTime, bool isFinished, int cost, WaterTransportationRoute[] waterTransportationRoutes) :
-        base(100, buildingTime, isFinished, cost)
+    public Dockyard(int buildingTime, bool isFinished, WaterTransportationRoute[] waterTransportationRoutes) :
+        base( buildingTime, isFinished)
     {
         WaterTransportationRoutes = waterTransportationRoutes;
     }

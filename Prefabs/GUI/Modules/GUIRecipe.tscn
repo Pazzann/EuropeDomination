@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cfdjt7s0om1aq"]
+[gd_scene load_steps=5 format=3 uid="uid://cfdjt7s0om1aq"]
 
 [ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_7lyw0"]
 [ext_resource type="Script" path="res://Scripts/UI/GUIPrefabs/GUIRecipe.cs" id="2_lngyq"]
 [ext_resource type="PackedScene" uid="uid://csnvq4hwnhy3q" path="res://Prefabs/GUI/Modules/GUIGood.tscn" id="2_uxhg6"]
+[ext_resource type="Texture2D" uid="uid://dx08b2wttihu" path="res://Sprites/Building/Lock.png" id="4_3qu2o"]
 
 [node name="GuiRecipe" type="PanelContainer"]
 offset_right = 184.0
@@ -35,3 +36,14 @@ layout_mode = 2
 [node name="Button" type="Button" parent="."]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Panel"]
+layout_mode = 2
+offset_left = 60.0
+offset_right = 240.0
+offset_bottom = 74.0
+texture = ExtResource("4_3qu2o")
+stretch_mode = 2

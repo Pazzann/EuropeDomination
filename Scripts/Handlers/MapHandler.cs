@@ -416,28 +416,32 @@ public partial class MapHandler : GameHandler
                 case GUISpecialBuildingBuild e:
                 {
                     var province = (LandColonizedProvinceData)EngineState.MapInfo.Scenario.Map[e.ProvinceId];
+                    SpecialBuilding b;
                     switch (e.SpecialBuildingId)
                     {
                         case 0:
-                            province.SpecialBuildings[e.TabId] =
-                                new StockAndTrade(0, false, 100, StockAndTrade.DefaultRoutes());
+                            b = new StockAndTrade(0, false,  StockAndTrade.DefaultRoutes());
+                            
                             break;
                         case 1:
-                            province.SpecialBuildings[e.TabId] =
-                                new Factory(null, 0, false, 0.1f, 100, null);
+                            b = new Factory(null, 0, false, 0.1f,  null);
                             break;
                         case 2:
-                            province.SpecialBuildings[e.TabId] =
-                                new Dockyard(0, false, 100, Dockyard.DefaultWaterTransportationRoutes());
+                            b = new Dockyard(0, false,  Dockyard.DefaultWaterTransportationRoutes());
                             break;
                         case 3:
-                            province.SpecialBuildings[e.TabId] =
-                                new MilitaryTrainingCamp(0, false, 100, new Queue<ArmyRegiment>());
+                            b = new MilitaryTrainingCamp(0, false,  new Queue<ArmyRegiment>());
                             break;
                         default:
                             return;
                     }
-   
+                    if (EngineState.MapInfo.Scenario.Countries[province.Owner].Money - b.Cost >
+                        -EngineVariables.Eps)
+                    {
+                        EngineState.MapInfo.Scenario.Countries[province.Owner].Money -= b.Cost;
+                        province.SpecialBuildings[e.TabId] = b;
+                    }
+                    InvokeToGUIEvent(new ToGUIUpdateCountryInfo());
                     return;
                 }
                 case GUIRemoveRecipeFromFactory e:
@@ -677,11 +681,18 @@ public partial class MapHandler : GameHandler
             foreach (var building in data.Buildings.Where(building => !building.IsFinished))
             {
                 building.BuildingTime++;
-                if (building.BuildingTime == building.TimeToBuild) building.IsFinished = true;
+                if (building.BuildingTime >= building.TimeToBuild) building.IsFinished = true;
             }
 
             foreach (var specialBuilding in data.SpecialBuildings.Where(d => d != null))
-                if (specialBuilding is MilitaryTrainingCamp camp)
+            {
+                if (!specialBuilding.IsFinished)
+                {
+                    specialBuilding.BuildingTime++;
+                    if (specialBuilding.BuildingTime >= specialBuilding.TimeToBuild) specialBuilding.IsFinished = true;
+                }
+                
+                if (specialBuilding is MilitaryTrainingCamp camp && camp.IsFinished)
                     if (camp.TrainingList.Count > 0 && camp.TrainingList.Peek().DayTick())
                     {
                         var a = camp.TrainingList.Dequeue();
@@ -692,6 +703,8 @@ public partial class MapHandler : GameHandler
                         EngineState.MapInfo.Scenario.Countries[data.Owner].Units.Add(b);
                         InvokeToEngineEvent(new ToEngineAddArmyUnitEvent(b));
                     }
+            }
+                
         }
 
         foreach (var country in EngineState.MapInfo.Scenario.Countries)
