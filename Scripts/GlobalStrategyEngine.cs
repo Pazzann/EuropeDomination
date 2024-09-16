@@ -40,8 +40,7 @@ public partial class GlobalStrategyEngine : Node2D
 
 		var map = GetNode<Sprite2D>("MapHandler/Map").Texture.GetImage();
 
-		Scenario scenario = new EuropeScenario(map);
-		EngineState.MapInfo = new MapData(scenario);
+		EngineState.MapInfo.Scenario.Init();
 		GlobalResources.GoodSpriteFrames = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/GoodSpriteFrames.tres");
 		GlobalResources.BuildingSpriteFrames = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/Buildings.tres");
 

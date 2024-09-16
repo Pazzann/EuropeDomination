@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
@@ -30,8 +31,89 @@ public abstract class Scenario : IScenario
     public abstract DateTime Date { get; set; }
 
     public abstract Image MapTexture { get; set; }
+    
+    
+    public abstract GameModes GameMode { get; set; }
+    public abstract HashSet<int> AiList {get; set; }
+    //int is for countryId
+    public abstract Dictionary<string, int> PlayerList { get; set; }
 
 
+    public void ChangeGameMode(GameModes mode) 
+    {
+        switch (mode)
+        {
+            case GameModes.RandomSpawn:
+            {
+                GameMode = GameModes.RandomSpawn;
+                CleanMap();
+                return;
+            }
+            case GameModes.SelectionSpawn:
+            {
+                GameMode = GameModes.SelectionSpawn;
+                CleanMap();
+                return;
+            }
+            case GameModes.FullMapScenario:
+            {
+                GameMode = GameModes.FullMapScenario;
+                CleanMap();
+                return;
+            }
+        }
+    }
+
+    public void Init()
+    {
+        switch (GameMode)
+        {
+            case GameModes.RandomSpawn:
+            {
+                var countOfLandProvinces = Map.Where(d => d is UncolonizedProvinceData).ToArray();
+                var capitals = new HashSet<int>();
+                while (capitals.Count != Countries.Count)
+                {
+                    capitals.Add(new Random().Next(0, countOfLandProvinces.Length));
+                }
+
+                var capitalsArray = capitals.ToArray();
+        
+
+                foreach (var country in Countries)
+                {
+                    country.Value.CapitalId = countOfLandProvinces[capitalsArray[country.Value.Id]].Id;
+                    var a = (UncolonizedProvinceData)Map[country.Value.CapitalId];
+                    a.CurrentlyColonizedByCountry = country.Value;
+                    var b = a.ConvertToLandProvince();
+                    b.Development = 10;
+                    Map[a.Id] = b;
+                    country.Value.ResearchedTechnologies = GenerateTechnologyArray();
+                }
+                return;
+            }
+            case GameModes.SelectionSpawn:
+            {
+                return;
+            }
+            default:
+            {
+                return;
+            }
+        }
+    }
+
+    public void CleanMap()
+    {
+        for (int i = 0; i < Map.Length; i++)
+        {
+            if (Map[i] is LandColonizedProvinceData landColonizedProvinceData)
+            {
+                Map[i] = new UncolonizedProvinceData(landColonizedProvinceData.Id, landColonizedProvinceData.Name, landColonizedProvinceData.Terrain, landColonizedProvinceData.Good, landColonizedProvinceData.Modifiers);
+            }
+        }
+    }
+    
     public TimeSpan Ts => new(1, 0, 0, 0);
 
     public ProvinceData.ProvinceData[] CountryProvinces(int countryId)
