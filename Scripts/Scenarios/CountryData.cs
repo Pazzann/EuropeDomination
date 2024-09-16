@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.Army;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
 using EuropeDominationDemo.Scripts.Scenarios.DiplomacyAgreements;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
+using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
@@ -96,6 +98,18 @@ public class CountryData
             
             return modifiers;
         }
+    }
+
+    public UncolonizedProvinceData[] GetAvailibaleProvincesToColonize()
+    {
+        var a = new List<UncolonizedProvinceData>();
+        foreach (UncolonizedProvinceData uncolonizedProvinceData in EngineState.MapInfo.MapProvinces(ProvinceTypes.UncolonizedProvinces))
+        {
+            if(uncolonizedProvinceData.CanBeColonizedByCountry(Id))
+                a.Add(uncolonizedProvinceData);
+        }
+
+        return a.ToArray();
     }
 
     public int Id { get; }

@@ -1,4 +1,9 @@
-﻿using Godot;
+﻿using System;
+using System.Linq;
+using EuropeDominationDemo.Scripts.Enums;
+using EuropeDominationDemo.Scripts.GlobalStates;
+using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
+using Godot;
 
 namespace EuropeDominationDemo.Scripts.Handlers;
 
@@ -26,12 +31,27 @@ public partial class AiHandler : GameHandler
 
     public override void DayTick()
     {
-        
     }
 
     public override void MonthTick()
     {
-        
+        foreach (var aiCountry in EngineState.MapInfo.Scenario.AiList)
+        {
+            var country = EngineState.MapInfo.Scenario.Countries[aiCountry];
+            if (EngineState.MapInfo.MapProvinces(ProvinceTypes.UncolonizedProvinces).Count(b =>
+                    b is UncolonizedProvinceData data && data.CurrentlyColonizedByCountry != null &&
+                    data.CurrentlyColonizedByCountry.Id == country.Id) < 2)
+            {
+                var colonizableProvinces = country.GetAvailibaleProvincesToColonize();
+                if (colonizableProvinces.Length != 0)
+                {
+                    var id = new Random().Next(colonizableProvinces.Length);
+                    colonizableProvinces[id].CurrentlyColonizedByCountry = country;
+                }
+                
+            }
+            
+        }   
     }
 
     public override void YearTick()

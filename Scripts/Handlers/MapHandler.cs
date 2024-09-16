@@ -297,6 +297,11 @@ public partial class MapHandler : GameHandler
                 InvokeToGUIEvent(new ToGUIUpdateCountryWindow());
                 return;
             }
+            case GUIUpdateFogOfWar:
+            {
+                _setFogOfWar();
+                return;
+            }
         }
         if (EngineState.MapInfo.CurrentSelectedProvinceId < 0)
             return;
@@ -728,6 +733,7 @@ public partial class MapHandler : GameHandler
 
     public override void MonthTick()
     {
+        var shouldTheMapBeUpdated = false;
         foreach (var country in EngineState.MapInfo.Scenario.Countries)
         {
             country.Value.Money -= Settings.MoneyConsumptionPerMonthColony(EngineState.MapInfo
@@ -749,7 +755,7 @@ public partial class MapHandler : GameHandler
                 {
                     EngineState.MapInfo.Scenario.Map[data.Id] = data.ConvertToLandProvince();
                     if(EngineState.MapInfo.CurrentSelectedProvinceId == data.Id)InvokeToGUIEvent(new ToGuiShowLandProvinceDataEvent(EngineState.MapInfo.Scenario.Map[data.Id] as LandColonizedProvinceData));
-                    _updateMap();
+                    shouldTheMapBeUpdated = true;
                     var obj = _devScene.Instantiate() as AnimatedSprite2D;
                     obj.Frame = (EngineState.MapInfo.Scenario.Map[data.Id] as LandColonizedProvinceData).Development - 1;
                     obj.Position = (EngineState.MapInfo.Scenario.Map[data.Id] as LandColonizedProvinceData).CenterOfWeight;
@@ -872,7 +878,9 @@ public partial class MapHandler : GameHandler
                 }
             }
         }
-
+        
+        if(shouldTheMapBeUpdated)
+            _updateMap();
 
         InvokeToGUIEvent(new ToGUIUpdateCountryInfo());
 

@@ -2,4 +2,6 @@
 
 public struct GUISwitchCountry : GUIEvent
 {
+    public int Id;
+    public GUISwitchCountry(int id) => Id = id;
 }

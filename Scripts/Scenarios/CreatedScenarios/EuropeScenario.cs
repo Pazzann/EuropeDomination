@@ -565,8 +565,6 @@ public class EuropeScenario : Scenario
     public override List<Recipe> Recipes { get; set; }
     public override List<BattleData> Battles { get; set; }
     public override TechnologyTree[] TechnologyTrees { get; }
-
-    public override HashSet<int> AiList { get; set; }
     public override GameModes GameMode { get; set; }
-    public override Dictionary<string, int> PlayerList { get; set; }
+    public override Dictionary<int, string> PlayerList { get; set; }
 }

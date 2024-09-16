@@ -2,7 +2,7 @@ using System;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using Godot;
 
-namespace EuropeDominationDemo.Scripts;
+namespace EuropeDominationDemo.Scripts.Utils;
 
 public delegate void ZoomChangedEventHandler();
 

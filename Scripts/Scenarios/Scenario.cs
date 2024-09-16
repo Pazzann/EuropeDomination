@@ -34,9 +34,10 @@ public abstract class Scenario : IScenario
     
     
     public abstract GameModes GameMode { get; set; }
-    public abstract HashSet<int> AiList {get; set; }
+
+    public HashSet<int> AiList = new HashSet<int>();
     //int is for countryId
-    public abstract Dictionary<string, int> PlayerList { get; set; }
+    public abstract Dictionary<int, string> PlayerList { get; set; }
 
 
     public void ChangeGameMode(GameModes mode) 
@@ -82,6 +83,8 @@ public abstract class Scenario : IScenario
 
                 foreach (var country in Countries)
                 {
+                    if(!PlayerList.ContainsKey(country.Key))
+                        AiList.Add(country.Key);
                     country.Value.CapitalId = countOfLandProvinces[capitalsArray[country.Value.Id]].Id;
                     var a = (UncolonizedProvinceData)Map[country.Value.CapitalId];
                     a.CurrentlyColonizedByCountry = country.Value;

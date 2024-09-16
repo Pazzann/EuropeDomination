@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
+using EuropeDominationDemo.Scripts.Utils;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenes;
@@ -16,6 +18,9 @@ public partial class LobbyScene : Node2D
 		
 		Scenario scenario = new EuropeScenario(_mapSprite.Texture.GetImage());
 		EngineState.MapInfo = new MapData(scenario);
+		EngineState.MapInfo.Scenario.PlayerList = new Dictionary<int, string>();
+		EngineState.MapInfo.Scenario.PlayerList.Add( 0, "currentPlayer" );
+		EngineState.PlayerCountryId = 0;
 		_mapUpdate();
 		EngineState.MapInfo.Scenario.ChangeGameMode(GameModes.RandomSpawn);
 		_camera = GetNode<Camera>("Camera");

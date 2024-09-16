@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c3x72scirbeqy"]
+[gd_scene load_steps=14 format=3 uid="uid://c3x72scirbeqy"]
 
 [ext_resource type="Script" path="res://Scripts/GlobalStrategyEngine.cs" id="1_5tgh5"]
 [ext_resource type="PackedScene" uid="uid://db5dbn7ovemhi" path="res://Prefabs/Camera.tscn" id="1_r2m0f"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bgv4y6i4ul1k" path="res://Sprites/EuropeMap.png" id="6_d2n0v"]
 [ext_resource type="Script" path="res://Scripts/Handlers/ArmyHandler.cs" id="8_7wvqb"]
 [ext_resource type="Shader" path="res://Shaders/fogOfWar.gdshader" id="8_m7kc7"]
+[ext_resource type="Script" path="res://Scripts/Handlers/AiHandler.cs" id="10_ra4as"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hr6fk"]
 shader = ExtResource("5_q4tx4")
@@ -77,6 +78,9 @@ centered = false
 
 [node name="ArmyHandler" type="Node2D" parent="."]
 script = ExtResource("8_7wvqb")
+
+[node name="AiHandler" type="Node2D" parent="."]
+script = ExtResource("10_ra4as")
 
 [node name="SelectionHandler" type="Node2D" parent="."]
 script = ExtResource("3_kipe6")

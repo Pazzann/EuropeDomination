@@ -134,8 +134,8 @@ public partial class GUIConsole : GUIHandler
 	{
 		if (EngineState.MapInfo.Scenario.Countries.ContainsKey(id))
 		{
-			EngineState.PlayerCountryId = id;
-			InvokeGUIEvent(new GUISwitchCountry());
+			
+			InvokeGUIEvent(new GUISwitchCountry(id));
 			_commandLabel.Text += "\n" + "[color=green]Successfully switched[/color]";
 		}
 		else

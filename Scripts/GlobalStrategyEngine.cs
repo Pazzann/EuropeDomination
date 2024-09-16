@@ -9,6 +9,7 @@ using EuropeDominationDemo.Scripts.UI.Events.GUI;
 using EuropeDominationDemo.Scripts.UI.Events.ToEngine;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using EuropeDominationDemo.Scripts.UI.GUIHandlers;
+using EuropeDominationDemo.Scripts.Utils;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts;
@@ -28,6 +29,7 @@ public partial class GlobalStrategyEngine : Node2D
 		allHandlers.Add(GetNode<SelectorBoxHandler>("./SelectionHandler"));
 		allHandlers.Add(GetNode<ArmyHandler>("./ArmyHandler"));
 		allHandlers.Add(GetNode<MapHandler>("./MapHandler"));
+		allHandlers.Add(GetNode<AiHandler>("./AiHandler"));
 
 
 		foreach (var handler in allHandlers)
@@ -108,7 +110,13 @@ public partial class GlobalStrategyEngine : Node2D
 				else
 					_timer.Start();
 				return;
-			case GUISwitchCountry:
+			case GUISwitchCountry e:
+				EngineState.MapInfo.Scenario.AiList.Add(EngineState.PlayerCountryId);
+				EngineState.MapInfo.Scenario.PlayerList.Remove(EngineState.PlayerCountryId);
+				EngineState.PlayerCountryId = e.Id;
+				EngineState.MapInfo.Scenario.AiList.Remove(e.Id);
+				EngineState.MapInfo.Scenario.PlayerList.Add(e.Id, "currentPlayer");
+				AllHandlersControls.GUIInteractionHandler(new GUIUpdateFogOfWar());
 				InvokeToGUIEvent(new ToGUIUpdateCountryInfo());
 				return;
 			case GUIShowCountryWindowEvent:
