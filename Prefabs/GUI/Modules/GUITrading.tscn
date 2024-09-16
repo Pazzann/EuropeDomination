@@ -27,8 +27,13 @@ texture = ExtResource("1_h5gvx")
 
 [node name="AnimatedTextureRect" parent="TextureRect" instance=ExtResource("2_bd7ds")]
 layout_mode = 0
-SpriteFrames = ExtResource("3_cwkgc")
 CurrentAnimation = "goods"
+SpriteFrames = ExtResource("3_cwkgc")
+
+[node name="Button" type="Button" parent="TextureRect"]
+layout_mode = 0
+offset_right = 67.0
+offset_bottom = 69.0
 
 [node name="Label2" type="Label" parent="."]
 layout_mode = 2

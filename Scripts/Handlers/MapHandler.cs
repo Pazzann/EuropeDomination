@@ -425,7 +425,7 @@ public partial class MapHandler : GameHandler
                     switch (e.SpecialBuildingId)
                     {
                         case 0:
-                            b = new StockAndTrade(0, false,  StockAndTrade.DefaultRoutes());
+                            b = new StockAndTrade(0, false,  StockAndTrade.DefaultRoutes(), StockAndTrade.DefaultSellingSlots(), StockAndTrade.DefaultBuyingSlots());
                             
                             break;
                         case 1:

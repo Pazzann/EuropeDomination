@@ -174,11 +174,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		InvokeGUIEvent(new GUIDestroyBuildingEvent(id));
 	}
 
-	private void _onBuildBuildingOnProvincePressed()
-	{
-		_buildingsMenu.Visible = true;
-	}
-
+	
 	private void _onDevButtonPressed()
 	{
 		InvokeGUIEvent(new GUIDevProvinceEvent(_currentColonizedProvinceData.Id));
@@ -214,7 +210,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private PanelContainer _buildingsMenu;
 	private GridContainer _possibleBuildingsSpawner;
 	
-	private Node2D _buildingsHandler;
+	private Control _buildingsHandler;
 	private PackedScene BuildingScene;
 	private void _buildingsInit()
 	{
@@ -237,7 +233,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 			_possibleBuildingsSpawner.AddChild(a);
 		}
 		
-		_buildingsHandler = GetNode<Node2D>("HBoxContainer4/ProvinceWindowSprite/Buildings");
+		_buildingsHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/Buildings");
 
 		foreach (var buildingsSlot in _buildingsHandler.GetChildren())
 			(buildingsSlot as Button).Pressed += _onBuildBuildingOnProvincePressed;
@@ -251,7 +247,12 @@ public partial class GUILandProvinceWindow : GUIHandler
 	{
 		InvokeGUIEvent(new GUIShowInfoBox(InfoBoxFactory.BuildingData(EngineState.MapInfo.Scenario.Buildings[id])));
 	}
-	
+	private void _onBuildBuildingOnProvincePressed()
+	{
+		_closeAllStockAndTradePanels();
+		_buildingsMenu.Visible = true;
+	}
+
 
 	private void _setBuildingMenuInfo(LandColonizedProvinceData colonizedProvinceData)
 	{
@@ -662,6 +663,17 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private Control _tradeAndStockHandler;
 
 	private GridContainer _transportationContainer;
+	
+	private HBoxContainer _buyContainer;
+	private HBoxContainer _sellContainer;
+	
+	private PanelContainer _sellContainerPanel;
+	private PanelContainer _buyContainerPanel;
+	private GUIGoodEditPanel _goodToSellAndBuyPanel;
+
+
+	private int _currentlyShownSellAndBuyMenuId = -1;
+	private bool _sellMode = false;
 
 	public void _tradeAndStockInit()
 	{
@@ -670,7 +682,14 @@ public partial class GUILandProvinceWindow : GUIHandler
 		
 		_transportationContainer =
 			_tradeAndStockHandler.GetNode<GridContainer>("PanelContainer/MarginContainer/VBoxContainer/TransportContainer");
+		_buyContainer = _tradeAndStockHandler.GetNode<HBoxContainer>("./PanelContainer/MarginContainer/VBoxContainer/BuyContainer");
+		_sellContainer = _tradeAndStockHandler.GetNode<HBoxContainer>("./PanelContainer/MarginContainer/VBoxContainer/SellContainer");
 
+		_sellContainerPanel = _tradeAndStockHandler.GetNode<PanelContainer>("./SellMenu");
+		_buyContainerPanel = _tradeAndStockHandler.GetNode<PanelContainer>("./BuyMenu");
+		_goodToSellAndBuyPanel = _tradeAndStockHandler.GetNode<GUIGoodEditPanel>("./GoodEditPanel");
+		_goodToSellAndBuyPanel.Init();
+		
 		var i = 0;
 		foreach (var child in _transportationContainer.GetChildren())
 		{
@@ -678,6 +697,23 @@ public partial class GUILandProvinceWindow : GUIHandler
 			child.GetChild(1).GetChild<Button>(1).Pressed += () => _onTransportStockAndTradeButtonPressed(b);
 			i++;
 		}
+
+		i = 0;
+		foreach (var child in _buyContainer.GetChildren())
+		{
+			var b = i;
+			child.GetChild(1).GetChild<Button>(1).Pressed += () => _onBuyButtonPressed(b);
+			i++;
+		}
+
+		i = 0;
+		foreach (var child in _sellContainer.GetChildren())
+		{
+			var b = i;
+			child.GetChild(1).GetChild<Button>(1).Pressed += () => _onSellButtonPressed(b);
+			i++;
+		}
+		_closeAllStockAndTradePanels();
 	}
 
 	private void _tradeInStockShowData(StockAndTrade stockAndTrade)
@@ -702,8 +738,66 @@ public partial class GUILandProvinceWindow : GUIHandler
 		}
 	}
 
+	private void _onClearGoodSellMenuButtonPressed()
+	{
+		//todo
+	}
+
+	private void _onGoodSellEditBoxButtonPressed()
+	{
+		_goodToSellAndBuyPanel.Visible = true;
+	}
+
+	private void _onGoodBuyEditBoxButtonPressed()
+	{
+		_goodToSellAndBuyPanel.Visible = true;
+	}
+	
+	private void _onSellMenuOptionButtonPressed(int id)
+	{
+		//todo
+	}
+
+	private void _onGoodEditPanelGoodBuyAndSellChangePressed(int goodId)
+	{
+		//todo
+	}
+
+	private void _onSellConfirmButtonPressed()
+	{
+		//todo
+	}
+
+	private void _onSellButtonPressed(int slotId)
+	{
+		_closeAllStockAndTradePanels();
+		_currentlyShownSellAndBuyMenuId = slotId;
+		_sellMode = true;
+		
+		
+		_sellContainerPanel.Visible = true;
+	}
+	
+
+	private void _onBuyButtonPressed(int slotId)
+	{
+		_closeAllStockAndTradePanels();
+		_currentlyShownSellAndBuyMenuId = slotId;
+		_sellMode = false;
+		
+		_buyContainerPanel.Visible = true;
+	}
+
+	private void _closeAllStockAndTradePanels()
+	{
+		_sellContainerPanel.Visible = false;
+		_buyContainerPanel.Visible = false;
+		_goodToSellAndBuyPanel.Visible = false;
+	}
+
 	private void _onTransportStockAndTradeButtonPressed(int id)
 	{
+		_closeAllStockAndTradePanels();
 		if (_guestMode)
 			return;
 

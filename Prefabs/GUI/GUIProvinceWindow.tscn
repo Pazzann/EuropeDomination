@@ -154,11 +154,16 @@ offset_bottom = 872.5
 bbcode_enabled = true
 text = "Max resourse: 20"
 
-[node name="Buildings" type="Node2D" parent="HBoxContainer4/ProvinceWindowSprite"]
-position = Vector2(587.5, 448)
+[node name="Buildings" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
+anchors_preset = 0
+offset_left = 587.5
+offset_top = 448.0
+offset_right = 587.5
+offset_bottom = 448.0
 
 [node name="0" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
 self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
 offset_left = -75.0
 offset_top = -225.0
 offset_right = -67.0
@@ -201,6 +206,7 @@ scale = Vector2(6.1175, -5.83068)
 
 [node name="1" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
 self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
 offset_left = 20.0
 offset_top = -223.75
 offset_right = 28.0
@@ -243,6 +249,7 @@ scale = Vector2(6.1175, -5.83068)
 
 [node name="2" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
 self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
 offset_left = -76.25
 offset_top = -161.25
 offset_right = -68.25
@@ -285,6 +292,7 @@ scale = Vector2(6.1175, -5.83068)
 
 [node name="3" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
 self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
 offset_left = 21.25
 offset_top = -160.0
 offset_right = 29.25
@@ -327,6 +335,7 @@ scale = Vector2(6.1175, -5.83068)
 
 [node name="4" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
 self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
 offset_left = -75.0
 offset_top = -96.2501
 offset_right = -67.0
@@ -369,6 +378,7 @@ scale = Vector2(6.1175, -5.83068)
 
 [node name="5" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
 self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
 offset_left = 21.25
 offset_top = -96.2501
 offset_right = 29.25
@@ -411,6 +421,7 @@ scale = Vector2(6.1175, -5.83068)
 
 [node name="6" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
 self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
 offset_left = -75.0
 offset_top = -32.5001
 offset_right = -67.0
@@ -453,6 +464,7 @@ scale = Vector2(6.1175, -5.83068)
 
 [node name="7" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
 self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
 offset_left = 21.25
 offset_top = -32.5001
 offset_right = 29.25
@@ -495,6 +507,7 @@ scale = Vector2(6.1175, -5.83068)
 
 [node name="8" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
 self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
 offset_left = -75.0
 offset_top = 31.2499
 offset_right = -67.0
@@ -537,6 +550,7 @@ scale = Vector2(6.1175, -5.83068)
 
 [node name="9" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/Buildings"]
 self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
 offset_left = 21.25
 offset_top = 31.2499
 offset_right = 29.25
@@ -838,7 +852,6 @@ size_flags_horizontal = 3
 text = "Train"
 
 [node name="GuiStockAndTrade" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 45.0
@@ -972,58 +985,6 @@ theme_override_constants/margin_bottom = 10
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer"]
 layout_mode = 2
 
-[node name="InternalMarketSell" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/InternalMarketSell"]
-layout_mode = 2
-theme_override_constants/margin_left = 3
-theme_override_constants/margin_top = 3
-theme_override_constants/margin_right = 3
-theme_override_constants/margin_bottom = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/InternalMarketSell/MarginContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/InternalMarketSell/MarginContainer/HBoxContainer"]
-layout_mode = 2
-text = "Sell on internal market"
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/InternalMarketSell/MarginContainer/HBoxContainer"]
-layout_mode = 2
-text = "0$/t"
-
-[node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/InternalMarketSell/MarginContainer/HBoxContainer"]
-layout_mode = 2
-text = "Select"
-
-[node name="ExternalMarketSell" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/ExternalMarketSell"]
-layout_mode = 2
-theme_override_constants/margin_left = 3
-theme_override_constants/margin_top = 3
-theme_override_constants/margin_right = 3
-theme_override_constants/margin_bottom = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/ExternalMarketSell/MarginContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/ExternalMarketSell/MarginContainer/HBoxContainer"]
-layout_mode = 2
-text = "Sell on external market"
-
-[node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/ExternalMarketSell/MarginContainer/HBoxContainer"]
-layout_mode = 2
-text = "0$/t"
-
-[node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/ExternalMarketSell/MarginContainer/HBoxContainer"]
-layout_mode = 2
-text = "Select"
-
 [node name="Label2" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Max capacity sell:"
@@ -1049,6 +1010,25 @@ SpriteFrames = ExtResource("23_rpnlq")
 layout_mode = 0
 offset_right = 66.0
 offset_bottom = 69.0
+
+[node name="Button2" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/GoodRect"]
+layout_mode = 0
+offset_left = -31.0
+offset_top = 22.0
+offset_right = -6.0
+offset_bottom = 46.0
+
+[node name="OptionButton" type="OptionButton" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "sell on internal market"
+popup/item_1/text = "sell on external market"
+popup/item_1/id = 1
+
+[node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Confirm"
 
 [node name="BuyMenu" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade"]
 layout_mode = 0
@@ -1259,6 +1239,7 @@ offset_bottom = 220.5
 text = "Needed dev to unlock:10"
 
 [node name="LockedSpecialBuilding" type="Control" parent="HBoxContainer4/ProvinceWindowSprite"]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 43.75
@@ -1483,6 +1464,12 @@ offset_bottom = 923.0
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/closeButton" to="." method="_onCloseProvinceMenuButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/Good/GoodTransportManagement" to="." method="_onGoodTransportManagementPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/Button" to="." method="_onTrainUnitPressed"]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/GoodRect/Button" to="." method="_onGoodSellEditBoxButtonPressed"]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/GoodRect/Button2" to="." method="_onClearGoodSellMenuButtonPressed"]
+[connection signal="item_selected" from="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/OptionButton" to="." method="_onSellMenuOptionButtonPressed"]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/Button" to="." method="_onSellConfirmButtonPressed"]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer/GoodRect/Button" to="." method="_onGoodBuyEditBoxButtonPressed"]
+[connection signal="GoodChangePressed" from="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/GoodEditPanel" to="." method="_onGoodEditPanelGoodBuyAndSellChangePressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Button" to="." method="_onChangeRecipeButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Button2" to="." method="_onDeleteRecipePressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Button3" to="." method="_onFactoryTransportButtonPressed"]
