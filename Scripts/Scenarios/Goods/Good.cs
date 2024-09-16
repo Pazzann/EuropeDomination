@@ -5,16 +5,18 @@ namespace EuropeDominationDemo.Scripts.Scenarios.Goods;
 
 public abstract class Good
 {
-    public Good(int id, string name, Vector3 color)
+    public Good(int id, string name, Vector3 color, float cost)
     {
         Id = id;
         Name = name;
         Color = color;
+        Cost = cost;
     }
 
     public int Id { get; }
     public Vector3 Color { get; }
     public string Name { get; }
+    public float Cost { get; }
 
 
     public static double[] DefaultGoods(Dictionary<int, double> notNullGoods = null)

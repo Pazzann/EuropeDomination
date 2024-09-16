@@ -5,7 +5,7 @@ using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
-using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings.FactoryRecipies;
+using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.Scenarios.Technology;
 using Godot;
 

@@ -1,4 +1,4 @@
-using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings.FactoryRecipies;
+using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.Utils;
 using Godot;
 

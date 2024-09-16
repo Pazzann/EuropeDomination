@@ -4,9 +4,9 @@ namespace EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon;
 
 public class Weapon : Good
 {
-    public Weapon(int id, string name, Vector3 color, float battleConsumption, float walkingConsumption,
+    public Weapon(int id, string name, Vector3 color, float cost, float battleConsumption, float walkingConsumption,
         float steadyConsumption, float neededToBuildUnit, Modifiers modifiers, int additionalTrainingTime) : base(id,
-        name, color)
+        name, color, cost)
     {
         BattleConsumption = battleConsumption;
         WalkingConsumption = walkingConsumption;
