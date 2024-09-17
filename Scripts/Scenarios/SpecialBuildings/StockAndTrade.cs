@@ -10,7 +10,8 @@ public class StockAndTrade : SpecialBuilding
     public int RouteId = 0;
     public TransportationRoute[] TransportationRoutes;
     public KeyValuePair<int, double>[] SellingSlots;
-    //first int is a province id
+    
+    //first int is a province id; set equal to province Id if buying from internal market
     public KeyValuePair<int, KeyValuePair<int, double>>[] BuyingSlots;
 
     public StockAndTrade(int buildingTime, bool isFinished, TransportationRoute[] transportationRoutes, KeyValuePair<int, double>[] sellingSlots, KeyValuePair<int, KeyValuePair<int, double>>[] buyingSlots) :

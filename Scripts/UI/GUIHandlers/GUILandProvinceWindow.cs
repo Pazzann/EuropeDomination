@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
@@ -670,6 +671,19 @@ public partial class GUILandProvinceWindow : GUIHandler
 	private PanelContainer _sellContainerPanel;
 	private PanelContainer _buyContainerPanel;
 	private GUIGoodEditPanel _goodToSellAndBuyPanel;
+	
+	
+	private Label _sellSliderLabel;
+	private HSlider _sellSlider;
+	private AnimatedTextureRect _sellGoodBox;
+	
+
+	private AnimatedTextureRect _buyGoodBox;
+	private Label _buySliderLabel;
+	private HSlider _buySlider;
+	private VBoxContainer _buyVariantsContainer;
+	private PackedScene _buyVariantScene;
+	private PanelContainer _internalMarketBuyContainer;
 
 
 	private int _currentlyShownSellAndBuyMenuId = -1;
@@ -689,6 +703,18 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_buyContainerPanel = _tradeAndStockHandler.GetNode<PanelContainer>("./BuyMenu");
 		_goodToSellAndBuyPanel = _tradeAndStockHandler.GetNode<GUIGoodEditPanel>("./GoodEditPanel");
 		_goodToSellAndBuyPanel.Init();
+		
+		_sellSliderLabel = _sellContainerPanel.GetChild(0).GetChild(0).GetNode<Label>("./SliderLabel");
+		_sellGoodBox = _sellContainerPanel.GetChild(0).GetChild(0).GetNode<AnimatedTextureRect>("./GoodRect/AnimatedTextureRect");
+		_sellSlider = _sellContainerPanel.GetChild(0).GetChild(0).GetNode<HSlider>("./HSlider");
+		
+		_buySliderLabel = _buyContainerPanel.GetChild(0).GetChild(0).GetNode<Label>("./SliderLabel");
+		_buySlider = _buyContainerPanel.GetChild(0).GetChild(0).GetNode<HSlider>("./HSlider");
+		_buyGoodBox = _buyContainerPanel.GetChild(0).GetChild(0).GetNode<AnimatedTextureRect>("./GoodRect/AnimatedTextureRect");
+		_buyVariantsContainer = _buyContainerPanel.GetChild(0).GetChild(0).GetNode<VBoxContainer>("./ScrollContainer/VBoxContainer");
+		_buyVariantScene = GD.Load<PackedScene>("res://Prefabs/GUI/Modules/GUIBuySelect.tscn");
+		_internalMarketBuyContainer = _buyContainerPanel.GetChild(0).GetChild(0).GetNode<PanelContainer>("./InternalMarketBuy");
+		//todo everything about buying;
 		
 		var i = 0;
 		foreach (var child in _transportationContainer.GetChildren())
@@ -718,6 +744,17 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private void _tradeInStockShowData(StockAndTrade stockAndTrade)
 	{
+		for (int i = 0; i < stockAndTrade.BuyingSlots.Length; i++)
+		{
+			var child  = _buyContainer.GetChild(i);	
+		}
+		
+		for (int i = 0; i < stockAndTrade.SellingSlots.Length; i++)
+		{
+			var child  = _sellContainer.GetChild(i);
+			child.GetChild(1).GetChild<AnimatedTextureRect>(0).SetFrame(stockAndTrade.SellingSlots[i].Key);
+		}
+		
 		for (var i = 0; i < stockAndTrade.TransportationRoutes.Length; i++)
 		{
 			var child = _transportationContainer.GetChild(i);
@@ -740,7 +777,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private void _onClearGoodSellMenuButtonPressed()
 	{
-		//todo
+		_sellGoodBox.SetEmptyFrame();
 	}
 
 	private void _onGoodSellEditBoxButtonPressed()
@@ -752,20 +789,32 @@ public partial class GUILandProvinceWindow : GUIHandler
 	{
 		_goodToSellAndBuyPanel.Visible = true;
 	}
-	
-	private void _onSellMenuOptionButtonPressed(int id)
-	{
-		//todo
-	}
 
 	private void _onGoodEditPanelGoodBuyAndSellChangePressed(int goodId)
 	{
-		//todo
+		if(_sellMode)
+			_sellGoodBox.SetFrame(goodId);
 	}
 
 	private void _onSellConfirmButtonPressed()
 	{
+		var a = new KeyValuePair<int, double>(_sellGoodBox.FrameIndex, _sellSlider.Value);
+		if (_sellGoodBox.FrameIndex == -1)
+		{
+			a = new KeyValuePair<int, double>(-1, 0);
+		}
+		InvokeGUIEvent(new GUIChangeSellSlot(_currentColonizedProvinceData.Id, _currentTab, _currentlyShownSellAndBuyMenuId, a));
+		_showTab(_currentTab);
+	}
+
+	private void _onSearchBuyPressed()
+	{
 		//todo
+	}
+
+	private void _onSellSliderValueChanged(float value)
+	{
+		_sellSliderLabel.Text = value.ToString("N1");
 	}
 
 	private void _onSellButtonPressed(int slotId)

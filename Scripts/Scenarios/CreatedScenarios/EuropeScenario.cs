@@ -528,20 +528,20 @@ public class EuropeScenario : Scenario
             {
                 0,
                 new CountryData(0, "Great Britain", new Vector3(0.0f, 1.0f, 0.0f), Modifiers.DefaultModifiers(), 1000,
-                    300, new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(),
+                    1200, new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(),
                     new Dictionary<int, List<DiplomacyAgreement>>(), 0, new Dictionary<Vector3I, int>(), new List<int>(), new List<int>(), Modifiers.DefaultModifiers(), new Dictionary<int, bool>())
             },
             {
                 1,
-                new CountryData(1, "France", new Vector3(0.0f, 0.0f, 1.0f), Modifiers.DefaultModifiers(), 200, 200,
+                new CountryData(1, "France", new Vector3(0.0f, 0.0f, 1.0f), Modifiers.DefaultModifiers(), 200, 500,
                     new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(),
                     new Dictionary<int, List<DiplomacyAgreement>>(), 1, new Dictionary<Vector3I, int>(), new List<int>(), new List<int>(), Modifiers.DefaultModifiers(), new Dictionary<int, bool>())
             },
             {
                 2,
-                new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers(), 300, 100,
+                new CountryData(2, "Sweden", new Vector3(1.0f, 0.0f, 0.0f), Modifiers.DefaultModifiers(), 300, 600,
                     new List<General>(), new List<Admiral>(), new List<UnitData>(), new List<Template>(),
-                    new Dictionary<int, List<DiplomacyAgreement>>(), 3, new Dictionary<Vector3I, int>(), new List<int>(), new List<int>(), Modifiers.DefaultModifiers(), new Dictionary<int, bool>())
+                    new Dictionary<int, List<DiplomacyAgreement>>(), 2, new Dictionary<Vector3I, int>(), new List<int>(), new List<int>(), Modifiers.DefaultModifiers(), new Dictionary<int, bool>())
             }
         };
         

@@ -992,7 +992,7 @@ text = "Max capacity sell:"
 [node name="HSlider" type="HSlider" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer"]
+[node name="SliderLabel" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "0"
 
@@ -1017,14 +1017,6 @@ offset_left = -31.0
 offset_top = 22.0
 offset_right = -6.0
 offset_bottom = 46.0
-
-[node name="OptionButton" type="OptionButton" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer"]
-layout_mode = 2
-selected = 0
-item_count = 2
-popup/item_0/text = "sell on internal market"
-popup/item_1/text = "sell on external market"
-popup/item_1/id = 1
 
 [node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -1062,6 +1054,10 @@ SpriteFrames = ExtResource("23_rpnlq")
 layout_mode = 0
 offset_right = 66.0
 offset_bottom = 69.0
+
+[node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Search"
 
 [node name="InternalMarketBuy" type="PanelContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)
@@ -1106,6 +1102,24 @@ layout_mode = 2
 
 [node name="GuiBuySelect3" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("21_c5jxy")]
 layout_mode = 2
+
+[node name="HSlider" type="HSlider" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SliderLabel" type="Label" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button2" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Confirm"
+
+[node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Cancel"
 
 [node name="GoodEditPanel" parent="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade" instance=ExtResource("24_qo3qi")]
 layout_mode = 0
@@ -1464,11 +1478,12 @@ offset_bottom = 923.0
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/closeButton" to="." method="_onCloseProvinceMenuButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/Good/GoodTransportManagement" to="." method="_onGoodTransportManagementPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/GuiMilitaryTrainingCamp/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/Button" to="." method="_onTrainUnitPressed"]
+[connection signal="value_changed" from="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/HSlider" to="." method="_onSellSliderValueChanged"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/GoodRect/Button" to="." method="_onGoodSellEditBoxButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/GoodRect/Button2" to="." method="_onClearGoodSellMenuButtonPressed"]
-[connection signal="item_selected" from="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/OptionButton" to="." method="_onSellMenuOptionButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/SellMenu/MarginContainer/VBoxContainer/Button" to="." method="_onSellConfirmButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer/GoodRect/Button" to="." method="_onGoodBuyEditBoxButtonPressed"]
+[connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/BuyMenu/MarginContainer/VBoxContainer/Button" to="." method="_onSearchBuyPressed"]
 [connection signal="GoodChangePressed" from="HBoxContainer4/ProvinceWindowSprite/GuiStockAndTrade/GoodEditPanel" to="." method="_onGoodEditPanelGoodBuyAndSellChangePressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Button" to="." method="_onChangeRecipeButtonPressed"]
 [connection signal="pressed" from="HBoxContainer4/ProvinceWindowSprite/GuiFactory/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Button2" to="." method="_onDeleteRecipePressed"]
