@@ -124,7 +124,7 @@ public partial class GUICountryWindow : GUIHandler
 			a.SelfModulate = EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoods.ContainsKey(good.Id) ? EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoods[good.Id] ? new Color(0, 1, 0, 1) : new Color(1, 0, 0, 1) : new Color(1, 1, 1, 1);
 			_consumableGoodSpawner.AddChild(a);
 		}
-		_totalModifiersFromConsumableGoodsLabel.Text = new RichTextLabelBuilder().Header("Total modifiiers from consumption:").ShowModifiers(EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoodsModifiers).Text;
+		_totalModifiersFromConsumableGoodsLabel.Text = new RichTextLabelBuilder().Header("Total modifiers from consumption:").ShowModifiers(EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoodsModifiers).Text;
 	}
 
 	private void _consumableGoodsUpdate()
@@ -137,7 +137,7 @@ public partial class GUICountryWindow : GUIHandler
 			a.SelfModulate = EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoods.ContainsKey(good.Id) ? EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoods[good.Id] ? new Color(0, 1, 0, 1) : new Color(1, 0, 0, 1) : new Color(1, 1, 1, 1);
 			i++;
 		}
-		_totalModifiersFromConsumableGoodsLabel.Text = new RichTextLabelBuilder().Header("Total modifiiers from consumption:").ShowModifiers(EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoodsModifiers).Text;
+		_totalModifiersFromConsumableGoodsLabel.Text = new RichTextLabelBuilder().Header("Total modifiers from consumption:").ShowModifiers(EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoodsModifiers).Text;
 	}
 
 	private void _changeConsumableGoodStatus(int goodId)
@@ -297,9 +297,198 @@ public partial class GUICountryWindow : GUIHandler
 
 	private void _onEditArmyTemplatePressed(int templateId)
 	{
-		_showArmyTemplateToEdit(
+		var armyTemplate =
 			EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].RegimentTemplates[templateId] as
-				ArmyRegimentTemplate);
+				ArmyRegimentTemplate;
+		
+		_templateDesignerPanel.Visible = true;
+		_currentEditingArmyTemplate = armyTemplate;
+		_lineEditNameArmyTemplate.Text = armyTemplate.Name;
+
+		switch (armyTemplate)
+		{
+			case ArmyInfantryRegimentTemplate:
+			{
+				_optionButtonTypeArmyTemplate.Selected = 0;
+
+				break;
+			}
+			case ArmyCavalryRegimentTemplate:
+			{
+				_optionButtonTypeArmyTemplate.Selected = 1;
+
+				break;
+			}
+			case ArmyArtilleryRegimentTemplate:
+			{
+				_optionButtonTypeArmyTemplate.Selected = 2;
+
+				break;
+			}
+		}
+		
+		Type[] options = {typeof(ArmyInfantryRegimentTemplate), typeof(ArmyCavalryRegimentTemplate), typeof(ArmyArtilleryRegimentTemplate)};
+
+		var fields = options[_optionButtonTypeArmyTemplate.Selected].GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+
+		for (int i = 0; i < 5; i++)
+		{
+			if (fields[i].GetValue(armyTemplate) == null)
+				_goodArmyTemplateSpawner.GetChild(i).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
+			else
+			{
+				_goodArmyTemplateSpawner.GetChild(i).GetChild(0).GetChild<AnimatedTextureRect>(0)
+					.SetFrame((fields[i].GetValue(armyTemplate) as Good)?.Id ?? -1);
+			}
+			
+			_goodArmyTemplateSpawner.GetChild(i).GetChild<Label>(1).Text = fields[i].Name;
+		}
+		
+		/*switch (armyTemplate)
+		{
+			case ArmyInfantryRegimentTemplate armyInfantry:
+			{
+				_optionButtonTypeArmyTemplate.Selected = 0;
+
+				if (armyInfantry.Weapon == null)
+					_goodArmyTemplateSpawner.GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
+				else
+					_goodArmyTemplateSpawner.GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0)
+						.SetFrame(armyInfantry.Weapon.Id);
+
+				_goodArmyTemplateSpawner.GetChild(0).GetChild<Label>(1).Text = "Weapon";
+
+
+				if (armyInfantry.Helmet == null)
+					_goodArmyTemplateSpawner.GetChild(1).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
+				else
+					_goodArmyTemplateSpawner.GetChild(1).GetChild(0).GetChild<AnimatedTextureRect>(0)
+						.SetFrame(armyInfantry.Helmet.Id);
+
+				_goodArmyTemplateSpawner.GetChild(1).GetChild<Label>(1).Text = "Helmet";
+
+				if (armyInfantry.Armor == null)
+					_goodArmyTemplateSpawner.GetChild(2).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
+				else
+					_goodArmyTemplateSpawner.GetChild(2).GetChild(0).GetChild<AnimatedTextureRect>(0)
+						.SetFrame(armyInfantry.Armor.Id);
+
+				_goodArmyTemplateSpawner.GetChild(2).GetChild<Label>(1).Text = "Armor";
+
+				if (armyInfantry.Boots == null)
+					_goodArmyTemplateSpawner.GetChild(3).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
+				else
+					_goodArmyTemplateSpawner.GetChild(3).GetChild(0).GetChild<AnimatedTextureRect>(0)
+						.SetFrame(armyInfantry.Boots.Id);
+
+				_goodArmyTemplateSpawner.GetChild(3).GetChild<Label>(1).Text = "Boots";
+
+				if (armyInfantry.Additional == null)
+					_goodArmyTemplateSpawner.GetChild(4).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
+				else
+					_goodArmyTemplateSpawner.GetChild(4).GetChild(0).GetChild<AnimatedTextureRect>(0)
+						.SetFrame(armyInfantry.Additional.Id);
+
+				_goodArmyTemplateSpawner.GetChild(4).GetChild<Label>(1).Text = "Additional";
+
+				return;
+			}
+			case ArmyCavalryRegimentTemplate armyCavalry:
+			{
+				_optionButtonTypeArmyTemplate.Selected = 1;
+
+				if (armyCavalry.Weapon == null)
+					_goodArmyTemplateSpawner.GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
+				else
+					_goodArmyTemplateSpawner.GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0)
+						.SetFrame(armyCavalry.Weapon.Id);
+
+				_goodArmyTemplateSpawner.GetChild(0).GetChild<Label>(1).Text = "Weapon";
+
+
+				if (armyCavalry.Horse == null)
+					_goodArmyTemplateSpawner.GetChild(1).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
+				else
+					_goodArmyTemplateSpawner.GetChild(1).GetChild(0).GetChild<AnimatedTextureRect>(0)
+						.SetFrame(armyCavalry.Horse.Id);
+
+				_goodArmyTemplateSpawner.GetChild(1).GetChild<Label>(1).Text = "Horse";
+
+				if (armyCavalry.Helmet == null)
+					_goodArmyTemplateSpawner.GetChild(2).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
+				else
+					_goodArmyTemplateSpawner.GetChild(2).GetChild(0).GetChild<AnimatedTextureRect>(0)
+						.SetFrame(armyCavalry.Helmet.Id);
+
+				_goodArmyTemplateSpawner.GetChild(2).GetChild<Label>(1).Text = "Helmet";
+
+				if (armyCavalry.Armor == null)
+					_goodArmyTemplateSpawner.GetChild(3).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
+				else
+					_goodArmyTemplateSpawner.GetChild(3).GetChild(0).GetChild<AnimatedTextureRect>(0)
+						.SetFrame(armyCavalry.Armor.Id);
+
+				_goodArmyTemplateSpawner.GetChild(3).GetChild<Label>(1).Text = "Armor";
+
+				if (armyCavalry.Additional == null)
+					_goodArmyTemplateSpawner.GetChild(4).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
+				else
+					_goodArmyTemplateSpawner.GetChild(4).GetChild(0).GetChild<AnimatedTextureRect>(0)
+						.SetFrame(armyCavalry.Additional.Id);
+
+				_goodArmyTemplateSpawner.GetChild(4).GetChild<Label>(1).Text = "Additional";
+
+
+				return;
+			}
+			case ArmyArtilleryRegimentTemplate armyArtillery:
+			{
+				_optionButtonTypeArmyTemplate.Selected = 2;
+
+				if (armyArtillery.Weapon == null)
+					_goodArmyTemplateSpawner.GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
+				else
+					_goodArmyTemplateSpawner.GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0)
+						.SetFrame(armyArtillery.Weapon.Id);
+
+				_goodArmyTemplateSpawner.GetChild(0).GetChild<Label>(1).Text = "Weapon";
+
+
+				if (armyArtillery.Boots == null)
+					_goodArmyTemplateSpawner.GetChild(1).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
+				else
+					_goodArmyTemplateSpawner.GetChild(1).GetChild(0).GetChild<AnimatedTextureRect>(0)
+						.SetFrame(armyArtillery.Boots.Id);
+
+				_goodArmyTemplateSpawner.GetChild(1).GetChild<Label>(1).Text = "Boots";
+
+				if (armyArtillery.Armor == null)
+					_goodArmyTemplateSpawner.GetChild(2).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
+				else
+					_goodArmyTemplateSpawner.GetChild(2).GetChild(0).GetChild<AnimatedTextureRect>(0)
+						.SetFrame(armyArtillery.Armor.Id);
+
+				_goodArmyTemplateSpawner.GetChild(2).GetChild<Label>(1).Text = "Armor";
+
+				if (armyArtillery.Wheel == null)
+					_goodArmyTemplateSpawner.GetChild(3).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
+				else
+					_goodArmyTemplateSpawner.GetChild(3).GetChild(0).GetChild<AnimatedTextureRect>(0)
+						.SetFrame(armyArtillery.Wheel.Id);
+
+				_goodArmyTemplateSpawner.GetChild(3).GetChild<Label>(1).Text = "Wheel";
+
+				if (armyArtillery.Additional == null)
+					_goodArmyTemplateSpawner.GetChild(4).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
+				else
+					_goodArmyTemplateSpawner.GetChild(4).GetChild(0).GetChild<AnimatedTextureRect>(0)
+						.SetFrame(armyArtillery.Additional.Id);
+
+				_goodArmyTemplateSpawner.GetChild(4).GetChild<Label>(1).Text = "Additional";
+
+				return;
+			}
+		}*/
 	}
 
 	private void _onGoodEditPanelGoodChangePressed(int goodId)
@@ -339,19 +528,39 @@ public partial class GUICountryWindow : GUIHandler
 
 		Type[] options = {typeof(ArmyInfantryRegimentTemplate), typeof(ArmyCavalryRegimentTemplate), typeof(ArmyArtilleryRegimentTemplate)};
 		
-		var properties = options[index].GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+		var fields = options[index].GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
 		for (var i = 0; i < 5; i++)
 		{
-			_goodArmyTemplateSpawner.GetChild(i).GetChild<Label>(1).Text = properties[i].Name;
+			_goodArmyTemplateSpawner.GetChild(i).GetChild<Label>(1).Text = fields[i].Name;
 		}
 	}
 
 	private void _onSaveArmyTemplatePressed()
 	{
-		if (_currentEditingArmyTemplate != null)
+		Type[] options = {typeof(ArmyInfantryRegimentTemplate), typeof(ArmyCavalryRegimentTemplate), typeof(ArmyArtilleryRegimentTemplate)};
+		
+		var fields = options[_optionButtonTypeArmyTemplate.Selected].GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+			
+		var indexes = new int[fields.Length];
+		for (var i = 0; i < indexes.Length; i++)
+		{
+			indexes[i] = _goodArmyTemplateSpawner.GetChild(i).GetChild(0).GetChild<AnimatedTextureRect>(0).FrameIndex;
+		}
+
+		if (_currentEditingArmyTemplate != null &&
+		    _currentEditingArmyTemplate.GetType() == options[_optionButtonTypeArmyTemplate.Selected])
 		{
 			_currentEditingArmyTemplate.Name = _lineEditNameArmyTemplate.Text;
-			switch (_currentEditingArmyTemplate)
+			
+			for (var i = 0; i < fields.Length; i++)
+			{
+				fields[i].SetValue(
+					_currentEditingArmyTemplate,
+					indexes[i] == -1 ? null : EngineState.MapInfo.Scenario.Goods[indexes[i]]
+					);
+			}
+			
+			/*switch (_currentEditingArmyTemplate)
 			{
 				case ArmyInfantryRegimentTemplate template:
 				{
@@ -434,37 +643,26 @@ public partial class GUICountryWindow : GUIHandler
 						: EngineState.MapInfo.Scenario.Goods[additionalSlotIndex] as AdditionalSlotGood;
 					break;
 				}
-			}
+			}*/
 			//need to call for template change in all units;
 		}
 		else
 		{
-			Type[] options = {typeof(ArmyInfantryRegimentTemplate), typeof(ArmyCavalryRegimentTemplate), typeof(ArmyArtilleryRegimentTemplate)};
-		
-			var properties = options[_optionButtonTypeArmyTemplate.Selected].GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
-			
-			var indexes = new int[5];
-			for (var i = 0; i < 5; i++)
+			var constructorArguments = new object[2 + fields.Length];
+			constructorArguments[0] = _lineEditNameArmyTemplate.Text;
+			constructorArguments[1] = _currentEditingArmyTemplate?.Id ?? EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].RegimentTemplates.Count;
+			for (int i = 0; i < 5; i++)
 			{
-				indexes[i] = _goodArmyTemplateSpawner.GetChild(i).GetChild(0).GetChild<AnimatedTextureRect>(0).FrameIndex;
+				constructorArguments[2 + i] =
+					indexes[i] == -1 ? null : EngineState.MapInfo.Scenario.Goods[indexes[i]];
 			}
-			
-			EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].RegimentTemplates.Add(
-				 options[_optionButtonTypeArmyTemplate.Selected].GetConstructor(
-					 new [] {typeof(string), typeof(int), properties[0].FieldType, properties[1].FieldType, properties[2].FieldType,
-					 properties[3].FieldType, properties[4].FieldType}).Invoke(new object[] {
-					_lineEditNameArmyTemplate.Text,
-					EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].RegimentTemplates.Count,
-					indexes[0] == -1
-						? null
-						: EngineState.MapInfo.Scenario.Goods[indexes[0]],
-					indexes[1] == -1 ? null : EngineState.MapInfo.Scenario.Goods[indexes[1]],
-					indexes[2] == -1 ? null : EngineState.MapInfo.Scenario.Goods[indexes[2]],
-					indexes[3] == -1 ? null : EngineState.MapInfo.Scenario.Goods[indexes[3]],
-					indexes[4] == -1
-						? null
-						: EngineState.MapInfo.Scenario.Goods[indexes[4]]
-				 }) as Template);
+
+			var newArmyRegimentTemplate = options[_optionButtonTypeArmyTemplate.Selected].GetConstructor(
+				new[] { typeof(string), typeof(int), fields[0].FieldType, fields[1].FieldType, fields[2].FieldType,
+					fields[3].FieldType, fields[4].FieldType }).Invoke(constructorArguments);
+
+			if (_currentEditingArmyTemplate != null) EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].RegimentTemplates[_currentEditingArmyTemplate.Id] = newArmyRegimentTemplate as ArmyRegimentTemplate;
+			else EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].RegimentTemplates.Add(newArmyRegimentTemplate  as Template);
 			
 			/*switch (_optionButtonTypeArmyTemplate.Selected)
 			{
@@ -590,8 +788,8 @@ public partial class GUICountryWindow : GUIHandler
 		
 		Type[] options = {typeof(ArmyInfantryRegimentTemplate), typeof(ArmyCavalryRegimentTemplate), typeof(ArmyArtilleryRegimentTemplate)};
 		
-		var properties = options[_optionButtonTypeArmyTemplate.Selected].GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
-		_showGoodEditBox(EngineState.MapInfo.Scenario.Goods.Where(d => properties[buttonId].FieldType.IsInstanceOfType(d)).ToArray());
+		var fields = options[_optionButtonTypeArmyTemplate.Selected].GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+		_showGoodEditBox(EngineState.MapInfo.Scenario.Goods.Where(d => fields[buttonId].FieldType.IsInstanceOfType(d)).ToArray());
 	}
 
 	private void _showGoodEditBox(Good[] goods)
@@ -600,159 +798,5 @@ public partial class GUICountryWindow : GUIHandler
 		_guiGoodEditPanel.Visible = true;
 	}
 
-	private void _showArmyTemplateToEdit(ArmyRegimentTemplate armyTemplate)
-	{
-		_templateDesignerPanel.Visible = true;
-		_currentEditingArmyTemplate = armyTemplate;
-		_lineEditNameArmyTemplate.Text = armyTemplate.Name;
-		switch (armyTemplate)
-		{
-			case ArmyInfantryRegimentTemplate armyInfantry:
-			{
-				_optionButtonTypeArmyTemplate.Selected = 0;
-
-				if (armyInfantry.Weapon == null)
-					_goodArmyTemplateSpawner.GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
-				else
-					_goodArmyTemplateSpawner.GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0)
-						.SetFrame(armyInfantry.Weapon.Id);
-
-				_goodArmyTemplateSpawner.GetChild(0).GetChild<Label>(1).Text = "Weapon";
-
-
-				if (armyInfantry.Helmet == null)
-					_goodArmyTemplateSpawner.GetChild(1).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
-				else
-					_goodArmyTemplateSpawner.GetChild(1).GetChild(0).GetChild<AnimatedTextureRect>(0)
-						.SetFrame(armyInfantry.Helmet.Id);
-
-				_goodArmyTemplateSpawner.GetChild(1).GetChild<Label>(1).Text = "Helmet";
-
-				if (armyInfantry.Armor == null)
-					_goodArmyTemplateSpawner.GetChild(2).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
-				else
-					_goodArmyTemplateSpawner.GetChild(2).GetChild(0).GetChild<AnimatedTextureRect>(0)
-						.SetFrame(armyInfantry.Armor.Id);
-
-				_goodArmyTemplateSpawner.GetChild(2).GetChild<Label>(1).Text = "Armor";
-
-				if (armyInfantry.Boots == null)
-					_goodArmyTemplateSpawner.GetChild(3).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
-				else
-					_goodArmyTemplateSpawner.GetChild(3).GetChild(0).GetChild<AnimatedTextureRect>(0)
-						.SetFrame(armyInfantry.Boots.Id);
-
-				_goodArmyTemplateSpawner.GetChild(3).GetChild<Label>(1).Text = "Boots";
-
-				if (armyInfantry.Additional == null)
-					_goodArmyTemplateSpawner.GetChild(4).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
-				else
-					_goodArmyTemplateSpawner.GetChild(4).GetChild(0).GetChild<AnimatedTextureRect>(0)
-						.SetFrame(armyInfantry.Additional.Id);
-
-				_goodArmyTemplateSpawner.GetChild(4).GetChild<Label>(1).Text = "Additional";
-
-				return;
-			}
-			case ArmyCavalryRegimentTemplate armyCavallary:
-			{
-				_optionButtonTypeArmyTemplate.Selected = 1;
-
-				if (armyCavallary.Weapon == null)
-					_goodArmyTemplateSpawner.GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
-				else
-					_goodArmyTemplateSpawner.GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0)
-						.SetFrame(armyCavallary.Weapon.Id);
-
-				_goodArmyTemplateSpawner.GetChild(0).GetChild<Label>(1).Text = "Weapon";
-
-
-				if (armyCavallary.Horse == null)
-					_goodArmyTemplateSpawner.GetChild(1).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
-				else
-					_goodArmyTemplateSpawner.GetChild(1).GetChild(0).GetChild<AnimatedTextureRect>(0)
-						.SetFrame(armyCavallary.Horse.Id);
-
-				_goodArmyTemplateSpawner.GetChild(1).GetChild<Label>(1).Text = "Horse";
-
-				if (armyCavallary.Helmet == null)
-					_goodArmyTemplateSpawner.GetChild(2).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
-				else
-					_goodArmyTemplateSpawner.GetChild(2).GetChild(0).GetChild<AnimatedTextureRect>(0)
-						.SetFrame(armyCavallary.Helmet.Id);
-
-				_goodArmyTemplateSpawner.GetChild(2).GetChild<Label>(1).Text = "Helmet";
-
-				if (armyCavallary.Armor == null)
-					_goodArmyTemplateSpawner.GetChild(3).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
-				else
-					_goodArmyTemplateSpawner.GetChild(3).GetChild(0).GetChild<AnimatedTextureRect>(0)
-						.SetFrame(armyCavallary.Armor.Id);
-
-				_goodArmyTemplateSpawner.GetChild(3).GetChild<Label>(1).Text = "Armor";
-
-				if (armyCavallary.Additional == null)
-					_goodArmyTemplateSpawner.GetChild(4).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
-				else
-					_goodArmyTemplateSpawner.GetChild(4).GetChild(0).GetChild<AnimatedTextureRect>(0)
-						.SetFrame(armyCavallary.Additional.Id);
-
-				_goodArmyTemplateSpawner.GetChild(4).GetChild<Label>(1).Text = "Additional";
-
-
-				return;
-			}
-			case ArmyArtilleryRegimentTemplate armyArtillery:
-			{
-				_optionButtonTypeArmyTemplate.Selected = 2;
-
-				if (armyArtillery.Weapon == null)
-					_goodArmyTemplateSpawner.GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
-				else
-					_goodArmyTemplateSpawner.GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0)
-						.SetFrame(armyArtillery.Weapon.Id);
-
-				_goodArmyTemplateSpawner.GetChild(0).GetChild<Label>(1).Text = "Weapon";
-
-
-				if (armyArtillery.Boots == null)
-					_goodArmyTemplateSpawner.GetChild(1).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
-				else
-					_goodArmyTemplateSpawner.GetChild(1).GetChild(0).GetChild<AnimatedTextureRect>(0)
-						.SetFrame(armyArtillery.Boots.Id);
-
-				_goodArmyTemplateSpawner.GetChild(1).GetChild<Label>(1).Text = "Boots";
-
-				if (armyArtillery.Armor == null)
-					_goodArmyTemplateSpawner.GetChild(2).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
-				else
-					_goodArmyTemplateSpawner.GetChild(2).GetChild(0).GetChild<AnimatedTextureRect>(0)
-						.SetFrame(armyArtillery.Armor.Id);
-
-				_goodArmyTemplateSpawner.GetChild(2).GetChild<Label>(1).Text = "Armor";
-
-				if (armyArtillery.Wheel == null)
-					_goodArmyTemplateSpawner.GetChild(3).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
-				else
-					_goodArmyTemplateSpawner.GetChild(3).GetChild(0).GetChild<AnimatedTextureRect>(0)
-						.SetFrame(armyArtillery.Wheel.Id);
-
-				_goodArmyTemplateSpawner.GetChild(3).GetChild<Label>(1).Text = "Wheel";
-
-				if (armyArtillery.Additional == null)
-					_goodArmyTemplateSpawner.GetChild(4).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
-				else
-					_goodArmyTemplateSpawner.GetChild(4).GetChild(0).GetChild<AnimatedTextureRect>(0)
-						.SetFrame(armyArtillery.Additional.Id);
-
-				_goodArmyTemplateSpawner.GetChild(4).GetChild<Label>(1).Text = "Additional";
-
-				return;
-			}
-		}
-	}
-
 	#endregion
-
-	
 }
