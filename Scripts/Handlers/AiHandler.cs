@@ -3,6 +3,7 @@ using System.Linq;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
+using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Handlers;
@@ -40,13 +41,15 @@ public partial class AiHandler : GameHandler
             var country = EngineState.MapInfo.Scenario.Countries[aiCountry];
             if (EngineState.MapInfo.MapProvinces(ProvinceTypes.UncolonizedProvinces).Count(b =>
                     b is UncolonizedProvinceData data && data.CurrentlyColonizedByCountry != null &&
-                    data.CurrentlyColonizedByCountry.Id == country.Id) < 2)
+                    data.CurrentlyColonizedByCountry.Id == country.Id) < 2 && country.Money > Settings.InitialMoneyCostColony && country.Manpower > Settings.InitialManpowerCostColony)
             {
                 var colonizableProvinces = country.GetAvailibaleProvincesToColonize();
                 if (colonizableProvinces.Length != 0)
                 {
                     var id = new Random().Next(colonizableProvinces.Length);
                     colonizableProvinces[id].CurrentlyColonizedByCountry = country;
+                    country.Money -= Settings.InitialMoneyCostColony;
+                    country.Manpower -= Settings.InitialManpowerCostColony;
                 }
                 
             }

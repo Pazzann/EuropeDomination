@@ -97,10 +97,44 @@ public abstract class Scenario : IScenario
             }
             case GameModes.SelectionSpawn:
             {
+                var countOfLandProvinces = Map.Where(d => d is UncolonizedProvinceData).ToArray();
+                var capitals = new HashSet<int>();
+                while (capitals.Count != Countries.Count)
+                {
+                    capitals.Add(new Random().Next(0, countOfLandProvinces.Length));
+                }
+
+                var capitalsArray = capitals.ToArray();
+
+                foreach (var country in Countries)
+                {
+                    if (!PlayerList.ContainsKey(country.Key))
+                    {
+                        AiList.Add(country.Key);
+                        country.Value.CapitalId = countOfLandProvinces[capitalsArray[country.Value.Id]].Id;
+                        var a = (UncolonizedProvinceData)Map[country.Value.CapitalId];
+                        a.CurrentlyColonizedByCountry = country.Value;
+                        var b = a.ConvertToLandProvince();
+                        b.Development = 10;
+                        Map[a.Id] = b;
+                    }
+                    country.Value.ResearchedTechnologies = GenerateTechnologyArray();
+                }
                 return;
             }
-            default:
+            case GameModes.FullMapScenario:
             {
+                foreach (var country in Countries)
+                {
+                    if(!PlayerList.ContainsKey(country.Key))
+                        AiList.Add(country.Key);
+                    var a = (UncolonizedProvinceData)Map[country.Value.CapitalId];
+                    a.CurrentlyColonizedByCountry = country.Value;
+                    var b = a.ConvertToLandProvince();
+                    b.Development = 10;
+                    Map[a.Id] = b;
+                    country.Value.ResearchedTechnologies = GenerateTechnologyArray();
+                }
                 return;
             }
         }

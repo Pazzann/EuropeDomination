@@ -44,6 +44,7 @@ public class UncolonizedProvinceData : LandProvinceData
 
     public bool CanBeColonizedByCountry(int countryId)
     {
+        var country = EngineState.MapInfo.Scenario.Countries[countryId];
         var a = CurrentlyColonizedByCountry == null;
             
         //Some Crazy condition
@@ -61,7 +62,8 @@ public class UncolonizedProvinceData : LandProvinceData
                                ).Length < Settings.NavalColonizationRange;
                     }))
                 a = false;
-        
+        if (country.Money < Settings.InitialMoneyCostColony || country.Manpower < Settings.InitialManpowerCostColony)
+            a = false;
         return a;
     }
 }

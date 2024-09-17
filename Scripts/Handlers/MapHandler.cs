@@ -468,6 +468,13 @@ public partial class MapHandler : GameHandler
                     factory.TransportationRoute = null;
                     return;
                 }
+                case GUIChangeSellSlot e:
+                {
+                    var province = (LandColonizedProvinceData)EngineState.MapInfo.Scenario.Map[e.ProvinceId];
+                    var stockAndTrade = province.SpecialBuildings[e.TabId] as StockAndTrade;
+                    stockAndTrade.SellingSlots[e.SlotId] = e.SlotData;
+                    return;
+                }
                 case GUIDevProvinceEvent e:
                 {
                     var province = (LandColonizedProvinceData)EngineState.MapInfo.Scenario.Map[e.ProvinceId];
