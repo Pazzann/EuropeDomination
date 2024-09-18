@@ -391,7 +391,7 @@ public partial class MapHandler : GameHandler
                             militaryTrainingCamp.TrainingList.Enqueue(new ArmyInfantryRegiment(
                                 currentSelectedTemplate.Name,
                                 EngineState.PlayerCountryId, currentSelectedTemplate.Id, 0,
-                                currentSelectedTemplate.TrainingTime, false, 0, 0, Good.DefaultGoods(),
+                                currentSelectedTemplate.TrainingTime, false, 0, 0, Good.DefaultGoods(EngineState.MapInfo.Scenario.Goods.Count),
                                 BehavioralPatterns.Attack, Modifiers.DefaultModifiers()));
                             
                             return;
@@ -401,7 +401,7 @@ public partial class MapHandler : GameHandler
                             militaryTrainingCamp.TrainingList.Enqueue(new ArmyCavalryRegiment(
                                 currentSelectedTemplate.Name,
                                 EngineState.PlayerCountryId, currentSelectedTemplate.Id, 0,
-                                currentSelectedTemplate.TrainingTime, false, 0, 0, Good.DefaultGoods(),
+                                currentSelectedTemplate.TrainingTime, false, 0, 0, Good.DefaultGoods(EngineState.MapInfo.Scenario.Goods.Count),
                                 BehavioralPatterns.Attack, Modifiers.DefaultModifiers()));
                             return;
                         }
@@ -410,7 +410,7 @@ public partial class MapHandler : GameHandler
                             militaryTrainingCamp.TrainingList.Enqueue(new ArmyArtilleryRegiment(
                                 currentSelectedTemplate.Name,
                                 EngineState.PlayerCountryId, currentSelectedTemplate.Id, 0,
-                                currentSelectedTemplate.TrainingTime, false, 0, 0, Good.DefaultGoods(),
+                                currentSelectedTemplate.TrainingTime, false, 0, 0, Good.DefaultGoods(EngineState.MapInfo.Scenario.Goods.Count),
                                 BehavioralPatterns.Attack, Modifiers.DefaultModifiers()));
                             return;
                         }
@@ -859,7 +859,7 @@ public partial class MapHandler : GameHandler
             {
                 if (Good.CheckIfMeetsRequirements(
                         (EngineState.MapInfo.Scenario.Map[country.Value.CapitalId] as LandColonizedProvinceData)
-                        .Resources, Good.DefaultGoods(new Dictionary<int, double>()
+                        .Resources, Good.DefaultGoods(EngineState.MapInfo.Scenario.Goods.Count,new Dictionary<int, double>()
                         {
                             {
                                 good.Key, (EngineState.MapInfo.Scenario.Goods[good.Key] as ConsumableGood)
@@ -870,7 +870,7 @@ public partial class MapHandler : GameHandler
                     (EngineState.MapInfo.Scenario.Map[country.Value.CapitalId] as LandColonizedProvinceData).Resources =
                         Good.DecreaseGoodsByGoods(
                             (EngineState.MapInfo.Scenario.Map[country.Value.CapitalId] as LandColonizedProvinceData)
-                            .Resources, Good.DefaultGoods(new Dictionary<int, double>()
+                            .Resources, Good.DefaultGoods(EngineState.MapInfo.Scenario.Goods.Count,new Dictionary<int, double>()
                             {
                                 {
                                     good.Key, (EngineState.MapInfo.Scenario.Goods[good.Key] as ConsumableGood)

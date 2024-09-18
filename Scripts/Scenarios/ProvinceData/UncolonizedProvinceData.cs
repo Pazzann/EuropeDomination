@@ -35,7 +35,7 @@ public class UncolonizedProvinceData : LandProvinceData
         if (CurrentlyColonizedByCountry == null)
             throw new Exception("YOU STUPID SHIT, YOU HAVEN'T EVEN COLONIZED IT");
         var prData =  new LandColonizedProvinceData(Id, CurrentlyColonizedByCountry.Id, Name, Terrain, Good, 1,
-            Good.DefaultGoods(), new List<Building>(), Modifiers, new SpecialBuilding[3] { null, null, null },
+            Good.DefaultGoods(EngineState.MapInfo.Scenario.Goods.Count), new List<Building>(), Modifiers, new SpecialBuilding[3] { null, null, null },
             null);
         prData.BorderderingProvinces = BorderderingProvinces;
         prData.CenterOfWeight = CenterOfWeight;
