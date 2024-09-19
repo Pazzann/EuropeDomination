@@ -27,7 +27,10 @@ public class EuropeScenario : Scenario
             new HarvestedGood(2, "Wood", new Vector3(0.0f, 0.7f, 0.4f), 2.5f),
             new InfantryWeapon(3, "Iron Sword", new Vector3(1.0f, 0.2f, 0.3f), 1.5f, 0.01f, 0.01f, 0.0f, 1.0f,
                 Modifiers.DefaultModifiers(additionalTrainingEfficiency: 1.3f), 10),
-            new ConsumableGood(4, "Tea", new Vector3(0.7f, 0.9f, 0.3f), 0.5f, Modifiers.DefaultModifiers(productionEfficiency: 1.5f, maxManpowerEfficiency: 1.5f), 4f)
+            new ConsumableGood(4, "Tea", new Vector3(0.7f, 0.9f, 0.3f), 0.5f, Modifiers.DefaultModifiers(productionEfficiency: 1.5f, maxManpowerEfficiency: 1.5f), 4f),
+            new HarvestedGood(5, "Stone", new Vector3(0.0f, 0.5f, 0.7f), 2.5f),
+            new HarvestedGood(6, "Flax", new Vector3(0.2f, 0.8f, 0.4f), 2.5f),
+            new HarvestedGood(7, "Cotton", new Vector3(0.7f, 0.7f, 0.7f), 2.5f),
         };
 
         
@@ -71,7 +74,7 @@ public class EuropeScenario : Scenario
 
         Buildings = new List<Building>
         {
-            new("Workshop", 0, 100, Good.DefaultGoods(new Dictionary<int, double> { { 0, 4f }, { 2, 4f } }), 100, 0,
+            new("Workshop", 0, 100, Good.DefaultGoods(Goods.Count,new Dictionary<int, double> { { 0, 4f }, { 2, 4f } }), 100, 0,
                 false, Modifiers.DefaultModifiers(1.5f))
         };
         
@@ -81,32 +84,32 @@ public class EuropeScenario : Scenario
             {
                 new(new List<Technology.Technology>
                 {
-                    new("Way of being efficient",Modifiers.DefaultModifiers(productionEfficiency: 1.5f), 100, 100, Good.DefaultGoods())
+                    new("Way of being efficient",Modifiers.DefaultModifiers(productionEfficiency: 1.5f), 100, 100, Good.DefaultGoods(Goods.Count))
                 }, new DateTime(1701, 1, 1)),
                 new(new List<Technology.Technology>
                 {
-                    new("A weapon of not destruction",Modifiers.DefaultModifiers(), 100, 100, Good.DefaultGoods(new Dictionary<int, double>(){{0, 2.5f}}), recipyToUnlock: 0),
-                    new("Time to build", Modifiers.DefaultModifiers(), 100, 100, Good.DefaultGoods(new Dictionary<int, double>(){{0, 2.5f}}), buildingToUnlock: 0)
+                    new("A weapon of not destruction",Modifiers.DefaultModifiers(), 100, 100, Good.DefaultGoods(Goods.Count, new Dictionary<int, double>(){{0, 2.5f}}), recipyToUnlock: 0),
+                    new("Time to build", Modifiers.DefaultModifiers(), 100, 100, Good.DefaultGoods(Goods.Count, new Dictionary<int, double>(){{0, 2.5f}}), buildingToUnlock: 0)
                 }, new DateTime(1702, 1, 1))
             })
         };
 
         Map = new ProvinceData.ProvinceData[421]
         {
-            new UncolonizedProvinceData(0, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
-            new UncolonizedProvinceData(1, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
-            new UncolonizedProvinceData(2, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
-            new UncolonizedProvinceData(3, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
-            new UncolonizedProvinceData(4, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
-            new UncolonizedProvinceData(5, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
-            new UncolonizedProvinceData(6, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
-            new UncolonizedProvinceData(7, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
-            new UncolonizedProvinceData(8, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
-            new UncolonizedProvinceData(9, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
-            new UncolonizedProvinceData(10, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
-            new UncolonizedProvinceData(11, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
-            new UncolonizedProvinceData(12, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
-            new UncolonizedProvinceData(13, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(0, "London", Terrains[4], Goods[6],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(1, "London", Terrains[4], Goods[6],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(2, "London", Terrains[4], Goods[5],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(3, "London", Terrains[4], Goods[5],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(4, "London", Terrains[4], Goods[5],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(5, "London", Terrains[4], Goods[2],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(6, "London", Terrains[4], Goods[2],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(7, "London", Terrains[4], Goods[2],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(8, "London", Terrains[4], Goods[1],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(9, "London", Terrains[4], Goods[1],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(10, "London", Terrains[4], Goods[1],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(11, "London", Terrains[4], Goods[7],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(12, "London", Terrains[4], Goods[7],Modifiers.DefaultModifiers()),
+            new UncolonizedProvinceData(13, "London", Terrains[4], Goods[7],Modifiers.DefaultModifiers()),
             new UncolonizedProvinceData(14, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
             new UncolonizedProvinceData(15, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),
             new UncolonizedProvinceData(16, "London", Terrains[4], Goods[0],Modifiers.DefaultModifiers()),

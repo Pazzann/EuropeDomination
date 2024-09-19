@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using EuropeDominationDemo.Scripts.GlobalStates;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Goods;
@@ -19,9 +20,9 @@ public abstract class Good
     }
 
 
-    public static double[] DefaultGoods(Dictionary<int, double> notNullGoods = null)
+    public static double[] DefaultGoods(int count, Dictionary<int, double> notNullGoods = null)
     {
-        var a = new double[] { 0, 0, 0, 0, 0 };
+        var a = new double[count];
         if (notNullGoods == null) return a;
         foreach (var kvp in notNullGoods) a[kvp.Key] = kvp.Value;
 

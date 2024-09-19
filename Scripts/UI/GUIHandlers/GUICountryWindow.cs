@@ -548,7 +548,7 @@ public partial class GUICountryWindow : GUIHandler
 		}
 
 		if (_currentEditingArmyTemplate != null &&
-		    _currentEditingArmyTemplate.GetType() == options[_optionButtonTypeArmyTemplate.Selected])
+			_currentEditingArmyTemplate.GetType() == options[_optionButtonTypeArmyTemplate.Selected])
 		{
 			_currentEditingArmyTemplate.Name = _lineEditNameArmyTemplate.Text;
 			
