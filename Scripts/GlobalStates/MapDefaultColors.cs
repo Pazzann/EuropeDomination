@@ -8,6 +8,7 @@ public static class MapDefaultColors
     public static Vector3 OwnProvince = new(1, 1, 0);
     public static Vector3 Selectable = new(0, 1, 0);
     public static Vector3 WaterUnselectable = new(0, 0, 0.3f);
+    public static Vector3 Wasteland = new(0, 0.3f, 0.3f);
     public static Color ResourceIncrease = new(0, 1, 0);
     public static Color ResourceDecrease = new(1, 0, 0);
 

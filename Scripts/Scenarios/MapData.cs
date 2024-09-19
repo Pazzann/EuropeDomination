@@ -70,7 +70,7 @@ public class MapData
                         if (Scenario.Map[i] is LandProvinceData landData)
                             colors[i] = landData.Good.Color;
                         else
-                            colors[i] = new Vector3(0.1f, 0.1f, 0.1f);
+                            colors[i] = Scenario.Map[i] is WastelandProvinceData ? MapDefaultColors.Wasteland : MapDefaultColors.WaterUnselectable;
 
                     return colors;
                 }
