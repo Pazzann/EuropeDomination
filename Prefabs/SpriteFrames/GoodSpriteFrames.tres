@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=9 format=3 uid="uid://d3n4eikp6qnq7"]
+[gd_resource type="SpriteFrames" load_steps=11 format=3 uid="uid://d3n4eikp6qnq7"]
 
 [ext_resource type="Texture2D" uid="uid://bv8ai81boxxm8" path="res://Sprites/Good/Iron.png" id="1_lv1x1"]
 [ext_resource type="Texture2D" uid="uid://ita1qm2e07x0" path="res://Sprites/Good/Wheat.png" id="2_p77rr"]
@@ -7,7 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://dnfejddpuriga" path="res://Sprites/Good/Tea.png" id="5_6f5eb"]
 [ext_resource type="Texture2D" uid="uid://dqqhachq8u81x" path="res://Sprites/Good/Stone.png" id="6_qfjdr"]
 [ext_resource type="Texture2D" uid="uid://cpoatxj7ixm8e" path="res://Sprites/Good/Flax.png" id="7_vc3db"]
-[ext_resource type="Texture2D" uid="uid://cm6fxd0fbj4o0" path="res://Sprites/Good/Cotton.png" id="8_2klr8"]
+[ext_resource type="Texture2D" uid="uid://doo2tsugvbrkl" path="res://Sprites/Good/Cotton.png" id="8_2klr8"]
+[ext_resource type="Texture2D" uid="uid://bn0c8qe3qckb5" path="res://Sprites/Good/Coal.png" id="9_cuyst"]
+[ext_resource type="Texture2D" uid="uid://bg5btdvpxjpht" path="res://Sprites/Good/Salt.png" id="10_amwq6"]
 
 [resource]
 animations = [{
@@ -35,6 +37,12 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("8_2klr8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_cuyst")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_amwq6")
 }],
 "loop": true,
 "name": &"goods",

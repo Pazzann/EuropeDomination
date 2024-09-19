@@ -33,6 +33,10 @@ public class Modifiers
     public float MaxManpowerBonus { get; set; }
     public float MaxManpowerEfficiency { get; set; }
     public float ManpowerIncreaseEfficiency { get; set; }
+    public float AttackEfficiency { get; set; }
+    public float AttackBonus { get; set; }
+    public float DefenseEfficiency { get; set; }
+    public float DefenseBonus { get; set; }
 
 
     public static Modifiers DefaultModifiers(float productionEfficiency = 1.0f, float transportationCapacity = 0.0f,

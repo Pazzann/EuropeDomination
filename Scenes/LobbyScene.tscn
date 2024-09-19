@@ -80,5 +80,18 @@ popup/item_1/id = 1
 popup/item_2/text = "Scenario Spawn"
 popup/item_2/id = 2
 
+[node name="Label2" type="Label" parent="CanvasLayer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Resource mode:"
+
+[node name="OptionButton2" type="OptionButton" parent="CanvasLayer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "RandomSpawn"
+popup/item_1/text = "Scenario Spawn"
+popup/item_1/id = 1
+
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Button" to="." method="_onStartPressed"]
 [connection signal="item_selected" from="CanvasLayer/PanelContainer2/MarginContainer/VBoxContainer/OptionButton" to="." method="_onGameModeButtonItemSelected"]
+[connection signal="item_selected" from="CanvasLayer/PanelContainer2/MarginContainer/VBoxContainer/OptionButton2" to="." method="_onResourceSpawnModeSelected"]

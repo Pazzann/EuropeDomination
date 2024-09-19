@@ -18,7 +18,6 @@ using EuropeDominationDemo.Scripts.UI.Events.GUI.ProvinceEvents;
 using EuropeDominationDemo.Scripts.UI.Events.ToEngine;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using Godot;
-using ToGuiHideProvinceDataEvent = EuropeDominationDemo.Scripts.UI.Events.ToGUI.ToGuiHideProvinceDataEvent;
 
 namespace EuropeDominationDemo.Scripts.Handlers;
 

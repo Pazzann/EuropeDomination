@@ -28,6 +28,7 @@ public partial class LobbyScene : Node2D
 		EngineState.PlayerCountryId = 0;
 		_mapUpdate();
 		EngineState.MapInfo.Scenario.ChangeGameMode(GameModes.RandomSpawn);
+		EngineState.MapInfo.Scenario.ResourceMode = ResourceModes.RandomSpawn;
 		_camera = GetNode<Camera>("Camera");
 		_camera.Reset(new Rect2(Vector2.Zero, GetNode<Sprite2D>("Map").Texture.GetSize()));
 	}
@@ -84,6 +85,10 @@ public partial class LobbyScene : Node2D
 		return tileId;
 	}
 
+	private void _onResourceSpawnModeSelected(int id)
+	{
+		EngineState.MapInfo.Scenario.ResourceMode = (ResourceModes)id;
+	}
 	private void _onStartPressed()
 	{
 		GetTree().ChangeSceneToFile("res://Scenes/GameScene.tscn");

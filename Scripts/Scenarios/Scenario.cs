@@ -34,6 +34,7 @@ public abstract class Scenario : IScenario
     
     
     public abstract GameModes GameMode { get; set; }
+    public abstract ResourceModes ResourceMode { get; set; }
 
     public HashSet<int> AiList = new HashSet<int>();
     //int is for countryId
@@ -64,6 +65,7 @@ public abstract class Scenario : IScenario
             }
         }
     }
+    
 
     public void Init()
     {
@@ -93,7 +95,7 @@ public abstract class Scenario : IScenario
                     Map[a.Id] = b;
                     country.Value.ResearchedTechnologies = GenerateTechnologyArray();
                 }
-                return;
+                break;
             }
             case GameModes.SelectionSpawn:
             {
@@ -120,7 +122,7 @@ public abstract class Scenario : IScenario
                     }
                     country.Value.ResearchedTechnologies = GenerateTechnologyArray();
                 }
-                return;
+                break;
             }
             case GameModes.FullMapScenario:
             {
@@ -135,7 +137,25 @@ public abstract class Scenario : IScenario
                     Map[a.Id] = b;
                     country.Value.ResearchedTechnologies = GenerateTechnologyArray();
                 }
-                return;
+                break;
+            }
+        }
+
+        switch (ResourceMode)
+        {
+            case ResourceModes.RandomSpawn:
+            {
+                var harvestedGoods = Goods.Where(d => d is HarvestedGood).ToArray();
+                var random = new Random();
+                foreach (LandProvinceData province in Map.Where(d => d is LandProvinceData))
+                {
+                    province.Good = harvestedGoods[random.Next(0, harvestedGoods.Length)];
+                }
+                break;
+            }
+            case ResourceModes.ScenarioSpawn:
+            {
+                break;
             }
         }
     }

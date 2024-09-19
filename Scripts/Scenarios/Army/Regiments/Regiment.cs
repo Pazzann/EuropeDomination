@@ -42,14 +42,17 @@ public abstract class Regiment
 
 
     public abstract float MaxMorale { get; }
+    public abstract float CurrentMaxMorale { get; }
     public abstract float MoraleIncrease { get; }
+    public abstract float CurrentMoraleIncrease { get; }
     public abstract int ManpowerGrowth { get; }
+    public abstract int CurrentManpowerGrowth { get; }
     public abstract int MaxManpower { get; }
-    public abstract float CombatReadiness { get; }
-    public abstract float CombatAbility { get; }
+    public abstract int CurrentMaxManpower { get; }
     public abstract float Defense { get; }
-    public abstract float MovementSpeed { get; }
-    public abstract float SurvivalIndex { get; }
+    public abstract float MaxDefense { get; }
+    public abstract float Attack { get; }
+    public abstract float MaxAttack { get; }
     public abstract void Consume();
     public abstract void Recalculate();
     public abstract void ChangeTemplate();

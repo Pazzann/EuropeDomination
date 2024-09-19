@@ -31,6 +31,8 @@ public class EuropeScenario : Scenario
             new HarvestedGood(5, "Stone", new Vector3(0.0f, 0.5f, 0.7f), 2.5f),
             new HarvestedGood(6, "Flax", new Vector3(0.2f, 0.8f, 0.4f), 2.5f),
             new HarvestedGood(7, "Cotton", new Vector3(0.7f, 0.7f, 0.7f), 2.5f),
+            new HarvestedGood(8, "Coal", new Vector3(0.1f, 0.1f, 0.1f), 2.5f),
+            new HarvestedGood(9, "Salt", new Vector3(0.9f, 0.9f, 0.9f), 2.5f)
         };
 
         
@@ -569,4 +571,5 @@ public class EuropeScenario : Scenario
     public override TechnologyTree[] TechnologyTrees { get; }
     public override GameModes GameMode { get; set; }
     public override Dictionary<int, string> PlayerList { get; set; }
+    public override ResourceModes ResourceMode { get; set; }
 }
