@@ -1,3 +1,4 @@
+using EuropeDominationDemo.Scripts.GlobalStates;
 using Godot;
 using Steamworks;
 
@@ -21,6 +22,7 @@ public partial class MainScene : TextureRect
 
 	private void _onSinglePlayerPressed()
 	{
+		MultiplayerState.MultiplayerMode = false;
 		GetTree().ChangeSceneToFile("res://Scenes/LobbyScene.tscn");
 	}
 
@@ -49,8 +51,18 @@ public partial class MainScene : TextureRect
 	{
 		
 		GD.Print("[" + LobbyCreated_t.k_iCallback + " - LobbyCreated] - " + pCallback.m_eResult + " -- " + pCallback.m_ulSteamIDLobby);
-
-		//m_Lobby = (CSteamID)pCallback.m_ulSteamIDLobby;
+		if (pCallback.m_eResult == EResult.k_EResultOK)
+		{
+			MultiplayerState.MultiplayerMode = true;
+			MultiplayerState.LobbyId = (CSteamID)pCallback.m_ulSteamIDLobby;
+			MultiplayerState.LobbyOwnerId = SteamUser.GetSteamID();
+			MultiplayerState.LobbyMembers.Add(MultiplayerState.LobbyOwnerId);
+			GD.Print("LobbyId: " + MultiplayerState.LobbyId);
+			GD.Print("LobbyOwnerId: " + MultiplayerState.LobbyOwnerId);
+			GetTree().ChangeSceneToFile("res://Scenes/LobbyScene.tscn");
+			SteamMatchmaking.SetLobbyData(MultiplayerState.LobbyId, "name", "Test Lobby!");
+			GD.Print(SteamMatchmaking.GetLobbyData(MultiplayerState.LobbyId, "name"));
+		}
 	}
 
 	#endregion

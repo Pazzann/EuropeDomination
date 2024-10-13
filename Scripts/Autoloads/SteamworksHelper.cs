@@ -31,6 +31,11 @@ public partial class SteamworksHelper : Node
             GD.Print("Steam API Error:" + e.Message);
         }
     }
+    /*
+     *  SteamClient.Init(AppId, true);
+     *  SteamId = SteamClient.SteamId;
+     *  Name = SteamClient.Name;
+     */
 
     public override void _Process(double delta)
     {
