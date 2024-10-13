@@ -8,9 +8,10 @@ public partial class SteamworksHelper : Node
 {
     public override void _Ready()
     {
-        GD.Print("Steam is running:" + SteamAPI.IsSteamRunning());
+        if(!SteamAPI.IsSteamRunning()) GetTree().Quit();
         try
         {
+            var err = SteamAPI.InitEx(out var ErrorMessage);
             GD.Print(SteamAPI.Init() ? "Steam API init" : "Steam API init failed");
         }
         catch (Exception e)
@@ -29,5 +30,11 @@ public partial class SteamworksHelper : Node
         {
             GD.Print("Steam API Error:" + e.Message);
         }
+    }
+
+    public override void _Process(double delta)
+    {
+        SteamAPI.RunCallbacks();
+        SteamInput.RunFrame();
     }
 }

@@ -21,8 +21,8 @@
     <Reference Include="Steamworks.NET, Version=20.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <Link>Steamworks.NET.dll</Link>
-      <HintPath Condition=" '$(OS)' == 'Windows_NT' ">Scripts/Libraries/Steamworks/Windows-x64/Steamworks.NET.dll</HintPath>
-      <HintPath Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'">Scripts/Libraries/Steamworks/OSX-Linux-x64/Steamworks.NET.dll</HintPath>
+      <HintPath Condition=" '$(OS)' == 'Windows_NT' ">Libraries/Steamworks/Windows-x64/Steamworks.NET.dll</HintPath>
+      <HintPath Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'">Libraries/Steamworks/OSX-Linux-x64/Steamworks.NET.dll</HintPath>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Reference>
   
