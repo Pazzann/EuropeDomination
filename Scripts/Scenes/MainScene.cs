@@ -44,11 +44,11 @@ public partial class MainScene : TextureRect
 		
 		var data = await SteamMatchmaking.CreateLobbyAsync(16);
 		MultiplayerState.MultiplayerMode = true;
-		if(data != null)
-			MultiplayerState.Lobby = data;
+		//if(data != null)
+		//	MultiplayerState.Lobby = data;
 		var logo  =  await data?.Owner.GetMediumAvatarAsync();
 		var logoGodot = new Texture2D();
-		ImageTexture.CreateFromImage(Image.CreateFromData(logo?.Width ?? 0, logo?.Height,  true, Image.Format.Rgb8, logo?.Data))
+		//ImageTexture.CreateFromImage(Image.CreateFromData(logo?.Width ?? 0, logo?.Height,  true, Image.Format.Rgb8, logo?.Data))
 		GD.Print(data?.Data);
 		foreach (var pair in data?.Data)
 		{
