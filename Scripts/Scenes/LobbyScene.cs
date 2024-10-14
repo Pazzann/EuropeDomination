@@ -16,6 +16,9 @@ public partial class LobbyScene : Node2D
 	private Camera _camera;
 	private Sprite2D _mapSprite;
 
+	private PackedScene _lobbyPlayerList;
+	private ScrollContainer  _lobbyPlayerListContainer;
+
 	private Dictionary<int, string> _selectedProvincesPlayers = new Dictionary<int, string>();
 	public override void _Ready()
 	{
@@ -31,6 +34,22 @@ public partial class LobbyScene : Node2D
 		EngineState.MapInfo.Scenario.ResourceMode = ResourceModes.RandomSpawn;
 		_camera = GetNode<Camera>("Camera");
 		_camera.Reset(new Rect2(Vector2.Zero, GetNode<Sprite2D>("Map").Texture.GetSize()));
+
+		_lobbyPlayerList = GD.Load<PackedScene>("res://Prefabs/ScenesPrefabs/LobbyPlayerWindow.tscn");
+		_lobbyPlayerListContainer =
+			GetNode<ScrollContainer>("CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/LobbyPlayersContainer");
+		foreach (var child in _lobbyPlayerListContainer.GetChildren())
+		{
+			child.QueueFree();
+		}
+
+		foreach (var member in MultiplayerState.Lobby?.Members)
+		{
+			var a = _lobbyPlayerList.Instantiate() as PanelContainer;
+			a.GetChild(0).GetChild<Label>(1).Text = member.Name;
+			_lobbyPlayerListContainer.AddChild(a);
+		}
+
 	}
 
 	private void _mapUpdate()

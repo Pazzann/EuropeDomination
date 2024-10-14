@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bh4h4qq5qtehv"]
+[gd_scene load_steps=6 format=3 uid="uid://bh4h4qq5qtehv"]
 
 [ext_resource type="Script" path="res://Scripts/Scenes/LobbyScene.cs" id="1_fsivh"]
 [ext_resource type="Texture2D" uid="uid://bgv4y6i4ul1k" path="res://Sprites/EuropeMap.png" id="1_xic6h"]
 [ext_resource type="Material" uid="uid://bsh6h6v5qetxa" path="res://Shaders/map.tres" id="2_biph8"]
 [ext_resource type="PackedScene" uid="uid://db5dbn7ovemhi" path="res://Prefabs/Camera.tscn" id="2_jktds"]
+[ext_resource type="PackedScene" uid="uid://u20y73i0mjmp" path="res://Prefabs/ScenesPrefabs/LobbyPlayerWindow.tscn" id="5_362k7"]
 
 [node name="LobbyScene" type="Node2D"]
 script = ExtResource("1_fsivh")
@@ -33,11 +34,19 @@ theme_override_constants/margin_bottom = 40
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="LobbyPlayersContainer" type="ScrollContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="PlayersContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="PlayersContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/LobbyPlayersContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LobbyPlayerWindow" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/LobbyPlayersContainer/PlayersContainer" instance=ExtResource("5_362k7")]
+layout_mode = 2
+
+[node name="LobbyPlayerWindow2" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/LobbyPlayersContainer/PlayersContainer" instance=ExtResource("5_362k7")]
 layout_mode = 2
 
 [node name="CheckButton" type="CheckButton" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
