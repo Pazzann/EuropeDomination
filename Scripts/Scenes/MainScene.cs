@@ -44,37 +44,22 @@ public partial class MainScene : TextureRect
 		
 		var data = await SteamMatchmaking.CreateLobbyAsync(16);
 		MultiplayerState.MultiplayerMode = true;
-		//if(data != null)
-		//	MultiplayerState.Lobby = data;
-		var logo  =  await data?.Owner.GetMediumAvatarAsync();
+		MultiplayerState.Lobby = data;
+		MultiplayerState.Lobby?.SetPublic();
+		MultiplayerState.Lobby?.SetJoinable(true);
+		MultiplayerState.Lobby?.SetData("name", "Test Lobby");
+		var lobbyMembers = MultiplayerState.Lobby?.Members;
+		
+		/*var logo  =  await data?.Owner.GetMediumAvatarAsync();
 		var logoGodot = new Texture2D();
 		//ImageTexture.CreateFromImage(Image.CreateFromData(logo?.Width ?? 0, logo?.Height,  true, Image.Format.Rgb8, logo?.Data))
-		GD.Print(data?.Data);
-		foreach (var pair in data?.Data)
-		{
-			GD.Print("DEBUG:"+pair.Key + ": " + pair.Value);
-		}
+		GD.Print();
+		*/
 		GetTree().ChangeSceneToFile("res://Scenes/LobbyScene.tscn");
 		
 	}
 	
-	/*void OnLobbyCreated(LobbyCreated_t pCallback, bool bIOFailure)
-	{
-		
-		GD.Print("[" + LobbyCreated_t.k_iCallback + " - LobbyCreated] - " + pCallback.m_eResult + " -- " + pCallback.m_ulSteamIDLobby);
-		if (pCallback.m_eResult == EResult.k_EResultOK)
-		{
-			MultiplayerState.MultiplayerMode = true;
-			MultiplayerState.LobbyId = (CSteamID)pCallback.m_ulSteamIDLobby;
-			MultiplayerState.LobbyOwnerId = SteamUser.GetSteamID();
-			MultiplayerState.LobbyMembers.Add(MultiplayerState.LobbyOwnerId);
-			GD.Print("LobbyId: " + MultiplayerState.LobbyId);
-			GD.Print("LobbyOwnerId: " + MultiplayerState.LobbyOwnerId);
-			GetTree().ChangeSceneToFile("res://Scenes/LobbyScene.tscn");
-			SteamMatchmaking.SetLobbyData(MultiplayerState.LobbyId, "name", "Test Lobby!");
-			GD.Print(SteamMatchmaking.GetLobbyData(MultiplayerState.LobbyId, "name"));
-		}
-	}*/
+	
 
 	#endregion
 }
