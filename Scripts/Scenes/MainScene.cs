@@ -10,14 +10,13 @@ public partial class MainScene : TextureRect
 	private TabContainer _settingsPanel;
 	private PackedScene _lobbyScene;
 	
-	private CallResult<LobbyCreated_t> OnLobbyCreatedCallResult;
+	
 	public override void _Ready()
 	{
 		_multiplayerPanel = GetNode<PanelContainer>("MultiplayerLobbys");
 		_settingsPanel = GetNode<TabContainer>("MainSettings");
 		_lobbyScene = GD.Load<PackedScene>("res://Scenes/LobbyScene.tscn");
 		
-		OnLobbyCreatedCallResult = CallResult<LobbyCreated_t>.Create(OnLobbyCreated);
 	}
 
 	private void _onSinglePlayerPressed()
@@ -38,16 +37,28 @@ public partial class MainScene : TextureRect
 
 	#region Multiplayer lobbies
 
-	private void _onCreateLobbyButtonPressed()
+	private async void _onCreateLobbyButtonPressed()
 	{
 		
 		GD.Print("Create Lobby Pressed");
-		var data = SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, 16);
-		OnLobbyCreatedCallResult.Set(data);
-		GD.Print("SteamMatchmaking.CreateLobby(" + ELobbyType.k_ELobbyTypePublic + ", " + 1 + ") : " + data);
+		
+		var data = await SteamMatchmaking.CreateLobbyAsync(16);
+		MultiplayerState.MultiplayerMode = true;
+		if(data != null)
+			MultiplayerState.Lobby = data;
+		var logo  =  await data?.Owner.GetMediumAvatarAsync();
+		var logoGodot = new Texture2D();
+		ImageTexture.CreateFromImage(Image.CreateFromData(logo?.Width ?? 0, logo?.Height,  true, Image.Format.Rgb8, logo?.Data))
+		GD.Print(data?.Data);
+		foreach (var pair in data?.Data)
+		{
+			GD.Print("DEBUG:"+pair.Key + ": " + pair.Value);
+		}
+		GetTree().ChangeSceneToFile("res://Scenes/LobbyScene.tscn");
+		
 	}
 	
-	void OnLobbyCreated(LobbyCreated_t pCallback, bool bIOFailure)
+	/*void OnLobbyCreated(LobbyCreated_t pCallback, bool bIOFailure)
 	{
 		
 		GD.Print("[" + LobbyCreated_t.k_iCallback + " - LobbyCreated] - " + pCallback.m_eResult + " -- " + pCallback.m_ulSteamIDLobby);
@@ -63,7 +74,7 @@ public partial class MainScene : TextureRect
 			SteamMatchmaking.SetLobbyData(MultiplayerState.LobbyId, "name", "Test Lobby!");
 			GD.Print(SteamMatchmaking.GetLobbyData(MultiplayerState.LobbyId, "name"));
 		}
-	}
+	}*/
 
 	#endregion
 }

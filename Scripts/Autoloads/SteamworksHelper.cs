@@ -8,38 +8,42 @@ public partial class SteamworksHelper : Node
 {
     public override void _Ready()
     {
-        if(!SteamAPI.IsSteamRunning()) GetTree().Quit();
+        //if(!SteamClient.IsValid) GetTree().Quit();
+        Dispatch.OnDebugCallback = ( type, str, server ) =>
+        {
+            GD.Print( $"[Callback {type} {(server ? "server" : "client")}]" );
+            GD.Print( str );
+            GD.Print( $"" );
+        };
+        
         try
         {
-            var err = SteamAPI.InitEx(out var ErrorMessage);
-            GD.Print(SteamAPI.Init() ? "Steam API init" : "Steam API init failed");
+            SteamClient.Init( 480, true );
+            SteamState.SteamId = SteamClient.SteamId;
+            SteamState.Name = SteamClient.Name;
         }
         catch (Exception e)
         {
             GD.Print("Steam API Error:" + e.Message);
         }
+        
     }
 
     public override void _ExitTree()
     {
         try
         {
-            SteamAPI.Shutdown();
+            SteamClient.Shutdown();
         }
         catch (Exception e)
         {
             GD.Print("Steam API Error:" + e.Message);
         }
     }
-    /*
-     *  SteamClient.Init(AppId, true);
-     *  SteamId = SteamClient.SteamId;
-     *  Name = SteamClient.Name;
-     */
+    
 
     public override void _Process(double delta)
     {
-        SteamAPI.RunCallbacks();
-        SteamInput.RunFrame();
+        SteamClient.RunCallbacks();
     }
 }
