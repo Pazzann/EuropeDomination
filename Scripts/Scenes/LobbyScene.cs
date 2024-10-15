@@ -43,7 +43,12 @@ public partial class LobbyScene : Node2D
 		_lobbyPlayerListContainer =
 			GetNode<VBoxContainer>("CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/LobbyPlayersContainer/PlayersContainer");
 		_drawPlayersList();
-		SteamMatchmaking.OnLobbyMemberJoined += _onLobbyMemberJoined;
+		if (MultiplayerState.MultiplayerMode)
+		{
+			SteamMatchmaking.OnLobbyMemberJoined += _onLobbyMemberJoined;
+			SteamMatchmaking.OnLobbyMemberLeave += _onLobbyMemberLeave;
+		}
+		
 	}
 
 	private async void _drawPlayersList()
@@ -75,9 +80,24 @@ public partial class LobbyScene : Node2D
 		}
 	}
 
+	private void _onLobbyMemberLeave(Lobby lobby, Friend friend)
+	{
+		_drawPlayersList();
+	}
 	private void _onLobbyMemberJoined(Lobby lobby, Friend friend)
 	{
 		_drawPlayersList();
+	}
+
+	private void _onMainMenuPressed()
+	{
+		if (MultiplayerState.MultiplayerMode)
+		{
+			MultiplayerState.Lobby?.Leave();
+			MultiplayerState.MultiplayerMode = false;
+			MultiplayerState.Lobby = null;
+		}
+		GetTree().ChangeSceneToFile("res://main.tscn");
 	}
 
 	

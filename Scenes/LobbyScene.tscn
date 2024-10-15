@@ -59,6 +59,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 48
 text = "Start"
 
+[node name="Button2" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Main Menu"
+
 [node name="PanelContainer2" type="PanelContainer" parent="CanvasLayer"]
 offset_left = 1479.0
 offset_top = 763.0
@@ -102,5 +107,6 @@ popup/item_1/text = "Scenario Spawn"
 popup/item_1/id = 1
 
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Button" to="." method="_onStartPressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Button2" to="." method="_onMainMenuPressed"]
 [connection signal="item_selected" from="CanvasLayer/PanelContainer2/MarginContainer/VBoxContainer/OptionButton" to="." method="_onGameModeButtonItemSelected"]
 [connection signal="item_selected" from="CanvasLayer/PanelContainer2/MarginContainer/VBoxContainer/OptionButton2" to="." method="_onResourceSpawnModeSelected"]

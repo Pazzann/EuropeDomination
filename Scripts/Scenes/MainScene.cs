@@ -20,6 +20,10 @@ public partial class MainScene : TextureRect
 		SteamFriends.OnGameLobbyJoinRequested += _onJoinLobbyRequest;
 	}
 
+	private void _onExitPressed()
+	{
+		GetTree().Quit();
+	}
 	private void _onSinglePlayerPressed()
 	{
 		MultiplayerState.MultiplayerMode = false;

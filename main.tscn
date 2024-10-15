@@ -54,7 +54,13 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 48
 text = "Settings"
 
+[node name="Button4" type="Button" parent="ButtonPanel/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Exit"
+
 [node name="MultiplayerLobbys" type="PanelContainer" parent="."]
+visible = false
 custom_minimum_size = Vector2(800, 800)
 layout_mode = 0
 offset_left = 859.0
@@ -130,4 +136,5 @@ metadata/_tab_index = 0
 [connection signal="pressed" from="ButtonPanel/MarginContainer/VBoxContainer/VBoxContainer/Button" to="." method="_onSinglePlayerPressed"]
 [connection signal="pressed" from="ButtonPanel/MarginContainer/VBoxContainer/VBoxContainer/Button2" to="." method="_onMultiPlayerPressed"]
 [connection signal="pressed" from="ButtonPanel/MarginContainer/VBoxContainer/VBoxContainer/Button3" to="." method="_onSettingsPressed"]
+[connection signal="pressed" from="ButtonPanel/MarginContainer/VBoxContainer/VBoxContainer/Button4" to="." method="_onExitPressed"]
 [connection signal="pressed" from="MultiplayerLobbys/MarginContainer/VBoxContainer/HBoxContainer/Button" to="." method="_onCreateLobbyButtonPressed"]
