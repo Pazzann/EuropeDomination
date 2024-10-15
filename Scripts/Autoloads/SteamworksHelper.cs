@@ -1,8 +1,11 @@
 ﻿using System;
+using System.IO;
+using System.Runtime.InteropServices;
+using EuropeDominationDemo.Scripts.GlobalStates;
 using Godot;
 using Steamworks;
 
-namespace EuropeDominationDemo.Scripts.GlobalStates;
+namespace EuropeDominationDemo.Scripts.Autoloads;
 
 public partial class SteamworksHelper : Node
 {
@@ -18,6 +21,7 @@ public partial class SteamworksHelper : Node
         try
         {
             SteamClient.Init( 480, true );
+            if(!SteamClient.IsValid) GetTree().Quit();
             SteamState.SteamId = SteamClient.SteamId;
             SteamState.Name = SteamClient.Name;
         }

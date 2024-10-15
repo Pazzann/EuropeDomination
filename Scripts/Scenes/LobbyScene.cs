@@ -8,6 +8,9 @@ using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Utils;
 using Godot;
+using Steamworks;
+using Steamworks.Data;
+using Image = Godot.Image;
 
 namespace EuropeDominationDemo.Scripts.Scenes;
 
@@ -17,17 +20,18 @@ public partial class LobbyScene : Node2D
 	private Sprite2D _mapSprite;
 
 	private PackedScene _lobbyPlayerList;
-	private ScrollContainer  _lobbyPlayerListContainer;
+	private ScrollContainer _lobbyPlayerListContainer;
 
 	private Dictionary<int, string> _selectedProvincesPlayers = new Dictionary<int, string>();
+
 	public override void _Ready()
 	{
 		_mapSprite = GetNode<Sprite2D>("Map");
-		
+
 		Scenario scenario = new EuropeScenario(_mapSprite.Texture.GetImage());
 		EngineState.MapInfo = new MapData(scenario);
 		EngineState.MapInfo.Scenario.PlayerList = new Dictionary<int, string>();
-		EngineState.MapInfo.Scenario.PlayerList.Add( 0, "currentPlayer" );
+		EngineState.MapInfo.Scenario.PlayerList.Add(0, "currentPlayer");
 		EngineState.PlayerCountryId = 0;
 		_mapUpdate();
 		EngineState.MapInfo.Scenario.ChangeGameMode(GameModes.RandomSpawn);
@@ -38,19 +42,45 @@ public partial class LobbyScene : Node2D
 		_lobbyPlayerList = GD.Load<PackedScene>("res://Prefabs/ScenesPrefabs/LobbyPlayerWindow.tscn");
 		_lobbyPlayerListContainer =
 			GetNode<ScrollContainer>("CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/LobbyPlayersContainer");
+		_drawPlayersList();
+		SteamMatchmaking.OnLobbyMemberJoined += _onLobbyMemberJoined;
+	}
+
+	private async void _drawPlayersList()
+	{
 		foreach (var child in _lobbyPlayerListContainer.GetChildren())
 		{
 			child.QueueFree();
 		}
 
-		foreach (var member in MultiplayerState.Lobby?.Members)
+		if (!MultiplayerState.MultiplayerMode)
 		{
-			var a = _lobbyPlayerList.Instantiate() as PanelContainer;
-			a.GetChild(0).GetChild<Label>(1).Text = member.Name;
-			_lobbyPlayerListContainer.AddChild(a);
+			
 		}
-
+		else
+		{
+			foreach (var member in MultiplayerState.Lobby?.Members)
+			{
+				var a = _lobbyPlayerList.Instantiate() as PanelContainer;
+				a.GetChild(0).GetChild<Label>(1).Text = member.Name;
+				
+				var logo  =  await member.GetMediumAvatarAsync();
+				var logoGodot = ImageTexture.CreateFromImage(Image.CreateFromData((int)logo?.Width, (int)logo?.Height, false,
+					Image.Format.Rgba8, logo?.Data));
+				
+				a.GetChild(0).GetChild<TextureRect>(0).Texture = logoGodot;
+				
+				_lobbyPlayerListContainer.AddChild(a);
+			}
+		}
 	}
+
+	private void _onLobbyMemberJoined(Lobby lobby, Friend friend)
+	{
+		_drawPlayersList();
+	}
+
+	
 
 	private void _mapUpdate()
 	{
@@ -64,20 +94,23 @@ public partial class LobbyScene : Node2D
 	{
 		_camera.HandleInput(@event);
 		var tileId = _findTile();
-		if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: false } && EngineState.MapInfo.Scenario.GameMode == GameModes.SelectionSpawn)
+		if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: false } &&
+			EngineState.MapInfo.Scenario.GameMode == GameModes.SelectionSpawn)
 		{
-			if(_selectedProvincesPlayers.ContainsKey(tileId) || EngineState.MapInfo.Scenario.Map[tileId] is not LandProvinceData)
+			if (_selectedProvincesPlayers.ContainsKey(tileId) ||
+				EngineState.MapInfo.Scenario.Map[tileId] is not LandProvinceData)
 				return;
 
-			if(_selectedProvincesPlayers.Count(d=> d.Value == "currentPlayer") > 0 )
-				foreach (var pair in _selectedProvincesPlayers.Where(d=> d.Value == "currentPlayer"))
+			if (_selectedProvincesPlayers.Count(d => d.Value == "currentPlayer") > 0)
+				foreach (var pair in _selectedProvincesPlayers.Where(d => d.Value == "currentPlayer"))
 				{
 					_selectedProvincesPlayers.Remove(pair.Key);
 					LandProvinceData p = (EngineState.MapInfo.Scenario.Map[pair.Key] as LandColonizedProvinceData);
-					p = new UncolonizedProvinceData(p.Id, p.Name, p.Terrain, p.Good, (p as LandColonizedProvinceData).Modifiers);
+					p = new UncolonizedProvinceData(p.Id, p.Name, p.Terrain, p.Good,
+						(p as LandColonizedProvinceData).Modifiers);
 					EngineState.MapInfo.Scenario.Map[pair.Key] = p;
 				}
-			
+
 			_selectedProvincesPlayers.Add(tileId, "currentPlayer");
 			(EngineState.MapInfo.Scenario.Map[tileId] as UncolonizedProvinceData).CurrentlyColonizedByCountry =
 				EngineState.MapInfo.Scenario.Countries[0];
@@ -86,10 +119,9 @@ public partial class LobbyScene : Node2D
 			EngineState.MapInfo.Scenario.Countries[0].CapitalId = tileId;
 			(EngineState.MapInfo.Scenario.Map[tileId] as LandColonizedProvinceData).Development = 10;
 			_mapUpdate();
-			
-		}	
+		}
 	}
-	
+
 	private int _findTile()
 	{
 		var mousePos = GetLocalMousePosition();
@@ -108,6 +140,7 @@ public partial class LobbyScene : Node2D
 	{
 		EngineState.MapInfo.Scenario.ResourceMode = (ResourceModes)id;
 	}
+
 	private void _onStartPressed()
 	{
 		GetTree().ChangeSceneToFile("res://Scenes/GameScene.tscn");

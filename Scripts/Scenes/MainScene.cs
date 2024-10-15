@@ -1,6 +1,7 @@
 using EuropeDominationDemo.Scripts.GlobalStates;
 using Godot;
 using Steamworks;
+using Steamworks.Data;
 
 namespace EuropeDominationDemo.Scripts.Scenes;
 
@@ -16,7 +17,7 @@ public partial class MainScene : TextureRect
 		_multiplayerPanel = GetNode<PanelContainer>("MultiplayerLobbys");
 		_settingsPanel = GetNode<TabContainer>("MainSettings");
 		_lobbyScene = GD.Load<PackedScene>("res://Scenes/LobbyScene.tscn");
-		
+		SteamFriends.OnGameLobbyJoinRequested += _onJoinLobbyRequest;
 	}
 
 	private void _onSinglePlayerPressed()
@@ -37,6 +38,16 @@ public partial class MainScene : TextureRect
 
 	#region Multiplayer lobbies
 
+	private async void _onJoinLobbyRequest(Lobby joinedLobby, SteamId steamId)
+	{
+		RoomEnter enteredLobby = await joinedLobby.Join();
+		if(enteredLobby != RoomEnter.Success)
+			return;
+		MultiplayerState.MultiplayerMode = true;
+		MultiplayerState.Lobby = joinedLobby;
+		GetTree().ChangeSceneToFile("res://Scenes/LobbyScene.tscn");
+		
+	}
 	private async void _onCreateLobbyButtonPressed()
 	{
 		
@@ -48,13 +59,7 @@ public partial class MainScene : TextureRect
 		MultiplayerState.Lobby?.SetPublic();
 		MultiplayerState.Lobby?.SetJoinable(true);
 		MultiplayerState.Lobby?.SetData("name", "Test Lobby");
-		var lobbyMembers = MultiplayerState.Lobby?.Members;
 		
-		/*var logo  =  await data?.Owner.GetMediumAvatarAsync();
-		var logoGodot = new Texture2D();
-		//ImageTexture.CreateFromImage(Image.CreateFromData(logo?.Width ?? 0, logo?.Height,  true, Image.Format.Rgb8, logo?.Data))
-		GD.Print();
-		*/
 		GetTree().ChangeSceneToFile("res://Scenes/LobbyScene.tscn");
 		
 	}
