@@ -20,7 +20,7 @@ public partial class LobbyScene : Node2D
 	private Sprite2D _mapSprite;
 
 	private PackedScene _lobbyPlayerList;
-	private ScrollContainer _lobbyPlayerListContainer;
+	private VBoxContainer _lobbyPlayerListContainer;
 
 	private Dictionary<int, string> _selectedProvincesPlayers = new Dictionary<int, string>();
 
@@ -41,7 +41,7 @@ public partial class LobbyScene : Node2D
 
 		_lobbyPlayerList = GD.Load<PackedScene>("res://Prefabs/ScenesPrefabs/LobbyPlayerWindow.tscn");
 		_lobbyPlayerListContainer =
-			GetNode<ScrollContainer>("CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/LobbyPlayersContainer");
+			GetNode<VBoxContainer>("CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/LobbyPlayersContainer/PlayersContainer");
 		_drawPlayersList();
 		SteamMatchmaking.OnLobbyMemberJoined += _onLobbyMemberJoined;
 	}
