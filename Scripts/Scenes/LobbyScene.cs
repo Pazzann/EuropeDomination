@@ -60,21 +60,20 @@ public partial class LobbyScene : Node2D
 
 		if (!MultiplayerState.MultiplayerMode)
 		{
-			
+			var a = _lobbyPlayerList.Instantiate() as PanelContainer;
+			a.GetChild(0).GetChild<ColorRect>(0).Visible = false;
+			a.GetChild(0).GetChild<Label>(2).Text = SteamState.Name;
+			a.GetChild(0).GetChild<TextureRect>(1).Texture = SteamForGodotUtils.ImageTextureFromSteamImage(await SteamFriends.GetMediumAvatarAsync(SteamState.SteamId));
+			_lobbyPlayerListContainer.AddChild(a);
 		}
 		else
 		{
 			foreach (var member in MultiplayerState.Lobby?.Members)
 			{
 				var a = _lobbyPlayerList.Instantiate() as PanelContainer;
-				a.GetChild(0).GetChild<Label>(1).Text = member.Name;
-				
-				var logo  =  await member.GetMediumAvatarAsync();
-				var logoGodot = ImageTexture.CreateFromImage(Image.CreateFromData((int)logo?.Width, (int)logo?.Height, false,
-					Image.Format.Rgba8, logo?.Data));
-				
-				a.GetChild(0).GetChild<TextureRect>(0).Texture = logoGodot;
-				
+				a.GetChild(0).GetChild<ColorRect>(0).Visible = member.Id == MultiplayerState.Lobby?.Owner.Id;
+				a.GetChild(0).GetChild<Label>(2).Text = member.Name;
+				a.GetChild(0).GetChild<TextureRect>(1).Texture = SteamForGodotUtils.ImageTextureFromSteamImage(await member.GetMediumAvatarAsync());
 				_lobbyPlayerListContainer.AddChild(a);
 			}
 		}
