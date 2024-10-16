@@ -8,6 +8,9 @@ namespace EuropeDominationDemo.Scripts.GlobalStates;
 public static class Settings
 {
     public static GraphicPreset PerformaceMode = GraphicPreset.HighQualityMode;
+    public static bool EnableSteamDebugLogging = false;
+    
+    
     public static GameModes GameMode = GameModes.RandomSpawn;
     
     public static float[] TimeScale = new []{0.5f, 0.4f, 0.3f, 0.2f, 0.1f};

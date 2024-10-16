@@ -15,5 +15,6 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Users\manto\OneDrive\Documents\GitHub\EuropeDominationDemo\steam_api64.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\manto\OneDrive\Documents\GitHub\EuropeDominationDemo\Libraries\Steamworks\net6.0\steam_api64.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Users\manto\OneDrive\Documents\GitHub\EuropeDominationDemo\.godot\mono\temp\bin\Debug\EuropeDominationDemo.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Multicaster/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

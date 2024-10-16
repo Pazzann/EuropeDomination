@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using Godot;
 using Steamworks;
@@ -18,6 +20,11 @@ public partial class MainScene : TextureRect
 		_settingsPanel = GetNode<TabContainer>("MainSettings");
 		_lobbyScene = GD.Load<PackedScene>("res://Scenes/LobbyScene.tscn");
 		SteamFriends.OnGameLobbyJoinRequested += _onJoinLobbyRequest;
+
+		foreach (var File in Directory.GetFiles(AppContext.BaseDirectory))
+		{
+			GD.Print(File);
+		}
 	}
 
 	private void _onExitPressed()
