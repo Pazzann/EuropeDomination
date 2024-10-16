@@ -9,16 +9,16 @@ namespace EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 
 public class LandColonizedProvinceData : LandProvinceData
 {
-    public List<Building> Buildings;
-    public int Development;
+    public List<Building> Buildings { get; set; }
+    public int Development { get; set; }
 
-    public TransportationRoute HarvestedTransport;
+    public TransportationRoute HarvestedTransport { get; set; }
 
-    public Modifiers Modifiers;
-    public int Owner;
+    public Modifiers Modifiers { get; set; }
+    public int Owner { get; set; }
 
-    public double[] Resources;
-    public SpecialBuilding[] SpecialBuildings;
+    public double[] Resources { get; set; }
+    public SpecialBuilding[] SpecialBuildings { get; set; }
 
 
     public LandColonizedProvinceData(

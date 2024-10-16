@@ -12,11 +12,10 @@ namespace EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 
 public class UncolonizedProvinceData : LandProvinceData
 {
-    public CountryData CurrentlyColonizedByCountry;
-
-    public Modifiers Modifiers;
-    public int SettlersCombined;
-    public int SettlersNeeded;
+    public CountryData CurrentlyColonizedByCountry { get; set; }
+    public Modifiers Modifiers { get; set; }
+    public int SettlersCombined { get; set; }
+    public int SettlersNeeded { get; set; }
 
     public UncolonizedProvinceData(int id, string name, Terrain terrain, Good good, Modifiers modifiers,
         int settlersCombined = 0, int settlersNeeded = 5000, CountryData currentlyColonizedByCountry = null) : base(id,
@@ -27,8 +26,7 @@ public class UncolonizedProvinceData : LandProvinceData
         CurrentlyColonizedByCountry = currentlyColonizedByCountry;
         Modifiers = modifiers;
     }
-
-    public int ColonyGrowth => 1000;
+    
     
     public LandColonizedProvinceData ConvertToLandProvince()
     {

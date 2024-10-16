@@ -2,7 +2,7 @@
 
 public class SeaProvinceData : ProvinceData
 {
-    public Modifiers Modifiers;
+    public Modifiers Modifiers { get; set; }
 
     public SeaProvinceData(
         int id,

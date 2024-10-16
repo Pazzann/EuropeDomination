@@ -6,38 +6,24 @@ using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
 
-
-//probably just move to scenario
 public class ScenarioSettings
 {
-    public GameModes GameMode = GameModes.RandomSpawn;
-    
-    public float[] TimeScale = new []{0.5f, 0.4f, 0.3f, 0.2f, 0.1f};
-    
-    public int[] DevForSpecialBuilding = new int[3] { 10, 25, 50 };
-    public int[] DevForCommonBuilding = new int[10] { 5, 10, 15, 20, 30, 40, 50, 60, 70, 80 };
-    public int MaxRegimentWidthInBattle = 20;
-    public float TaxEarningPerDev = 0.02f;
-    public float ManpowerPerDev = 0.5f;
-    public float InitialProduction = 1.0f;
-    public float MoraleRecoveryPerDay = 0.01f;
-
-    public List<KeyValuePair<int, double>> ResourceRequirmentsPer10Dev = new()
-    {
-        new KeyValuePair<int, double>(0, 0.25), // each index for 10 dev, value is to increment for dev
-        new KeyValuePair<int, double>(2, 0.5),
-        new KeyValuePair<int, double>(2, 0.5),
-        new KeyValuePair<int, double>(2, 0.5),
-        new KeyValuePair<int, double>(2, 0.5),
-        new KeyValuePair<int, double>(2, 0.5),
-        new KeyValuePair<int, double>(2, 0.5),
-        new KeyValuePair<int, double>(2, 0.5),
-        new KeyValuePair<int, double>(2, 0.5),
-        new KeyValuePair<int, double>(2, 0.5)
-    };
-
-    public int CostIncrementPerDev = 10;
-
+    public GameModes GameMode { get; set; }
+    public float[] TimeScale { get; set; }
+    public int[] DevForSpecialBuilding { get; set; }
+    public int[] DevForCommonBuilding { get; set; }
+    public int MaxRegimentWidthInBattle { get; set; }
+    public float TaxEarningPerDev { get; set; }
+    public float ManpowerPerDev { get; set; }
+    public float InitialProduction { get; set; }
+    public float MoraleRecoveryPerDay { get; set; }
+    public List<KeyValuePair<int, double>> ResourceRequirmentsPer10Dev { get; set; }
+    public int CostIncrementPerDev { get; set; }
+    public float InitialMoneyCostColony { get; set; }
+    public int InitialManpowerCostColony { get; set; }
+    //add 3 to your value
+    public int NavalColonizationRange { get; set; }
+    public int ColonyGrowth { get; set; }
     public KeyValuePair<int, double[]> ResourceAndCostRequirmentsToDev(int dev)
     {
         var cost = dev * CostIncrementPerDev;
@@ -47,10 +33,6 @@ public class ScenarioSettings
             resources[ResourceRequirmentsPer10Dev[i].Key] += (dev - i * 10) * ResourceRequirmentsPer10Dev[i].Value;
         return new KeyValuePair<int, double[]>(cost, resources);
     }
-
-
-    public float InitialMoneyCostColony = 50;
-    public int InitialManpowerCostColony = 100;
     public float MoneyConsumptionPerMonthColony(int colonyNumber)
     {
         if (colonyNumber == 0) return 0;
@@ -75,11 +57,35 @@ public class ScenarioSettings
         }
         return sum;
     }
-    //add 3 to your value
-    public int NavalColonizationRange = 6;
 
     public ScenarioSettings()
     {
-        
+        GameMode = GameModes.RandomSpawn;
+        TimeScale = new []{0.5f, 0.4f, 0.3f, 0.2f, 0.1f};
+        DevForSpecialBuilding = new int[3] { 10, 25, 50 };
+        DevForCommonBuilding = new int[10] { 5, 10, 15, 20, 30, 40, 50, 60, 70, 80 };
+        MaxRegimentWidthInBattle = 20;
+        TaxEarningPerDev = 0.02f;
+        ManpowerPerDev = 0.5f;
+        InitialProduction = 1.0f;
+        MoraleRecoveryPerDay = 0.01f;
+        ResourceRequirmentsPer10Dev = new()
+        {
+            new KeyValuePair<int, double>(0, 0.25), // each index for 10 dev, value is to increment for dev
+            new KeyValuePair<int, double>(2, 0.5),
+            new KeyValuePair<int, double>(2, 0.5),
+            new KeyValuePair<int, double>(2, 0.5),
+            new KeyValuePair<int, double>(2, 0.5),
+            new KeyValuePair<int, double>(2, 0.5),
+            new KeyValuePair<int, double>(2, 0.5),
+            new KeyValuePair<int, double>(2, 0.5),
+            new KeyValuePair<int, double>(2, 0.5),
+            new KeyValuePair<int, double>(2, 0.5)
+        };
+        CostIncrementPerDev = 10;
+        InitialMoneyCostColony = 50;
+        InitialManpowerCostColony = 100;
+        NavalColonizationRange = 6;
+        ColonyGrowth = 1000;
     }
 }

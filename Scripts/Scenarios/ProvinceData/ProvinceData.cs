@@ -4,10 +4,10 @@ namespace EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 
 public abstract class ProvinceData
 {
-    public readonly int Id;
-    public int[] BorderderingProvinces;
-    public Vector2 CenterOfWeight;
-    public string Name;
+    public int Id { get; }
+    public int[] BorderderingProvinces { get; set; }
+    public Vector2 CenterOfWeight { get; set; }
+    public string Name { get; set; }
 
     protected ProvinceData(int id, string name)
     {

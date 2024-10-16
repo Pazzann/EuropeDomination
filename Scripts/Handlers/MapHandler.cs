@@ -755,7 +755,7 @@ public partial class MapHandler : GameHandler
             if (data.CurrentlyColonizedByCountry != null)
             {
                 
-                data.SettlersCombined += data.ColonyGrowth;
+                data.SettlersCombined += EngineState.MapInfo.Scenario.Settings.ColonyGrowth;
 
                 if (data.SettlersCombined >= data.SettlersNeeded)
                 {

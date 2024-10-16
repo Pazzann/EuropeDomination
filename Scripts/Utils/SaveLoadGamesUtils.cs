@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Mime;
 using System.Text.Json;
+using System.Xml.Serialization;
 using EuropeDominationDemo.Scripts.Scenarios;
 using Godot;
 
@@ -30,6 +31,13 @@ public static class SaveLoadGamesUtils
         Directory.CreateDirectory(dirPath);
         string scenarioJson = JsonSerializer.Serialize(scenario);
         File.WriteAllText(Path.Join(dirPath, "index.json"), scenarioJson);
+    }
+
+    public static string SerializeScenario(Scenario scenario)
+    {
+        Type scenarioType =  scenario.GetType();
+
+        return "";
     }
 
     public static string[] GetScenariosList()
