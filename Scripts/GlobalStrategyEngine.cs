@@ -64,7 +64,12 @@ public partial class GlobalStrategyEngine : Node2D
 
 		InvokeToGUIEvent(new ToGUISetCamera(Camera, GetViewport()));
 		InvokeToGUIEvent(new ToGUISetPause());
+		InvokeToGUIEvent(new ToGUISetDateEvent(EngineState.MapInfo.Scenario.Date));
 		_timer.Stop();
+		
+		SaveLoadGamesUtils.SaveGame("testsave", EngineState.MapInfo.Scenario);
+		
+		
 	}
 
 
@@ -102,7 +107,7 @@ public partial class GlobalStrategyEngine : Node2D
 				ViewMode();
 				return;
 			case GUISetTimeScale e:
-				_timer.WaitTime = Settings.TimeScale[e.TimeScaleId];
+				_timer.WaitTime = EngineState.MapInfo.Scenario.Settings.TimeScale[e.TimeScaleId];
 				return;
 			case GUIPauseStateEvent e:
 				if (e.IsPaused)
@@ -161,9 +166,9 @@ public partial class GlobalStrategyEngine : Node2D
 	{
 		var mousePos = GetLocalMousePosition();
 		var iMousePos = new Vector2I((int)mousePos.X, (int)mousePos.Y);
-		if (!EngineState.MapInfo.Scenario.MapTexture.GetUsedRect().HasPoint(iMousePos)) return -3;
+		if (!GlobalResources.MapTexture.GetUsedRect().HasPoint(iMousePos)) return -3;
 
-		var tileId = GameMath.GetProvinceId(EngineState.MapInfo.Scenario.MapTexture.GetPixelv(iMousePos));
+		var tileId = GameMath.GetProvinceId(GlobalResources.MapTexture.GetPixelv(iMousePos));
 
 		if (tileId < 0 || tileId >= EngineState.MapInfo.Scenario.Map.Length)
 			return -3;

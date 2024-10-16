@@ -114,7 +114,7 @@ public static class InfoBoxFactory
 
 	public static RichTextLabelBuilder DevButtonData(LandColonizedProvinceData provinceData)
 	{
-		var req = Settings.ResourceAndCostRequirmentsToDev(provinceData.Development);
+		var req = EngineState.MapInfo.Scenario.Settings.ResourceAndCostRequirmentsToDev(provinceData.Development);
 		return new RichTextLabelBuilder()
 			.Header("Needed To Dev").NewLine()
 			.AppendText($"Cost: {req.Key}").NewLine()

@@ -61,7 +61,7 @@ public partial class MapHandler : GameHandler
         _fogSprite = GetNode<Sprite2D>("Map3");
         _fogMaterial = _fogSprite.Material as ShaderMaterial;
         _fogMaterial.SetShaderParameter("timescale", 0.01f);
-        _fogMaterial.SetShaderParameter("lowQualityMode", Settings.PerformaceMode == GraphicPreset.LowQualityMode );
+        _fogMaterial.SetShaderParameter("lowQualityMode", GameSettings.PerformaceMode == GraphicPreset.LowQualityMode );
 
 
         _textScene = (PackedScene)GD.Load("res://Prefabs/Text.tscn");
@@ -312,11 +312,11 @@ public partial class MapHandler : GameHandler
                 
                 case GUIColonizeProvince e:
                     var country = EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId];
-                    if (country.Money > Settings.InitialMoneyCostColony &&
-                        country.Manpower >= Settings.InitialManpowerCostColony)
+                    if (country.Money > EngineState.MapInfo.Scenario.Settings.InitialMoneyCostColony &&
+                        country.Manpower >= EngineState.MapInfo.Scenario.Settings.InitialManpowerCostColony)
                     {
-                        country.Money -= Settings.InitialMoneyCostColony;
-                        country.Manpower -= Settings.InitialManpowerCostColony;
+                        country.Money -= EngineState.MapInfo.Scenario.Settings.InitialMoneyCostColony;
+                        country.Manpower -= EngineState.MapInfo.Scenario.Settings.InitialManpowerCostColony;
                         (EngineState.MapInfo.Scenario.Map[e.ProvinceId] as UncolonizedProvinceData).CurrentlyColonizedByCountry =
                             EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId];   
                         InvokeToGUIEvent(new ToGUIShowUncolonizedProvinceData((EngineState.MapInfo.Scenario.Map[e.ProvinceId] as UncolonizedProvinceData), false));
@@ -478,7 +478,7 @@ public partial class MapHandler : GameHandler
                 {
                     var province = (LandColonizedProvinceData)EngineState.MapInfo.Scenario.Map[e.ProvinceId];
                     
-                    var requirments = Settings.ResourceAndCostRequirmentsToDev(province.Development);
+                    var requirments = EngineState.MapInfo.Scenario.Settings.ResourceAndCostRequirmentsToDev(province.Development);
                     if (EngineState.MapInfo.Scenario.Countries[province.Owner].Money - requirments.Key >= 0f &&
                         Good.CheckIfMeetsRequirements(province.Resources, requirments.Value))
                     {
@@ -517,7 +517,7 @@ public partial class MapHandler : GameHandler
     private void _updateProvinceText()
     {
 
-        var mapContours = new MapContours(EngineState.MapInfo, EngineState.MapInfo.Scenario.MapTexture);
+        var mapContours = new MapContours(EngineState.MapInfo, GlobalResources.MapTexture);
         var allLabels = new ConcurrentBag<CurvedText>();
 
         Parallel.ForEach(EngineState.MapInfo.Scenario.Map, province =>
@@ -538,7 +538,7 @@ public partial class MapHandler : GameHandler
 
     private void _updateCountryText()
     {
-        var mapContours = new MapContours(EngineState.MapInfo, EngineState.MapInfo.Scenario.MapTexture);
+        var mapContours = new MapContours(EngineState.MapInfo, GlobalResources.MapTexture);
         var allLabels = new ConcurrentBag<CurvedText>();
 
         Parallel.ForEach(EngineState.MapInfo.Scenario.Countries.Values, country =>
@@ -742,13 +742,13 @@ public partial class MapHandler : GameHandler
         var shouldTheMapBeUpdated = false;
         foreach (var country in EngineState.MapInfo.Scenario.Countries)
         {
-            country.Value.Money -= Settings.MoneyConsumptionPerMonthColony(EngineState.MapInfo
+            country.Value.Money -= EngineState.MapInfo.Scenario.Settings.MoneyConsumptionPerMonthColony(EngineState.MapInfo
                 .MapProvinces(ProvinceTypes.UncolonizedProvinces).Count(d =>
                     (d as UncolonizedProvinceData).CurrentlyColonizedByCountry != null &&
                     (d as UncolonizedProvinceData).CurrentlyColonizedByCountry.Id ==
                     country.Key));
 
-            country.Value.Money -= Settings.MoneyConsumptionPerResearc(country.Value.CurrentlyResearching.Count);
+            country.Value.Money -= EngineState.MapInfo.Scenario.Settings.MoneyConsumptionPerResearc(country.Value.CurrentlyResearching.Count);
         }
         foreach (UncolonizedProvinceData data in EngineState.MapInfo.MapProvinces(ProvinceTypes.UncolonizedProvinces))
         {

@@ -22,7 +22,7 @@
       <PackageReference Include="Facepunch.Steamworks" Version="2.3.4" />
     </ItemGroup>
     <ItemGroup>
-      <Content Include="Save_Games\TestSave\index.json" />
-      <Content Include="Scenarios\test.txt" />
+      <Folder Include="Save_Games\" />
+      <Folder Include="Scenarios\" />
     </ItemGroup>
 </Project>

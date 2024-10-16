@@ -59,10 +59,10 @@ public class UncolonizedProvinceData : LandProvinceData
                         return PathFinder.CheckConnectionFromAToB(d.Id, Id,
                                    searchPr.ToArray()) &&
                                PathFinder.FindPathFromAToB(d.Id, Id, searchPr.ToArray()
-                               ).Length < Settings.NavalColonizationRange;
+                               ).Length < EngineState.MapInfo.Scenario.Settings.NavalColonizationRange;
                     }))
                 a = false;
-        if (country.Money < Settings.InitialMoneyCostColony || country.Manpower < Settings.InitialManpowerCostColony)
+        if (country.Money < EngineState.MapInfo.Scenario.Settings.InitialMoneyCostColony || country.Manpower < EngineState.MapInfo.Scenario.Settings.InitialManpowerCostColony)
             a = false;
         return a;
     }

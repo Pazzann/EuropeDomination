@@ -12,7 +12,7 @@ public partial class SteamworksHelper : Node
     public override void _Ready()
     {
         
-        if(Settings.EnableSteamDebugLogging)
+        if(EngineState.EnableSteamDebugLogging)
             Dispatch.OnDebugCallback = (type, str, server) =>
             {
                 GD.Print($"[Callback {type} {(server ? "server" : "client")}]");

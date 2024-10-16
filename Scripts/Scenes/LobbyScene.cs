@@ -27,8 +27,8 @@ public partial class LobbyScene : Node2D
 	public override void _Ready()
 	{
 		_mapSprite = GetNode<Sprite2D>("Map");
-
-		Scenario scenario = new EuropeScenario(_mapSprite.Texture.GetImage());
+		GlobalResources.MapTexture = _mapSprite.Texture.GetImage();
+		Scenario scenario = new EuropeScenario();
 		EngineState.MapInfo = new MapData(scenario);
 		EngineState.MapInfo.Scenario.PlayerList = new Dictionary<int, string>();
 		EngineState.MapInfo.Scenario.PlayerList.Add(0, "currentPlayer");
@@ -145,9 +145,9 @@ public partial class LobbyScene : Node2D
 	{
 		var mousePos = GetLocalMousePosition();
 		var iMousePos = new Vector2I((int)mousePos.X, (int)mousePos.Y);
-		if (!EngineState.MapInfo.Scenario.MapTexture.GetUsedRect().HasPoint(iMousePos)) return -1;
+		if (!GlobalResources.MapTexture.GetUsedRect().HasPoint(iMousePos)) return -1;
 
-		var tileId = GameMath.GetProvinceId(EngineState.MapInfo.Scenario.MapTexture.GetPixelv(iMousePos));
+		var tileId = GameMath.GetProvinceId(GlobalResources.MapTexture.GetPixelv(iMousePos));
 
 		if (tileId < 0 || tileId >= EngineState.MapInfo.Scenario.Map.Length)
 			return -3;

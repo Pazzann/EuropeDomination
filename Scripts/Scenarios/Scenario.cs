@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EuropeDominationDemo.Scripts.Enums;
+using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
@@ -11,8 +12,9 @@ using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
 
-public abstract class Scenario : IScenario
+public abstract class Scenario
 {
+    public abstract ScenarioSettings Settings { get; set; }
     public abstract Dictionary<int, Vector3> WastelandProvinceColors { get; set; }
     public abstract Vector3 WaterColor { get; set; }
     public abstract Vector3 UncolonizedColor { get; set; }
@@ -29,9 +31,6 @@ public abstract class Scenario : IScenario
 
     public abstract ProvinceData.ProvinceData[] Map { get; set; }
     public abstract DateTime Date { get; set; }
-
-    public abstract Image MapTexture { get; set; }
-    
     
     public abstract GameModes GameMode { get; set; }
     public abstract ResourceModes ResourceMode { get; set; }

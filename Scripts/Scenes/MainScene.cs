@@ -19,10 +19,6 @@ public partial class MainScene : TextureRect
 		_settingsPanel = GetNode<TabContainer>("MainSettings");
 		_lobbyScene = GD.Load<PackedScene>("res://Scenes/LobbyScene.tscn");
 		SteamFriends.OnGameLobbyJoinRequested += _onJoinLobbyRequest;
-
-
-		var test = SaveLoadGamesUtils.GetSavesList();
-		GD.Print(test);
 	}
 
 	private void _onExitPressed()

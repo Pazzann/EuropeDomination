@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EuropeDominationDemo.Scripts.Enums;
+using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios.Army;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
@@ -18,8 +19,11 @@ namespace EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 
 public class EuropeScenario : Scenario
 {
-    public EuropeScenario(Image mapTexture)
+    public EuropeScenario()
     {
+        
+        Settings = new ScenarioSettings();
+        
         Goods = new List<Good>
         {
             new HarvestedGood(0, "Iron", new Vector3(0.5f, 0.3f, 0.0f), 4.5f),
@@ -35,9 +39,6 @@ public class EuropeScenario : Scenario
             new HarvestedGood(9, "Salt", new Vector3(0.9f, 0.9f, 0.9f), 2.5f)
         };
 
-        
-
-        MapTexture = mapTexture;
 
         Date = new DateTime(1700, 1, 1);
 
@@ -521,8 +522,8 @@ public class EuropeScenario : Scenario
             new SeaProvinceData(420, "BlackSea", Modifiers.DefaultModifiers())
         };
 
-        Map = GameMath.CalculateBorderProvinces(Map, MapTexture);
-        var centers = GameMath.CalculateCenterOfProvinceWeight(MapTexture, Map.Length);
+        Map = GameMath.CalculateBorderProvinces(Map, GlobalResources.MapTexture);
+        var centers = GameMath.CalculateCenterOfProvinceWeight(GlobalResources.MapTexture, Map.Length);
         for (var i = 0; i < Map.Length; i++) Map[i].CenterOfWeight = centers[i];
 
 
@@ -557,7 +558,6 @@ public class EuropeScenario : Scenario
     public override Dictionary<int, CountryData> Countries { get; }
     public sealed override ProvinceData.ProvinceData[] Map { get; set; }
     public sealed override DateTime Date { get; set; }
-    public sealed override Image MapTexture { get; set; }
     public override Dictionary<int, Vector3> WastelandProvinceColors { get; set; }
     public override Vector3 WaterColor { get; set; }
     public override Vector3 UncolonizedColor { get; set; }
@@ -572,4 +572,5 @@ public class EuropeScenario : Scenario
     public override GameModes GameMode { get; set; }
     public override Dictionary<int, string> PlayerList { get; set; }
     public override ResourceModes ResourceMode { get; set; }
+    public sealed override ScenarioSettings Settings { get; set; }
 }

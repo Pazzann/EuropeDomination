@@ -57,7 +57,7 @@ public partial class GUIMiniMapWindow : GUIHandler
 
 	public override void _Process(double delta)
 	{
-		Vector2 mapSize = EngineState.MapInfo.Scenario.MapTexture.GetSize();
+		Vector2 mapSize = GlobalResources.MapTexture.GetSize();
 
 		if (Input.IsMouseButtonPressed(MouseButton.Left))
 			if (GetLocalMousePosition().X < _minimapSprite.Size.X && GetLocalMousePosition().Y < _minimapSprite.Size.Y)

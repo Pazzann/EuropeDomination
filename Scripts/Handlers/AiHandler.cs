@@ -41,15 +41,15 @@ public partial class AiHandler : GameHandler
             var country = EngineState.MapInfo.Scenario.Countries[aiCountry];
             if (EngineState.MapInfo.MapProvinces(ProvinceTypes.UncolonizedProvinces).Count(b =>
                     b is UncolonizedProvinceData data && data.CurrentlyColonizedByCountry != null &&
-                    data.CurrentlyColonizedByCountry.Id == country.Id) < 2 && country.Money > Settings.InitialMoneyCostColony && country.Manpower > Settings.InitialManpowerCostColony)
+                    data.CurrentlyColonizedByCountry.Id == country.Id) < 2 && country.Money > EngineState.MapInfo.Scenario.Settings.InitialMoneyCostColony && country.Manpower > EngineState.MapInfo.Scenario.Settings.InitialManpowerCostColony)
             {
                 var colonizableProvinces = country.GetAvailibaleProvincesToColonize();
                 if (colonizableProvinces.Length != 0)
                 {
                     var id = new Random().Next(colonizableProvinces.Length);
                     colonizableProvinces[id].CurrentlyColonizedByCountry = country;
-                    country.Money -= Settings.InitialMoneyCostColony;
-                    country.Manpower -= Settings.InitialManpowerCostColony;
+                    country.Money -= EngineState.MapInfo.Scenario.Settings.InitialMoneyCostColony;
+                    country.Manpower -= EngineState.MapInfo.Scenario.Settings.InitialManpowerCostColony;
                 }
                 
             }

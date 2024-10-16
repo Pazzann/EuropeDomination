@@ -507,7 +507,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 				_tradeInStockShowData(stockAndTrade);
 				return;
 			default:
-				if (_currentColonizedProvinceData.Development >= Settings.DevForSpecialBuilding[tabId])
+				if (_currentColonizedProvinceData.Development >= EngineState.MapInfo.Scenario.Settings.DevForSpecialBuilding[tabId])
 					_showEmptyData();
 				else
 					_showNotUnlockedData();
@@ -1123,7 +1123,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 	{
 		_notUnlockedHandler.Visible = true;
 		(_notUnlockedHandler.GetChild(0) as Label).Text =
-			"Needed dev to unlock: " + Settings.DevForSpecialBuilding[_currentTab];
+			"Needed dev to unlock: " + EngineState.MapInfo.Scenario.Settings.DevForSpecialBuilding[_currentTab];
 	}
 	
 	#endregion

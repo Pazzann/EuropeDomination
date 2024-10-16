@@ -50,11 +50,11 @@ public class LandColonizedProvinceData : LandProvinceData
     }
 
     public float ProductionRate => Buildings.Where(d => d.IsFinished)
-        .Aggregate(Settings.InitialProduction, (acc, x) => acc * x.Modifiers.ProductionEfficiency);
+        .Aggregate(EngineState.MapInfo.Scenario.Settings.InitialProduction, (acc, x) => acc * x.Modifiers.ProductionEfficiency);
 
-    public int UnlockedBuildingCount => Settings.DevForCommonBuilding.Where(a => a <= Development).ToArray().Length;
-    public float TaxIncome => Development * Settings.TaxEarningPerDev;
-    public float ManpowerGrowth => Development * Settings.ManpowerPerDev;
+    public int UnlockedBuildingCount => EngineState.MapInfo.Scenario.Settings.DevForCommonBuilding.Where(a => a <= Development).ToArray().Length;
+    public float TaxIncome => Development * EngineState.MapInfo.Scenario.Settings.TaxEarningPerDev;
+    public float ManpowerGrowth => Development * EngineState.MapInfo.Scenario.Settings.ManpowerPerDev;
 
     public void SetRoute(TransportationRoute harvestedRoute)
     {
