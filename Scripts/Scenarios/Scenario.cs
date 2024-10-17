@@ -9,6 +9,7 @@ using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.Scenarios.Technology;
 using Godot;
+using Steamworks;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
 
@@ -18,47 +19,38 @@ public abstract class Scenario
     public abstract Dictionary<int, Vector3> WastelandProvinceColors { get; set; }
     public abstract Vector3 WaterColor { get; set; }
     public abstract Vector3 UncolonizedColor { get; set; }
-
-    public abstract List<Recipe> Recipes { get; set; }
     public abstract List<Good> Goods { get; }
+    public abstract List<Recipe> Recipes { get; set; }
     public abstract List<Terrain> Terrains { get; }
     public abstract List<Building> Buildings { get; }
-
     public abstract List<BattleData> Battles { get; set; }
-
     public abstract TechnologyTree[] TechnologyTrees { get; }
     public abstract Dictionary<int, CountryData> Countries { get; }
-
     public abstract ProvinceData.ProvinceData[] Map { get; set; }
     public abstract DateTime Date { get; set; }
-    
-    public abstract GameModes GameMode { get; set; }
-    public abstract ResourceModes ResourceMode { get; set; }
 
     public HashSet<int> AiList = new HashSet<int>();
     //int is for countryId
-    public abstract Dictionary<int, string> PlayerList { get; set; }
-
-
+    public abstract Dictionary<SteamId, int> PlayerList { get; set; }
     public void ChangeGameMode(GameModes mode) 
     {
         switch (mode)
         {
             case GameModes.RandomSpawn:
             {
-                GameMode = GameModes.RandomSpawn;
+                Settings.GameMode = GameModes.RandomSpawn;
                 CleanMap();
                 return;
             }
             case GameModes.SelectionSpawn:
             {
-                GameMode = GameModes.SelectionSpawn;
+                Settings.GameMode = GameModes.SelectionSpawn;
                 CleanMap();
                 return;
             }
             case GameModes.FullMapScenario:
             {
-                GameMode = GameModes.FullMapScenario;
+                Settings.GameMode = GameModes.FullMapScenario;
                 CleanMap();
                 return;
             }
@@ -68,7 +60,7 @@ public abstract class Scenario
 
     public void Init()
     {
-        switch (GameMode)
+        switch (Settings.GameMode)
         {
             case GameModes.RandomSpawn:
             {
@@ -84,7 +76,7 @@ public abstract class Scenario
 
                 foreach (var country in Countries)
                 {
-                    if(!PlayerList.ContainsKey(country.Key))
+                    if(!PlayerList.ContainsValue(country.Key))
                         AiList.Add(country.Key);
                     country.Value.CapitalId = countOfLandProvinces[capitalsArray[country.Value.Id]].Id;
                     var a = (UncolonizedProvinceData)Map[country.Value.CapitalId];
@@ -109,7 +101,7 @@ public abstract class Scenario
 
                 foreach (var country in Countries)
                 {
-                    if (!PlayerList.ContainsKey(country.Key))
+                    if (!PlayerList.ContainsValue(country.Key))
                     {
                         AiList.Add(country.Key);
                         country.Value.CapitalId = countOfLandProvinces[capitalsArray[country.Value.Id]].Id;
@@ -127,7 +119,7 @@ public abstract class Scenario
             {
                 foreach (var country in Countries)
                 {
-                    if(!PlayerList.ContainsKey(country.Key))
+                    if(!PlayerList.ContainsValue(country.Key))
                         AiList.Add(country.Key);
                     var a = (UncolonizedProvinceData)Map[country.Value.CapitalId];
                     a.CurrentlyColonizedByCountry = country.Value;
@@ -140,7 +132,7 @@ public abstract class Scenario
             }
         }
 
-        switch (ResourceMode)
+        switch (Settings.ResourceMode)
         {
             case ResourceModes.RandomSpawn:
             {
@@ -170,7 +162,6 @@ public abstract class Scenario
         }
     }
     
-    public TimeSpan Ts => new(1, 0, 0, 0);
 
     public ProvinceData.ProvinceData[] CountryProvinces(int countryId)
     {

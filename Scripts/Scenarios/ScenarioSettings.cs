@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
@@ -9,6 +10,7 @@ namespace EuropeDominationDemo.Scripts.Scenarios;
 public class ScenarioSettings
 {
     public GameModes GameMode { get; set; }
+    public ResourceModes ResourceMode { get; set; }
     public float[] TimeScale { get; set; }
     public int[] DevForSpecialBuilding { get; set; }
     public int[] DevForCommonBuilding { get; set; }
@@ -24,6 +26,7 @@ public class ScenarioSettings
     //add 3 to your value
     public int NavalColonizationRange { get; set; }
     public int ColonyGrowth { get; set; }
+    public TimeSpan Ts { get; set; }
     public KeyValuePair<int, double[]> ResourceAndCostRequirmentsToDev(int dev)
     {
         var cost = dev * CostIncrementPerDev;
@@ -45,7 +48,7 @@ public class ScenarioSettings
         }
         return sum;
     }
-    public float MoneyConsumptionPerResearc(int researchNumber)
+    public float MoneyConsumptionPerResearch(int researchNumber)
     {
         if (researchNumber == 0) return 0;
         float initial = 2f;
@@ -61,6 +64,7 @@ public class ScenarioSettings
     public ScenarioSettings()
     {
         GameMode = GameModes.RandomSpawn;
+        ResourceMode = ResourceModes.RandomSpawn;
         TimeScale = new []{0.5f, 0.4f, 0.3f, 0.2f, 0.1f};
         DevForSpecialBuilding = new int[3] { 10, 25, 50 };
         DevForCommonBuilding = new int[10] { 5, 10, 15, 20, 30, 40, 50, 60, 70, 80 };
@@ -87,5 +91,6 @@ public class ScenarioSettings
         InitialManpowerCostColony = 100;
         NavalColonizationRange = 6;
         ColonyGrowth = 1000;
+        Ts = new(1, 0, 0, 0);
     }
 }

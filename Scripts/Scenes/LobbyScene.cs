@@ -30,12 +30,12 @@ public partial class LobbyScene : Node2D
 		GlobalResources.MapTexture = _mapSprite.Texture.GetImage();
 		Scenario scenario = new EuropeScenario();
 		EngineState.MapInfo = new MapData(scenario);
-		EngineState.MapInfo.Scenario.PlayerList = new Dictionary<int, string>();
-		EngineState.MapInfo.Scenario.PlayerList.Add(0, "currentPlayer");
+		EngineState.MapInfo.Scenario.PlayerList = new Dictionary<SteamId, int>();
+		EngineState.MapInfo.Scenario.PlayerList.Add(SteamState.SteamId, 0);
 		EngineState.PlayerCountryId = 0;
 		_mapUpdate();
 		EngineState.MapInfo.Scenario.ChangeGameMode(GameModes.RandomSpawn);
-		EngineState.MapInfo.Scenario.ResourceMode = ResourceModes.RandomSpawn;
+		EngineState.MapInfo.Scenario.Settings.ResourceMode = ResourceModes.RandomSpawn;
 		_camera = GetNode<Camera>("Camera");
 		_camera.Reset(new Rect2(Vector2.Zero, GetNode<Sprite2D>("Map").Texture.GetSize()));
 
@@ -114,7 +114,7 @@ public partial class LobbyScene : Node2D
 		_camera.HandleInput(@event);
 		var tileId = _findTile();
 		if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: false } &&
-			EngineState.MapInfo.Scenario.GameMode == GameModes.SelectionSpawn)
+			EngineState.MapInfo.Scenario.Settings.GameMode == GameModes.SelectionSpawn)
 		{
 			if (_selectedProvincesPlayers.ContainsKey(tileId) ||
 				EngineState.MapInfo.Scenario.Map[tileId] is not LandProvinceData)
@@ -157,7 +157,7 @@ public partial class LobbyScene : Node2D
 
 	private void _onResourceSpawnModeSelected(int id)
 	{
-		EngineState.MapInfo.Scenario.ResourceMode = (ResourceModes)id;
+		EngineState.MapInfo.Scenario.Settings.ResourceMode = (ResourceModes)id;
 	}
 
 	private void _onStartPressed()

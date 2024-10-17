@@ -117,10 +117,10 @@ public partial class GlobalStrategyEngine : Node2D
 				return;
 			case GUISwitchCountry e:
 				EngineState.MapInfo.Scenario.AiList.Add(EngineState.PlayerCountryId);
-				EngineState.MapInfo.Scenario.PlayerList.Remove(EngineState.PlayerCountryId);
+				EngineState.MapInfo.Scenario.PlayerList.Remove(SteamState.SteamId);
 				EngineState.PlayerCountryId = e.Id;
 				EngineState.MapInfo.Scenario.AiList.Remove(e.Id);
-				EngineState.MapInfo.Scenario.PlayerList.Add(e.Id, "currentPlayer");
+				EngineState.MapInfo.Scenario.PlayerList.Add(SteamState.SteamId,e.Id);
 				AllHandlersControls.GUIInteractionHandler(new GUIUpdateFogOfWar());
 				InvokeToGUIEvent(new ToGUIUpdateCountryInfo());
 				return;

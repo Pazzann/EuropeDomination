@@ -32,7 +32,7 @@ public class CallMulticaster
 
     public void TimeTick()
     {
-        EngineState.MapInfo.Scenario.Date = EngineState.MapInfo.Scenario.Date.Add(EngineState.MapInfo.Scenario.Ts);
+        EngineState.MapInfo.Scenario.Date = EngineState.MapInfo.Scenario.Date.Add(EngineState.MapInfo.Scenario.Settings.Ts);
 
         foreach (var handler in _gameHandlers) handler.DayTick();
 

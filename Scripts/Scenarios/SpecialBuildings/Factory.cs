@@ -30,9 +30,9 @@ public class Factory : SpecialBuilding
 
 public class Recipe
 {
-    public Dictionary<Good, double> Ingredients;
-    public Good Output;
-    public float OutputAmount;
+    public Dictionary<Good, double> Ingredients { get; set; }
+    public Good Output { get; set; }
+    public float OutputAmount { get; set; }
 
     public Recipe(Dictionary<Good, double> ingredients, Good output, float outputAmount)
     {

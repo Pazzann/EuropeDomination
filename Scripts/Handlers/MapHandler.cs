@@ -748,7 +748,7 @@ public partial class MapHandler : GameHandler
                     (d as UncolonizedProvinceData).CurrentlyColonizedByCountry.Id ==
                     country.Key));
 
-            country.Value.Money -= EngineState.MapInfo.Scenario.Settings.MoneyConsumptionPerResearc(country.Value.CurrentlyResearching.Count);
+            country.Value.Money -= EngineState.MapInfo.Scenario.Settings.MoneyConsumptionPerResearch(country.Value.CurrentlyResearching.Count);
         }
         foreach (UncolonizedProvinceData data in EngineState.MapInfo.MapProvinces(ProvinceTypes.UncolonizedProvinces))
         {

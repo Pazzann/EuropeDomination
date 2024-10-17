@@ -14,6 +14,7 @@ using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.Scenarios.Technology;
 using Godot;
+using Steamworks;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 
@@ -569,8 +570,6 @@ public class EuropeScenario : Scenario
     public override List<Recipe> Recipes { get; set; }
     public override List<BattleData> Battles { get; set; }
     public override TechnologyTree[] TechnologyTrees { get; }
-    public override GameModes GameMode { get; set; }
-    public override Dictionary<int, string> PlayerList { get; set; }
-    public override ResourceModes ResourceMode { get; set; }
+    public override Dictionary<SteamId, int> PlayerList { get; set; }
     public sealed override ScenarioSettings Settings { get; set; }
 }

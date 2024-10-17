@@ -29,15 +29,28 @@ public static class SaveLoadGamesUtils
     {
         var dirPath = Path.Join(SavesPath, saveName);
         Directory.CreateDirectory(dirPath);
-        string scenarioJson = JsonSerializer.Serialize(scenario);
-        File.WriteAllText(Path.Join(dirPath, "index.json"), scenarioJson);
+        File.WriteAllText(Path.Join(dirPath, "index.edsf"), SerializeScenario(scenario));
     }
 
     public static string SerializeScenario(Scenario scenario)
     {
-        Type scenarioType =  scenario.GetType();
-
-        return "";
+        var stringified = "";
+        stringified += "[Scenario]\n";
+        stringified += "[Settings]\n";
+        stringified += JsonSerializer.Serialize(scenario.Settings) + "\n";
+        stringified += "[/Settings]\n";
+        stringified += "[WastelandProvinceColors]\n";
+        foreach (var pair in scenario.WastelandProvinceColors)
+            stringified += "{" + pair.Key + "{" + $"X:{pair.Value.X},Y:{pair.Value.Y},Z:{pair.Value.Z}" + "}}"; 
+        stringified += "\n";
+        stringified += "[/WastelandProvinceColors]\n";
+        stringified += "[WaterColor]\n{" + $"X:{scenario.WaterColor.X},Y:{scenario.WaterColor.Y},Z:{scenario.WaterColor.Z}" +"}\n[/WaterColor]\n";
+        stringified += "[UncolonizedColor]\n{" + $"X:{scenario.UncolonizedColor.X},Y:{scenario.UncolonizedColor.Y},Z:{scenario.UncolonizedColor.Z}" +"}\n[/UncolonizedColor]\n";
+        //stringified += "[Recipes]\n" + JsonSerializer.Serialize(scenario.Recipes) + "\n[/Recipes]\n";
+        //fix recipes and other properies
+        
+        stringified += "[/Scenario]";
+        return stringified;
     }
 
     public static string[] GetScenariosList()
