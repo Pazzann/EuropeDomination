@@ -5,11 +5,11 @@ namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 
 public class ArmyInfantryRegimentTemplate : ArmyRegimentTemplate
 {
-    public InfantryWeapon Weapon;
-    public Helmet Helmet;
-    public Armor Armor;
-    public Boots Boots;
-    public AdditionalSlotGood Additional;
+    public InfantryWeapon Weapon { get; set; }
+    public Helmet Helmet { get; set; }
+    public Armor Armor { get; set; }
+    public Boots Boots { get; set; }
+    public AdditionalSlotGood Additional { get; set; }
 
     public ArmyInfantryRegimentTemplate(string name, int id, InfantryWeapon weapon, Helmet helmet, Armor armor,
         Boots boots, AdditionalSlotGood additionalSlotGood) : base(name, id)

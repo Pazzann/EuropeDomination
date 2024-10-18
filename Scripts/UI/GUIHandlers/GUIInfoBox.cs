@@ -60,8 +60,8 @@ public static class InfoBoxFactory
 		var infoBoxBuilder = new RichTextLabelBuilder().Header(provinceData.Name).NewLine();
 		if (provinceData is LandProvinceData landProvinceData)
 		{
-			infoBoxBuilder.AppendText("Good: " + landProvinceData.Good.Name).NewLine();
-			infoBoxBuilder.AppendText("Terrain: " + landProvinceData.Terrain.Name).NewLine();
+			infoBoxBuilder.AppendText("Good: " + EngineState.MapInfo.Scenario.Goods[landProvinceData.Good].Name).NewLine();
+			infoBoxBuilder.AppendText("Terrain: " + EngineState.MapInfo.Scenario.Terrains[landProvinceData.Terrain].Name).NewLine();
 		}
 
 		if (provinceData is LandColonizedProvinceData landprovinceData)
@@ -142,7 +142,7 @@ public static class InfoBoxFactory
 		if (technology.BuildingToUnlock > -1)
 			a.AppendText($"Building to unlock: ").ShowBuilding(technology.BuildingToUnlock).NewLine();
 		if(technology.RecipyToUnlock > -1)
-			a.AppendText("Recipy To Unlock: ").ShowGood(EngineState.MapInfo.Scenario.Recipes[technology.RecipyToUnlock].Output.Id).NewLine();
+			a.AppendText("Recipy To Unlock: ").ShowGood(EngineState.MapInfo.Scenario.Recipes[technology.RecipyToUnlock].Output).NewLine();
 		if (Modifiers.IsDifferentFromDefault(technology.Modifiers))
 			a.Header("Modifiers:").ShowModifiers(technology.Modifiers);
 		return a;

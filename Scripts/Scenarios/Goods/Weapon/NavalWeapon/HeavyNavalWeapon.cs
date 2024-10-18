@@ -1,7 +1,9 @@
-﻿using Godot;
+﻿using System;
+using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon.NavalWeapon;
 
+[Serializable]
 public class HeavyNavalWeapon : NavalWeapon
 {
     public HeavyNavalWeapon(int id, string name, Vector3 color, float cost, float battleConsumption, float walkingConsumption,

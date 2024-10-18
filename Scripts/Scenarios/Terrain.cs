@@ -1,13 +1,15 @@
-﻿using Godot;
+﻿using System;
+using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
 
+[Serializable]
 public class Terrain
 {
-    public Vector3 Color;
-    public int Id;
-    public Modifiers Modifiers;
-    public string Name;
+    public Vector3 Color { get; set; }
+    public int Id { get; set; }
+    public Modifiers Modifiers { get; set; }
+    public string Name { get; set; }
 
     public Terrain(string name, int id, Vector3 color, Modifiers modifiers)
     {

@@ -1,9 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using EuropeDominationDemo.Scripts.GlobalStates;
+using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon;
+using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon.LandWeapon;
+using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon.NavalWeapon;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Goods;
 
+[Serializable]
+[JsonDerivedType(typeof(ConsumableGood), typeDiscriminator: "consumableGood")]
+[JsonDerivedType(typeof(HarvestedGood), typeDiscriminator: "harvestedGood")]
+
+[JsonDerivedType(typeof(Helmet), typeDiscriminator: "helmetGood")]
+[JsonDerivedType(typeof(Horse), typeDiscriminator: "horseGood")]
+[JsonDerivedType(typeof(Weapon.Weapon), typeDiscriminator: "weaponGood")]
+[JsonDerivedType(typeof(Wheel), typeDiscriminator: "wheelGood")]
+[JsonDerivedType(typeof(Boots), typeDiscriminator: "bootsGood")]
+[JsonDerivedType(typeof(Armor), typeDiscriminator: "armorGood")]
+[JsonDerivedType(typeof(AdditionalSlotGood), typeDiscriminator: "additionalSlotGood")]
+
+[JsonDerivedType(typeof(ArtilleryWeapon), typeDiscriminator: "artilleryWeaponGood")]
+[JsonDerivedType(typeof(LandWeapon), typeDiscriminator: "landWeaponGood")]
+[JsonDerivedType(typeof(InfantryWeapon), typeDiscriminator: "infantryWeaponGood")]
+
+[JsonDerivedType(typeof(HeavyNavalWeapon), typeDiscriminator: "heavyNavalWeaponGood")]
+[JsonDerivedType(typeof(LightNavalWeapon), typeDiscriminator: "lightNavalWeaponGood")]
+[JsonDerivedType(typeof(MediumNavalWeapon), typeDiscriminator: "mediumNavalWeaponGood")]
+[JsonDerivedType(typeof(NavalWeapon), typeDiscriminator: "navalWeaponGood")]
 public abstract class Good
 {
     public int Id { get; }

@@ -1,7 +1,14 @@
-﻿using Godot;
+﻿using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
-
+[Serializable]
+[JsonDerivedType(typeof(SeaProvinceData), typeDiscriminator: "seaProvinceData")]
+[JsonDerivedType(typeof(UncolonizedProvinceData), typeDiscriminator: "uncolonizedProvinceData")]
+[JsonDerivedType(typeof(LandColonizedProvinceData), typeDiscriminator: "landColonizedProvinceData")]
+[JsonDerivedType(typeof(WastelandProvinceData), typeDiscriminator: "wastelandProvinceData")]
 public abstract class ProvinceData
 {
     public int Id { get; }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
@@ -10,6 +11,7 @@ using Godot.Collections;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
 
+[Serializable]
 public class MapData
 {
     public MapTypes CurrentMapMode = MapTypes.Political;
@@ -57,7 +59,7 @@ public class MapData
                     var colors = new Vector3[Scenario.Map.Length];
                     for (var i = 0; i < Scenario.Map.Length; i++)
                         if (Scenario.Map[i] is LandProvinceData landData)
-                            colors[i] = landData.Terrain.Color;
+                            colors[i] = Scenario.Terrains[landData.Terrain].Color;
                         else
                             colors[i] = new Vector3(0.1f, 0.1f, 0.1f);
 
@@ -68,7 +70,7 @@ public class MapData
                     var colors = new Vector3[Scenario.Map.Length];
                     for (var i = 0; i < Scenario.Map.Length; i++)
                         if (Scenario.Map[i] is LandProvinceData landData)
-                            colors[i] = landData.Good.Color;
+                            colors[i] = Scenario.Goods[landData.Good].Color;
                         else
                             colors[i] = Scenario.Map[i] is WastelandProvinceData ? MapDefaultColors.Wasteland : MapDefaultColors.WaterUnselectable;
 

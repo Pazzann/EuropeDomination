@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EuropeDominationDemo.Scripts.Scenarios.Army;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
@@ -7,6 +8,7 @@ using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
 
+[Serializable]
 public class BattleData
 {
     //add dice

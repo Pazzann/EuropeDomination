@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Technology;
 
+[Serializable]
 public class TechnologyLevel
 {
     public TechnologyLevel(List<Technology> technologies, DateTime date)

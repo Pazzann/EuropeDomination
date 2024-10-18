@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -12,27 +13,28 @@ using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
 
+[Serializable]
 public class CountryData
 {
-    public List<Admiral> Admirals;
-    public int CapitalId;
-    public Vector3 Color;
+    public List<Admiral> Admirals { get; set; }
+    public int CapitalId { get; set; }
+    public Vector3 Color { get; set; }
 
-    public Dictionary<int, List<DiplomacyAgreement>> DiplomacyAgreements;
+    public Dictionary<int, List<DiplomacyAgreement>> DiplomacyAgreements { get; set; }
 
-    public float Money = 100;
-    public int Manpower = 100;
-    public Modifiers Modifiers;
+    public float Money { get; set; }
+    public int Manpower  { get; set; }
+    public Modifiers Modifiers { get; set; }
 
     
 
-    public string Name;
+    public string Name { get; set; }
     
-    public List<General> Generals;
-    public List<Template> RegimentTemplates;
-    public List<UnitData> Units;
+    public List<General> Generals { get; set; }
+    public List<Template> RegimentTemplates { get; set; }
+    public List<UnitData> Units { get; set; }
 
-    public List<List<List<bool>>> ResearchedTechnologies;
+    public List<List<List<bool>>> ResearchedTechnologies { get; set; }
     public Dictionary<Vector3I, int> CurrentlyResearching { get; }
     public List<int> UnlockedBuildings { get; }
     public List<int> UnlockedRecipies { get; }

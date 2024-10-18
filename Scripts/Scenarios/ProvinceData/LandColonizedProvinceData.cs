@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
@@ -6,7 +7,7 @@ using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
-
+[Serializable]
 public class LandColonizedProvinceData : LandProvinceData
 {
     public List<Building> Buildings { get; set; }
@@ -25,8 +26,8 @@ public class LandColonizedProvinceData : LandProvinceData
         int id,
         int countryId,
         string name,
-        Terrain terrain,
-        Good good,
+        int terrain,
+        int good,
         int development,
         double[] resources,
         List<Building> buildings,

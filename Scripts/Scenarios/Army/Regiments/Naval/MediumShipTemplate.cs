@@ -1,5 +1,8 @@
-﻿namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Naval;
+﻿using System;
 
+namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Naval;
+
+[Serializable]
 public class MediumShipTemplate : ShipTemplate
 {
     public MediumShipTemplate(string name, int id) : base(name, id)

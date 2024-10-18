@@ -1,5 +1,7 @@
-﻿namespace EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
+﻿using System;
 
+namespace EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
+[Serializable]
 public class SeaProvinceData : ProvinceData
 {
     public Modifiers Modifiers { get; set; }

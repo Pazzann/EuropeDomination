@@ -1,9 +1,10 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
-
+[Serializable]
 public class Modifiers
 {
     public Modifiers(float productionEfficiency, float transportationBonus, float additionalTrainingEfficiency,

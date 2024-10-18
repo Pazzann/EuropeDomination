@@ -1,7 +1,9 @@
-﻿using Godot;
+﻿using System;
+using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon.LandWeapon;
 
+[Serializable]
 public class InfantryWeapon : LandWeapon
 {
     public InfantryWeapon(int id, string name, Vector3 color, float cost, float battleConsumption, float walkingConsumption,

@@ -1,10 +1,12 @@
-﻿using EuropeDominationDemo.Scripts.GlobalStates;
+﻿using System;
+using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Technology;
 
+[Serializable]
 public class Technology
 {
     public Technology(string technologyName,Modifiers modifiers, int initialCost, int researchTime, double[] resourcesRequired, int buildingToUnlock = -1, int recipyToUnlock = -1)

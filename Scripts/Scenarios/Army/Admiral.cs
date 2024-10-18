@@ -1,5 +1,7 @@
-﻿namespace EuropeDominationDemo.Scripts.Scenarios.Army;
+﻿using System;
 
+namespace EuropeDominationDemo.Scripts.Scenarios.Army;
+[Serializable]
 public class Admiral
 {
 }

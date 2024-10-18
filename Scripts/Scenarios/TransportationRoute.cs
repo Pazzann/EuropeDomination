@@ -1,17 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
 
+[Serializable]
+[JsonDerivedType(typeof(TransportationRoute), typeDiscriminator: "transportationRoute")]
+[JsonDerivedType(typeof(WaterTransportationRoute), typeDiscriminator: "waterTransportationRoute")]
 public class TransportationRoute
 {
-    public double Amount;
-    public int ProvinceIdFrom;
-    public int ProvinceIdTo;
-    public Good TransportationGood;
+    public double Amount { get; set; }
+    public int ProvinceIdFrom { get; set; }
+    public int ProvinceIdTo { get; set; }
+    public int TransportationGood { get; set; }
 
-    public TransportationRoute(int provinceIdTo, int provinceIdFrom, Good transportationGood, double amount)
+    public TransportationRoute(int provinceIdTo, int provinceIdFrom, int transportationGood, double amount)
     {
         ProvinceIdTo = provinceIdTo;
         ProvinceIdFrom = provinceIdFrom;

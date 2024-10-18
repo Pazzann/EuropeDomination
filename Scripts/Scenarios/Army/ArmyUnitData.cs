@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Army;
 
+[Serializable]
 public class ArmyUnitData : UnitData
 {
     public ArmyUnitData(string name, int owner, int currentProvince, Modifiers modifiers,

@@ -1,16 +1,21 @@
-﻿namespace EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
+﻿using System;
 
+namespace EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
+
+
+[Serializable]
 public class Dockyard : SpecialBuilding
 {
-    public int RouteId = 0;
+    public int RouteId { get; set; }
     public override int Cost => 100;
     public override int TimeToBuild => 100;
-    public WaterTransportationRoute[] WaterTransportationRoutes;
+    public WaterTransportationRoute[] WaterTransportationRoutes { get; set; }
 
     public Dockyard(int buildingTime, bool isFinished, WaterTransportationRoute[] waterTransportationRoutes) :
         base( buildingTime, isFinished)
     {
         WaterTransportationRoutes = waterTransportationRoutes;
+        RouteId = 0;
     }
 
     public void SetRoute(TransportationRoute transportationRoute)

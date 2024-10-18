@@ -1,5 +1,8 @@
-﻿namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Naval;
+﻿using System;
 
+namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Naval;
+
+[Serializable]
 public class LightShipTemplate : ShipTemplate
 {
     public LightShipTemplate(string name, int id) : base(name, id)

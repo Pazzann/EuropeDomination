@@ -1,13 +1,14 @@
-﻿using EuropeDominationDemo.Scripts.Scenarios.Goods;
+﻿using System;
+using EuropeDominationDemo.Scripts.Scenarios.Goods;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
-
+[Serializable]
 public abstract class LandProvinceData : ProvinceData
 {
-    public Good Good { get; set; }
-    public Terrain Terrain { get; set; }
+    public int Good { get; set; }
+    public int Terrain { get; set; }
 
-    public LandProvinceData(int id, string name, Terrain terrain, Good good) : base(id, name)
+    public LandProvinceData(int id, string name, int terrain, int good) : base(id, name)
     {
         Terrain = terrain;
         Good = good;

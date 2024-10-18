@@ -7,13 +7,14 @@ using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 
+[Serializable]
 public class ArmyInfantryRegiment : ArmyRegiment
 {
-    public AdditionalSlotGood AdditionalSlot;
-    public Armor Armor;
-    public Boots Boots;
-    public Helmet Helmet;
-    public InfantryWeapon Weapon;
+    public AdditionalSlotGood AdditionalSlot { get; set; }
+    public Armor Armor{ get; set; }
+    public Boots Boots{ get; set; }
+    public Helmet Helmet{ get; set; }
+    public InfantryWeapon Weapon{ get; set; }
 
     public ArmyInfantryRegiment(string name, int owner, int templateId, int timeFromStartOfTheTraining,
         int trainingTime,

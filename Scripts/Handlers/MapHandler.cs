@@ -131,10 +131,10 @@ public partial class MapHandler : GameHandler
                 TransportationRoute route;
                 if (EngineState.MapInfo.CurrentMapMode == MapTypes.TransportationSelection)
                     route = new TransportationRoute(tileId, EngineState.MapInfo.CurrentSelectedProvinceId,
-                        _goodToTransport, _transportationAmount);
+                        _goodToTransport.Id, _transportationAmount);
                 else
                     route = new WaterTransportationRoute(tileId, EngineState.MapInfo.CurrentSelectedProvinceId,
-                        _goodToTransport, _transportationAmount);
+                        _goodToTransport.Id, _transportationAmount);
                 _whereToAddRoute.Invoke(route);
                 _uiReciever.Invoke(route);
             }
@@ -373,7 +373,7 @@ public partial class MapHandler : GameHandler
                     return;
                 case GUIGoodTransportEdit e:
                     var route = e.TransportationRouteToEdit;
-                    route.TransportationGood = e.Good;
+                    route.TransportationGood = e.Good.Id;
                     route.Amount = e.Amount;
                     return;
                 case GUIEnqueArmyRegiment e:
@@ -572,7 +572,7 @@ public partial class MapHandler : GameHandler
         foreach (var data in EngineState.MapInfo.MapProvinces(ProvinceTypes.LandProvinces))
         {
             var obj = _goodsScene.Instantiate() as AnimatedSprite2D;
-            obj.Frame = ((LandProvinceData)data).Good.Id;
+            obj.Frame = ((LandProvinceData)data).Good;
             obj.Position = ((LandProvinceData)data).CenterOfWeight;
             _goodsSpawner.AddChild(obj);
         }
@@ -785,14 +785,14 @@ public partial class MapHandler : GameHandler
             EngineState.MapInfo.Scenario.Countries[data.Owner].Manpower += (int)data.ManpowerGrowth;
 
 
-            data.Resources[data.Good.Id] += data.ProductionRate;
+            data.Resources[data.Good] += data.ProductionRate;
             if (data.HarvestedTransport != null)
             {
-                var diff = data.Resources[data.Good.Id] -
-                           Mathf.Max(data.Resources[data.Good.Id] - data.HarvestedTransport.Amount, 0);
-                data.Resources[data.Good.Id] -= diff;
+                var diff = data.Resources[data.Good] -
+                           Mathf.Max(data.Resources[data.Good] - data.HarvestedTransport.Amount, 0);
+                data.Resources[data.Good] -= diff;
                 (EngineState.MapInfo.Scenario.Map[data.HarvestedTransport.ProvinceIdTo] as LandColonizedProvinceData)
-                    .Resources[data.HarvestedTransport.TransportationGood.Id] += diff;
+                    .Resources[data.HarvestedTransport.TransportationGood] += diff;
             }
         }
 
@@ -803,13 +803,13 @@ public partial class MapHandler : GameHandler
             if (building is Factory factory && factory.Recipe != null)
             {
                 if (factory.Recipe.Ingredients.Where(ingredient =>
-                            data.Resources[ingredient.Key.Id] - ingredient.Value * factory.ProductionRate < 0).ToArray()
+                            data.Resources[ingredient.Key] - ingredient.Value * factory.ProductionRate < 0).ToArray()
                         .Length <= 0)
                 {
                     foreach (var ingredient in factory.Recipe.Ingredients)
-                        data.Resources[ingredient.Key.Id] -= ingredient.Value * factory.ProductionRate;
+                        data.Resources[ingredient.Key] -= ingredient.Value * factory.ProductionRate;
 
-                    data.Resources[factory.Recipe.Output.Id] += factory.Recipe.OutputAmount * factory.ProductionRate;
+                    data.Resources[factory.Recipe.Output] += factory.Recipe.OutputAmount * factory.ProductionRate;
                     factory.ProductionRate = Mathf.Min(factory.ProductionRate + factory.ProductionGrowthRate,
                         factory.MaxProductionRate);
                 }
@@ -820,12 +820,12 @@ public partial class MapHandler : GameHandler
 
                 if (factory.TransportationRoute != null)
                 {
-                    var diff = data.Resources[factory.Recipe.Output.Id] -
-                               Mathf.Max(data.Resources[factory.Recipe.Output.Id] - factory.TransportationRoute.Amount,
+                    var diff = data.Resources[factory.Recipe.Output] -
+                               Mathf.Max(data.Resources[factory.Recipe.Output] - factory.TransportationRoute.Amount,
                                    0);
-                    data.Resources[factory.Recipe.Output.Id] -= diff;
+                    data.Resources[factory.Recipe.Output] -= diff;
                     (EngineState.MapInfo.Scenario.Map[factory.TransportationRoute.ProvinceIdTo] as
-                        LandColonizedProvinceData).Resources[factory.Recipe.Output.Id] += diff;
+                        LandColonizedProvinceData).Resources[factory.Recipe.Output] += diff;
                 }
             }
 
@@ -833,22 +833,22 @@ public partial class MapHandler : GameHandler
                 foreach (var route in stockAndTrade.TransportationRoutes)
                     if (route != null)
                     {
-                        var diff = data.Resources[route.TransportationGood.Id] -
-                                   Mathf.Max(data.Resources[route.TransportationGood.Id] - route.Amount, 0);
-                        data.Resources[route.TransportationGood.Id] -= diff;
+                        var diff = data.Resources[route.TransportationGood] -
+                                   Mathf.Max(data.Resources[route.TransportationGood] - route.Amount, 0);
+                        data.Resources[route.TransportationGood] -= diff;
                         (EngineState.MapInfo.Scenario.Map[route.ProvinceIdTo] as LandColonizedProvinceData).Resources[
-                            route.TransportationGood.Id] += diff;
+                            route.TransportationGood] += diff;
                     }
 
             if (building is Dockyard dockyard)
                 foreach (var route in dockyard.WaterTransportationRoutes)
                     if (route != null)
                     {
-                        var diff = data.Resources[route.TransportationGood.Id] -
-                                   Mathf.Max(data.Resources[route.TransportationGood.Id] - route.Amount, 0);
-                        data.Resources[route.TransportationGood.Id] -= diff;
+                        var diff = data.Resources[route.TransportationGood] -
+                                   Mathf.Max(data.Resources[route.TransportationGood] - route.Amount, 0);
+                        data.Resources[route.TransportationGood] -= diff;
                         (EngineState.MapInfo.Scenario.Map[route.ProvinceIdTo] as LandColonizedProvinceData).Resources[
-                            route.TransportationGood.Id] += diff;
+                            route.TransportationGood] += diff;
                     }
         }
 

@@ -10,6 +10,7 @@ using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 
+[Serializable]
 public class UncolonizedProvinceData : LandProvinceData
 {
     public CountryData CurrentlyColonizedByCountry { get; set; }
@@ -17,7 +18,7 @@ public class UncolonizedProvinceData : LandProvinceData
     public int SettlersCombined { get; set; }
     public int SettlersNeeded { get; set; }
 
-    public UncolonizedProvinceData(int id, string name, Terrain terrain, Good good, Modifiers modifiers,
+    public UncolonizedProvinceData(int id, string name, int terrain, int good, Modifiers modifiers,
         int settlersCombined = 0, int settlersNeeded = 5000, CountryData currentlyColonizedByCountry = null) : base(id,
         name, terrain, good)
     {
@@ -33,7 +34,7 @@ public class UncolonizedProvinceData : LandProvinceData
         if (CurrentlyColonizedByCountry == null)
             throw new Exception("YOU STUPID SHIT, YOU HAVEN'T EVEN COLONIZED IT");
         var prData =  new LandColonizedProvinceData(Id, CurrentlyColonizedByCountry.Id, Name, Terrain, Good, 1,
-            Good.DefaultGoods(EngineState.MapInfo.Scenario.Goods.Count), new List<Building>(), Modifiers, new SpecialBuilding[3] { null, null, null },
+            Goods.Good.DefaultGoods(EngineState.MapInfo.Scenario.Goods.Count), new List<Building>(), Modifiers, new SpecialBuilding[3] { null, null, null },
             null);
         prData.BorderderingProvinces = BorderderingProvinces;
         prData.CenterOfWeight = CenterOfWeight;

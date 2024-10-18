@@ -1,23 +1,36 @@
-﻿using EuropeDominationDemo.Scripts.Enums;
+﻿using System;
+using System.Text.Json.Serialization;
+using EuropeDominationDemo.Scripts.Enums;
+using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
+using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Naval;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
 
+[Serializable]
+[JsonDerivedType(typeof(ArmyInfantryRegiment), typeDiscriminator: "armyInfantryRegiment")]
+[JsonDerivedType(typeof(ArmyArtilleryRegiment), typeDiscriminator: "armyArtilleryRegiment")]
+[JsonDerivedType(typeof(ArmyCavalryRegiment), typeDiscriminator: "armyCavalryRegiment")]
+
+[JsonDerivedType(typeof(TransportShip), typeDiscriminator: "transportShip")]
+[JsonDerivedType(typeof(LightShip), typeDiscriminator: "lightShip")]
+[JsonDerivedType(typeof(HeavyShip), typeDiscriminator: "heavyShip")]
+[JsonDerivedType(typeof(MediumShip), typeDiscriminator: "medicalShip")]
 public abstract class Regiment
 {
-    public BehavioralPatterns BehavioralPattern;
-    public bool IsFinished;
+    public BehavioralPatterns BehavioralPattern { get; set; }
+    public bool IsFinished { get; set; }
 
-    public int Manpower;
-    public Modifiers Modifiers;
+    public int Manpower { get; set; }
+    public Modifiers Modifiers { get; set; }
 
-    public float Morale;
-    public string Name;
-    public int Owner;
-    public double[] Resources;
-    public int TemplateId;
+    public float Morale { get; set; }
+    public string Name { get; set; }
+    public int Owner { get; set; }
+    public double[] Resources { get; set; }
+    public int TemplateId { get; set; }
 
-    public int TimeFromStartOfTheTraining;
-    public int TrainingTime;
+    public int TimeFromStartOfTheTraining { get; set; }
+    public int TrainingTime { get; set; }
 
     public Regiment(string name, int owner, int templateId, int timeFromStartOfTheTraining, int trainingTime,
         bool isFinished, int manpower, float morale, double[] resources, BehavioralPatterns behavioralPattern,

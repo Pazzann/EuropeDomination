@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 
+[Serializable]
 public class MilitaryTrainingCamp : SpecialBuilding
 {
     public override int Cost => 100;

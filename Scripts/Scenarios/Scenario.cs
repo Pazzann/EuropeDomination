@@ -13,6 +13,7 @@ using Steamworks;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
 
+[Serializable]
 public abstract class Scenario
 {
     public abstract ScenarioSettings Settings { get; set; }
@@ -31,7 +32,7 @@ public abstract class Scenario
 
     public HashSet<int> AiList = new HashSet<int>();
     //int is for countryId
-    public abstract Dictionary<SteamId, int> PlayerList { get; set; }
+    public abstract Dictionary<ulong, int> PlayerList { get; set; }
     public void ChangeGameMode(GameModes mode) 
     {
         switch (mode)
@@ -140,7 +141,7 @@ public abstract class Scenario
                 var random = new Random();
                 foreach (LandProvinceData province in Map.Where(d => d is LandProvinceData))
                 {
-                    province.Good = harvestedGoods[random.Next(0, harvestedGoods.Length)];
+                    province.Good = harvestedGoods[random.Next(0, harvestedGoods.Length)].Id;
                 }
                 break;
             }

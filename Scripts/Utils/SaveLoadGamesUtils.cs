@@ -1,19 +1,29 @@
 ﻿using System;
 using System.IO;
-using System.Net;
-using System.Net.Mime;
+using System.Linq;
 using System.Text.Json;
-using System.Xml.Serialization;
+using System.Text.Json.Serialization;
 using EuropeDominationDemo.Scripts.Scenarios;
-using Godot;
+using EuropeDominationDemo.Scripts.Utils.JsonConverters;
 
 namespace EuropeDominationDemo.Scripts.Utils;
 
 public static class SaveLoadGamesUtils
 {
+    public static JsonSerializerOptions SerializerOptions =>new()
+    {
+        ReferenceHandler = ReferenceHandler.Preserve,
+        WriteIndented = true,
+        Converters =
+        {
+            new JsonGodotVector3Converter(),
+            new JsonGodotVector2Converter(),
+            new JsonSteamIdConverter()
+        }
+    };
     public static string SavesPath => Path.Combine(AppContext.BaseDirectory, "Save_Games");
     public static string ScenariosPath => Path.Combine(AppContext.BaseDirectory, "Save_Games");
-    
+
     public static string[] GetSavesList()
     {
         var dirPaths = Directory.GetDirectories(SavesPath);
@@ -22,37 +32,38 @@ public static class SaveLoadGamesUtils
         {
             dirs[i] = Path.GetFileName(dirPaths[i]);
         }
+
         return dirs;
     }
+
+    public static void LoadGame(string saveName)
+    {
+        var dirPath = Path.Join(SavesPath, saveName);
+        
+        //using FileStream fs = new FileStream(Path.Join(dirPath, "index.dat"), FileMode.OpenOrCreate);
+        //BinaryFormatter b = new BinaryFormatter();
+        //var a =  (Scenario)b.Deserialize(fs);
+        //GD.Print(a);
+    }
+    public static void LoadScenario(string saveName)
+    {
+        var dirPath = Path.Join(SavesPath, saveName);
+        
+        //using FileStream fs = new FileStream(Path.Join(dirPath, "index.dat"), FileMode.OpenOrCreate);
+        //BinaryFormatter b = new BinaryFormatter();
+        //var a =  (Scenario)b.Deserialize(fs);
+        //GD.Print(a);
+    }
+
 
     public static void SaveGame(string saveName, Scenario scenario)
     {
         var dirPath = Path.Join(SavesPath, saveName);
         Directory.CreateDirectory(dirPath);
-        File.WriteAllText(Path.Join(dirPath, "index.edsf"), SerializeScenario(scenario));
-    }
-
-    public static string SerializeScenario(Scenario scenario)
-    {
-        var stringified = "";
-        stringified += "[Scenario]\n";
-        stringified += "[Settings]\n";
-        stringified += JsonSerializer.Serialize(scenario.Settings) + "\n";
-        stringified += "[/Settings]\n";
-        stringified += "[WastelandProvinceColors]\n";
-        foreach (var pair in scenario.WastelandProvinceColors)
-            stringified += "{" + pair.Key + "{" + $"X:{pair.Value.X},Y:{pair.Value.Y},Z:{pair.Value.Z}" + "}}"; 
-        stringified += "\n";
-        stringified += "[/WastelandProvinceColors]\n";
-        stringified += "[WaterColor]\n{" + $"X:{scenario.WaterColor.X},Y:{scenario.WaterColor.Y},Z:{scenario.WaterColor.Z}" +"}\n[/WaterColor]\n";
-        stringified += "[UncolonizedColor]\n{" + $"X:{scenario.UncolonizedColor.X},Y:{scenario.UncolonizedColor.Y},Z:{scenario.UncolonizedColor.Z}" +"}\n[/UncolonizedColor]\n";
-        //stringified += "[Recipes]\n" + JsonSerializer.Serialize(scenario.Recipes) + "\n[/Recipes]\n";
-        //fix recipes and other properies
+        File.WriteAllText(Path.Join(dirPath, "index.json"), JsonSerializer.Serialize(scenario, SerializerOptions));
         
-        stringified += "[/Scenario]";
-        return stringified;
+        //todo save sprite frames
     }
-
     public static string[] GetScenariosList()
     {
         var dirPaths = Directory.GetDirectories(ScenariosPath);
@@ -61,13 +72,12 @@ public static class SaveLoadGamesUtils
         {
             dirs[i] = Path.GetFileName(dirPaths[i]);
         }
+
         return dirs;
     }
 
     public static void LoadAllSpriteFrames(string savePath)
     {
-        
-        
         //return new SpriteFrames();
     }
 }

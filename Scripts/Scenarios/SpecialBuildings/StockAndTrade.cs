@@ -1,18 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 
+[Serializable]
 public class StockAndTrade : SpecialBuilding
 {
     public override int Cost => 100;
     public override int TimeToBuild => 100;
-    public int RouteId = 0;
-    public TransportationRoute[] TransportationRoutes;
-    public KeyValuePair<int, double>[] SellingSlots;
+    public int RouteId { get; set; }
+    public TransportationRoute[] TransportationRoutes { get; set; }
+    public KeyValuePair<int, double>[] SellingSlots { get; set; }
     
     //first int is a province id; set equal to province Id if buying from internal market
-    public KeyValuePair<int, KeyValuePair<int, double>>[] BuyingSlots;
+    public KeyValuePair<int, KeyValuePair<int, double>>[] BuyingSlots { get; set; }
 
     public StockAndTrade(int buildingTime, bool isFinished, TransportationRoute[] transportationRoutes, KeyValuePair<int, double>[] sellingSlots, KeyValuePair<int, KeyValuePair<int, double>>[] buyingSlots) :
         base( buildingTime, isFinished)
@@ -20,6 +22,7 @@ public class StockAndTrade : SpecialBuilding
         TransportationRoutes = transportationRoutes;
         SellingSlots = sellingSlots;
         BuyingSlots = buyingSlots;
+        RouteId = 0;
     }
 
     public static TransportationRoute[] DefaultRoutes()

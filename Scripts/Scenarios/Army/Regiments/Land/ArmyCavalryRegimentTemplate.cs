@@ -1,15 +1,17 @@
-﻿using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon;
+﻿using System;
+using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon;
 using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon.LandWeapon;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 
+[Serializable]
 public class ArmyCavalryRegimentTemplate : ArmyRegimentTemplate
 {
-    public InfantryWeapon Weapon;
-    public Horse Horse;
-    public Helmet Helmet;
-    public Armor Armor;
-    public AdditionalSlotGood Additional;
+    public InfantryWeapon Weapon{ get; set; }
+    public Horse Horse{ get; set; }
+    public Helmet Helmet{ get; set; }
+    public Armor Armor{ get; set; }
+    public AdditionalSlotGood Additional{ get; set; }
 
     public ArmyCavalryRegimentTemplate(string name, int id, InfantryWeapon weapon, Horse horse, Helmet helmet,
         Armor armor, AdditionalSlotGood additionalSlotGood) : base(name, id)

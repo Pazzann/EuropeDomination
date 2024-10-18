@@ -30,7 +30,7 @@ public partial class LobbyScene : Node2D
 		GlobalResources.MapTexture = _mapSprite.Texture.GetImage();
 		Scenario scenario = new EuropeScenario();
 		EngineState.MapInfo = new MapData(scenario);
-		EngineState.MapInfo.Scenario.PlayerList = new Dictionary<SteamId, int>();
+		EngineState.MapInfo.Scenario.PlayerList = new Dictionary<ulong, int>();
 		EngineState.MapInfo.Scenario.PlayerList.Add(SteamState.SteamId, 0);
 		EngineState.PlayerCountryId = 0;
 		_mapUpdate();

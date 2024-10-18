@@ -6,7 +6,7 @@ using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
-
+[Serializable]
 public class ScenarioSettings
 {
     public GameModes GameMode { get; set; }

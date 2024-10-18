@@ -1,7 +1,9 @@
-﻿using EuropeDominationDemo.Scripts.Enums;
+﻿using System;
+using EuropeDominationDemo.Scripts.Enums;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Naval;
 
+[Serializable]
 public class HeavyShip : Ship
 {
     public HeavyShip(string name, int owner, int templateId, int timeFromStartOfTheTraining, int trainingTime,

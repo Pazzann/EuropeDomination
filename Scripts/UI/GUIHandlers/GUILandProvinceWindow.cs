@@ -135,8 +135,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 		_provinceName.Text = colonizedProvinceData.Name;
 		_provinceFlag.Frame = colonizedProvinceData.Owner;
-		_provinceGood.Frame = colonizedProvinceData.Good.Id;
-		_provinceTerrain.Frame = colonizedProvinceData.Terrain.Id;
+		_provinceGood.Frame = colonizedProvinceData.Good;
+		_provinceTerrain.Frame = colonizedProvinceData.Terrain;
 		_provinceResources.DrawResources(colonizedProvinceData);
 		_provinceDev.Text = colonizedProvinceData.Development.ToString();
 
@@ -196,7 +196,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 		_routeAdressToTransfer = _currentColonizedProvinceData.SetRoute;
 		_transportationRouteToEdit = _currentColonizedProvinceData.HarvestedTransport;
-		_goodToTransfer = _currentColonizedProvinceData.Good;
+		_goodToTransfer = EngineState.MapInfo.Scenario.Goods[_currentColonizedProvinceData.Good];
 		_isGoodEditable = false;
 		_showTransportationMenu();
 	}
@@ -399,7 +399,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 			_transportSlider.Visible = true;
 			_transportSliderLabel.Visible = true;
 			_goodEditBox.Visible = true;
-			_goodEditBox.GetChild<AnimatedTextureRect>(0).SetFrame(_transportationRouteToEdit.TransportationGood.Id);
+			_goodEditBox.GetChild<AnimatedTextureRect>(0).SetFrame(_transportationRouteToEdit.TransportationGood);
 			_transportButton.Text = "Change";
 			_transportLabel.Text = "Transfering to:" +
 								   EngineState.MapInfo.Scenario.Map[_transportationRouteToEdit.ProvinceIdTo].Name;
@@ -421,7 +421,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 	{
 		_transportSliderLabel.Text = value.ToString("N1");
 		if(_transportationRouteToEdit != null)
-			InvokeGUIEvent(new GUIGoodTransportEdit(_transportationRouteToEdit, _transportSlider.Value, _transportationRouteToEdit.TransportationGood));
+			InvokeGUIEvent(new GUIGoodTransportEdit(_transportationRouteToEdit, _transportSlider.Value, EngineState.MapInfo.Scenario.Goods[_transportationRouteToEdit.TransportationGood]));
+		
 	}
 
 	private void _onChangeTransportationButtonPressed()
@@ -607,12 +608,12 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 		_deleteButton.Visible = !_guestMode;
 		_transportFactoryButton.Visible = !_guestMode;
-		_outputGood.GetChild<AnimatedTextureRect>(0).SetFrame(factory.Recipe.Output.Id);
+		_outputGood.GetChild<AnimatedTextureRect>(0).SetFrame(factory.Recipe.Output);
 
 		foreach (var ingredient in factory.Recipe.Ingredients)
 		{
 			var a = _recipeIngredientBox.Instantiate();
-			a.GetChild(0).GetChild<AnimatedTextureRect>(0).SetFrame(ingredient.Key.Id);
+			a.GetChild(0).GetChild<AnimatedTextureRect>(0).SetFrame(ingredient.Key);
 			a.GetChild<Label>(1).Text = ingredient.Value.ToString("N1");
 			_recipeIngredientBoxSpawner.AddChild(a);
 		}
@@ -652,7 +653,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_routeAdressToTransfer = building.SetRoute;
 		_transportationRouteToEdit =
 			building.TransportationRoute;
-		_goodToTransfer = building.Recipe.Output;
+		_goodToTransfer = EngineState.MapInfo.Scenario.Goods[building.Recipe.Output];
 		_isGoodEditable = false;
 		_showTransportationMenu();
 	}
@@ -763,7 +764,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 				var route = stockAndTrade.TransportationRoutes[i];
 				child.GetChild<Label>(0).Visible = true;
 				child.GetChild<Label>(0).Text = "-" + route.Amount.ToString("N1") + "t/m";
-				child.GetChild(1).GetChild<AnimatedTextureRect>(0).SetFrame(route.TransportationGood.Id);
+				child.GetChild(1).GetChild<AnimatedTextureRect>(0).SetFrame(route.TransportationGood);
 				child.GetChild<Label>(2).Text = EngineState.MapInfo.Scenario.Map[route.ProvinceIdTo].Name;
 			}
 			else
@@ -908,7 +909,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 				var route = dockyard.WaterTransportationRoutes[i];
 				child.GetChild<Label>(0).Visible = true;
 				child.GetChild<Label>(0).Text = "-" + route.Amount.ToString("N1") + "t/m";
-				child.GetChild(1).GetChild<AnimatedTextureRect>(0).SetFrame(route.TransportationGood.Id);
+				child.GetChild(1).GetChild<AnimatedTextureRect>(0).SetFrame(route.TransportationGood);
 				child.GetChild<Label>(2).Text = EngineState.MapInfo.Scenario.Map[route.ProvinceIdTo].Name;
 			}
 			else

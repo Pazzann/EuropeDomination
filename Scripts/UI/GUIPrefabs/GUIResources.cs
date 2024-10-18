@@ -37,6 +37,8 @@ public partial class GUIResources : VBoxContainer
 		}
 	}
 
+	
+	//rewrite
 	public void DrawResources(LandColonizedProvinceData data)
 	{
 		var AllResourcesChange = new double[EngineState.MapInfo.Scenario.Goods.Count];
@@ -49,7 +51,7 @@ public partial class GUIResources : VBoxContainer
 					 .ColonizedProvinces))
 		{
 			if (provinceData.HarvestedTransport != null && provinceData.HarvestedTransport.ProvinceIdTo == data.Id)
-				AllResourcesChange[provinceData.HarvestedTransport.TransportationGood.Id] +=
+				AllResourcesChange[provinceData.HarvestedTransport.TransportationGood] +=
 					provinceData.HarvestedTransport.Amount;
 
 			foreach (var country in EngineState.MapInfo.Scenario.Countries)
@@ -67,16 +69,16 @@ public partial class GUIResources : VBoxContainer
 			{
 				if (building is Factory factory && factory.TransportationRoute != null &&
 					factory.TransportationRoute.ProvinceIdTo == data.Id)
-					AllResourcesChange[factory.TransportationRoute.TransportationGood.Id] +=
+					AllResourcesChange[factory.TransportationRoute.TransportationGood] +=
 						factory.TransportationRoute.Amount;
 				if (building is StockAndTrade stockAndTrade)
 					foreach (var route in stockAndTrade.TransportationRoutes.Where(a =>
 								 a != null && a.ProvinceIdTo == data.Id))
-						AllResourcesChange[route.TransportationGood.Id] += route.Amount;
+						AllResourcesChange[route.TransportationGood] += route.Amount;
 				if (building is Dockyard dockyard)
 					foreach (var route in dockyard.WaterTransportationRoutes.Where(a =>
 								 a != null && a.ProvinceIdTo == data.Id))
-						AllResourcesChange[route.TransportationGood.Id] += route.Amount;
+						AllResourcesChange[route.TransportationGood] += route.Amount;
 			}
 		}
 
@@ -86,27 +88,27 @@ public partial class GUIResources : VBoxContainer
 			if (building is Factory factory && factory.Recipe != null)
 			{
 				foreach (var ingredient in factory.Recipe.Ingredients)
-					AllResourcesChange[ingredient.Key.Id] -= ingredient.Value * factory.ProductionRate;
+					AllResourcesChange[ingredient.Key] -= ingredient.Value * factory.ProductionRate;
 
-				AllResourcesChange[factory.Recipe.Output.Id] += factory.Recipe.OutputAmount * factory.ProductionRate;;
+				AllResourcesChange[factory.Recipe.Output] += factory.Recipe.OutputAmount * factory.ProductionRate;;
 				if (factory.TransportationRoute != null)
-					AllResourcesChange[factory.Recipe.Output.Id] -= factory.TransportationRoute.Amount;
+					AllResourcesChange[factory.Recipe.Output] -= factory.TransportationRoute.Amount;
 			}
 
 			if (building is StockAndTrade stockAndTrade)
 				foreach (var route in stockAndTrade.TransportationRoutes)
 					if (route != null)
-						AllResourcesChange[route.TransportationGood.Id] -= route.Amount;
+						AllResourcesChange[route.TransportationGood] -= route.Amount;
 			if (building is Dockyard dockyard)
 				foreach (var route in dockyard.WaterTransportationRoutes)
 					if (route != null)
-						AllResourcesChange[route.TransportationGood.Id] -= route.Amount;
+						AllResourcesChange[route.TransportationGood] -= route.Amount;
 		}
 
 
-		AllResourcesChange[data.Good.Id] += data.ProductionRate;
+		AllResourcesChange[data.Good] += data.ProductionRate;
 		if (data.HarvestedTransport != null)
-			AllResourcesChange[data.HarvestedTransport.TransportationGood.Id] -= data.HarvestedTransport.Amount;
+			AllResourcesChange[data.HarvestedTransport.TransportationGood] -= data.HarvestedTransport.Amount;
 
 		for (var i = 0; i < data.Resources.Length; i++)
 		{

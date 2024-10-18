@@ -1,9 +1,12 @@
-﻿namespace EuropeDominationDemo.Scripts.Scenarios.Buildings;
+﻿using System;
 
+namespace EuropeDominationDemo.Scripts.Scenarios.Buildings;
+
+[Serializable]
 public class Building
 {
-    public int BuildingTime;
-    public bool IsFinished;
+    public int BuildingTime { get; set; }
+    public bool IsFinished { get; set; }
 
     public Building(string name, int id, int cost, double[] resourceCost, int timeToBuild, int buildingTime,
         bool isFinished, Modifiers modifiers)

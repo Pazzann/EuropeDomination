@@ -1,14 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using EuropeDominationDemo.Scripts.Enums;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Army;
 
+[Serializable]
+
+[JsonDerivedType(typeof(UnitData), typeDiscriminator: "unitData")]
+[JsonDerivedType(typeof(ArmyUnitData), typeDiscriminator: "armyUnitData")]
 public class UnitData
 {
-    public int MovementProgress;
+    public int MovementProgress { get; set; }
 
 
-    public UnitStates UnitState;
+    public UnitStates UnitState { get; set; }
 
     public UnitData(string name, int owner, int currentProvince, Modifiers modifiers,
         List<KeyValuePair<int, int>> movementQueue, int movementProgress, UnitStates unitState)
