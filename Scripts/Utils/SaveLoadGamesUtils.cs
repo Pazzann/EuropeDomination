@@ -81,6 +81,9 @@ public static class SaveLoadGamesUtils
         //compressing it
 
         var dirPath = Path.Join(SavesPath, saveName + ".zip");
+        if (File.Exists(dirPath))
+            File.Delete(dirPath);
+        
         ZipFile.CreateFromDirectory(TempPath, dirPath);
         //end compression
 

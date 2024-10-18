@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dx2y3s8dsllua"]
+[gd_scene load_steps=14 format=3 uid="uid://dx2y3s8dsllua"]
 
 [ext_resource type="Script" path="res://Scripts/UI/GUI.cs" id="1_itu4p"]
 [ext_resource type="PackedScene" uid="uid://bgb7s0ynl6r2t" path="res://Prefabs/GUI/GUIProvinceWindow.tscn" id="2_8vun8"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://byyevu11tjyjw" path="res://Prefabs/GUI/GUIBattleWindow.tscn" id="10_0savc"]
 [ext_resource type="PackedScene" uid="uid://cy5i4t644rhfa" path="res://Prefabs/GUI/GUIDiplomacyWindow.tscn" id="11_5prjq"]
 [ext_resource type="PackedScene" uid="uid://cde2bs281f5yu" path="res://Prefabs/GUI/GUIColonizeProvinceInfo.tscn" id="12_r08wx"]
+[ext_resource type="PackedScene" uid="uid://g0mkengr4fqi" path="res://Prefabs/GUI/GUIEscapeMenu.tscn" id="13_ea8eh"]
 
 [node name="GUI" type="Control"]
 layout_direction = 1
@@ -69,4 +70,8 @@ visible = false
 layout_mode = 1
 
 [node name="GuiInfoBox" parent="." instance=ExtResource("7_g3en8")]
+layout_mode = 1
+
+[node name="GuiEscapeMenu" parent="." instance=ExtResource("13_ea8eh")]
+visible = false
 layout_mode = 1

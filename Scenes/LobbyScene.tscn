@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bh4h4qq5qtehv"]
+[gd_scene load_steps=7 format=3 uid="uid://bh4h4qq5qtehv"]
 
 [ext_resource type="Script" path="res://Scripts/Scenes/LobbyScene.cs" id="1_fsivh"]
 [ext_resource type="Texture2D" uid="uid://bgv4y6i4ul1k" path="res://Sprites/EuropeMap.png" id="1_xic6h"]
 [ext_resource type="Material" uid="uid://bsh6h6v5qetxa" path="res://Shaders/map.tres" id="2_biph8"]
 [ext_resource type="PackedScene" uid="uid://db5dbn7ovemhi" path="res://Prefabs/Camera.tscn" id="2_jktds"]
 [ext_resource type="PackedScene" uid="uid://u20y73i0mjmp" path="res://Prefabs/ScenesPrefabs/LobbyPlayerWindow.tscn" id="5_362k7"]
+[ext_resource type="PackedScene" uid="uid://dymefddwea3kf" path="res://Prefabs/GUI/Modules/GUILoadScenario.tscn" id="6_nio3u"]
 
 [node name="LobbyScene" type="Node2D"]
 script = ExtResource("1_fsivh")
@@ -63,6 +64,13 @@ text = "Start"
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
 text = "Main Menu"
+
+[node name="GuiLoadScenario" parent="CanvasLayer" instance=ExtResource("6_nio3u")]
+offset_left = 1440.0
+offset_top = 76.0
+offset_right = 1440.84
+offset_bottom = 76.48
+scale = Vector2(0.73, 0.73)
 
 [node name="PanelContainer2" type="PanelContainer" parent="CanvasLayer"]
 offset_left = 1479.0
