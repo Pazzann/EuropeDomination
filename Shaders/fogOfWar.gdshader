@@ -89,8 +89,8 @@ void fragment()
 		float xFactor = float(xRes) / float(pixelSize);
 		float yFactor = float(yRes) / float(pixelSize);
 
-		
-		
+
+
 		float grid_uv_x = round(UV.x * xFactor) / xFactor;
 		float grid_uv_y = round(UV.y * yFactor) / yFactor;
 
@@ -105,5 +105,5 @@ void fragment()
 			COLOR = mix(finalColor, vec4(0.2f,0.2f,0.2f,0.2f), 0.5f);
 		}
 	}
-	
+
 }

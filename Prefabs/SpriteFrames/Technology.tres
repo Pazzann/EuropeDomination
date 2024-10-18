@@ -11,7 +11,7 @@ animations = [{
 "texture": ExtResource("1_fh8ww")
 }],
 "loop": true,
-"name": &"0:0",
+"name": &"0-0",
 "speed": 5.0
 }, {
 "frames": [{
@@ -22,6 +22,6 @@ animations = [{
 "texture": ExtResource("3_dogbs")
 }],
 "loop": true,
-"name": &"0:1",
+"name": &"0-1",
 "speed": 5.0
 }]

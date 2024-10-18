@@ -45,6 +45,7 @@ public partial class GlobalStrategyEngine : Node2D
 		EngineState.MapInfo.Scenario.Init();
 		GlobalResources.GoodSpriteFrames = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/GoodSpriteFrames.tres");
 		GlobalResources.BuildingSpriteFrames = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/Buildings.tres");
+		GlobalResources.TechnologySpriteFrames  = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/Technology.tres");
 
 
 		Camera = GetNode<Camera>("./Camera");

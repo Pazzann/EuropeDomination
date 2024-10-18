@@ -195,7 +195,7 @@ public partial class GUICountryWindow : GUIHandler
 					technologyInstance.GetChild(0).GetChild(0).GetChild<Label>(0).Text = technology.TechnologyName;
 					technologyInstance.GetChild<ProgressBar>(1).MaxValue = technology.ResearchTime;
 					var animatedTextureRect = technologyInstance.GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(1);
-					animatedTextureRect.CurrentAnimation = $"{X}:{Y}";
+					animatedTextureRect.CurrentAnimation = $"{X}-{Y}";
 					animatedTextureRect.SetFrame(Z);
 					technologySpawner.AddChild(technologyInstance);
 				}
