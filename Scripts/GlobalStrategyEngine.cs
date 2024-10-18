@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Handlers;
 using EuropeDominationDemo.Scripts.Math;
-using EuropeDominationDemo.Scripts.Scenarios;
-using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 using EuropeDominationDemo.Scripts.UI;
 using EuropeDominationDemo.Scripts.UI.Events.GUI;
 using EuropeDominationDemo.Scripts.UI.Events.ToEngine;
@@ -16,7 +14,7 @@ namespace EuropeDominationDemo.Scripts;
 
 public partial class GlobalStrategyEngine : Node2D
 {
-	private Timer _timer;
+	private Godot.Timer _timer;
 	public CallMulticaster AllHandlersControls;
 
 	public Camera Camera;
@@ -24,12 +22,13 @@ public partial class GlobalStrategyEngine : Node2D
 
 	public override void _Ready()
 	{
-		var allHandlers = new List<GameHandler>();
-
-		allHandlers.Add(GetNode<SelectorBoxHandler>("./SelectionHandler"));
-		allHandlers.Add(GetNode<ArmyHandler>("./ArmyHandler"));
-		allHandlers.Add(GetNode<MapHandler>("./MapHandler"));
-		allHandlers.Add(GetNode<AiHandler>("./AiHandler"));
+		var allHandlers = new List<GameHandler>
+		{
+			GetNode<SelectorBoxHandler>("./SelectionHandler"),
+			GetNode<ArmyHandler>("./ArmyHandler"),
+			GetNode<MapHandler>("./MapHandler"),
+			GetNode<AiHandler>("./AiHandler")
+		};
 
 
 		foreach (var handler in allHandlers)
@@ -59,7 +58,7 @@ public partial class GlobalStrategyEngine : Node2D
 		AllHandlersControls.Init();
 		InvokeToGUIEvent(new ToGUIUpdateCountryInfo());
 
-		_timer = GetNode<Timer>("./DayTimer");
+		_timer = GetNode<Godot.Timer>("./DayTimer");
 		
 
 

@@ -13,16 +13,9 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <Pack>true</Pack>
         </None>
-        <None Include="Save_Games/**">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-            <Pack>true</Pack>
-        </None>
     </ItemGroup>
     <ItemGroup>
       <PackageReference Include="Facepunch.Steamworks" Version="2.3.4" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Save_Games\" />
-      <Folder Include="Scenarios\" />
+      <PackageReference Include="NUnit" Version="4.2.2" />
     </ItemGroup>
 </Project>

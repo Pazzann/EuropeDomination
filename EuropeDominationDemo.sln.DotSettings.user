@@ -21,4 +21,9 @@
   &lt;Assembly Path="C:\Users\manto\OneDrive\Documents\GitHub\EuropeDominationDemo\Libraries\Steamworks\net6.0\steam_api64.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\manto\OneDrive\Documents\GitHub\EuropeDominationDemo\.godot\mono\temp\bin\Debug\EuropeDominationDemo.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eaeb9345_002D77ae_002D4039_002D9400_002D34c3d1df8882/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Tests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::19A6EF87-67DD-4DDF-BE34-2A7D56D401D6::net8.0::EuropeDominationTests.Tests.Test1&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Multicaster/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

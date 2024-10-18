@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -8,11 +9,12 @@ using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Utils.JsonConverters;
 using Godot;
 
+
 namespace EuropeDominationDemo.Scripts.Utils;
 
 public static class SaveLoadGamesUtils
 {
-    public static JsonSerializerOptions SerializerOptions =>new()
+    public static JsonSerializerOptions SerializerOptions => new()
     {
         ReferenceHandler = ReferenceHandler.Preserve,
         WriteIndented = true,
@@ -23,55 +25,72 @@ public static class SaveLoadGamesUtils
             new JsonSteamIdConverter()
         }
     };
+
     public static string SavesPath => Path.Combine(AppContext.BaseDirectory, "Save_Games");
     public static string ScenariosPath => Path.Combine(AppContext.BaseDirectory, "Save_Games");
-
-    public static string[] GetSavesList()
+    public static string TempPath => Path.Combine(AppContext.BaseDirectory, ".temp");
+    
+    //loads scenario from zip
+    public static void LoadScenario(string scenarioName, bool isSaveFile = false)
     {
-        var dirPaths = Directory.GetDirectories(SavesPath);
-        var dirs = new string[dirPaths.Length];
-        for (int i = 0; i < dirPaths.Length; i++)
+        CleanCache();
+        
+        var dirPath = Path.Join(isSaveFile ? SavesPath : ScenariosPath, scenarioName);
+        
+        ZipFile.ExtractToDirectory(dirPath, TempPath);
+        
+        GlobalResources.MapTexture = Image.LoadFromFile(Path.Join(TempPath, "map.png"));
+        GlobalResources.BuildingSpriteFrames = LoadSpriteFrames(Path.Join(TempPath, "Building"));
+        GlobalResources.GoodSpriteFrames = LoadSpriteFrames(Path.Join(TempPath, "Goods"));
+        GlobalResources.TechnologySpriteFrames = LoadSpriteFrames(Path.Join(TempPath, "Technology"));
+        
+        EngineState.MapInfo = new MapData(JsonSerializer.Deserialize<Scenario>(File.ReadAllText(Path.Join(TempPath, "index.json")), SerializerOptions));
+        
+        CleanCache();
+    }
+
+    //cleans temp folder
+    public static void CleanCache()
+    {
+        if (Directory.Exists(TempPath))
         {
-            dirs[i] = Path.GetFileName(dirPaths[i]);
+            Directory.Delete(TempPath, true);
         }
 
-        return dirs;
+        Directory.CreateDirectory(TempPath);
     }
 
-    public static void LoadGame(string saveName)
-    {
-        var dirPath = Path.Join(SavesPath, saveName);
-        
-        //using FileStream fs = new FileStream(Path.Join(dirPath, "index.dat"), FileMode.OpenOrCreate);
-        //BinaryFormatter b = new BinaryFormatter();
-        //var a =  (Scenario)b.Deserialize(fs);
-        //GD.Print(a);
-    }
-    public static void LoadScenario(string saveName)
-    {
-        var dirPath = Path.Join(SavesPath, saveName);
-        
-        //using FileStream fs = new FileStream(Path.Join(dirPath, "index.dat"), FileMode.OpenOrCreate);
-        //BinaryFormatter b = new BinaryFormatter();
-        //var a =  (Scenario)b.Deserialize(fs);
-        //GD.Print(a);
-    }
-
-    //todo compression and checksums probably
+    //checksums probably
+    //saves scenario
     public static void SaveGame(string saveName, Scenario scenario)
     {
-        var dirPath = Path.Join(SavesPath, saveName);
-        Directory.CreateDirectory(dirPath);
-        File.WriteAllText(Path.Join(dirPath, "index.json"), JsonSerializer.Serialize(scenario, SerializerOptions));
-        GlobalResources.MapTexture.SavePng(Path.Join(dirPath, "map.png"));
-        Directory.CreateDirectory(Path.Join(dirPath, "Goods"));
-        Directory.CreateDirectory(Path.Join(dirPath, "Technology"));
-        Directory.CreateDirectory(Path.Join(dirPath, "Building"));
-        SaveSpriteFrames(Path.Join(dirPath, "Goods"), GlobalResources.GoodSpriteFrames);
-        SaveSpriteFrames(Path.Join(dirPath, "Technology"), GlobalResources.TechnologySpriteFrames);
-        SaveSpriteFrames(Path.Join(dirPath, "Building"), GlobalResources.BuildingSpriteFrames);
+        CleanCache();
+        if(!Directory.Exists(SavesPath))
+            Directory.CreateDirectory(SavesPath);
+        //creating save cache
+        File.WriteAllText(Path.Join(TempPath, "index.json"), JsonSerializer.Serialize(scenario, SerializerOptions));
+        GlobalResources.MapTexture.SavePng(Path.Join(TempPath, "map.png"));
+        Directory.CreateDirectory(Path.Join(TempPath, "Goods"));
+        Directory.CreateDirectory(Path.Join(TempPath, "Technology"));
+        Directory.CreateDirectory(Path.Join(TempPath, "Building"));
+        SaveSpriteFrames(Path.Join(TempPath, "Goods"), GlobalResources.GoodSpriteFrames);
+        SaveSpriteFrames(Path.Join(TempPath, "Technology"), GlobalResources.TechnologySpriteFrames);
+        SaveSpriteFrames(Path.Join(TempPath, "Building"), GlobalResources.BuildingSpriteFrames);
+        //finishing
+
+        //compressing it
+
+        var dirPath = Path.Join(SavesPath, saveName + ".zip");
+        ZipFile.CreateFromDirectory(TempPath, dirPath);
+        //end compression
+
+        CleanCache();
+
+
+        //LoadSpriteFrames(Path.Join(dirPath, "Goods"));
     }
 
+    //saves sprite frames as a folder tree
     public static void SaveSpriteFrames(string savePath, SpriteFrames spriteFrames)
     {
         foreach (var animation in spriteFrames.GetAnimationNames())
@@ -84,20 +103,50 @@ public static class SaveLoadGamesUtils
             }
         }
     }
+
+    
+    //load sprite frames from a folder tree
+    public static SpriteFrames LoadSpriteFrames(string spriteFramesFolder)
+    {
+        var animations = Directory.GetDirectories(spriteFramesFolder);
+        var spriteFrames = new SpriteFrames();
+        spriteFrames.RemoveAnimation("default");
+        foreach (var animation in animations)
+        {
+            var animName = Path.GetFileName(animation);
+            ;
+            spriteFrames.AddAnimation(animName);
+            var frames = Directory.GetFiles(animation, "*.png");
+            foreach (var frame in frames)
+            {
+                spriteFrames.AddFrame(animName, ImageTexture.CreateFromImage(Image.LoadFromFile(frame)));
+            }
+        }
+
+        return spriteFrames;
+    }
+    
+    public static string[] GetSavesList()
+    {
+        var dirPaths = Directory.GetDirectories(SavesPath);
+        var dirs = new string[dirPaths.Length];
+        for (int i = 0; i < dirPaths.Length; i++)
+        {
+            dirs[i] = Path.GetFileName(dirPaths[i]).Split(".zip")[0];
+        }
+
+        return dirs;
+    }
+
     public static string[] GetScenariosList()
     {
         var dirPaths = Directory.GetDirectories(ScenariosPath);
         var dirs = new string[dirPaths.Length];
         for (int i = 0; i < dirPaths.Length; i++)
         {
-            dirs[i] = Path.GetFileName(dirPaths[i]);
+            dirs[i] = Path.GetFileName(dirPaths[i]).Split(".zip")[0];
         }
 
         return dirs;
-    }
-
-    public static void LoadAllSpriteFrames(string savePath)
-    {
-        //return new SpriteFrames();
     }
 }

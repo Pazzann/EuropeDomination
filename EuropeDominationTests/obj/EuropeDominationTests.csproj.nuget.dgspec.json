@@ -1,0 +1,188 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\manto\\OneDrive\\Documents\\GitHub\\EuropeDominationDemo\\EuropeDominationTests\\EuropeDominationTests.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\manto\\OneDrive\\Documents\\GitHub\\EuropeDominationDemo\\EuropeDominationDemo.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\manto\\OneDrive\\Documents\\GitHub\\EuropeDominationDemo\\EuropeDominationDemo.csproj",
+        "projectName": "EuropeDominationDemo",
+        "projectPath": "C:\\Users\\manto\\OneDrive\\Documents\\GitHub\\EuropeDominationDemo\\EuropeDominationDemo.csproj",
+        "packagesPath": "C:\\Users\\manto\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\manto\\OneDrive\\Documents\\GitHub\\EuropeDominationDemo\\.godot\\mono\\temp\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\manto\\OneDrive\\Documents\\GitHub\\EuropeDominationDemo\\NuGet.Config",
+          "C:\\Users\\manto\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Users\\manto\\OneDrive\\Documents\\GitHub\\EuropeDominationDemo\\Libraries": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Facepunch.Steamworks": {
+              "target": "Package",
+              "version": "[2.3.4, )"
+            },
+            "Godot.SourceGenerators": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "GodotSharp": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "GodotSharpEditor": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "NUnit": {
+              "target": "Package",
+              "version": "[4.2.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\manto\\OneDrive\\Documents\\GitHub\\EuropeDominationDemo\\EuropeDominationTests\\EuropeDominationTests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\manto\\OneDrive\\Documents\\GitHub\\EuropeDominationDemo\\EuropeDominationTests\\EuropeDominationTests.csproj",
+        "projectName": "EuropeDominationTests",
+        "projectPath": "C:\\Users\\manto\\OneDrive\\Documents\\GitHub\\EuropeDominationDemo\\EuropeDominationTests\\EuropeDominationTests.csproj",
+        "packagesPath": "C:\\Users\\manto\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\manto\\OneDrive\\Documents\\GitHub\\EuropeDominationDemo\\EuropeDominationTests\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\manto\\OneDrive\\Documents\\GitHub\\EuropeDominationDemo\\NuGet.Config",
+          "C:\\Users\\manto\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Users\\manto\\OneDrive\\Documents\\GitHub\\EuropeDominationDemo\\Libraries": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\manto\\OneDrive\\Documents\\GitHub\\EuropeDominationDemo\\EuropeDominationDemo.csproj": {
+                "projectPath": "C:\\Users\\manto\\OneDrive\\Documents\\GitHub\\EuropeDominationDemo\\EuropeDominationDemo.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.8.0, )"
+            },
+            "NUnit": {
+              "target": "Package",
+              "version": "[4.2.2, )"
+            },
+            "NUnit.Analyzers": {
+              "target": "Package",
+              "version": "[3.9.0, )"
+            },
+            "NUnit3TestAdapter": {
+              "target": "Package",
+              "version": "[4.5.0, )"
+            },
+            "coverlet.collector": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
