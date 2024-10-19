@@ -25,10 +25,21 @@ public static class SaveLoadGamesUtils
             new JsonSteamIdConverter()
         }
     };
-
-    public static string SavesPath => Path.Combine(AppContext.BaseDirectory, "Save_Games");
-    public static string ScenariosPath => Path.Combine(AppContext.BaseDirectory, "Save_Games");
-    public static string TempPath => Path.Combine(AppContext.BaseDirectory, ".temp");
+    
+    public static string GameDocumentFiles {
+        get
+        {
+            var myGames = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), "My Games");
+            if (!Directory.Exists(myGames))
+                Directory.CreateDirectory(myGames);
+            if(!Directory.Exists(Path.Combine(myGames, "Europe Domination")))
+                Directory.CreateDirectory(Path.Combine(myGames, "Europe Domination"));
+            return Path.Combine(myGames, "Europe Domination");
+        }
+    }
+    public static string SavesPath => Path.Combine(GameDocumentFiles, "Save_Games");
+    public static string ScenariosPath => Path.Combine(GameDocumentFiles, "Scenarios");
+    public static string TempPath => Path.Combine(GameDocumentFiles, ".temp");
     
     //loads scenario from zip
     public static void LoadScenario(string scenarioName, bool isSaveFile = false)
@@ -53,10 +64,7 @@ public static class SaveLoadGamesUtils
     public static void CleanCache()
     {
         if (Directory.Exists(TempPath))
-        {
             Directory.Delete(TempPath, true);
-        }
-
         Directory.CreateDirectory(TempPath);
     }
 
@@ -64,6 +72,7 @@ public static class SaveLoadGamesUtils
     //saves scenario
     public static void SaveGame(string saveName, Scenario scenario)
     {
+        
         CleanCache();
         if(!Directory.Exists(SavesPath))
             Directory.CreateDirectory(SavesPath);
@@ -77,20 +86,17 @@ public static class SaveLoadGamesUtils
         SaveSpriteFrames(Path.Join(TempPath, "Technology"), GlobalResources.TechnologySpriteFrames);
         SaveSpriteFrames(Path.Join(TempPath, "Building"), GlobalResources.BuildingSpriteFrames);
         //finishing
-
+        
         //compressing it
-
+        
         var dirPath = Path.Join(SavesPath, saveName + ".zip");
         if (File.Exists(dirPath))
             File.Delete(dirPath);
         
         ZipFile.CreateFromDirectory(TempPath, dirPath);
         //end compression
-
+        
         CleanCache();
-
-
-        //LoadSpriteFrames(Path.Join(dirPath, "Goods"));
     }
 
     //saves sprite frames as a folder tree
