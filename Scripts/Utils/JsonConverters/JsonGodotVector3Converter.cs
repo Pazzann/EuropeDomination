@@ -20,7 +20,7 @@ public class JsonGodotVector3Converter : JsonConverter<Vector3>
                 throw new JsonException();
             }
             
-            var vec = new Vector3();
+            var vec = new Vector3(0, 0,0);
 
             string? propertyName = reader.GetString();
             if (propertyName != "X")
@@ -34,6 +34,12 @@ public class JsonGodotVector3Converter : JsonConverter<Vector3>
                 throw new JsonException();
             }
             vec.X = (float)reader.GetDouble();
+            
+            reader.Read();
+            if (reader.TokenType != JsonTokenType.PropertyName)
+            {
+                throw new JsonException();
+            }
             propertyName = reader.GetString();
             if (propertyName != "Y")
             {
@@ -48,6 +54,12 @@ public class JsonGodotVector3Converter : JsonConverter<Vector3>
             
             vec.Y = (float)reader.GetDouble();
             
+            
+            reader.Read();
+            if (reader.TokenType != JsonTokenType.PropertyName)
+            {
+                throw new JsonException();
+            }
             propertyName = reader.GetString();
             if (propertyName != "Z")
             {
@@ -56,11 +68,14 @@ public class JsonGodotVector3Converter : JsonConverter<Vector3>
 
             reader.Read();
             if (reader.TokenType != JsonTokenType.Number)
-            {
                 throw new JsonException();
-            }
+            
             vec.Z = (float)reader.GetDouble();
 
+            reader.Read();
+            if(reader.TokenType!=JsonTokenType.EndObject)
+                throw new JsonException();
+            
             return vec;
 
     }

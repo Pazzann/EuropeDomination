@@ -1,5 +1,6 @@
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
+using EuropeDominationDemo.Scripts.Utils;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.UI.GUIHandlers;
@@ -33,7 +34,7 @@ public partial class GUIEscapeMenu : GUIHandler
 
 	private void _onLoadButtonPressed()
 	{
-		
+		GetTree().ChangeSceneToFile("res://Scenes/LobbyScene.tscn");
 	}
 
 	private void _onSettingsButtonPressed()
@@ -43,16 +44,21 @@ public partial class GUIEscapeMenu : GUIHandler
 
 	private void _onBackButtonPressed()
 	{
-		
+		Visible = false;
 	}
 
 	private void _onExitToMenuButtonPressed()
 	{
-		
+		GetTree().ChangeSceneToFile("res://main.tscn");
 	}
 
 	private void _onExitToDesktopButtonPressed()
 	{
 		GetTree().Quit();
+	}
+
+	private void _onFinalSavePressed()
+	{
+		SaveLoadGamesUtils.SaveGame("exp", EngineState.MapInfo.Scenario);
 	}
 }

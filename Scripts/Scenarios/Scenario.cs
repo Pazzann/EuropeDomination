@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
@@ -20,10 +21,10 @@ public abstract class Scenario
     public abstract Dictionary<int, Vector3> WastelandProvinceColors { get; set; }
     public abstract Vector3 WaterColor { get; set; }
     public abstract Vector3 UncolonizedColor { get; set; }
-    public abstract List<Good> Goods { get; }
-    public abstract List<Recipe> Recipes { get; set; }
-    public abstract List<Terrain> Terrains { get; }
-    public abstract List<Building> Buildings { get; }
+    public abstract Good[] Goods { get; }
+    public abstract Recipe[] Recipes { get; set; }
+    public abstract Terrain[] Terrains { get; }
+    public abstract Building[] Buildings { get; }
     public abstract List<BattleData> Battles { get; set; }
     public abstract TechnologyTree[] TechnologyTrees { get; }
     public abstract Dictionary<int, CountryData> Countries { get; }
@@ -33,6 +34,7 @@ public abstract class Scenario
     public HashSet<int> AiList = new HashSet<int>();
     //int is for countryId
     public abstract Dictionary<ulong, int> PlayerList { get; set; }
+    
     public void ChangeGameMode(GameModes mode) 
     {
         switch (mode)
@@ -81,7 +83,7 @@ public abstract class Scenario
                         AiList.Add(country.Key);
                     country.Value.CapitalId = countOfLandProvinces[capitalsArray[country.Value.Id]].Id;
                     var a = (UncolonizedProvinceData)Map[country.Value.CapitalId];
-                    a.CurrentlyColonizedByCountry = country.Value;
+                    a.CurrentlyColonizedByCountry = country.Value.Id;
                     var b = a.ConvertToLandProvince();
                     b.Development = 10;
                     Map[a.Id] = b;
@@ -107,7 +109,7 @@ public abstract class Scenario
                         AiList.Add(country.Key);
                         country.Value.CapitalId = countOfLandProvinces[capitalsArray[country.Value.Id]].Id;
                         var a = (UncolonizedProvinceData)Map[country.Value.CapitalId];
-                        a.CurrentlyColonizedByCountry = country.Value;
+                        a.CurrentlyColonizedByCountry = country.Value.Id;
                         var b = a.ConvertToLandProvince();
                         b.Development = 10;
                         Map[a.Id] = b;
@@ -123,7 +125,7 @@ public abstract class Scenario
                     if(!PlayerList.ContainsValue(country.Key))
                         AiList.Add(country.Key);
                     var a = (UncolonizedProvinceData)Map[country.Value.CapitalId];
-                    a.CurrentlyColonizedByCountry = country.Value;
+                    a.CurrentlyColonizedByCountry = country.Value.Id;
                     var b = a.ConvertToLandProvince();
                     b.Development = 10;
                     Map[a.Id] = b;

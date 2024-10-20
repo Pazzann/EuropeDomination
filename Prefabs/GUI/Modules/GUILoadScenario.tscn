@@ -1,4 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dymefddwea3kf"]
+[gd_scene load_steps=4 format=3 uid="uid://dymefddwea3kf"]
+
+[ext_resource type="Script" path="res://Scripts/UI/GUIPrefabs/GuiLoadPanel.cs" id="1_4evgw"]
+[ext_resource type="PackedScene" uid="uid://dpitt5u1h7a7w" path="res://Prefabs/ScenesPrefabs/ChooseSave.tscn" id="1_iispe"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_t0su5"]
 font_size = 24
@@ -11,6 +14,7 @@ offset_right = 0.839966
 offset_bottom = 0.47998
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_4evgw")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -36,10 +40,19 @@ metadata/_tab_index = 0
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/TabContainer/Scenarios"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Scenarios/ScrollContainer"]
+[node name="ScenariosContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Scenarios/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="ChooseSave" parent="MarginContainer/VBoxContainer/TabContainer/Scenarios/ScrollContainer/ScenariosContainer" instance=ExtResource("1_iispe")]
+layout_mode = 2
+
+[node name="ChooseSave2" parent="MarginContainer/VBoxContainer/TabContainer/Scenarios/ScrollContainer/ScenariosContainer" instance=ExtResource("1_iispe")]
+layout_mode = 2
+
+[node name="ChooseSave3" parent="MarginContainer/VBoxContainer/TabContainer/Scenarios/ScrollContainer/ScenariosContainer" instance=ExtResource("1_iispe")]
+layout_mode = 2
 
 [node name="Saves" type="PanelContainer" parent="MarginContainer/VBoxContainer/TabContainer"]
 visible = false
@@ -49,7 +62,13 @@ metadata/_tab_index = 1
 [node name="ScrollContainer2" type="ScrollContainer" parent="MarginContainer/VBoxContainer/TabContainer/Saves"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Saves/ScrollContainer2"]
+[node name="SavesContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Saves/ScrollContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="ChooseSave" parent="MarginContainer/VBoxContainer/TabContainer/Saves/ScrollContainer2/SavesContainer" instance=ExtResource("1_iispe")]
+layout_mode = 2
+
+[node name="ChooseSave2" parent="MarginContainer/VBoxContainer/TabContainer/Saves/ScrollContainer2/SavesContainer" instance=ExtResource("1_iispe")]
+layout_mode = 2

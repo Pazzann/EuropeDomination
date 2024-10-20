@@ -3,7 +3,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <EnableDynamicLoading>true</EnableDynamicLoading>
     </PropertyGroup>
-    <ItemGroup>
+    <ItemGroup> 
         <None Include="Libraries/Steamworks/net6.0/steam_api64.dll">
             <Link>steam_api64.dll</Link>
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -16,6 +16,10 @@
     </ItemGroup>
     <ItemGroup>
       <PackageReference Include="Facepunch.Steamworks" Version="2.3.4" />
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
       <PackageReference Include="NUnit" Version="4.2.2" />
     </ItemGroup>
+   <!-- <ItemGroup>
+      <Content Exclude="Tests\**" />
+    </ItemGroup>-->
 </Project>

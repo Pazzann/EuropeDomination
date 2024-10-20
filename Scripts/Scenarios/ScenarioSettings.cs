@@ -30,7 +30,7 @@ public class ScenarioSettings
     public KeyValuePair<int, double[]> ResourceAndCostRequirmentsToDev(int dev)
     {
         var cost = dev * CostIncrementPerDev;
-        var resources = Good.DefaultGoods(EngineState.MapInfo.Scenario.Goods.Count);
+        var resources = Good.DefaultGoods(EngineState.MapInfo.Scenario.Goods.Length);
         //todo:fix
         for (var i = 0; i < Mathf.FloorToInt(dev / 10); i++)
             resources[ResourceRequirmentsPer10Dev[i].Key] += (dev - i * 10) * ResourceRequirmentsPer10Dev[i].Value;

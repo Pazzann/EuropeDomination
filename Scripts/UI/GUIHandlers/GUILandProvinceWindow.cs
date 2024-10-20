@@ -582,7 +582,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private void _setUnlockedRecipyInfo()
 	{
-		for (int i = 0; i < EngineState.MapInfo.Scenario.Recipes.Count; i++)
+		for (int i = 0; i < EngineState.MapInfo.Scenario.Recipes.Length; i++)
 		{
 			var recipe = _recipeSpawner.GetChild(i) as GUIRecipe;
 			recipe.GetChild<Button>(1).Disabled = !EngineState.MapInfo.Scenario
@@ -598,7 +598,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_changeButton.Visible = !_guestMode;
 		foreach (var item in _recipeIngredientBoxSpawner.GetChildren()) item.QueueFree();
 
-		if (factory.Recipe == null)
+		if (factory.Recipe == -1)
 		{
 			_outputGood.GetChild<AnimatedTextureRect>(0).Texture = null;
 			_deleteButton.Visible = false;
@@ -608,9 +608,9 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 		_deleteButton.Visible = !_guestMode;
 		_transportFactoryButton.Visible = !_guestMode;
-		_outputGood.GetChild<AnimatedTextureRect>(0).SetFrame(factory.Recipe.Output);
+		_outputGood.GetChild<AnimatedTextureRect>(0).SetFrame(EngineState.MapInfo.Scenario.Recipes[factory.Recipe].Output);
 
-		foreach (var ingredient in factory.Recipe.Ingredients)
+		foreach (var ingredient in EngineState.MapInfo.Scenario.Recipes[factory.Recipe].Ingredients)
 		{
 			var a = _recipeIngredientBox.Instantiate();
 			a.GetChild(0).GetChild<AnimatedTextureRect>(0).SetFrame(ingredient.Key);
@@ -653,7 +653,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_routeAdressToTransfer = building.SetRoute;
 		_transportationRouteToEdit =
 			building.TransportationRoute;
-		_goodToTransfer = EngineState.MapInfo.Scenario.Goods[building.Recipe.Output];
+		_goodToTransfer = EngineState.MapInfo.Scenario.Goods[EngineState.MapInfo.Scenario.Recipes[building.Recipe].Output];
 		_isGoodEditable = false;
 		_showTransportationMenu();
 	}

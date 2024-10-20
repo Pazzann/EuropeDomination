@@ -10,6 +10,7 @@ using Godot;
 namespace EuropeDominationDemo.Scripts.Scenarios.Goods;
 
 [Serializable]
+[JsonPolymorphic]
 [JsonDerivedType(typeof(ConsumableGood), typeDiscriminator: "consumableGood")]
 [JsonDerivedType(typeof(HarvestedGood), typeDiscriminator: "harvestedGood")]
 

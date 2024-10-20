@@ -15,7 +15,7 @@ public partial class GUIResources : VBoxContainer
 
 	public void Init()
 	{
-		var resourceCount = EngineState.MapInfo.Scenario.Goods.Count;
+		var resourceCount = EngineState.MapInfo.Scenario.Goods.Length;
 		GUIResource = GD.Load<PackedScene>("res://Prefabs/GUI/Modules/GUIResource.tscn");
 		(GetParent() as ScrollContainer).CustomMinimumSize = new Vector2(450.0f, 40.0f * resourceCount);
 		CustomMinimumSize = new Vector2(450.0f, 40.0f * resourceCount);
@@ -41,7 +41,7 @@ public partial class GUIResources : VBoxContainer
 	//rewrite
 	public void DrawResources(LandColonizedProvinceData data)
 	{
-		var AllResourcesChange = new double[EngineState.MapInfo.Scenario.Goods.Count];
+		var AllResourcesChange = new double[EngineState.MapInfo.Scenario.Goods.Length];
 
 		for (var i = 0; i < data.Resources.Length; i++) AllResourcesChange[i] = 0;
 
@@ -85,14 +85,14 @@ public partial class GUIResources : VBoxContainer
 
 		foreach (var building in data.SpecialBuildings)
 		{
-			if (building is Factory factory && factory.Recipe != null)
+			if (building is Factory factory && factory.Recipe != -1)
 			{
-				foreach (var ingredient in factory.Recipe.Ingredients)
+				foreach (var ingredient in EngineState.MapInfo.Scenario.Recipes[factory.Recipe].Ingredients)
 					AllResourcesChange[ingredient.Key] -= ingredient.Value * factory.ProductionRate;
 
-				AllResourcesChange[factory.Recipe.Output] += factory.Recipe.OutputAmount * factory.ProductionRate;;
+				AllResourcesChange[EngineState.MapInfo.Scenario.Recipes[factory.Recipe].Output] += EngineState.MapInfo.Scenario.Recipes[factory.Recipe].OutputAmount * factory.ProductionRate;;
 				if (factory.TransportationRoute != null)
-					AllResourcesChange[factory.Recipe.Output] -= factory.TransportationRoute.Amount;
+					AllResourcesChange[EngineState.MapInfo.Scenario.Recipes[factory.Recipe].Output] -= factory.TransportationRoute.Amount;
 			}
 
 			if (building is StockAndTrade stockAndTrade)

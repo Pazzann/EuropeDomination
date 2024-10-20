@@ -26,8 +26,8 @@ public class EuropeScenario : Scenario
         
         Settings = new ScenarioSettings();
         
-        Goods = new List<Good>
-        {
+        Goods =
+        [
             new HarvestedGood(0, "Iron", new Vector3(0.5f, 0.3f, 0.0f), 4.5f),
             new HarvestedGood(1, "Wheat", new Vector3(0.7f, 0.8f, 0.0f), 3.5f),
             new HarvestedGood(2, "Wood", new Vector3(0.0f, 0.7f, 0.4f), 2.5f),
@@ -39,7 +39,7 @@ public class EuropeScenario : Scenario
             new HarvestedGood(7, "Cotton", new Vector3(0.7f, 0.7f, 0.7f), 2.5f),
             new HarvestedGood(8, "Coal", new Vector3(0.1f, 0.1f, 0.1f), 2.5f),
             new HarvestedGood(9, "Salt", new Vector3(0.9f, 0.9f, 0.9f), 2.5f)
-        };
+        ];
 
 
         Date = new DateTime(1700, 1, 1);
@@ -53,14 +53,13 @@ public class EuropeScenario : Scenario
         WaterColor = new Vector3(0.2f, 0.5f, 1.0f);
         UncolonizedColor = new Vector3(0.7f, 1.0f, 1.0f);
 
-        Recipes = new List<Recipe>
-        {
-            new(new Dictionary<int, double>
+        Recipes = new Recipe[] {
+            new(0,new Dictionary<int, double>
             {
                 { 0, 1 },
                 { 2, 0.5 }
             }, 3, 1f),
-            new(new Dictionary<int, double>
+            new(1,new Dictionary<int, double>
             {
                 { 0, 1 }
             }, 4, 4f)
@@ -68,20 +67,14 @@ public class EuropeScenario : Scenario
 
         Battles = new List<BattleData>();
 
-        Terrains = new List<Terrain>
-        {
-            new("Mountains", 0, new Vector3(0.1f, 0.0f, 0.0f), Modifiers.DefaultModifiers()),
-            new("Plain", 1, new Vector3(0.2f, 0.2f, 0.6f), Modifiers.DefaultModifiers()),
-            new("Forest", 2, new Vector3(0.4f, 0.2f, 0.0f), Modifiers.DefaultModifiers()),
-            new("Field", 3, new Vector3(0.4f, 0.8f, 0.0f), Modifiers.DefaultModifiers()),
-            new("Coast", 4, new Vector3(0.1f, 0.8f, 0.3f), Modifiers.DefaultModifiers())
-        };
+        Terrains = [new("Mountains", 0, new Vector3(0.1f, 0.0f, 0.0f), Modifiers.DefaultModifiers()), new("Plain", 1, new Vector3(0.2f, 0.2f, 0.6f), Modifiers.DefaultModifiers()), new("Forest", 2, new Vector3(0.4f, 0.2f, 0.0f), Modifiers.DefaultModifiers()), new("Field", 3, new Vector3(0.4f, 0.8f, 0.0f), Modifiers.DefaultModifiers()), new("Coast", 4, new Vector3(0.1f, 0.8f, 0.3f), Modifiers.DefaultModifiers())
+        ];
 
-        Buildings = new List<Building>
-        {
-            new("Workshop", 0, 100, Good.DefaultGoods(Goods.Count,new Dictionary<int, double> { { 0, 4f }, { 2, 4f } }), 100, 0,
+        Buildings =
+        [
+            new("Workshop", 0, 100, Good.DefaultGoods(Goods.Length), 100, 0,
                 false, Modifiers.DefaultModifiers(1.5f))
-        };
+        ];
         
         TechnologyTrees = new[]
         {
@@ -89,12 +82,12 @@ public class EuropeScenario : Scenario
             {
                 new(new List<Technology.Technology>
                 {
-                    new("Way of being efficient",Modifiers.DefaultModifiers(productionEfficiency: 1.5f), 100, 100, Good.DefaultGoods(Goods.Count))
+                    new("Way of being efficient",Modifiers.DefaultModifiers(productionEfficiency: 1.5f), 100, 100, Good.DefaultGoods(Goods.Length))
                 }, new DateTime(1701, 1, 1)),
                 new(new List<Technology.Technology>
                 {
-                    new("A weapon of not destruction",Modifiers.DefaultModifiers(), 100, 100, Good.DefaultGoods(Goods.Count, new Dictionary<int, double>(){{0, 2.5f}}), recipyToUnlock: 0),
-                    new("Time to build", Modifiers.DefaultModifiers(), 100, 100, Good.DefaultGoods(Goods.Count, new Dictionary<int, double>(){{0, 2.5f}}), buildingToUnlock: 0)
+                    new("A weapon of not destruction",Modifiers.DefaultModifiers(), 100, 100, Good.DefaultGoods(Goods.Length, new Dictionary<int, double>(){{0, 2.5f}}), recipyToUnlock: 0),
+                    new("Time to build", Modifiers.DefaultModifiers(), 100, 100, Good.DefaultGoods(Goods.Length), buildingToUnlock: 0)
                 }, new DateTime(1702, 1, 1))
             })
         };
@@ -564,11 +557,11 @@ public class EuropeScenario : Scenario
     public override Vector3 WaterColor { get; set; }
     public override Vector3 UncolonizedColor { get; set; }
 
-    public override List<Good> Goods { get; }
-    public override List<Terrain> Terrains { get; }
-    public override List<Building> Buildings { get; }
+    public override Good[] Goods { get; }
+    public override Terrain[] Terrains { get; }
+    public override Building[] Buildings { get; }
 
-    public override List<Recipe> Recipes { get; set; }
+    public override Recipe[] Recipes { get; set; }
     public override List<BattleData> Battles { get; set; }
     public override TechnologyTree[] TechnologyTrees { get; }
     public override Dictionary<ulong, int> PlayerList { get; set; }

@@ -16,7 +16,7 @@ public abstract class ProvinceData
     public Vector2 CenterOfWeight { get; set; }
     public string Name { get; set; }
 
-    protected ProvinceData(int id, string name)
+    protected ProvinceData(int id, string name, int[] borderderingProvinces = null, Vector2 centerOfWeight = new Vector2())
     {
         Id = id;
         Name = name;

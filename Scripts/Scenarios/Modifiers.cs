@@ -1,15 +1,23 @@
 ﻿using System;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
+
 [Serializable]
 public class Modifiers
 {
+    [JsonConstructor]
+    public Modifiers()
+    {
+        
+    }
     public Modifiers(float productionEfficiency, float transportationBonus, float additionalTrainingEfficiency,
         float maxMoraleBonus, float maxMoraleEfficiency, float moraleIncreaseEfficiency, int maxManpowerBonus,
-        float maxManpowerEfficiency, float manpowerIncreaseEfficiency)
+        float maxManpowerEfficiency, float manpowerIncreaseEfficiency, float attackEfficiency, float attackBonus,
+        float defenseEfficiency, float defenseBonus)
     {
         ProductionEfficiency = productionEfficiency;
         TransportationBonus = transportationBonus;
@@ -20,14 +28,15 @@ public class Modifiers
         MaxManpowerBonus = maxManpowerBonus;
         MaxManpowerEfficiency = maxManpowerEfficiency;
         ManpowerIncreaseEfficiency = manpowerIncreaseEfficiency;
+        AttackEfficiency = attackEfficiency;
+        AttackBonus = attackBonus;
+        DefenseEfficiency = defenseEfficiency;
+        DefenseBonus = defenseBonus;
     }
 
     public float ProductionEfficiency { get; set; }
     public float TransportationBonus { get; set; }
-
-
     public float AdditionalTrainingEfficiency { get; set; }
-
     public float MaxMoraleBonus { get; set; }
     public float MaxMoraleEfficiency { get; set; }
     public float MoraleIncreaseEfficiency { get; set; }
@@ -43,11 +52,12 @@ public class Modifiers
     public static Modifiers DefaultModifiers(float productionEfficiency = 1.0f, float transportationCapacity = 0.0f,
         float additionalTrainingEfficiency = 1.0f, float maxMoraleBonus = 0.0f, float maxMoraleEfficiency = 1.0f,
         float moraleIncreaseEfficiency = 1.0f,
-        int maxManpowerBonus = 0, float maxManpowerEfficiency = 1.0f, float manpowerIncreaseEfficiency = 1.0f)
+        int maxManpowerBonus = 0, float maxManpowerEfficiency = 1.0f, float manpowerIncreaseEfficiency = 1.0f, float attackEfficiency = 1.0f, float attackBonus = 0.0f,
+        float defenseEfficiency = 1.0f, float defenseBonus = 0.0f)
     {
         return new Modifiers(productionEfficiency, transportationCapacity, additionalTrainingEfficiency,
             maxMoraleBonus, maxMoraleEfficiency, moraleIncreaseEfficiency, maxManpowerBonus, maxManpowerEfficiency,
-            manpowerIncreaseEfficiency);
+            manpowerIncreaseEfficiency, attackEfficiency, attackBonus, defenseEfficiency, defenseBonus);
     }
 
     public static bool IsDifferentFromDefault(Modifiers modifiers)
@@ -69,7 +79,10 @@ public class Modifiers
         foreach (var propertyInfo in modifiers.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
         {
             var val = propertyInfo.GetValue(modifiers);
-            propertyInfo.SetValue(this, propertyInfo.Name.Contains("Bonus") ? ((float)propertyInfo.GetValue(this) + (float)val): ((float)propertyInfo.GetValue(this) * (float)val));
+            propertyInfo.SetValue(this,
+                propertyInfo.Name.Contains("Bonus")
+                    ? ((float)propertyInfo.GetValue(this) + (float)val)
+                    : ((float)propertyInfo.GetValue(this) * (float)val));
         }
     }
 }

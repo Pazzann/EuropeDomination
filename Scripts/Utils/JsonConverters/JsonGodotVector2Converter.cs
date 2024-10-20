@@ -14,39 +14,39 @@ public class JsonGodotVector2Converter: JsonConverter<Vector2>
             throw new JsonException();
         }
 
+        
+        
+        var vec = new Vector2(0,0);
+        
         reader.Read();
         if (reader.TokenType != JsonTokenType.PropertyName)
-        {
             throw new JsonException();
-        }
-            
-        var vec = new Vector2();
-
         string? propertyName = reader.GetString();
         if (propertyName != "X")
-        {
             throw new JsonException();
-        }
 
         reader.Read();
         if (reader.TokenType != JsonTokenType.Number)
-        {
             throw new JsonException();
-        }
         vec.X = (float)reader.GetDouble();
+        
+        
+        reader.Read();
+        if (reader.TokenType != JsonTokenType.PropertyName)
+            throw new JsonException();
         propertyName = reader.GetString();
         if (propertyName != "Y")
-        {
             throw new JsonException();
-        }
+        
 
         reader.Read();
         if (reader.TokenType != JsonTokenType.Number)
-        {
             throw new JsonException();
-        }
-            
         vec.Y = (float)reader.GetDouble();
+        
+        reader.Read();
+        if(reader.TokenType!=JsonTokenType.EndObject)
+            throw new JsonException();
 
         return vec;
 

@@ -6,6 +6,7 @@ using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
 using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
+using EuropeDominationDemo.Scripts.UI.GUIPrefabs;
 using EuropeDominationDemo.Scripts.Utils;
 using Godot;
 using Steamworks;
@@ -24,6 +25,9 @@ public partial class LobbyScene : Node2D
 
 	private Dictionary<int, string> _selectedProvincesPlayers = new Dictionary<int, string>();
 
+	private GuiLoadPanel _guiLoadPanel;
+	
+	
 	public override void _Ready()
 	{
 		_mapSprite = GetNode<Sprite2D>("Map");
@@ -43,12 +47,26 @@ public partial class LobbyScene : Node2D
 		_lobbyPlayerListContainer =
 			GetNode<VBoxContainer>("CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/LobbyPlayersContainer/PlayersContainer");
 		_drawPlayersList();
+
+		_guiLoadPanel = GetNode<GuiLoadPanel>("CanvasLayer/GuiLoadScenario");
+		
+		_guiLoadPanel.LoadButtonPressedEvent += _onLoadGamePressed;
+		
 		if (MultiplayerState.MultiplayerMode)
 		{
 			SteamMatchmaking.OnLobbyMemberJoined += _onLobbyMemberJoined;
 			SteamMatchmaking.OnLobbyMemberLeave += _onLobbyMemberLeave;
 		}
 		
+	}
+
+	private void _onLoadGamePressed(string name, bool isScenario)
+	{
+		SaveLoadGamesUtils.LoadScenario(name, !isScenario);
+
+		var scenario = EngineState.MapInfo.Scenario;
+		
+		_mapUpdate();
 	}
 
 	private async void _drawPlayersList()
@@ -132,7 +150,7 @@ public partial class LobbyScene : Node2D
 
 			_selectedProvincesPlayers.Add(tileId, "currentPlayer");
 			(EngineState.MapInfo.Scenario.Map[tileId] as UncolonizedProvinceData).CurrentlyColonizedByCountry =
-				EngineState.MapInfo.Scenario.Countries[0];
+				EngineState.MapInfo.Scenario.Countries[0].Id;
 			EngineState.MapInfo.Scenario.Map[tileId] =
 				(EngineState.MapInfo.Scenario.Map[tileId] as UncolonizedProvinceData).ConvertToLandProvince();
 			EngineState.MapInfo.Scenario.Countries[0].CapitalId = tileId;

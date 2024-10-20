@@ -2,9 +2,7 @@
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EuropeDominationDemo", "EuropeDominationDemo.csproj", "{9789D50A-9EFA-483E-A453-AF915902B7E9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7DA042E8-A7E1-4029-9831-0490A296DA57}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EuropeDominationTests", "EuropeDominationTests\EuropeDominationTests.csproj", "{19A6EF87-67DD-4DDF-BE34-2A7D56D401D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{19A6EF87-67DD-4DDF-BE34-2A7D56D401D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

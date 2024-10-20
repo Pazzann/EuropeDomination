@@ -66,10 +66,6 @@ public partial class GlobalStrategyEngine : Node2D
 		InvokeToGUIEvent(new ToGUISetPause());
 		InvokeToGUIEvent(new ToGUISetDateEvent(EngineState.MapInfo.Scenario.Date));
 		_timer.Stop();
-		
-		SaveLoadGamesUtils.SaveGame("testsave", EngineState.MapInfo.Scenario);
-		
-		
 	}
 
 

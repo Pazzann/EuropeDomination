@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios;
+using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 using EuropeDominationDemo.Scripts.Utils.JsonConverters;
 using Godot;
 
@@ -15,14 +17,17 @@ namespace EuropeDominationDemo.Scripts.Utils;
 public static class SaveLoadGamesUtils
 {
     public static JsonSerializerOptions SerializerOptions => new()
-    {
-        ReferenceHandler = ReferenceHandler.Preserve,
+    { 
+        //ReferenceHandler = ReferenceHandler.Preserve,
         WriteIndented = true,
+        IncludeFields = true,
         Converters =
         {
             new JsonGodotVector3Converter(),
             new JsonGodotVector2Converter(),
-            new JsonSteamIdConverter()
+            new JsonSteamIdConverter(),
+            new JsonRecipeConverter(),
+            new JsonListBuildingsConverter(),
         }
     };
     
@@ -38,15 +43,16 @@ public static class SaveLoadGamesUtils
         }
     }
     public static string SavesPath => Path.Combine(GameDocumentFiles, "Save_Games");
-    public static string ScenariosPath => Path.Combine(GameDocumentFiles, "Scenarios");
+    public static string ScenariosPath => Path.Combine(AppContext.BaseDirectory, "Scenarios");
     public static string TempPath => Path.Combine(GameDocumentFiles, ".temp");
+    
     
     //loads scenario from zip
     public static void LoadScenario(string scenarioName, bool isSaveFile = false)
     {
         CleanCache();
         
-        var dirPath = Path.Join(isSaveFile ? SavesPath : ScenariosPath, scenarioName);
+        var dirPath = Path.Join(isSaveFile ? SavesPath : ScenariosPath, scenarioName + ".zip");
         
         ZipFile.ExtractToDirectory(dirPath, TempPath);
         
@@ -54,8 +60,11 @@ public static class SaveLoadGamesUtils
         GlobalResources.BuildingSpriteFrames = LoadSpriteFrames(Path.Join(TempPath, "Building"));
         GlobalResources.GoodSpriteFrames = LoadSpriteFrames(Path.Join(TempPath, "Goods"));
         GlobalResources.TechnologySpriteFrames = LoadSpriteFrames(Path.Join(TempPath, "Technology"));
-        
-        EngineState.MapInfo = new MapData(JsonSerializer.Deserialize<Scenario>(File.ReadAllText(Path.Join(TempPath, "index.json")), SerializerOptions));
+
+
+        var scenario = JsonSerializer.Deserialize<CustomScenario>(File.ReadAllText(Path.Join(TempPath, "index.json")),
+            SerializerOptions);
+        EngineState.MapInfo = new MapData(scenario);
         
         CleanCache();
     }
@@ -67,7 +76,24 @@ public static class SaveLoadGamesUtils
             Directory.Delete(TempPath, true);
         Directory.CreateDirectory(TempPath);
     }
-
+    
+    
+    //you can run it exclusively  with rider
+    public static void BuildScenario()
+    {
+        GlobalResources.MapTexture = GD.Load<CompressedTexture2D>("res://Sprites/EuropeMap.png").GetImage();
+        GlobalResources.BuildingSpriteFrames = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/Buildings.tres");
+        GlobalResources.GoodSpriteFrames = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/GoodSpriteFrames.tres");
+        GlobalResources.TechnologySpriteFrames = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/Technology.tres");
+        Scenario scenario = new EuropeScenario();
+        scenario.PlayerList = new Dictionary<ulong, int>();
+        EngineState.MapInfo = new MapData(scenario);
+        scenario.Settings.GameMode = GameModes.FullMapScenario;
+        scenario.Settings.ResourceMode = ResourceModes.ScenarioSpawn;
+        scenario.Init();
+        SaveGame("Europe1700", scenario);
+    }
+    
     //checksums probably
     //saves scenario
     public static void SaveGame(string saveName, Scenario scenario)
@@ -137,7 +163,7 @@ public static class SaveLoadGamesUtils
     
     public static string[] GetSavesList()
     {
-        var dirPaths = Directory.GetDirectories(SavesPath);
+        var dirPaths = Directory.GetFiles(SavesPath, "*.zip");
         var dirs = new string[dirPaths.Length];
         for (int i = 0; i < dirPaths.Length; i++)
         {
@@ -149,7 +175,7 @@ public static class SaveLoadGamesUtils
 
     public static string[] GetScenariosList()
     {
-        var dirPaths = Directory.GetDirectories(ScenariosPath);
+        var dirPaths = Directory.GetFiles(ScenariosPath, "*.zip");
         var dirs = new string[dirPaths.Length];
         for (int i = 0; i < dirPaths.Length; i++)
         {

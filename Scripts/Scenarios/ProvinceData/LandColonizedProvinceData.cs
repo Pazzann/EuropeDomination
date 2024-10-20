@@ -5,6 +5,7 @@ using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
+using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 [Serializable]
@@ -24,7 +25,7 @@ public class LandColonizedProvinceData : LandProvinceData
 
     public LandColonizedProvinceData(
         int id,
-        int countryId,
+        int owner,
         string name,
         int terrain,
         int good,
@@ -33,16 +34,16 @@ public class LandColonizedProvinceData : LandProvinceData
         List<Building> buildings,
         Modifiers modifiers,
         SpecialBuilding[] specialBuildings,
-        TransportationRoute harvestedTransport
-    ) : base(id, name, terrain, good)
+        TransportationRoute harvestedTransport,
+        int[] borderderingProvinces = null, 
+        Vector2 centerOfWeight = new ()
+    ) : base(id, name, terrain, good, borderderingProvinces, centerOfWeight)
     {
-        Owner = countryId;
+        Owner = owner;
         Development = development;
 
         Resources = resources;
         Buildings = buildings;
-
-        BorderderingProvinces = new int[] { };
 
         Modifiers = modifiers;
         SpecialBuildings = specialBuildings;

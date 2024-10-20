@@ -16,10 +16,10 @@ public class Factory : SpecialBuilding
     public float ProductionRate { get; set; }
     
     public float CurrentAcceleration => ProductionRate / MaxProductionRate;
-    public Recipe Recipe { get; set; }
+    public int Recipe { get; set; }
     public TransportationRoute TransportationRoute { get; set; }
 
-    public Factory(Recipe recipe, int buildingTime, bool isFinished, float productionRate, 
+    public Factory(int recipe, int buildingTime, bool isFinished, float productionRate, 
         TransportationRoute transportationRoute) : base( buildingTime, isFinished)
     {
         Recipe = recipe;
@@ -36,12 +36,14 @@ public class Factory : SpecialBuilding
 [Serializable]
 public class Recipe
 {
+    public int Id { get; set; }
     public Dictionary<int, double> Ingredients { get; set; }
     public int Output { get; set; }
     public float OutputAmount { get; set; }
 
-    public Recipe(Dictionary<int, double> ingredients, int output, float outputAmount)
+    public Recipe(int id,Dictionary<int, double> ingredients, int output, float outputAmount)
     {
+        Id = id;
         Ingredients = ingredients;
         Output = output;
         OutputAmount = outputAmount;

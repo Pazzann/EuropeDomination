@@ -1,4 +1,5 @@
 ﻿using System;
+using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 [Serializable]
@@ -9,7 +10,9 @@ public class SeaProvinceData : ProvinceData
     public SeaProvinceData(
         int id,
         string name,
-        Modifiers modifiers) : base(id, name)
+        Modifiers modifiers,
+        int[] borderderingProvinces = null, 
+        Vector2 centerOfWeight = new ()) : base(id, name, borderderingProvinces, centerOfWeight)
     {
         Modifiers = modifiers;
     }
