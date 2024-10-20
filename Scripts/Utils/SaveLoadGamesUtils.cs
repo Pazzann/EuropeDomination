@@ -21,13 +21,15 @@ public static class SaveLoadGamesUtils
         //ReferenceHandler = ReferenceHandler.Preserve,
         WriteIndented = true,
         IncludeFields = true,
+        PropertyNameCaseInsensitive = true,
+        
         Converters =
         {
             new JsonGodotVector3Converter(),
             new JsonGodotVector2Converter(),
             new JsonSteamIdConverter(),
             new JsonRecipeConverter(),
-            new JsonListBuildingsConverter(),
+            new JsonListBuildingsConverter()
         }
     };
     
@@ -61,6 +63,9 @@ public static class SaveLoadGamesUtils
         GlobalResources.GoodSpriteFrames = LoadSpriteFrames(Path.Join(TempPath, "Goods"));
         GlobalResources.TechnologySpriteFrames = LoadSpriteFrames(Path.Join(TempPath, "Technology"));
 
+        var a = JsonSerializer.Serialize(EngineState.MapInfo.Scenario, SerializerOptions);
+        var b = JsonSerializer.Deserialize<CustomScenario>(a, SerializerOptions);
+        
 
         var scenario = JsonSerializer.Deserialize<CustomScenario>(File.ReadAllText(Path.Join(TempPath, "index.json")),
             SerializerOptions);

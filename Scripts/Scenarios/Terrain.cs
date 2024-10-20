@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios;
@@ -17,5 +18,12 @@ public class Terrain
         Id = id;
         Color = color;
         Modifiers = modifiers;
+    }
+
+    
+    [JsonConstructor]
+    public Terrain()
+    {
+        
     }
 }

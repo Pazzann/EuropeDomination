@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.Army;
@@ -66,6 +67,13 @@ public class CountryData
         UnlockedRecipies = unlockedRecipies;
         NationalIdeas = nationalIdeas;
         ConsumableGoods = consumableGoods;
+    }
+
+    
+    [JsonConstructor]
+    public CountryData()
+    {
+        
     }
 
     public void ApplyResearchedTechnology(Vector3I technologyId)
