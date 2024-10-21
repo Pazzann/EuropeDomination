@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.Buildings;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
@@ -61,5 +62,11 @@ public class LandColonizedProvinceData : LandProvinceData
     public void SetRoute(TransportationRoute harvestedRoute)
     {
         HarvestedTransport = harvestedRoute;
+    }
+    
+    [JsonConstructor]
+    public LandColonizedProvinceData()
+    {
+        
     }
 }

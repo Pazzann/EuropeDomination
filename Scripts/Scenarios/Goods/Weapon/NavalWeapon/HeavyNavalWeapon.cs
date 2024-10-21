@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon.NavalWeapon;
@@ -11,5 +12,10 @@ public class HeavyNavalWeapon : NavalWeapon
         name, color, cost,battleConsumption, walkingConsumption, steadyConsumption, neededToBuildUnit, modifiers,
         additionalTrainingTime)
     {
+    }
+    [JsonConstructor]
+    public HeavyNavalWeapon()
+    {
+        
     }
 }

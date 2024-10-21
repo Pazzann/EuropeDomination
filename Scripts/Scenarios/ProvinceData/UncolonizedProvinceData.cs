@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Math;
@@ -67,5 +68,10 @@ public class UncolonizedProvinceData : LandProvinceData
         if (country.Money < EngineState.MapInfo.Scenario.Settings.InitialMoneyCostColony || country.Manpower < EngineState.MapInfo.Scenario.Settings.InitialManpowerCostColony)
             a = false;
         return a;
+    }
+    [JsonConstructor]
+    public UncolonizedProvinceData()
+    {
+        
     }
 }

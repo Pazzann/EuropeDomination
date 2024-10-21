@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon;
 using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon.LandWeapon;
 using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon.NavalWeapon;
@@ -32,17 +31,23 @@ namespace EuropeDominationDemo.Scripts.Scenarios.Goods;
 [JsonDerivedType(typeof(NavalWeapon), typeDiscriminator: "navalWeaponGood")]
 public abstract class Good
 {
-    public int Id { get; }
-    public Vector3 Color { get; }
-    public string Name { get; }
-    public float Cost { get; }
-    
+    public int Id { get;init;  }
+    public Vector3 Color { get;init;  }
+    public string Name { get; init; }
+    public float Cost { get;init;  }
+
     public Good(int id, string name, Vector3 color, float cost)
     {
         Id = id;
         Name = name;
         Color = color;
         Cost = cost;
+    }
+
+    [JsonConstructor]
+    public Good()
+    {
+        
     }
 
 

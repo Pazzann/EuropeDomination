@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon.NavalWeapon;
@@ -12,4 +13,10 @@ public class MediumNavalWeapon : NavalWeapon
         additionalTrainingTime)
     {
     }
+    [JsonConstructor]
+    public MediumNavalWeapon()
+    {
+        
+    }
+    
 }

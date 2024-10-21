@@ -18,7 +18,7 @@ public static class SaveLoadGamesUtils
 {
     public static JsonSerializerOptions SerializerOptions => new()
     { 
-        //ReferenceHandler = ReferenceHandler.Preserve,
+        ReferenceHandler = ReferenceHandler.Preserve,
         WriteIndented = true,
         IncludeFields = true,
         PropertyNameCaseInsensitive = true,
@@ -28,8 +28,7 @@ public static class SaveLoadGamesUtils
             new JsonGodotVector3Converter(),
             new JsonGodotVector2Converter(),
             new JsonSteamIdConverter(),
-            new JsonRecipeConverter(),
-            new JsonListBuildingsConverter()
+            new JsonRecipeConverter()
         }
     };
     
@@ -52,7 +51,7 @@ public static class SaveLoadGamesUtils
     //loads scenario from zip
     public static void LoadScenario(string scenarioName, bool isSaveFile = false)
     {
-        CleanCache();
+        CleanCache();   
         
         var dirPath = Path.Join(isSaveFile ? SavesPath : ScenariosPath, scenarioName + ".zip");
         
@@ -62,10 +61,6 @@ public static class SaveLoadGamesUtils
         GlobalResources.BuildingSpriteFrames = LoadSpriteFrames(Path.Join(TempPath, "Building"));
         GlobalResources.GoodSpriteFrames = LoadSpriteFrames(Path.Join(TempPath, "Goods"));
         GlobalResources.TechnologySpriteFrames = LoadSpriteFrames(Path.Join(TempPath, "Technology"));
-
-        var a = JsonSerializer.Serialize(EngineState.MapInfo.Scenario, SerializerOptions);
-        var b = JsonSerializer.Deserialize<CustomScenario>(a, SerializerOptions);
-        
 
         var scenario = JsonSerializer.Deserialize<CustomScenario>(File.ReadAllText(Path.Join(TempPath, "index.json")),
             SerializerOptions);

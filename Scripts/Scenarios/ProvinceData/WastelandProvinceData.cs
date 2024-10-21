@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
@@ -10,5 +11,13 @@ public class WastelandProvinceData : ProvinceData
         int[] borderderingProvinces = null,
         Vector2 centerOfWeight = new()) : base(id, name, borderderingProvinces, centerOfWeight)
     {
+        
+        
+    }
+    
+    [JsonConstructor]
+    public WastelandProvinceData()
+    {
+        
     }
 }

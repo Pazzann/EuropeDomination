@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon;
@@ -12,5 +13,10 @@ public class AdditionalSlotGood : Weapon
         name, color, cost, battleConsumption, walkingConsumption, steadyConsumption, neededToBuildUnit, modifiers,
         additionalTrainingTime)
     {
+    }
+    [JsonConstructor]
+    public AdditionalSlotGood()
+    {
+        
     }
 }

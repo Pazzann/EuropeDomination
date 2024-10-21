@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using Godot;
 
@@ -14,5 +15,10 @@ public abstract class LandProvinceData : ProvinceData
     {
         Terrain = terrain;
         Good = good;
+    }
+    [JsonConstructor]
+    public LandProvinceData()
+    {
+        
     }
 }

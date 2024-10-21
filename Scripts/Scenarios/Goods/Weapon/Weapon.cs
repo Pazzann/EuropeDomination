@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon;
@@ -17,12 +18,17 @@ public class Weapon : Good
         Modifiers = modifiers;
         AdditionalTrainingTime = additionalTrainingTime;
     }
+    [JsonConstructor]
+    public Weapon()
+    {
+        
+    }
 
-    public float BattleConsumption { get; }
-    public float WalkingConsumption { get; }
-    public float SteadyConsumption { get; }
-    public float NeededToBuildUnit { get; }
-    public Modifiers Modifiers { get; }
+    public float BattleConsumption { get; init; }
+    public float WalkingConsumption { get;init;  }
+    public float SteadyConsumption { get;init;  }
+    public float NeededToBuildUnit { get;init;  }
+    public Modifiers Modifiers { get;init;  }
 
-    public int AdditionalTrainingTime { get; }
+    public int AdditionalTrainingTime { get; init; }
 }

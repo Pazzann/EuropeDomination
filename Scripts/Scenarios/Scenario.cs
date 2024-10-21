@@ -17,18 +17,18 @@ namespace EuropeDominationDemo.Scripts.Scenarios;
 [Serializable]
 public abstract class Scenario
 {
-    public abstract ScenarioSettings Settings { get; set; }
-    public abstract Dictionary<int, Vector3> WastelandProvinceColors { get; set; }
-    public abstract Vector3 WaterColor { get; set; }
-    public abstract Vector3 UncolonizedColor { get; set; }
-    public abstract Good[] Goods { get; }
-    public abstract Recipe[] Recipes { get; set; }
-    public abstract Terrain[] Terrains { get; }
-    public abstract Building[] Buildings { get; }
-    public abstract List<BattleData> Battles { get; set; }
-    public abstract TechnologyTree[] TechnologyTrees { get; }
-    public abstract Dictionary<int, CountryData> Countries { get; }
-    public abstract ProvinceData.ProvinceData[] Map { get; set; }
+    public abstract ScenarioSettings Settings { get; init; }
+    public abstract Dictionary<int, Vector3> WastelandProvinceColors { get; init; }
+    public abstract Vector3 WaterColor { get; init; }
+    public abstract Vector3 UncolonizedColor { get; init; }
+    public abstract Good[] Goods { get; init; }
+    public abstract Recipe[] Recipes { get; init; }
+    public abstract Terrain[] Terrains { get; init;}
+    public abstract Building[] Buildings { get; init; }
+    public abstract List<BattleData> Battles { get; init; }
+    public abstract TechnologyTree[] TechnologyTrees { get; init;  }
+    public abstract Dictionary<int, CountryData> Countries { get; init;  }
+    public abstract ProvinceData.ProvinceData[] Map { get; init; }
     public abstract DateTime Date { get; set; }
 
     public HashSet<int> AiList = new HashSet<int>();

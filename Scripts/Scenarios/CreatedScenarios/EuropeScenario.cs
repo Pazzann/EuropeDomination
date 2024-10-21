@@ -550,20 +550,20 @@ public class EuropeScenario : Scenario
 
     
 
-    public override Dictionary<int, CountryData> Countries { get; }
-    public sealed override ProvinceData.ProvinceData[] Map { get; set; }
+    public override Dictionary<int, CountryData> Countries { get; init; }
+    public sealed override ProvinceData.ProvinceData[] Map { get; init; }
     public sealed override DateTime Date { get; set; }
-    public override Dictionary<int, Vector3> WastelandProvinceColors { get; set; }
-    public override Vector3 WaterColor { get; set; }
-    public override Vector3 UncolonizedColor { get; set; }
+    public override Dictionary<int, Vector3> WastelandProvinceColors { get; init; }
+    public override Vector3 WaterColor { get; init; }
+    public override Vector3 UncolonizedColor { get; init; }
 
-    public override Good[] Goods { get; }
-    public override Terrain[] Terrains { get; }
-    public override Building[] Buildings { get; }
+    public override Good[] Goods { get; init; }
+    public override Terrain[] Terrains { get; init; }
+    public override Building[] Buildings { get; init; }
 
-    public override Recipe[] Recipes { get; set; }
-    public override List<BattleData> Battles { get; set; }
-    public override TechnologyTree[] TechnologyTrees { get; }
+    public override Recipe[] Recipes { get; init; }
+    public override List<BattleData> Battles { get; init; }
+    public override TechnologyTree[] TechnologyTrees { get; init; }
     public override Dictionary<ulong, int> PlayerList { get; set; }
-    public sealed override ScenarioSettings Settings { get; set; }
+    public sealed override ScenarioSettings Settings { get; init; }
 }

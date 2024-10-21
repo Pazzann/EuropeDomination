@@ -36,14 +36,14 @@ public class CountryData
     public List<UnitData> Units { get; set; }
 
     public List<List<List<bool>>> ResearchedTechnologies { get; set; }
-    public Dictionary<Vector3I, int> CurrentlyResearching { get; }
-    public List<int> UnlockedBuildings { get; }
-    public List<int> UnlockedRecipies { get; }
+    public Dictionary<Vector3I, int> CurrentlyResearching { get; init; }
+    public List<int> UnlockedBuildings { get; init; }
+    public List<int> UnlockedRecipies { get; init; }
     
-    public Modifiers NationalIdeas { get; }
+    public Modifiers NationalIdeas { get; init; }
     
     //bool checks if the requirments for the next month are fullfilled
-    public Dictionary<int, bool> ConsumableGoods { get; }
+    public Dictionary<int, bool> ConsumableGoods { get; init; }
     
 
     public CountryData(int id, string name, Vector3 color, Modifiers modifiers, int money, int manpower,

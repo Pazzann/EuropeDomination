@@ -11,7 +11,7 @@ namespace EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 [JsonDerivedType(typeof(WastelandProvinceData), typeDiscriminator: "wastelandProvinceData")]
 public abstract class ProvinceData
 {
-    public int Id { get; }
+    public int Id { get; init; }
     public int[] BorderderingProvinces { get; set; }
     public Vector2 CenterOfWeight { get; set; }
     public string Name { get; set; }
@@ -20,5 +20,11 @@ public abstract class ProvinceData
     {
         Id = id;
         Name = name;
+    }
+
+    [JsonConstructor]
+    public ProvinceData()
+    {
+        
     }
 }
