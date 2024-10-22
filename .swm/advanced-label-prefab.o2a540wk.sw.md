@@ -54,16 +54,13 @@ The builder region contains methods to construct and modify the label.
 
 ### Clear method
 
-<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="36">
+<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="39">
 
 ---
 
 Clears all children from the label and resets the last reference.
 
 ```
-	#region Builder
-	
-	// Clear the label
 	public AdvancedLabel Clear()
 	{
 		foreach (var child in GetChildren())
@@ -71,19 +68,6 @@ Clears all children from the label and resets the last reference.
 		_lastReference = null;
 		return this;
 	} 
-	// Add a new line to the label
-	public AdvancedLabel NewLine()
-	{
-		_lastReference = _hBoxPrefab.Instantiate() as HBoxContainer;
-		AddChild(_lastReference);
-		return this;
-	}
-	// Validate if the last reference is not null
-	public void _validate()
-	{
-		if(_lastReference == null)
-			throw new Exception("You must call NewLine() before adding elements");
-	}
 ```
 
 ---
@@ -92,35 +76,18 @@ Clears all children from the label and resets the last reference.
 
 ### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="47:5:5" line-data="	public AdvancedLabel NewLine()">`NewLine`</SwmToken> method
 
-<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="36">
+<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="47">
 
 ---
 
 Adds a new horizontal box container to the label, allowing new elements to be added on a new line.
 
 ```
-	#region Builder
-	
-	// Clear the label
-	public AdvancedLabel Clear()
-	{
-		foreach (var child in GetChildren())
-			child.Free();
-		_lastReference = null;
-		return this;
-	} 
-	// Add a new line to the label
 	public AdvancedLabel NewLine()
 	{
 		_lastReference = _hBoxPrefab.Instantiate() as HBoxContainer;
 		AddChild(_lastReference);
 		return this;
-	}
-	// Validate if the last reference is not null
-	public void _validate()
-	{
-		if(_lastReference == null)
-			throw new Exception("You must call NewLine() before adding elements");
 	}
 ```
 
@@ -130,31 +97,13 @@ Adds a new horizontal box container to the label, allowing new elements to be ad
 
 ### \_validate method
 
-<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="36">
+<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="54">
 
 ---
 
 Ensures that a new line has been added before adding elements. Throws an exception if not.
 
 ```
-	#region Builder
-	
-	// Clear the label
-	public AdvancedLabel Clear()
-	{
-		foreach (var child in GetChildren())
-			child.Free();
-		_lastReference = null;
-		return this;
-	} 
-	// Add a new line to the label
-	public AdvancedLabel NewLine()
-	{
-		_lastReference = _hBoxPrefab.Instantiate() as HBoxContainer;
-		AddChild(_lastReference);
-		return this;
-	}
-	// Validate if the last reference is not null
 	public void _validate()
 	{
 		if(_lastReference == null)
@@ -168,15 +117,13 @@ Ensures that a new line has been added before adding elements. Throws an excepti
 
 ### Header method
 
-<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="59">
+<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="61">
 
 ---
 
 Adds a header text to the label with specific styling.
 
 ```
-	
-	// Add a header to the label
 	public AdvancedLabel Header(string text)
 	{
 		_validate();
@@ -192,39 +139,6 @@ Adds a header text to the label with specific styling.
 		
 		return this;
 	}
-	// Add a text to the label
-	public AdvancedLabel Append(string text)
-	{
-		_validate();
-		var a = _labelPrefab.Instantiate() as Label;
-		a.Text = text;
-		a.LabelSettings = new LabelSettings();
-		a.LabelSettings.Font = _font;
-		a.LabelSettings.FontSize = 25;
-		_lastReference.AddChild(a);
-		return this;
-	}
-	// Add a colored text to the label
-	public AdvancedLabel AppendColored(string text, Color color){
-		_validate();
-		
-		var a = _labelPrefab.Instantiate() as Label;
-		a.Text = text;
-		a.LabelSettings = new LabelSettings();
-		a.LabelSettings.Font = _font;
-		a.LabelSettings.FontSize = 25;
-		a.LabelSettings.FontColor = color;
-		_lastReference.AddChild(a);
-		
-		return this;
-	}
-	// Add a good to the label
-	public AdvancedLabel AppendNonZeroGoods(double[] goods)
-	{
-		_validate();
-		for (var id = 0; id < goods.Length; id++)
-			if (goods[id] > 0)
-				ShowGood(id).Append($": {goods[id]}");
 ```
 
 ---
@@ -233,26 +147,13 @@ Adds a header text to the label with specific styling.
 
 ### Append method
 
-<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="64">
+<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="77">
 
 ---
 
 Adds plain text to the label.
 
 ```
-
-		var a = _labelPrefab.Instantiate() as Label;
-		a.LabelSettings = new LabelSettings();
-		a.LabelSettings.Font = _font;
-		a.LabelSettings.FontSize = 25;
-		a.LabelSettings.OutlineColor = new Color(1, 1, 0);
-		a.LabelSettings.OutlineSize = 1;
-		a.Text = text;
-		_lastReference.AddChild(a);
-		
-		return this;
-	}
-	// Add a text to the label
 	public AdvancedLabel Append(string text)
 	{
 		_validate();
@@ -264,27 +165,6 @@ Adds plain text to the label.
 		_lastReference.AddChild(a);
 		return this;
 	}
-	// Add a colored text to the label
-	public AdvancedLabel AppendColored(string text, Color color){
-		_validate();
-		
-		var a = _labelPrefab.Instantiate() as Label;
-		a.Text = text;
-		a.LabelSettings = new LabelSettings();
-		a.LabelSettings.Font = _font;
-		a.LabelSettings.FontSize = 25;
-		a.LabelSettings.FontColor = color;
-		_lastReference.AddChild(a);
-		
-		return this;
-	}
-	// Add a good to the label
-	public AdvancedLabel AppendNonZeroGoods(double[] goods)
-	{
-		_validate();
-		for (var id = 0; id < goods.Length; id++)
-			if (goods[id] > 0)
-				ShowGood(id).Append($": {goods[id]}");
 ```
 
 ---
@@ -293,38 +173,13 @@ Adds plain text to the label.
 
 ### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="89:5:5" line-data="	public AdvancedLabel AppendColored(string text, Color color){">`AppendColored`</SwmToken> method
 
-<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="64">
+<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="89">
 
 ---
 
 Adds colored text to the label.
 
 ```
-
-		var a = _labelPrefab.Instantiate() as Label;
-		a.LabelSettings = new LabelSettings();
-		a.LabelSettings.Font = _font;
-		a.LabelSettings.FontSize = 25;
-		a.LabelSettings.OutlineColor = new Color(1, 1, 0);
-		a.LabelSettings.OutlineSize = 1;
-		a.Text = text;
-		_lastReference.AddChild(a);
-		
-		return this;
-	}
-	// Add a text to the label
-	public AdvancedLabel Append(string text)
-	{
-		_validate();
-		var a = _labelPrefab.Instantiate() as Label;
-		a.Text = text;
-		a.LabelSettings = new LabelSettings();
-		a.LabelSettings.Font = _font;
-		a.LabelSettings.FontSize = 25;
-		_lastReference.AddChild(a);
-		return this;
-	}
-	// Add a colored text to the label
 	public AdvancedLabel AppendColored(string text, Color color){
 		_validate();
 		
@@ -338,13 +193,6 @@ Adds colored text to the label.
 		
 		return this;
 	}
-	// Add a good to the label
-	public AdvancedLabel AppendNonZeroGoods(double[] goods)
-	{
-		_validate();
-		for (var id = 0; id < goods.Length; id++)
-			if (goods[id] > 0)
-				ShowGood(id).Append($": {goods[id]}");
 ```
 
 ---
@@ -353,52 +201,13 @@ Adds colored text to the label.
 
 ### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="103:5:5" line-data="	public AdvancedLabel AppendNonZeroGoods(double[] goods)">`AppendNonZeroGoods`</SwmToken> method
 
-<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="64">
+<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="103">
 
 ---
 
 Adds goods to the label if their quantity is greater than zero.
 
 ```
-
-		var a = _labelPrefab.Instantiate() as Label;
-		a.LabelSettings = new LabelSettings();
-		a.LabelSettings.Font = _font;
-		a.LabelSettings.FontSize = 25;
-		a.LabelSettings.OutlineColor = new Color(1, 1, 0);
-		a.LabelSettings.OutlineSize = 1;
-		a.Text = text;
-		_lastReference.AddChild(a);
-		
-		return this;
-	}
-	// Add a text to the label
-	public AdvancedLabel Append(string text)
-	{
-		_validate();
-		var a = _labelPrefab.Instantiate() as Label;
-		a.Text = text;
-		a.LabelSettings = new LabelSettings();
-		a.LabelSettings.Font = _font;
-		a.LabelSettings.FontSize = 25;
-		_lastReference.AddChild(a);
-		return this;
-	}
-	// Add a colored text to the label
-	public AdvancedLabel AppendColored(string text, Color color){
-		_validate();
-		
-		var a = _labelPrefab.Instantiate() as Label;
-		a.Text = text;
-		a.LabelSettings = new LabelSettings();
-		a.LabelSettings.Font = _font;
-		a.LabelSettings.FontSize = 25;
-		a.LabelSettings.FontColor = color;
-		_lastReference.AddChild(a);
-		
-		return this;
-	}
-	// Add a good to the label
 	public AdvancedLabel AppendNonZeroGoods(double[] goods)
 	{
 		_validate();
@@ -410,44 +219,6 @@ Adds goods to the label if their quantity is greater than zero.
 		
 		return this;
 	}
-	// Add a building image to the label
-	public AdvancedLabel ShowBuilding(int id)
-	{
-		_validate();
-		
-		var a = _textureRectPrefab.Instantiate() as TextureRect;
-		
-		a.Texture = GlobalResources.BuildingSpriteFrames.GetFrameTexture("default", id);
-		a.Size = new Vector2(32, 32);
-		_lastReference.AddChild(a);
-		
-		return this;
-	}
-	// Add a good image to the label
-	public AdvancedLabel ShowGood(int id)
-	{
-		_validate();
-		
-		var a = _textureRectPrefab.Instantiate() as TextureRect;
-		a.Texture = GlobalResources.GoodSpriteFrames.GetFrameTexture("goods", id);
-		a.Size = new Vector2(32, 32);
-		_lastReference.AddChild(a);
-		
-		return this;
-	}
-	
-	
-	// Add modifiers in text
-	public AdvancedLabel AppendModifiers(Modifiers modifiers)
-	{
-		_validate();
-		
-		var defMod = Modifiers.DefaultModifiers();
-		
-		foreach (var propertyInfo in modifiers.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
-		{
-			var val = propertyInfo.GetValue(modifiers);
-			var defVal = propertyInfo.GetValue(defMod);
 ```
 
 ---
@@ -456,19 +227,13 @@ Adds goods to the label if their quantity is greater than zero.
 
 ### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="115:5:5" line-data="	public AdvancedLabel ShowBuilding(int id)">`ShowBuilding`</SwmToken> method
 
-<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="109">
+<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="115">
 
 ---
 
 Adds a building image to the label.
 
 ```
-
-		NewLine();
-		
-		return this;
-	}
-	// Add a building image to the label
 	public AdvancedLabel ShowBuilding(int id)
 	{
 		_validate();
@@ -481,31 +246,6 @@ Adds a building image to the label.
 		
 		return this;
 	}
-	// Add a good image to the label
-	public AdvancedLabel ShowGood(int id)
-	{
-		_validate();
-		
-		var a = _textureRectPrefab.Instantiate() as TextureRect;
-		a.Texture = GlobalResources.GoodSpriteFrames.GetFrameTexture("goods", id);
-		a.Size = new Vector2(32, 32);
-		_lastReference.AddChild(a);
-		
-		return this;
-	}
-	
-	
-	// Add modifiers in text
-	public AdvancedLabel AppendModifiers(Modifiers modifiers)
-	{
-		_validate();
-		
-		var defMod = Modifiers.DefaultModifiers();
-		
-		foreach (var propertyInfo in modifiers.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
-		{
-			var val = propertyInfo.GetValue(modifiers);
-			var defVal = propertyInfo.GetValue(defMod);
 ```
 
 ---
@@ -514,32 +254,13 @@ Adds a building image to the label.
 
 ### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="108:1:1" line-data="				ShowGood(id).Append($&quot;: {goods[id]}&quot;);">`ShowGood`</SwmToken> method
 
-<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="109">
+<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="128">
 
 ---
 
 Adds a good image to the label.
 
 ```
-
-		NewLine();
-		
-		return this;
-	}
-	// Add a building image to the label
-	public AdvancedLabel ShowBuilding(int id)
-	{
-		_validate();
-		
-		var a = _textureRectPrefab.Instantiate() as TextureRect;
-		
-		a.Texture = GlobalResources.BuildingSpriteFrames.GetFrameTexture("default", id);
-		a.Size = new Vector2(32, 32);
-		_lastReference.AddChild(a);
-		
-		return this;
-	}
-	// Add a good image to the label
 	public AdvancedLabel ShowGood(int id)
 	{
 		_validate();
@@ -551,19 +272,6 @@ Adds a good image to the label.
 		
 		return this;
 	}
-	
-	
-	// Add modifiers in text
-	public AdvancedLabel AppendModifiers(Modifiers modifiers)
-	{
-		_validate();
-		
-		var defMod = Modifiers.DefaultModifiers();
-		
-		foreach (var propertyInfo in modifiers.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
-		{
-			var val = propertyInfo.GetValue(modifiers);
-			var defVal = propertyInfo.GetValue(defMod);
 ```
 
 ---
@@ -572,46 +280,13 @@ Adds a good image to the label.
 
 ### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="142:5:5" line-data="	public AdvancedLabel AppendModifiers(Modifiers modifiers)">`AppendModifiers`</SwmToken> method
 
-<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="109">
+<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="142">
 
 ---
 
 Adds text with modifiers to the label, including handling of positive and negative values.
 
 ```
-
-		NewLine();
-		
-		return this;
-	}
-	// Add a building image to the label
-	public AdvancedLabel ShowBuilding(int id)
-	{
-		_validate();
-		
-		var a = _textureRectPrefab.Instantiate() as TextureRect;
-		
-		a.Texture = GlobalResources.BuildingSpriteFrames.GetFrameTexture("default", id);
-		a.Size = new Vector2(32, 32);
-		_lastReference.AddChild(a);
-		
-		return this;
-	}
-	// Add a good image to the label
-	public AdvancedLabel ShowGood(int id)
-	{
-		_validate();
-		
-		var a = _textureRectPrefab.Instantiate() as TextureRect;
-		a.Texture = GlobalResources.GoodSpriteFrames.GetFrameTexture("goods", id);
-		a.Size = new Vector2(32, 32);
-		_lastReference.AddChild(a);
-		
-		return this;
-	}
-	
-	
-	// Add modifiers in text
 	public AdvancedLabel AppendModifiers(Modifiers modifiers)
 	{
 		_validate();
@@ -651,10 +326,6 @@ Adds text with modifiers to the label, including handling of positive and negati
 		
 		return this;
 	}
-	
-	
-	
-	#endregion
 ```
 
 ---
@@ -667,17 +338,13 @@ The factory region contains methods to display various types of data in the labe
 
 ### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="190:5:5" line-data="	public void ShowProvinceDataInfoBox(ProvinceData provinceData)">`ShowProvinceDataInfoBox`</SwmToken> method
 
-<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="186">
+<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="190">
 
 ---
 
 Displays information about a province, including its name, goods, and terrain.
 
 ```
-	#region Factory
-
-	
-	// Show the province data info box
 	public void ShowProvinceDataInfoBox(ProvinceData provinceData)
 	{
 		Clear().NewLine();
@@ -704,16 +371,6 @@ Displays information about a province, including its name, goods, and terrain.
 		}
 
 	}
-	
-	// Show the regiment data info box
-	public void ShowBattleRegimentData(Regiment armyRegiment)
-	{
-		Clear().NewLine();
-		if (armyRegiment == null)
-		{
-			Header("Empty Space");
-			return;
-		}
 ```
 
 ---
@@ -722,17 +379,13 @@ Displays information about a province, including its name, goods, and terrain.
 
 ### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="218:5:5" line-data="	public void ShowBattleRegimentData(Regiment armyRegiment)">`ShowBattleRegimentData`</SwmToken> method
 
-<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="214">
+<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="218">
 
 ---
 
 Displays information about a battle regiment, including its type, manpower, and morale.
 
 ```
-
-	}
-	
-	// Show the regiment data info box
 	public void ShowBattleRegimentData(Regiment armyRegiment)
 	{
 		Clear().NewLine();
@@ -761,52 +414,6 @@ Displays information about a battle regiment, including its type, manpower, and 
 		Append($"Manpower: {armyRegiment.Manpower}").NewLine();
 		Append($"Morale: {armyRegiment.Morale}");
 	}
-	
-	// Show the building data info box
-	public void ShowBuildingData(Building building)
-	{
-		Clear().NewLine()
-			.Header(building.Name).NewLine()
-			.Append($"Cost: {building.Cost}").NewLine()
-			.Append("Resource Cost: ").AppendNonZeroGoods(building.ResourceCost)
-			.Header("Modifiers:")
-			.AppendModifiers(building.Modifiers);
-	}
-	
-	// Show the technology data info box
-	public void ShowTechnologyData(Technology technology)
-	{
-		Clear().NewLine()
-			.Header(technology.TechnologyName).NewLine()
-			.Append($"Cost: {technology.InitialCost}").NewLine()
-			.Append($"Research time: {technology.ResearchTime}").NewLine();
-		
-		if (Good.IsDifferentFromNull(technology.ResourcesRequired))
-			Append("Resource Cost: ").NewLine().AppendNonZeroGoods(technology.ResourcesRequired);
-		
-		if (technology.BuildingToUnlock > -1)
-			Append($"Building to unlock: ").ShowBuilding(technology.BuildingToUnlock).NewLine();
-		
-		if (technology.RecipyToUnlock > -1)
-			Append("Recipy To Unlock: ")
-				.ShowGood(EngineState.MapInfo.Scenario.Recipes[technology.RecipyToUnlock].Output).NewLine();
-		
-		var nonDefaultModifiers = new RichTextLabelBuilder().ShowModifiers(technology.Modifiers);
-		if (!string.IsNullOrEmpty(nonDefaultModifiers.ToString()))
-			Header("Modifiers:").AppendModifiers(technology.Modifiers);
-		
-	}
-	// Show the dev button data
-	public void ShowDevButtonData(LandColonizedProvinceData provinceData)
-	{
-		var req = EngineState.MapInfo.Scenario.Settings.ResourceAndCostRequirmentsToDev(provinceData.Development);
-		Clear().NewLine()
-			.Header("Needed To Dev").NewLine()
-			.Append($"Cost: {req.Key}").NewLine()
-			.AppendNonZeroGoods(req.Value);
-	}
-	
-	#endregion
 ```
 
 ---
@@ -815,20 +422,13 @@ Displays information about a battle regiment, including its type, manpower, and 
 
 ### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="248:5:5" line-data="	public void ShowBuildingData(Building building)">`ShowBuildingData`</SwmToken> method
 
-<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="241">
+<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="248">
 
 ---
 
 Displays information about a building, including its cost, resource cost, and modifiers.
 
 ```
-
-		//infoBoxBuilder.ShowNotZeroGoods(armyRegiment.Resources);
-		Append($"Manpower: {armyRegiment.Manpower}").NewLine();
-		Append($"Morale: {armyRegiment.Morale}");
-	}
-	
-	// Show the building data info box
 	public void ShowBuildingData(Building building)
 	{
 		Clear().NewLine()
@@ -838,41 +438,6 @@ Displays information about a building, including its cost, resource cost, and mo
 			.Header("Modifiers:")
 			.AppendModifiers(building.Modifiers);
 	}
-	
-	// Show the technology data info box
-	public void ShowTechnologyData(Technology technology)
-	{
-		Clear().NewLine()
-			.Header(technology.TechnologyName).NewLine()
-			.Append($"Cost: {technology.InitialCost}").NewLine()
-			.Append($"Research time: {technology.ResearchTime}").NewLine();
-		
-		if (Good.IsDifferentFromNull(technology.ResourcesRequired))
-			Append("Resource Cost: ").NewLine().AppendNonZeroGoods(technology.ResourcesRequired);
-		
-		if (technology.BuildingToUnlock > -1)
-			Append($"Building to unlock: ").ShowBuilding(technology.BuildingToUnlock).NewLine();
-		
-		if (technology.RecipyToUnlock > -1)
-			Append("Recipy To Unlock: ")
-				.ShowGood(EngineState.MapInfo.Scenario.Recipes[technology.RecipyToUnlock].Output).NewLine();
-		
-		var nonDefaultModifiers = new RichTextLabelBuilder().ShowModifiers(technology.Modifiers);
-		if (!string.IsNullOrEmpty(nonDefaultModifiers.ToString()))
-			Header("Modifiers:").AppendModifiers(technology.Modifiers);
-		
-	}
-	// Show the dev button data
-	public void ShowDevButtonData(LandColonizedProvinceData provinceData)
-	{
-		var req = EngineState.MapInfo.Scenario.Settings.ResourceAndCostRequirmentsToDev(provinceData.Development);
-		Clear().NewLine()
-			.Header("Needed To Dev").NewLine()
-			.Append($"Cost: {req.Key}").NewLine()
-			.AppendNonZeroGoods(req.Value);
-	}
-	
-	#endregion
 ```
 
 ---
@@ -881,31 +446,13 @@ Displays information about a building, including its cost, resource cost, and mo
 
 ### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="259:5:5" line-data="	public void ShowTechnologyData(Technology technology)">`ShowTechnologyData`</SwmToken> method
 
-<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="241">
+<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="259">
 
 ---
 
 Displays information about a technology, including its cost, research time, and required resources.
 
 ```
-
-		//infoBoxBuilder.ShowNotZeroGoods(armyRegiment.Resources);
-		Append($"Manpower: {armyRegiment.Manpower}").NewLine();
-		Append($"Morale: {armyRegiment.Morale}");
-	}
-	
-	// Show the building data info box
-	public void ShowBuildingData(Building building)
-	{
-		Clear().NewLine()
-			.Header(building.Name).NewLine()
-			.Append($"Cost: {building.Cost}").NewLine()
-			.Append("Resource Cost: ").AppendNonZeroGoods(building.ResourceCost)
-			.Header("Modifiers:")
-			.AppendModifiers(building.Modifiers);
-	}
-	
-	// Show the technology data info box
 	public void ShowTechnologyData(Technology technology)
 	{
 		Clear().NewLine()
@@ -928,17 +475,6 @@ Displays information about a technology, including its cost, research time, and 
 			Header("Modifiers:").AppendModifiers(technology.Modifiers);
 		
 	}
-	// Show the dev button data
-	public void ShowDevButtonData(LandColonizedProvinceData provinceData)
-	{
-		var req = EngineState.MapInfo.Scenario.Settings.ResourceAndCostRequirmentsToDev(provinceData.Development);
-		Clear().NewLine()
-			.Header("Needed To Dev").NewLine()
-			.Append($"Cost: {req.Key}").NewLine()
-			.AppendNonZeroGoods(req.Value);
-	}
-	
-	#endregion
 ```
 
 ---
@@ -947,54 +483,13 @@ Displays information about a technology, including its cost, research time, and 
 
 ### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="282:5:5" line-data="	public void ShowDevButtonData(LandColonizedProvinceData provinceData)">`ShowDevButtonData`</SwmToken> method
 
-<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="241">
+<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="282">
 
 ---
 
 Displays development button data, including the cost and required resources.
 
 ```
-
-		//infoBoxBuilder.ShowNotZeroGoods(armyRegiment.Resources);
-		Append($"Manpower: {armyRegiment.Manpower}").NewLine();
-		Append($"Morale: {armyRegiment.Morale}");
-	}
-	
-	// Show the building data info box
-	public void ShowBuildingData(Building building)
-	{
-		Clear().NewLine()
-			.Header(building.Name).NewLine()
-			.Append($"Cost: {building.Cost}").NewLine()
-			.Append("Resource Cost: ").AppendNonZeroGoods(building.ResourceCost)
-			.Header("Modifiers:")
-			.AppendModifiers(building.Modifiers);
-	}
-	
-	// Show the technology data info box
-	public void ShowTechnologyData(Technology technology)
-	{
-		Clear().NewLine()
-			.Header(technology.TechnologyName).NewLine()
-			.Append($"Cost: {technology.InitialCost}").NewLine()
-			.Append($"Research time: {technology.ResearchTime}").NewLine();
-		
-		if (Good.IsDifferentFromNull(technology.ResourcesRequired))
-			Append("Resource Cost: ").NewLine().AppendNonZeroGoods(technology.ResourcesRequired);
-		
-		if (technology.BuildingToUnlock > -1)
-			Append($"Building to unlock: ").ShowBuilding(technology.BuildingToUnlock).NewLine();
-		
-		if (technology.RecipyToUnlock > -1)
-			Append("Recipy To Unlock: ")
-				.ShowGood(EngineState.MapInfo.Scenario.Recipes[technology.RecipyToUnlock].Output).NewLine();
-		
-		var nonDefaultModifiers = new RichTextLabelBuilder().ShowModifiers(technology.Modifiers);
-		if (!string.IsNullOrEmpty(nonDefaultModifiers.ToString()))
-			Header("Modifiers:").AppendModifiers(technology.Modifiers);
-		
-	}
-	// Show the dev button data
 	public void ShowDevButtonData(LandColonizedProvinceData provinceData)
 	{
 		var req = EngineState.MapInfo.Scenario.Settings.ResourceAndCostRequirmentsToDev(provinceData.Development);
@@ -1003,8 +498,6 @@ Displays development button data, including the cost and required resources.
 			.Append($"Cost: {req.Key}").NewLine()
 			.AppendNonZeroGoods(req.Value);
 	}
-	
-	#endregion
 ```
 
 ---
