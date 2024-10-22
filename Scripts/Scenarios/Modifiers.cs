@@ -48,7 +48,6 @@ public class Modifiers
     public float DefenseEfficiency { get; set; }
     public float DefenseBonus { get; set; }
 
-
     public static Modifiers DefaultModifiers(float productionEfficiency = 1.0f, float transportationCapacity = 0.0f,
         float additionalTrainingEfficiency = 1.0f, float maxMoraleBonus = 0.0f, float maxMoraleEfficiency = 1.0f,
         float moraleIncreaseEfficiency = 1.0f,
@@ -59,7 +58,8 @@ public class Modifiers
             maxMoraleBonus, maxMoraleEfficiency, moraleIncreaseEfficiency, maxManpowerBonus, maxManpowerEfficiency,
             manpowerIncreaseEfficiency, attackEfficiency, attackBonus, defenseEfficiency, defenseBonus);
     }
-
+    
+    [Obsolete("Use ShowModifiers and check if resulting Text is empty")]
     public static bool IsDifferentFromDefault(Modifiers modifiers)
     {
         var defMod = DefaultModifiers();
@@ -74,7 +74,7 @@ public class Modifiers
         return false;
     }
 
-    public void ApplyModifiers(Modifiers modifiers)
+    public Modifiers ApplyModifiers(Modifiers modifiers)
     {
         foreach (var propertyInfo in modifiers.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
         {
@@ -84,5 +84,20 @@ public class Modifiers
                     ? ((float)propertyInfo.GetValue(this) + (float)val)
                     : ((float)propertyInfo.GetValue(this) * (float)val));
         }
+
+        return this;
     }
+
+    public Modifiers MultiplyByValue(float value)
+    {
+        foreach (var propertyInfo in GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+        {
+            propertyInfo.SetValue(this, (float)propertyInfo.GetValue(this) * value);
+        }
+        return this;
+    }
+
+
+    public static Modifiers operator +(Modifiers a, Modifiers b) => a.ApplyModifiers(b);
+    public static Modifiers operator *(Modifiers a, float b) => a.MultiplyByValue(b);
 }

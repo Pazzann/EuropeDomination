@@ -116,6 +116,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_provinceName = GetNode<Label>("HBoxContainer4/ProvinceWindowSprite/ProvinceName");
 		_provinceFlag = GetNode<AnimatedSprite2D>("HBoxContainer4/ProvinceWindowSprite/Flag");
 		_provinceGood = GetNode<AnimatedSprite2D>("HBoxContainer4/ProvinceWindowSprite/Good");
+		_provinceGood.SpriteFrames = GlobalResources.GoodSpriteFrames;
 		_provinceTerrain = GetNode<AnimatedSprite2D>("HBoxContainer4/ProvinceWindowSprite/Terrain");
 		_provinceDev = GetNode<Label>("HBoxContainer4/ProvinceWindowSprite/Dev");
 		_provinceDevButton = GetNode<Button>("HBoxContainer4/ProvinceWindowSprite/DevButton");
@@ -185,7 +186,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 
 	private void _showDevInfoBox()
 	{
-		InvokeGUIEvent(new GUIShowInfoBox(InfoBoxFactory.DevButtonData(_currentColonizedProvinceData)));
+		InvokeGUIEvent(new GUIShowInfoBox());
+		GUIInfoBox.Info.ShowDevButtonData(_currentColonizedProvinceData);
 	}
 	private void _onGoodTransportManagementPressed()
 	{
@@ -224,6 +226,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		foreach (var building in EngineState.MapInfo.Scenario.Buildings)
 		{
 			var a = BuildingScene.Instantiate();
+			a.GetChild<AnimatedTextureRect>(0).SpriteFrames = GlobalResources.BuildingSpriteFrames;
 			a.GetChild<AnimatedTextureRect>(0).SetFrame(building.Id);
 			a.GetChild<Label>(1).Text = building.Cost.ToString();
 			a.GetChild(0).GetChild<Button>(0).Pressed +=
@@ -237,16 +240,24 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_buildingsHandler = GetNode<Control>("HBoxContainer4/ProvinceWindowSprite/Buildings");
 
 		foreach (var buildingsSlot in _buildingsHandler.GetChildren())
+		{
 			(buildingsSlot as Button).Pressed += _onBuildBuildingOnProvincePressed;
+			buildingsSlot.GetChild<AnimatedSprite2D>(0).SpriteFrames = GlobalResources.BuildingSpriteFrames;
+		}
+			
 
 		var buildingSlots = _buildingsHandler.GetChildren();
 		for (var i = 0; i < buildingSlots.Count; i++)
-			(buildingSlots[i].GetChild(3).GetChild(0) as Button).Pressed += () => _onDestroyBuildingPressed(i);
+		{
+			var i1 = i;
+			(buildingSlots[i].GetChild(3).GetChild(0) as Button).Pressed += () => _onDestroyBuildingPressed(i1);
+		}
 	}
 	
 	private void _showBuildingInfoBox(int id)
 	{
-		InvokeGUIEvent(new GUIShowInfoBox(InfoBoxFactory.BuildingData(EngineState.MapInfo.Scenario.Buildings[id])));
+		InvokeGUIEvent(new GUIShowInfoBox());
+		GUIInfoBox.Info.ShowBuildingData(EngineState.MapInfo.Scenario.Buildings[id]);
 	}
 	private void _onBuildBuildingOnProvincePressed()
 	{
@@ -363,6 +374,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 				"HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/GoodRect");
 		_goodEditBoxPanel = GetNode<GUIGoodEditPanel>("HBoxContainer4/ProvinceWindowSprite/GoodEditPanel");
 		_goodEditBoxPanel.Init();
+
+		_goodEditBox.GetChild<AnimatedTextureRect>(0).SpriteFrames = GlobalResources.GoodSpriteFrames;
 
 	}
 
@@ -569,6 +582,8 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_recipeIngredientBox = GD.Load<PackedScene>("res://Prefabs/GUI/Modules/GUIGoodFactoryInfo.tscn");
 		_outputGood = _factoryHandler.GetNode<TextureRect>(
 			"PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/OutputGood");
+		_outputGood.GetChild<AnimatedTextureRect>(0).SpriteFrames = GlobalResources.GoodSpriteFrames;
+		
 		_recipeIngredientBoxSpawner =
 			_factoryHandler.GetNode<GridContainer>(
 				"PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/IngredientsContainer/GridContainer");
@@ -722,6 +737,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		{
 			var b = i;
 			child.GetChild(1).GetChild<Button>(1).Pressed += () => _onTransportStockAndTradeButtonPressed(b);
+			child.GetChild(1).GetChild<AnimatedTextureRect>(0).SpriteFrames = GlobalResources.GoodSpriteFrames;
 			i++;
 		}
 
@@ -730,6 +746,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		{
 			var b = i;
 			child.GetChild(1).GetChild<Button>(1).Pressed += () => _onBuyButtonPressed(b);
+			child.GetChild(1).GetChild<AnimatedTextureRect>(0).SpriteFrames = GlobalResources.GoodSpriteFrames;
 			i++;
 		}
 
@@ -738,6 +755,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		{
 			var b = i;
 			child.GetChild(1).GetChild<Button>(1).Pressed += () => _onSellButtonPressed(b);
+			child.GetChild(1).GetChild<AnimatedTextureRect>(0).SpriteFrames = GlobalResources.GoodSpriteFrames;
 			i++;
 		}
 		_closeAllStockAndTradePanels();
@@ -880,6 +898,7 @@ public partial class GUILandProvinceWindow : GUIHandler
 		{
 			var b = i;
 			child.GetChild(1).GetChild<Button>(1).Pressed += () => _onTransportDockyardButtonPressed(b);
+			child.GetChild(1).GetChild<AnimatedTextureRect>(0).SpriteFrames = GlobalResources.GoodSpriteFrames;
 			i++;
 		}
 	}
@@ -954,6 +973,9 @@ public partial class GUILandProvinceWindow : GUIHandler
 		_selectedUnitNameLabel =
 			_militaryTrainingHandler.GetNode<Label>("PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/SelectedNameLabel");
 		_trainingTimeLabel = _militaryTrainingHandler.GetNode<Label>("PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/TrainingTime");
+		
+		for (int i = 0; i < 5; i++)
+			_goodContainer.GetChild(i).GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0).SpriteFrames = GlobalResources.GoodSpriteFrames;
 
 
 		_queueScene = GD.Load<PackedScene>("res://Prefabs/GUI/Modules/GUIQueueRegiment.tscn");

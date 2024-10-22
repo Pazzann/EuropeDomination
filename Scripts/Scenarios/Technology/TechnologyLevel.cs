@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Technology;
 
@@ -12,6 +13,12 @@ public class TechnologyLevel
         Date = date;
     }
 
-    public List<Technology> Technologies { get; }
-    public DateTime Date { get; }
+    [JsonConstructor]
+    public TechnologyLevel()
+    {
+        
+    }
+
+    public List<Technology> Technologies { get; init; }
+    public DateTime Date { get; init; }
 }

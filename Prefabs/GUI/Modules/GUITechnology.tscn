@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bra6eqcopnqo7"]
+[gd_scene load_steps=2 format=3 uid="uid://bra6eqcopnqo7"]
 
 [ext_resource type="PackedScene" uid="uid://bravhtaisuciw" path="res://Prefabs/CustomNodes/AnimatedTextureRect.tscn" id="1_bqr4l"]
-[ext_resource type="SpriteFrames" uid="uid://xn867qdsrgrx" path="res://Prefabs/SpriteFrames/Technology.tres" id="3_5mnl3"]
 
 [node name="GuiTechnology" type="PanelContainer"]
 custom_minimum_size = Vector2(250, 0)
@@ -28,7 +27,6 @@ autowrap_mode = 2
 
 [node name="AnimatedTextureRect" parent="MarginContainer/HBoxContainer" instance=ExtResource("1_bqr4l")]
 layout_mode = 2
-SpriteFrames = ExtResource("3_5mnl3")
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 layout_mode = 2

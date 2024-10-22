@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://rdnflk20trl3"]
+
+[node name="TextureRect" type="TextureRect"]
+expand_mode = 3

@@ -14,18 +14,7 @@ public class HeavyShip : Ship
     {
     }
 
-    public override float MaxMorale { get; }
-    public override float CurrentMaxMorale { get; }
-    public override float MoraleIncrease { get; }
-    public override float CurrentMoraleIncrease { get; }
-    public override int ManpowerGrowth { get; }
-    public override int CurrentManpowerGrowth { get; }
-    public override int MaxManpower { get; }
-    public override int CurrentMaxManpower { get; }
-    public override float Defense { get; }
-    public override float MaxDefense { get; }
-    public override float Attack { get; }
-    public override float MaxAttack { get; }
+
 
     public override void Recalculate()
     {

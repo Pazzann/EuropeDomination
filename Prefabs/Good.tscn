@@ -1,10 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://upcl6eoioqff"]
 
-[ext_resource type="SpriteFrames" uid="uid://d3n4eikp6qnq7" path="res://Prefabs/SpriteFrames/GoodSpriteFrames.tres" id="1_6popf"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_x1juq"]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D"]
 texture_filter = 3
 position = Vector2(1, 0)
 scale = Vector2(0.25, 0.25)
-sprite_frames = ExtResource("1_6popf")
-animation = &"goods"
+sprite_frames = SubResource("SpriteFrames_x1juq")

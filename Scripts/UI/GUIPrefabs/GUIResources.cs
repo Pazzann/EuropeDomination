@@ -23,6 +23,8 @@ public partial class GUIResources : VBoxContainer
 		for (var i = 0; i < resourceCount; i++)
 		{
 			var a = GUIResource.Instantiate();
+			(a.GetChild(0).GetChild(0).GetChild(0) as AnimatedTextureRect).SpriteFrames =
+				GlobalResources.GoodSpriteFrames;
 			(a.GetChild(0).GetChild(0).GetChild(0) as AnimatedTextureRect).SetFrame(i);
 			AddChild(a);
 		}

@@ -45,6 +45,7 @@ public class CountryData
     //bool checks if the requirments for the next month are fullfilled
     public Dictionary<int, bool> ConsumableGoods { get; init; }
     
+    public int Id { get; init; }
 
     public CountryData(int id, string name, Vector3 color, Modifiers modifiers, int money, int manpower,
         List<General> generals, List<Admiral> admirals, List<UnitData> units, List<Template> templates,
@@ -122,5 +123,4 @@ public class CountryData
         return a.ToArray();
     }
 
-    public int Id { get; }
 }

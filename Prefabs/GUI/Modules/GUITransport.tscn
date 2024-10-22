@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://cto5ha77c55mp"]
+[gd_scene load_steps=3 format=3 uid="uid://cto5ha77c55mp"]
 
 [ext_resource type="Texture2D" uid="uid://cm82xxwvohiys" path="res://Sprites/Border.png" id="1_qhtgx"]
 [ext_resource type="PackedScene" uid="uid://bravhtaisuciw" path="res://Prefabs/CustomNodes/AnimatedTextureRect.tscn" id="2_7lk1a"]
-[ext_resource type="SpriteFrames" uid="uid://d3n4eikp6qnq7" path="res://Prefabs/SpriteFrames/GoodSpriteFrames.tres" id="3_mlxcu"]
 
 [node name="GuiTransport" type="VBoxContainer"]
 anchors_preset = 15
@@ -27,7 +26,6 @@ texture = ExtResource("1_qhtgx")
 
 [node name="AnimatedTextureRect" parent="Sprite2D" instance=ExtResource("2_7lk1a")]
 layout_mode = 0
-SpriteFrames = ExtResource("3_mlxcu")
 CurrentAnimation = "goods"
 
 [node name="Button" type="Button" parent="Sprite2D"]

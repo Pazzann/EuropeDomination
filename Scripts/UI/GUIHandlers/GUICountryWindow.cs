@@ -96,7 +96,7 @@ public partial class GUICountryWindow : GUIHandler
 
 	private PackedScene _consumableGoodScene;
 	private	VBoxContainer _consumableGoodSpawner;
-	private RichTextLabel _totalModifiersFromConsumableGoodsLabel;
+	private AdvancedLabel _totalModifiersFromConsumableGoodsLabel;
 	
 	private void _consumableGoodsInit()
 	{
@@ -105,26 +105,29 @@ public partial class GUICountryWindow : GUIHandler
 			GetNode<VBoxContainer>(
 				"TabContainer/Consumption/MarginContainer/VBoxContainer/ScrollContainer/ConsumableGoodsSpawner");
 		_totalModifiersFromConsumableGoodsLabel =
-			GetNode<RichTextLabel>(
+			GetNode<AdvancedLabel>(
 				"TabContainer/Consumption/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/TotalBonusesFromConsumableGoods");
-
+		_totalModifiersFromConsumableGoodsLabel._Ready();
 		foreach (ConsumableGood good in EngineState.MapInfo.Scenario.Goods.Where(d=> d is ConsumableGood))
 		{
 			var a = _consumableGoodScene.Instantiate() as PanelContainer;
 			var consumptionContainer = a.GetChild(0).GetChild(0);
 
+			consumptionContainer.GetChild<AnimatedTextureRect>(0).SpriteFrames = GlobalResources.GoodSpriteFrames;
 			consumptionContainer.GetChild<AnimatedTextureRect>(0).SetFrame(good.Id);
-			consumptionContainer.GetChild(1).GetChild<RichTextLabel>(0).Text = new RichTextLabelBuilder()
+			consumptionContainer.GetChild(1).GetChild<AdvancedLabel>(0)._Ready();
+			consumptionContainer.GetChild(1).GetChild<AdvancedLabel>(0)
+				.Clear().NewLine()
 				.Header(good.Name).NewLine()
-				.AppendText($"Consumption: {good.ConsumptionPerMonthToActivateBonus}t/m").NewLine()
+				.Append($"Consumption: {good.ConsumptionPerMonthToActivateBonus}t/m").NewLine()
 				.Header("Modifiers:")
-				.ShowModifiers(good.Modifiers).Text;
+				.AppendModifiers(good.Modifiers);
 			consumptionContainer.GetChild<Button>(2).Text = EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoods.ContainsKey(good.Id) ? "Disable" : "Enable";
 			consumptionContainer.GetChild<Button>(2).Pressed += () => _changeConsumableGoodStatus(good.Id);
 			a.SelfModulate = EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoods.ContainsKey(good.Id) ? EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoods[good.Id] ? new Color(0, 1, 0, 1) : new Color(1, 0, 0, 1) : new Color(1, 1, 1, 1);
 			_consumableGoodSpawner.AddChild(a);
 		}
-		_totalModifiersFromConsumableGoodsLabel.Text = new RichTextLabelBuilder().Header("Total modifiers from consumption:").ShowModifiers(EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoodsModifiers).Text;
+		_totalModifiersFromConsumableGoodsLabel.Clear().NewLine().Header("Total modifiers from consumption:").AppendModifiers(EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoodsModifiers);
 	}
 
 	private void _consumableGoodsUpdate()
@@ -137,7 +140,7 @@ public partial class GUICountryWindow : GUIHandler
 			a.SelfModulate = EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoods.ContainsKey(good.Id) ? EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoods[good.Id] ? new Color(0, 1, 0, 1) : new Color(1, 0, 0, 1) : new Color(1, 1, 1, 1);
 			i++;
 		}
-		_totalModifiersFromConsumableGoodsLabel.Text = new RichTextLabelBuilder().Header("Total modifiers from consumption:").ShowModifiers(EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoodsModifiers).Text;
+		_totalModifiersFromConsumableGoodsLabel.Clear().NewLine().Header("Total modifiers from consumption:").AppendModifiers(EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoodsModifiers);
 	}
 
 	private void _changeConsumableGoodStatus(int goodId)
@@ -195,6 +198,7 @@ public partial class GUICountryWindow : GUIHandler
 					technologyInstance.GetChild(0).GetChild(0).GetChild<Label>(0).Text = technology.TechnologyName;
 					technologyInstance.GetChild<ProgressBar>(1).MaxValue = technology.ResearchTime;
 					var animatedTextureRect = technologyInstance.GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(1);
+					animatedTextureRect.SpriteFrames = GlobalResources.TechnologySpriteFrames;
 					animatedTextureRect.CurrentAnimation = $"{X}-{Y}";
 					animatedTextureRect.SetFrame(Z);
 					technologySpawner.AddChild(technologyInstance);
@@ -240,7 +244,8 @@ public partial class GUICountryWindow : GUIHandler
 
 	private void _showInfoBoxTechnology(Technology technology)
 	{
-		InvokeGUIEvent(new GUIShowInfoBox(InfoBoxFactory.TechologyData(technology)));
+		InvokeGUIEvent(new GUIShowInfoBox());
+		GUIInfoBox.Info.ShowTechnologyData(technology);
 	}
 
 	private void _pressedOnTechnologyButton(Vector3I technologyId)
@@ -279,6 +284,10 @@ public partial class GUICountryWindow : GUIHandler
 		_goodArmyTemplateSpawner =
 			GetNode<GridContainer>(
 				"TabContainer/Army/MarginContainer/VBoxContainer/TabContainer/Templates/HBoxContainer/TemplateDesigner/MarginContainer/VBoxContainer/GoodContainer");
+
+		for (int i = 0; i < 5; i++)
+				_goodArmyTemplateSpawner.GetChild(i).GetChild(0).GetChild<AnimatedTextureRect>(0).SpriteFrames = GlobalResources.GoodSpriteFrames;
+
 
 		_armyRegimentTemplateScene = GD.Load<PackedScene>("res://Prefabs/GUI/Modules/GUIRegimentTemplate.tscn");
 		_armyRegimentTemplateContainer = GetNode<VBoxContainer>(
@@ -329,19 +338,19 @@ public partial class GUICountryWindow : GUIHandler
 		
 		Type[] options = {typeof(ArmyInfantryRegimentTemplate), typeof(ArmyCavalryRegimentTemplate), typeof(ArmyArtilleryRegimentTemplate)};
 
-		var fields = options[_optionButtonTypeArmyTemplate.Selected].GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+		var properties = options[_optionButtonTypeArmyTemplate.Selected].GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
 
 		for (int i = 0; i < 5; i++)
 		{
-			if (fields[i].GetValue(armyTemplate) == null)
+			if (properties[i].GetValue(armyTemplate) == null)
 				_goodArmyTemplateSpawner.GetChild(i).GetChild(0).GetChild<AnimatedTextureRect>(0).SetEmptyFrame();
 			else
 			{
 				_goodArmyTemplateSpawner.GetChild(i).GetChild(0).GetChild<AnimatedTextureRect>(0)
-					.SetFrame((fields[i].GetValue(armyTemplate) as Good)?.Id ?? -1);
+					.SetFrame((properties[i].GetValue(armyTemplate) as Good)?.Id ?? -1);
 			}
 			
-			_goodArmyTemplateSpawner.GetChild(i).GetChild<Label>(1).Text = fields[i].Name;
+			_goodArmyTemplateSpawner.GetChild(i).GetChild<Label>(1).Text = properties[i].Name;
 		}
 		
 		/*switch (armyTemplate)
@@ -528,10 +537,10 @@ public partial class GUICountryWindow : GUIHandler
 
 		Type[] options = {typeof(ArmyInfantryRegimentTemplate), typeof(ArmyCavalryRegimentTemplate), typeof(ArmyArtilleryRegimentTemplate)};
 		
-		var fields = options[index].GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+		var properties = options[index].GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
 		for (var i = 0; i < 5; i++)
 		{
-			_goodArmyTemplateSpawner.GetChild(i).GetChild<Label>(1).Text = fields[i].Name;
+			_goodArmyTemplateSpawner.GetChild(i).GetChild<Label>(1).Text = properties[i].Name;
 		}
 	}
 
@@ -539,9 +548,9 @@ public partial class GUICountryWindow : GUIHandler
 	{
 		Type[] options = {typeof(ArmyInfantryRegimentTemplate), typeof(ArmyCavalryRegimentTemplate), typeof(ArmyArtilleryRegimentTemplate)};
 		
-		var fields = options[_optionButtonTypeArmyTemplate.Selected].GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+		var properties = options[_optionButtonTypeArmyTemplate.Selected].GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
 			
-		var indexes = new int[fields.Length];
+		var indexes = new int[properties.Length];
 		for (var i = 0; i < indexes.Length; i++)
 		{
 			indexes[i] = _goodArmyTemplateSpawner.GetChild(i).GetChild(0).GetChild<AnimatedTextureRect>(0).FrameIndex;
@@ -552,9 +561,9 @@ public partial class GUICountryWindow : GUIHandler
 		{
 			_currentEditingArmyTemplate.Name = _lineEditNameArmyTemplate.Text;
 			
-			for (var i = 0; i < fields.Length; i++)
+			for (var i = 0; i < properties.Length; i++)
 			{
-				fields[i].SetValue(
+				properties[i].SetValue(
 					_currentEditingArmyTemplate,
 					indexes[i] == -1 ? null : EngineState.MapInfo.Scenario.Goods[indexes[i]]
 					);
@@ -648,7 +657,7 @@ public partial class GUICountryWindow : GUIHandler
 		}
 		else
 		{
-			var constructorArguments = new object[2 + fields.Length];
+			var constructorArguments = new object[2 + properties.Length];
 			constructorArguments[0] = _lineEditNameArmyTemplate.Text;
 			constructorArguments[1] = _currentEditingArmyTemplate?.Id ?? EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].RegimentTemplates.Count;
 			for (int i = 0; i < 5; i++)
@@ -658,8 +667,8 @@ public partial class GUICountryWindow : GUIHandler
 			}
 
 			var newArmyRegimentTemplate = options[_optionButtonTypeArmyTemplate.Selected].GetConstructor(
-				new[] { typeof(string), typeof(int), fields[0].FieldType, fields[1].FieldType, fields[2].FieldType,
-					fields[3].FieldType, fields[4].FieldType }).Invoke(constructorArguments);
+				new[] { typeof(string), typeof(int), properties[0].PropertyType, properties[1].PropertyType, properties[2].PropertyType,
+					properties[3].PropertyType, properties[4].PropertyType }).Invoke(constructorArguments);
 
 			if (_currentEditingArmyTemplate != null) EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].RegimentTemplates[_currentEditingArmyTemplate.Id] = newArmyRegimentTemplate as ArmyRegimentTemplate;
 			else EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].RegimentTemplates.Add(newArmyRegimentTemplate  as Template);
@@ -788,8 +797,8 @@ public partial class GUICountryWindow : GUIHandler
 		
 		Type[] options = {typeof(ArmyInfantryRegimentTemplate), typeof(ArmyCavalryRegimentTemplate), typeof(ArmyArtilleryRegimentTemplate)};
 		
-		var fields = options[_optionButtonTypeArmyTemplate.Selected].GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
-		_showGoodEditBox(EngineState.MapInfo.Scenario.Goods.Where(d => fields[buttonId].FieldType.IsInstanceOfType(d)).ToArray());
+		var properties = options[_optionButtonTypeArmyTemplate.Selected].GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+		_showGoodEditBox(EngineState.MapInfo.Scenario.Goods.Where(d => properties[buttonId].PropertyType.IsInstanceOfType(d)).ToArray());
 	}
 
 	private void _showGoodEditBox(Good[] goods)

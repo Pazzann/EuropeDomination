@@ -29,6 +29,7 @@ public partial class GUIGoodEditPanel : PanelContainer
 		foreach (var good in newGoods)
 		{
 			var a = _goodBox.Instantiate();
+			a.GetChild<AnimatedTextureRect>(0).SpriteFrames = GlobalResources.GoodSpriteFrames;
 			a.GetChild<AnimatedTextureRect>(0).SetFrame(good.Id);
 			a.GetChild(0).GetChild<Button>(0).Pressed += () => _goodPressed(good.Id);
 			_goodContainer.AddChild(a);

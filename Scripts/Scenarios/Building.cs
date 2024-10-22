@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Buildings;
 
@@ -21,14 +22,21 @@ public class Building
         Modifiers = modifiers;
     }
 
-    public string Name { get; }
-    public int Id { get; }
-    public int Cost { get; }
-    public double[] ResourceCost { get; }
-    public int TimeToBuild { get; }
+    
+    [JsonConstructor]
+    public Building()
+    {
+        
+    }
+
+    public string Name { get; init; }
+    public int Id { get; init; }
+    public int Cost { get; init; }
+    public double[] ResourceCost { get; init; }
+    public int TimeToBuild { get; init; }
 
 
-    public Modifiers Modifiers { get; }
+    public Modifiers Modifiers { get; init; }
 
     public Building Clone()
     {

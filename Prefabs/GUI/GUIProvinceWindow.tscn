@@ -173,7 +173,6 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/0" instance=ExtResource("9_863be")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
-animation = &"none"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/0"]
 layout_mode = 0
@@ -216,7 +215,7 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/1" instance=ExtResource("9_863be")]
 position = Vector2(4.08664, 4.07324)
 scale = Vector2(0.118129, -0.12394)
-animation = &"none"
+animation = &"default"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/1"]
 layout_mode = 0
@@ -259,7 +258,7 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/2" instance=ExtResource("9_863be")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
-animation = &"none"
+animation = &"default"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/2"]
 layout_mode = 0
@@ -302,7 +301,7 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/3" instance=ExtResource("9_863be")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
-animation = &"none"
+animation = &"default"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/3"]
 layout_mode = 0
@@ -345,7 +344,7 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/4" instance=ExtResource("9_863be")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
-animation = &"none"
+animation = &"default"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/4"]
 layout_mode = 0
@@ -388,7 +387,7 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/5" instance=ExtResource("9_863be")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
-animation = &"none"
+animation = &"default"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/5"]
 layout_mode = 0
@@ -431,7 +430,7 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/6" instance=ExtResource("9_863be")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
-animation = &"none"
+animation = &"default"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/6"]
 layout_mode = 0
@@ -474,7 +473,7 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/7" instance=ExtResource("9_863be")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
-animation = &"none"
+animation = &"default"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/7"]
 layout_mode = 0
@@ -517,7 +516,7 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/8" instance=ExtResource("9_863be")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
-animation = &"none"
+animation = &"default"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/8"]
 layout_mode = 0
@@ -560,7 +559,7 @@ scale = Vector2(6.1175, -5.83068)
 [node name="Buildings" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/9" instance=ExtResource("9_863be")]
 position = Vector2(3.88231, 4.0733)
 scale = Vector2(0.118129, -0.12394)
-animation = &"none"
+animation = &"default"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer4/ProvinceWindowSprite/Buildings/9"]
 layout_mode = 0
@@ -1447,7 +1446,6 @@ texture = ExtResource("21_l8wyd")
 [node name="AnimatedTextureRect" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/GoodRect" instance=ExtResource("22_fe1rx")]
 layout_mode = 0
 CurrentAnimation = "goods"
-SpriteFrames = ExtResource("23_rpnlq")
 
 [node name="Button" type="Button" parent="HBoxContainer4/ProvinceWindowSprite/TransferManagementBox/MarginContainer/VBoxContainer/GoodRect"]
 layout_mode = 0

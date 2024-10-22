@@ -76,6 +76,7 @@ public abstract class Good
         return availableGoods;
     }
 
+    [Obsolete("Use ShowNonZeroGoods and check if resulting Text is empty")]
     public static bool IsDifferentFromNull(double[] resources)
     {
         foreach (var t in resources)

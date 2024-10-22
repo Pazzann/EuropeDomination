@@ -3,6 +3,7 @@ using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using Godot;
+using Newtonsoft.Json;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Technology;
 
@@ -18,6 +19,12 @@ public class Technology
         ResourcesRequired = resourcesRequired;
         BuildingToUnlock = buildingToUnlock;
         RecipyToUnlock = recipyToUnlock;
+    }
+
+    [JsonConstructor]
+    public Technology()
+    {
+        
     }
 
     public bool CheckIfMeetsRequirements(int countryId)
@@ -36,11 +43,11 @@ public class Technology
         return;
     }
 
-    public string TechnologyName { get; }
-    public Modifiers Modifiers { get; }
-    public int InitialCost { get; }
-    public int ResearchTime { get; }
-    public double[] ResourcesRequired { get; }
-    public int BuildingToUnlock { get; }
-    public int RecipyToUnlock { get; }
+    public string TechnologyName { get; init; }
+    public Modifiers Modifiers { get; init; }
+    public int InitialCost { get; init; }
+    public int ResearchTime { get; init; }
+    public double[] ResourcesRequired { get; init; }
+    public int BuildingToUnlock { get; init; }
+    public int RecipyToUnlock { get; init; }
 }

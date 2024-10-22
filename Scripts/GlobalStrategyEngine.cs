@@ -42,10 +42,6 @@ public partial class GlobalStrategyEngine : Node2D
 		var map = GetNode<Sprite2D>("MapHandler/Map").Texture.GetImage();
 
 		EngineState.MapInfo.Scenario.Init();
-		GlobalResources.GoodSpriteFrames = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/GoodSpriteFrames.tres");
-		GlobalResources.BuildingSpriteFrames = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/Buildings.tres");
-		GlobalResources.TechnologySpriteFrames  = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/Technology.tres");
-
 
 		Camera = GetNode<Camera>("./Camera");
 		Camera.ZoomChanged += ViewMode;
@@ -89,9 +85,11 @@ public partial class GlobalStrategyEngine : Node2D
 		GUIHandler.InputHandle(@event);
 		if (@event is InputEventMouseMotion e)
 			if (tileId > -1)
-				InvokeToGUIEvent(
-					new ToGUIShowInfoBoxEvent(
-						InfoBoxFactory.ProvinceDataInfoBox(EngineState.MapInfo.Scenario.Map[tileId])));
+			{
+				InvokeToGUIEvent(new ToGUIShowInfoBoxEvent());
+				GUIInfoBox.Info.ShowProvinceDataInfoBox(EngineState.MapInfo.Scenario.Map[tileId]);
+			}
+				
 	}
 
 	public void GUIEventHandler(GUIEvent @event)
@@ -127,7 +125,7 @@ public partial class GlobalStrategyEngine : Node2D
 				Camera.GoToProvince(e.Id);
 				return;
 			case GUIShowInfoBox e:
-				InvokeToGUIEvent(new ToGUIShowInfoBoxEvent(e.RichTextLabelBuilder));
+				InvokeToGUIEvent(new ToGUIShowInfoBoxEvent());
 				return;
 			case GUIHideInfoBoxEvent e:
 				InvokeToGUIEvent(new ToGUIHideInfoBox());

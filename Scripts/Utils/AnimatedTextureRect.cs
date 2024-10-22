@@ -48,8 +48,8 @@ public partial class AnimatedTextureRect : TextureRect
 	public override void _Ready()
 	{
 		FrameIndex = 0;
-		_fps = SpriteFrames.GetAnimationSpeed(CurrentAnimation);
-		_refreshRate = SpriteFrames.GetFrameDuration(CurrentAnimation, FrameIndex);
+		//_fps = SpriteFrames.GetAnimationSpeed(CurrentAnimation);
+		//_refreshRate = SpriteFrames.GetFrameDuration(CurrentAnimation, FrameIndex);
 		if (AutoPlay)
 			Play(CurrentAnimation);
 	}

@@ -20,7 +20,7 @@ public sealed class MapContours
     public MapContours(MapData mapData, Image mapImage)
     {
         var countries = mapData.Scenario.Countries;
-
+        
         var stateProvinces = new Dictionary<int, HashSet<int>>();
         var provinceToState = new Dictionary<int, int>();
 

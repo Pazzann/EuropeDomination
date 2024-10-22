@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://bw0gswtlmq4km"]
+[gd_scene load_steps=8 format=3 uid="uid://bw0gswtlmq4km"]
 
 [ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_frl1o"]
 [ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUICountryWindow.cs" id="1_w0fs2"]
 [ext_resource type="Texture2D" uid="uid://cjeqbeq2oyx8h" path="res://Sprites/closeButton.png" id="2_gq7lc"]
 [ext_resource type="PackedScene" uid="uid://dcl8ke0y26dfo" path="res://Prefabs/GUI/Modules/GUIGoodTemplate.tscn" id="3_8yous"]
+[ext_resource type="PackedScene" uid="uid://b7s78d0eetwll" path="res://Prefabs/CustomNodes/AdvancedLabel/AdvancedLabel.tscn" id="3_73s4o"]
 [ext_resource type="PackedScene" uid="uid://rc00o8th0yea" path="res://Prefabs/GUI/Modules/GUIRegimentTemplate.tscn" id="3_ysjvy"]
 [ext_resource type="PackedScene" uid="uid://oxh0ek8o2k2u" path="res://Prefabs/GUI/Modules/GUIGoodEditPanel.tscn" id="6_s5d5n"]
 
@@ -74,9 +75,8 @@ size_flags_stretch_ratio = 0.49
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Consumption/MarginContainer/VBoxContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="TotalBonusesFromConsumableGoods" type="RichTextLabel" parent="TabContainer/Consumption/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+[node name="TotalBonusesFromConsumableGoods" parent="TabContainer/Consumption/MarginContainer/VBoxContainer/PanelContainer/MarginContainer" instance=ExtResource("3_73s4o")]
 layout_mode = 2
-bbcode_enabled = true
 
 [node name="Technology" type="PanelContainer" parent="TabContainer"]
 visible = false

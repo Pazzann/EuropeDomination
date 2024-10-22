@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://bu78t0vf6jkaq"]
+[gd_scene load_steps=5 format=3 uid="uid://bu78t0vf6jkaq"]
 
 [ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_xegna"]
 [ext_resource type="PackedScene" uid="uid://bravhtaisuciw" path="res://Prefabs/CustomNodes/AnimatedTextureRect.tscn" id="2_mdpki"]
-[ext_resource type="SpriteFrames" uid="uid://d3n4eikp6qnq7" path="res://Prefabs/SpriteFrames/GoodSpriteFrames.tres" id="3_shsrj"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_jsk36"]
 font_size = 40
@@ -32,7 +31,6 @@ layout_mode = 2
 layout_mode = 2
 size_flags_stretch_ratio = 1.51
 expand_mode = 2
-SpriteFrames = ExtResource("3_shsrj")
 CurrentAnimation = "goods"
 
 [node name="Label" type="Label" parent="MarginContainer/HBoxContainer"]

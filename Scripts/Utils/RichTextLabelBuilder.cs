@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios;
@@ -6,11 +7,25 @@ using Godot;
 
 namespace EuropeDominationDemo.Scripts.Utils;
 
+[Obsolete("Use AdvancedLabel instead")]
 public class RichTextLabelBuilder
 {
     public string Text { get; private set; } = "";
 
-	public RichTextLabelBuilder AppendText(string text)
+    public RichTextLabelBuilder Append (RichTextLabelBuilder text)
+    {
+	    Text += text.Text;
+	    return this;
+    }
+
+    public override string ToString()
+    {
+	    return Text;
+    }
+    
+    public static RichTextLabelBuilder operator + (RichTextLabelBuilder text1, RichTextLabelBuilder text2) => text1.Append(text2);
+
+    public RichTextLabelBuilder AppendText(string text)
 	{
 		Text += text;
 		return this;
@@ -25,6 +40,7 @@ public class RichTextLabelBuilder
 	public RichTextLabelBuilder NewLine()
 	{
 		Text += "\n";
+		
 		return this;
 	}
 
@@ -52,18 +68,15 @@ public class RichTextLabelBuilder
 		return this;
 	}
 
-	public RichTextLabelBuilder ShowNotZeroGoods(double[] resources)
+	public RichTextLabelBuilder ShowNonZeroGoods(double[] resources)
 	{
-		var goodIndexes = new List<int>();
-		for (var i = 0; i < resources.Length; i++)
-			if (resources[i] > 0)
-				goodIndexes.Add(i);
 
-		foreach (var index in goodIndexes)
-			Text +=
-				$"[img=30px, center]{GlobalResources.GoodSpriteFrames.GetFrameTexture("goods", index).ResourcePath}[/img]: {resources[index]}";
+		for (var id = 0; id < resources.Length; id++)
+			if (resources[id] > 0)
+				ShowGood(id).AppendText($": {resources[id]}");
 
 		NewLine();
+		
 		return this;
 	}
 

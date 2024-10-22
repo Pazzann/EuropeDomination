@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7s78d0eetwll"]
+
+[ext_resource type="Script" path="res://Scripts/Utils/AdvancedLabel.cs" id="1_bffdo"]
+
+[node name="AdvancedLabel" type="VBoxContainer"]
+theme_override_constants/separation = -6
+script = ExtResource("1_bffdo")

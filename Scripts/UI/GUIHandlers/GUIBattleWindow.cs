@@ -5,6 +5,7 @@ using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 using EuropeDominationDemo.Scripts.UI.Events.GUI;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using EuropeDominationDemo.Scripts.UI.GUIHandlers;
+using EuropeDominationDemo.Scripts.Utils;
 using Godot;
 
 public partial class GUIBattleWindow : GUIHandler
@@ -29,9 +30,8 @@ public partial class GUIBattleWindow : GUIHandler
 
 	private void _updateInfoBox(Vector2I coords)
 	{
-		InvokeGUIEvent(new GUIShowInfoBox(
-			InfoBoxFactory.BattleRegimentData(
-				_currentlyShownBattleData.Battlefield[coords.X, coords.Y] as ArmyRegiment)));
+		InvokeGUIEvent(new GUIShowInfoBox());
+		GUIInfoBox.Info.ShowBattleRegimentData(_currentlyShownBattleData.Battlefield[coords.X, coords.Y] as ArmyRegiment);
 	}
 
 	private void _showData()

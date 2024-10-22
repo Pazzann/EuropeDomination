@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bji08w2m23kup"]
+[gd_scene load_steps=4 format=3 uid="uid://bji08w2m23kup"]
 
 [ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUIInfoBox.cs" id="1_jax1u"]
 [ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="2_tpqg3"]
+[ext_resource type="PackedScene" uid="uid://b7s78d0eetwll" path="res://Prefabs/CustomNodes/AdvancedLabel/AdvancedLabel.tscn" id="3_weydx"]
 
 [node name="GuiInfoBox" type="Control"]
 layout_mode = 3
@@ -25,10 +26,7 @@ layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
+theme_override_constants/margin_bottom = 14
 
-[node name="RichTextLabel" type="RichTextLabel" parent="BoxContainer/MarginContainer"]
+[node name="AdvancedLabel" parent="BoxContainer/MarginContainer" instance=ExtResource("3_weydx")]
 layout_mode = 2
-size_flags_horizontal = 3
-fit_content = true
-autowrap_mode = 0

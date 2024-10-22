@@ -149,7 +149,6 @@ public static class SaveLoadGamesUtils
         foreach (var animation in animations)
         {
             var animName = Path.GetFileName(animation);
-            ;
             spriteFrames.AddAnimation(animName);
             var frames = Directory.GetFiles(animation, "*.png");
             foreach (var frame in frames)

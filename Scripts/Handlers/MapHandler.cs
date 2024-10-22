@@ -572,6 +572,8 @@ public partial class MapHandler : GameHandler
         foreach (var data in EngineState.MapInfo.MapProvinces(ProvinceTypes.LandProvinces))
         {
             var obj = _goodsScene.Instantiate() as AnimatedSprite2D;
+            obj.SpriteFrames = GlobalResources.GoodSpriteFrames;
+            obj.Animation = "goods";
             obj.Frame = ((LandProvinceData)data).Good;
             obj.Position = ((LandProvinceData)data).CenterOfWeight;
             _goodsSpawner.AddChild(obj);

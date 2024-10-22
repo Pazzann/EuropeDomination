@@ -9,9 +9,13 @@ public partial class GUIEscapeMenu : GUIHandler
 {
 
 	private Button _loadGameButton;
+	private LineEdit _saveName;
+	private PanelContainer _savesPanel;
 	public override void Init()
 	{
 		_loadGameButton = GetNode<Button>("ButtonPanel/MarginContainer/VBoxContainer/VBoxContainer/Load");
+		_saveName = GetNode<LineEdit>("SavesPanel/MarginContainer/VBoxContainer/LineEdit");
+		_savesPanel = GetNode<PanelContainer>("SavesPanel");
 		_loadGameButton.Visible = !MultiplayerState.MultiplayerMode;
 	}
 
@@ -20,6 +24,7 @@ public partial class GUIEscapeMenu : GUIHandler
 		if (Input.IsActionJustReleased("escape_menu"))
 		{
 			Visible = !Visible;
+			_savesPanel.Visible = false;
 		}
 	}
 
@@ -29,7 +34,7 @@ public partial class GUIEscapeMenu : GUIHandler
 
 	private void _onSaveButtonPressed()
 	{
-		
+		_savesPanel.Visible = true;
 	}
 
 	private void _onLoadButtonPressed()
@@ -59,6 +64,8 @@ public partial class GUIEscapeMenu : GUIHandler
 
 	private void _onFinalSavePressed()
 	{
-		SaveLoadGamesUtils.SaveGame("exp", EngineState.MapInfo.Scenario);
+		if(_saveName.Text == "")
+			return;
+		SaveLoadGamesUtils.SaveGame(_saveName.Text, EngineState.MapInfo.Scenario);
 	}
 }

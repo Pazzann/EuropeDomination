@@ -122,13 +122,18 @@ public abstract class Scenario
             {
                 foreach (var country in Countries)
                 {
+                    
                     if(!PlayerList.ContainsValue(country.Key))
                         AiList.Add(country.Key);
-                    var a = (UncolonizedProvinceData)Map[country.Value.CapitalId];
-                    a.CurrentlyColonizedByCountry = country.Value.Id;
-                    var b = a.ConvertToLandProvince();
-                    b.Development = 10;
-                    Map[a.Id] = b;
+
+                    if (Map[country.Value.CapitalId] is UncolonizedProvinceData)
+                    {
+                        var a = (UncolonizedProvinceData)Map[country.Value.CapitalId];
+                        a.CurrentlyColonizedByCountry = country.Value.Id;
+                        var b = a.ConvertToLandProvince();
+                        b.Development = 10;   
+                        Map[a.Id] = b;
+                    }
                     country.Value.ResearchedTechnologies = GenerateTechnologyArray();
                 }
                 break;

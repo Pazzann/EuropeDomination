@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://56rm47l3ov1j"]
+[gd_scene load_steps=4 format=3 uid="uid://56rm47l3ov1j"]
 
 [ext_resource type="PackedScene" uid="uid://bravhtaisuciw" path="res://Prefabs/CustomNodes/AnimatedTextureRect.tscn" id="1_lws6i"]
 [ext_resource type="SpriteFrames" uid="uid://d3n4eikp6qnq7" path="res://Prefabs/SpriteFrames/GoodSpriteFrames.tres" id="3_5sptf"]
+[ext_resource type="PackedScene" uid="uid://b7s78d0eetwll" path="res://Prefabs/CustomNodes/AdvancedLabel/AdvancedLabel.tscn" id="3_w05kw"]
 
 [node name="GuiConsumableGoodMenu" type="PanelContainer"]
 
@@ -24,12 +25,8 @@ SpriteFrames = ExtResource("3_5sptf")
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/HBoxContainer/ScrollContainer"]
+[node name="AdvancedLabel" parent="MarginContainer/HBoxContainer/ScrollContainer" instance=ExtResource("3_w05kw")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-bbcode_enabled = true
-text = "dfgfdgfdgfdgdfgfdgfdgfdgd"
 
 [node name="Button" type="Button" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2

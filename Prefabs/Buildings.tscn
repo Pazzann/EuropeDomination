@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dmgj77qhh4qfg"]
 
-[ext_resource type="SpriteFrames" uid="uid://ba70vwr4tj46r" path="res://Prefabs/SpriteFrames/Buildings.tres" id="1_o14ov"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_1pik7"]
 
 [node name="Building" type="AnimatedSprite2D"]
-sprite_frames = ExtResource("1_o14ov")
+sprite_frames = SubResource("SpriteFrames_1pik7")

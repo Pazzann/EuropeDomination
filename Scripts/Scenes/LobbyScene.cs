@@ -30,16 +30,14 @@ public partial class LobbyScene : Node2D
 	
 	public override void _Ready()
 	{
+		SaveLoadGamesUtils.LoadScenario("Europe1700");
+		
+		
 		_mapSprite = GetNode<Sprite2D>("Map");
-		GlobalResources.MapTexture = _mapSprite.Texture.GetImage();
-		Scenario scenario = new EuropeScenario();
-		EngineState.MapInfo = new MapData(scenario);
 		EngineState.MapInfo.Scenario.PlayerList = new Dictionary<ulong, int>();
 		EngineState.MapInfo.Scenario.PlayerList.Add(SteamState.SteamId, 0);
 		EngineState.PlayerCountryId = 0;
 		_mapUpdate();
-		EngineState.MapInfo.Scenario.ChangeGameMode(GameModes.RandomSpawn);
-		EngineState.MapInfo.Scenario.Settings.ResourceMode = ResourceModes.RandomSpawn;
 		_camera = GetNode<Camera>("Camera");
 		_camera.Reset(new Rect2(Vector2.Zero, GetNode<Sprite2D>("Map").Texture.GetSize()));
 
