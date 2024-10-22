@@ -13,9 +13,11 @@ using Godot;
 
 namespace EuropeDominationDemo.Scripts.Utils;
 
+/// <summary>
+/// Represents an advanced label component within a vertical box container.
+/// </summary>
 public partial class AdvancedLabel : VBoxContainer
 {
-
 	private PackedScene _labelPrefab;
 	private PackedScene _textureRectPrefab;
 	private PackedScene _hBoxPrefab;
@@ -34,8 +36,10 @@ public partial class AdvancedLabel : VBoxContainer
 	}
 
 	#region Builder
-	
-	// Clear the label
+	/// <summary>
+	/// Clears the label.
+	/// </summary>
+	/// <returns></returns>
 	public AdvancedLabel Clear()
 	{
 		foreach (var child in GetChildren())
@@ -43,21 +47,31 @@ public partial class AdvancedLabel : VBoxContainer
 		_lastReference = null;
 		return this;
 	} 
-	// Add a new line to the label
+	/// <summary>
+	/// Creates a new line.
+	/// </summary>
+	/// <returns></returns>
 	public AdvancedLabel NewLine()
 	{
 		_lastReference = _hBoxPrefab.Instantiate() as HBoxContainer;
 		AddChild(_lastReference);
 		return this;
 	}
-	// Validate if the last reference is not null
+	/// <summary>
+	/// Validates the label.
+	/// </summary>
+	/// <exception cref="Exception"></exception>
 	public void _validate()
 	{
 		if(_lastReference == null)
 			throw new Exception("You must call NewLine() before adding elements");
 	}
 	
-	// Add a header to the label
+	/// <summary>
+	/// Adds a header to the label.
+	/// </summary>
+	/// <param name="text"></param>
+	/// <returns></returns>
 	public AdvancedLabel Header(string text)
 	{
 		_validate();
@@ -73,7 +87,11 @@ public partial class AdvancedLabel : VBoxContainer
 		
 		return this;
 	}
-	// Add a text to the label
+	/// <summary>
+	/// Appends a text to the label.
+	/// </summary>
+	/// <param name="text"></param>
+	/// <returns></returns>
 	public AdvancedLabel Append(string text)
 	{
 		_validate();
@@ -85,7 +103,12 @@ public partial class AdvancedLabel : VBoxContainer
 		_lastReference.AddChild(a);
 		return this;
 	}
-	// Add a colored text to the label
+	/// <summary>
+	/// Appends a colored text to the label.
+	/// </summary>
+	/// <param name="text"></param>
+	/// <param name="color"></param>
+	/// <returns></returns>
 	public AdvancedLabel AppendColored(string text, Color color){
 		_validate();
 		
@@ -99,7 +122,11 @@ public partial class AdvancedLabel : VBoxContainer
 		
 		return this;
 	}
-	// Add a good to the label
+	/// <summary>
+	/// Appends the non-zero goods.
+	/// </summary>
+	/// <param name="goods"></param>
+	/// <returns></returns>
 	public AdvancedLabel AppendNonZeroGoods(double[] goods)
 	{
 		_validate();
@@ -111,7 +138,11 @@ public partial class AdvancedLabel : VBoxContainer
 		
 		return this;
 	}
-	// Add a building image to the label
+	/// <summary>
+	/// Shows the building.
+	/// </summary>
+	/// <param name="id"></param>
+	/// <returns></returns>
 	public AdvancedLabel ShowBuilding(int id)
 	{
 		_validate();
@@ -124,7 +155,11 @@ public partial class AdvancedLabel : VBoxContainer
 		
 		return this;
 	}
-	// Add a good image to the label
+	/// <summary>
+	/// Shows the good.
+	/// </summary>
+	/// <param name="id"></param>
+	/// <returns></returns>
 	public AdvancedLabel ShowGood(int id)
 	{
 		_validate();
@@ -138,7 +173,11 @@ public partial class AdvancedLabel : VBoxContainer
 	}
 	
 	
-	// Add modifiers in text
+	/// <summary>
+	/// Appends the modifiers.
+	/// </summary>
+	/// <param name="modifiers"></param>
+	/// <returns></returns>
 	public AdvancedLabel AppendModifiers(Modifiers modifiers)
 	{
 		_validate();
@@ -186,7 +225,10 @@ public partial class AdvancedLabel : VBoxContainer
 	#region Factory
 
 	
-	// Show the province data info box
+	/// <summary>
+	/// Shows the province data info box.
+	/// </summary>
+	/// <param name="provinceData"></param>
 	public void ShowProvinceDataInfoBox(ProvinceData provinceData)
 	{
 		Clear().NewLine();
@@ -214,7 +256,10 @@ public partial class AdvancedLabel : VBoxContainer
 
 	}
 	
-	// Show the regiment data info box
+	/// <summary>
+	/// Shows the regiment data info box.
+	/// </summary>
+	/// <param name="armyRegiment"></param>
 	public void ShowBattleRegimentData(Regiment armyRegiment)
 	{
 		Clear().NewLine();
@@ -244,7 +289,10 @@ public partial class AdvancedLabel : VBoxContainer
 		Append($"Morale: {armyRegiment.Morale}");
 	}
 	
-	// Show the building data info box
+	/// <summary>
+	/// Shows the good data info box.
+	/// </summary>
+	/// <param name="building"></param>
 	public void ShowBuildingData(Building building)
 	{
 		Clear().NewLine()
@@ -255,7 +303,10 @@ public partial class AdvancedLabel : VBoxContainer
 			.AppendModifiers(building.Modifiers);
 	}
 	
-	// Show the technology data info box
+	/// <summary>
+	///	Shows the technology data info box.
+	/// </summary>
+	/// <param name="technology"></param>
 	public void ShowTechnologyData(Technology technology)
 	{
 		Clear().NewLine()
@@ -278,7 +329,10 @@ public partial class AdvancedLabel : VBoxContainer
 			Header("Modifiers:").AppendModifiers(technology.Modifiers);
 		
 	}
-	// Show the dev button data
+	/// <summary>
+	/// Shows the dev button data.
+	/// </summary>
+	/// <param name="provinceData"></param>
 	public void ShowDevButtonData(LandColonizedProvinceData provinceData)
 	{
 		var req = EngineState.MapInfo.Scenario.Settings.ResourceAndCostRequirmentsToDev(provinceData.Development);

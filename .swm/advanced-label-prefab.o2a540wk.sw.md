@@ -9,23 +9,22 @@ The feature introduces a custom label component with advanced formatting capabil
 
 We will cover:
 
-1. Overall structure of the <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="16:6:6" line-data="public partial class AdvancedLabel : VBoxContainer">`AdvancedLabel`</SwmToken> class.
+1. Overall structure of the <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="19:6:6" line-data="public partial class AdvancedLabel : VBoxContainer">`AdvancedLabel`</SwmToken> class.
 2. Explanation of each method in the builder region.
 3. Explanation of each method in the factory region.
-4. Example usage of the <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="16:6:6" line-data="public partial class AdvancedLabel : VBoxContainer">`AdvancedLabel`</SwmToken> class.
+4. Example usage of the <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="19:6:6" line-data="public partial class AdvancedLabel : VBoxContainer">`AdvancedLabel`</SwmToken> class.
 
-# Overall structure of the <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="16:6:6" line-data="public partial class AdvancedLabel : VBoxContainer">`AdvancedLabel`</SwmToken> class
+# Overall structure of the <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="19:6:6" line-data="public partial class AdvancedLabel : VBoxContainer">`AdvancedLabel`</SwmToken> class
 
-<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="16">
+<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="19">
 
 ---
 
-The <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="16:6:6" line-data="public partial class AdvancedLabel : VBoxContainer">`AdvancedLabel`</SwmToken> class extends <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="16:10:10" line-data="public partial class AdvancedLabel : VBoxContainer">`VBoxContainer`</SwmToken> and provides methods to dynamically build complex labels with various elements like text, images, and modifiers.
+The <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="19:6:6" line-data="public partial class AdvancedLabel : VBoxContainer">`AdvancedLabel`</SwmToken> class extends <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="19:10:10" line-data="public partial class AdvancedLabel : VBoxContainer">`VBoxContainer`</SwmToken> and provides methods to dynamically build complex labels with various elements like text, images, and modifiers.
 
 ```
 public partial class AdvancedLabel : VBoxContainer
 {
-
 	private PackedScene _labelPrefab;
 	private PackedScene _textureRectPrefab;
 	private PackedScene _hBoxPrefab;
@@ -52,9 +51,9 @@ public partial class AdvancedLabel : VBoxContainer
 
 The builder region contains methods to construct and modify the label.
 
-### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="39:5:5" line-data="	public AdvancedLabel Clear()">`Clear`</SwmToken> method
+### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="43:5:5" line-data="	public AdvancedLabel Clear()">`Clear`</SwmToken> method
 
-<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="39">
+<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="43">
 
 ---
 
@@ -74,9 +73,9 @@ Clears all children from the label and resets the last reference.
 
 </SwmSnippet>
 
-### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="47:5:5" line-data="	public AdvancedLabel NewLine()">`NewLine`</SwmToken> method
+### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="54:5:5" line-data="	public AdvancedLabel NewLine()">`NewLine`</SwmToken> method
 
-<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="47">
+<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="54">
 
 ---
 
@@ -95,9 +94,9 @@ Adds a new horizontal box container to the label, allowing new elements to be ad
 
 </SwmSnippet>
 
-### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="54:5:5" line-data="	public void _validate()">`_validate`</SwmToken> method
+### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="64:5:5" line-data="	public void _validate()">`_validate`</SwmToken> method
 
-<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="54">
+<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="64">
 
 ---
 
@@ -115,9 +114,9 @@ Ensures that a new line has been added before adding elements. Throws an excepti
 
 </SwmSnippet>
 
-### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="61:5:5" line-data="	public AdvancedLabel Header(string text)">`Header`</SwmToken> method
+### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="75:5:5" line-data="	public AdvancedLabel Header(string text)">`Header`</SwmToken> method
 
-<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="61">
+<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="75">
 
 ---
 
@@ -145,9 +144,9 @@ Adds a header text to the label with specific styling.
 
 </SwmSnippet>
 
-### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="77:5:5" line-data="	public AdvancedLabel Append(string text)">`Append`</SwmToken> method
+### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="95:5:5" line-data="	public AdvancedLabel Append(string text)">`Append`</SwmToken> method
 
-<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="77">
+<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="95">
 
 ---
 
@@ -171,9 +170,9 @@ Adds plain text to the label.
 
 </SwmSnippet>
 
-### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="89:5:5" line-data="	public AdvancedLabel AppendColored(string text, Color color){">`AppendColored`</SwmToken> method
+### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="112:5:5" line-data="	public AdvancedLabel AppendColored(string text, Color color){">`AppendColored`</SwmToken> method
 
-<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="89">
+<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="112">
 
 ---
 
@@ -199,9 +198,9 @@ Adds colored text to the label.
 
 </SwmSnippet>
 
-### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="103:5:5" line-data="	public AdvancedLabel AppendNonZeroGoods(double[] goods)">`AppendNonZeroGoods`</SwmToken> method
+### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="130:5:5" line-data="	public AdvancedLabel AppendNonZeroGoods(double[] goods)">`AppendNonZeroGoods`</SwmToken> method
 
-<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="103">
+<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="130">
 
 ---
 
@@ -225,9 +224,9 @@ Adds goods to the label if their quantity is greater than zero.
 
 </SwmSnippet>
 
-### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="115:5:5" line-data="	public AdvancedLabel ShowBuilding(int id)">`ShowBuilding`</SwmToken> method
+### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="146:5:5" line-data="	public AdvancedLabel ShowBuilding(int id)">`ShowBuilding`</SwmToken> method
 
-<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="115">
+<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="146">
 
 ---
 
@@ -252,9 +251,9 @@ Adds a building image to the label.
 
 </SwmSnippet>
 
-### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="108:1:1" line-data="				ShowGood(id).Append($&quot;: {goods[id]}&quot;);">`ShowGood`</SwmToken> method
+### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="135:1:1" line-data="				ShowGood(id).Append($&quot;: {goods[id]}&quot;);">`ShowGood`</SwmToken> method
 
-<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="128">
+<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="163">
 
 ---
 
@@ -278,9 +277,9 @@ Adds a good image to the label.
 
 </SwmSnippet>
 
-### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="142:5:5" line-data="	public AdvancedLabel AppendModifiers(Modifiers modifiers)">`AppendModifiers`</SwmToken> method
+### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="181:5:5" line-data="	public AdvancedLabel AppendModifiers(Modifiers modifiers)">`AppendModifiers`</SwmToken> method
 
-<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="142">
+<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="181">
 
 ---
 
@@ -336,9 +335,9 @@ Adds text with modifiers to the label, including handling of positive and negati
 
 The factory region contains methods to display various types of data in the label.
 
-### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="190:5:5" line-data="	public void ShowProvinceDataInfoBox(ProvinceData provinceData)">`ShowProvinceDataInfoBox`</SwmToken> method
+### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="232:5:5" line-data="	public void ShowProvinceDataInfoBox(ProvinceData provinceData)">`ShowProvinceDataInfoBox`</SwmToken> method
 
-<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="190">
+<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="232">
 
 ---
 
@@ -377,9 +376,9 @@ Displays information about a province, including its name, goods, and terrain.
 
 </SwmSnippet>
 
-### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="218:5:5" line-data="	public void ShowBattleRegimentData(Regiment armyRegiment)">`ShowBattleRegimentData`</SwmToken> method
+### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="263:5:5" line-data="	public void ShowBattleRegimentData(Regiment armyRegiment)">`ShowBattleRegimentData`</SwmToken> method
 
-<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="218">
+<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="263">
 
 ---
 
@@ -420,9 +419,9 @@ Displays information about a battle regiment, including its type, manpower, and 
 
 </SwmSnippet>
 
-### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="248:5:5" line-data="	public void ShowBuildingData(Building building)">`ShowBuildingData`</SwmToken> method
+### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="296:5:5" line-data="	public void ShowBuildingData(Building building)">`ShowBuildingData`</SwmToken> method
 
-<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="248">
+<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="296">
 
 ---
 
@@ -444,9 +443,9 @@ Displays information about a building, including its cost, resource cost, and mo
 
 </SwmSnippet>
 
-### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="259:5:5" line-data="	public void ShowTechnologyData(Technology technology)">`ShowTechnologyData`</SwmToken> method
+### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="310:5:5" line-data="	public void ShowTechnologyData(Technology technology)">`ShowTechnologyData`</SwmToken> method
 
-<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="259">
+<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="310">
 
 ---
 
@@ -481,9 +480,9 @@ Displays information about a technology, including its cost, research time, and 
 
 </SwmSnippet>
 
-### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="282:5:5" line-data="	public void ShowDevButtonData(LandColonizedProvinceData provinceData)">`ShowDevButtonData`</SwmToken> method
+### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="336:5:5" line-data="	public void ShowDevButtonData(LandColonizedProvinceData provinceData)">`ShowDevButtonData`</SwmToken> method
 
-<SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="282">
+<SwmSnippet path="/Scripts/Utils/AdvancedLabel.cs" line="336">
 
 ---
 
@@ -526,6 +525,6 @@ The following snippet demonstrates how to use the <SwmToken path="/Scripts/UI/GU
 
 </SwmSnippet>
 
-This example shows how to initialize the <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="16:6:6" line-data="public partial class AdvancedLabel : VBoxContainer">`AdvancedLabel`</SwmToken>, clear it, add a header, append consumption information, and add modifiers.
+This example shows how to initialize the <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="19:6:6" line-data="public partial class AdvancedLabel : VBoxContainer">`AdvancedLabel`</SwmToken>, clear it, add a header, append consumption information, and add modifiers.
 
 <SwmMeta version="3.0.0" repo-id="Z2l0aHViJTNBJTNBRXVyb3BlRG9taW5hdGlvbkRlbW8lM0ElM0FQYXp6YW5u" repo-name="EuropeDominationDemo"><sup>Powered by [Swimm](https://app.swimm.io/)</sup></SwmMeta>

@@ -14,15 +14,21 @@ using Godot;
 
 namespace EuropeDominationDemo.Scripts.Utils;
 
+/// <summary>
+/// Utility class for saving and loading game data.
+/// </summary>
 public static class SaveLoadGamesUtils
 {
+    /// <summary>
+    /// Gets the JsonSerializerOptions with predefined settings for serialization.
+    /// </summary>
     public static JsonSerializerOptions SerializerOptions => new()
-    { 
+    {
         ReferenceHandler = ReferenceHandler.Preserve,
         WriteIndented = true,
         IncludeFields = true,
         PropertyNameCaseInsensitive = true,
-        
+
         Converters =
         {
             new JsonGodotVector3Converter(),
@@ -31,32 +37,58 @@ public static class SaveLoadGamesUtils
             new JsonRecipeConverter()
         }
     };
-    
-    public static string GameDocumentFiles {
+
+    /// <summary>
+    /// Gets the file path for the game documents directory.
+    /// This directory is located in the user's "My Documents" folder under "My Games\Europe Domination".
+    /// If the directory does not exist, it will be created.
+    /// </summary>
+    /// <value>
+    /// The file path for the game documents directory.
+    /// </value>
+    public static string GameDocumentFiles
+    {
         get
         {
-            var myGames = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), "My Games");
+            var myGames = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments),
+                "My Games");
             if (!Directory.Exists(myGames))
                 Directory.CreateDirectory(myGames);
-            if(!Directory.Exists(Path.Combine(myGames, "Europe Domination")))
+            if (!Directory.Exists(Path.Combine(myGames, "Europe Domination")))
                 Directory.CreateDirectory(Path.Combine(myGames, "Europe Domination"));
             return Path.Combine(myGames, "Europe Domination");
         }
     }
+
+    /// <summary>
+    /// Gets the file path for the save games directory.
+    /// </summary>
     public static string SavesPath => Path.Combine(GameDocumentFiles, "Save_Games");
+
+    /// <summary>
+    /// Gets the file path for the scenarios directory.
+    /// </summary>
     public static string ScenariosPath => Path.Combine(AppContext.BaseDirectory, "Scenarios");
+
+    /// <summary>
+    /// Gets the file path for the temporary directory used for caching.
+    /// </summary>
     public static string TempPath => Path.Combine(GameDocumentFiles, ".temp");
-    
-    
-    //loads scenario from zip
+
+
+    /// <summary>
+    /// Loads a scenario from a specified file.
+    /// </summary>
+    /// <param name="scenarioName">The name of the scenario to load.</param>
+    /// <param name="isSaveFile">Indicates whether the scenario is a save file.</param>
     public static void LoadScenario(string scenarioName, bool isSaveFile = false)
     {
-        CleanCache();   
-        
+        CleanCache();
+
         var dirPath = Path.Join(isSaveFile ? SavesPath : ScenariosPath, scenarioName + ".zip");
-        
+
         ZipFile.ExtractToDirectory(dirPath, TempPath);
-        
+
         GlobalResources.MapTexture = Image.LoadFromFile(Path.Join(TempPath, "map.png"));
         GlobalResources.BuildingSpriteFrames = LoadSpriteFrames(Path.Join(TempPath, "Building"));
         GlobalResources.GoodSpriteFrames = LoadSpriteFrames(Path.Join(TempPath, "Goods"));
@@ -65,20 +97,25 @@ public static class SaveLoadGamesUtils
         var scenario = JsonSerializer.Deserialize<CustomScenario>(File.ReadAllText(Path.Join(TempPath, "index.json")),
             SerializerOptions);
         EngineState.MapInfo = new MapData(scenario);
-        
+
         CleanCache();
     }
 
-    //cleans temp folder
+
+    /// <summary>
+    /// Cleans the temporary cache directory by deleting it and then recreating it.
+    /// </summary>
     public static void CleanCache()
     {
         if (Directory.Exists(TempPath))
             Directory.Delete(TempPath, true);
         Directory.CreateDirectory(TempPath);
     }
-    
-    
-    //you can run it exclusively  with rider
+
+
+    /// <summary>
+    /// Builds a scenario and saves it to a file.
+    /// </summary>
     public static void BuildScenario()
     {
         GlobalResources.MapTexture = GD.Load<CompressedTexture2D>("res://Sprites/EuropeMap.png").GetImage();
@@ -93,14 +130,16 @@ public static class SaveLoadGamesUtils
         scenario.Init();
         SaveGame("Europe1700", scenario);
     }
-    
-    //checksums probably
-    //saves scenario
+
+    /// <summary>
+    /// Saves the current game state to a file.
+    /// </summary>
+    /// <param name="saveName"></param>
+    /// <param name="scenario"></param>
     public static void SaveGame(string saveName, Scenario scenario)
     {
-        
         CleanCache();
-        if(!Directory.Exists(SavesPath))
+        if (!Directory.Exists(SavesPath))
             Directory.CreateDirectory(SavesPath);
         //creating save cache
         File.WriteAllText(Path.Join(TempPath, "index.json"), JsonSerializer.Serialize(scenario, SerializerOptions));
@@ -112,20 +151,24 @@ public static class SaveLoadGamesUtils
         SaveSpriteFrames(Path.Join(TempPath, "Technology"), GlobalResources.TechnologySpriteFrames);
         SaveSpriteFrames(Path.Join(TempPath, "Building"), GlobalResources.BuildingSpriteFrames);
         //finishing
-        
+
         //compressing it
-        
+
         var dirPath = Path.Join(SavesPath, saveName + ".zip");
         if (File.Exists(dirPath))
             File.Delete(dirPath);
-        
+
         ZipFile.CreateFromDirectory(TempPath, dirPath);
         //end compression
-        
+
         CleanCache();
     }
 
-    //saves sprite frames as a folder tree
+    /// <summary>
+    /// Saves the sprite frames to a specified directory.
+    /// </summary>
+    /// <param name="savePath"></param>
+    /// <param name="spriteFrames"></param>
     public static void SaveSpriteFrames(string savePath, SpriteFrames spriteFrames)
     {
         foreach (var animation in spriteFrames.GetAnimationNames())
@@ -139,8 +182,12 @@ public static class SaveLoadGamesUtils
         }
     }
 
-    
-    //load sprite frames from a folder tree
+
+    /// <summary>
+    /// Loads the sprite frames from a specified directory.
+    /// </summary>
+    /// <param name="spriteFramesFolder"></param>
+    /// <returns></returns>
     public static SpriteFrames LoadSpriteFrames(string spriteFramesFolder)
     {
         var animations = Directory.GetDirectories(spriteFramesFolder);
@@ -159,7 +206,13 @@ public static class SaveLoadGamesUtils
 
         return spriteFrames;
     }
-    
+
+    /// <summary>
+    /// Loads a save game from a specified file.
+    /// </summary>
+    /// <returns>
+    /// The list of saved games available for loading.
+    /// </returns>
     public static string[] GetSavesList()
     {
         var dirPaths = Directory.GetFiles(SavesPath, "*.zip");
@@ -172,6 +225,12 @@ public static class SaveLoadGamesUtils
         return dirs;
     }
 
+    /// <summary>
+    /// Gets the list of scenarios available for loading.
+    /// </summary>
+    /// <returns>
+    /// The list of scenarios available for loading.
+    /// </returns>
     public static string[] GetScenariosList()
     {
         var dirPaths = Directory.GetFiles(ScenariosPath, "*.zip");
