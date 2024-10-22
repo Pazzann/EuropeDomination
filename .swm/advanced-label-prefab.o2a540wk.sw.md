@@ -52,7 +52,7 @@ public partial class AdvancedLabel : VBoxContainer
 
 The builder region contains methods to construct and modify the label.
 
-### Clear method
+### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="39:5:5" line-data="	public AdvancedLabel Clear()">`Clear`</SwmToken> method
 
 <SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="39">
 
@@ -95,7 +95,7 @@ Adds a new horizontal box container to the label, allowing new elements to be ad
 
 </SwmSnippet>
 
-### \_validate method
+### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="54:5:5" line-data="	public void _validate()">`_validate`</SwmToken> method
 
 <SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="54">
 
@@ -115,7 +115,7 @@ Ensures that a new line has been added before adding elements. Throws an excepti
 
 </SwmSnippet>
 
-### Header method
+### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="61:5:5" line-data="	public AdvancedLabel Header(string text)">`Header`</SwmToken> method
 
 <SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="61">
 
@@ -145,7 +145,7 @@ Adds a header text to the label with specific styling.
 
 </SwmSnippet>
 
-### Append method
+### <SwmToken path="/Scripts/Utils/AdvancedLabel.cs" pos="77:5:5" line-data="	public AdvancedLabel Append(string text)">`Append`</SwmToken> method
 
 <SwmSnippet path="Scripts/Utils/AdvancedLabel.cs" line="77">
 
