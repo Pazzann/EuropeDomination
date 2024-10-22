@@ -109,9 +109,12 @@ public abstract class Regiment
         
     }
 
-    public int DistanceTo(Vector2I position)
+    public int DistanceTo(Vector2I? destination)
     {
-        return Mathf.Max(Mathf.Abs(position.X - Position?.X ?? 0), Mathf.Abs(position.Y - Position?.Y ?? 0));
+        if (destination is Vector2I nonNullDestination && Position is Vector2I nonNullPosition)
+            return Mathf.Max(Mathf.Abs(nonNullDestination.X - nonNullPosition.X),
+                Mathf.Abs(nonNullDestination.Y - nonNullPosition.Y));
+        else return -1;
     }
     
     public abstract void Consume();
