@@ -13,6 +13,7 @@ using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon.LandWeapon;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 using EuropeDominationDemo.Scripts.Scenarios.Technology;
+using EuropeDominationDemo.Scripts.Utils.Math;
 using Godot;
 using Steamworks;
 

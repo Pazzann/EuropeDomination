@@ -12,12 +12,13 @@ using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 using EuropeDominationDemo.Scripts.Scenarios.Goods;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
-using EuropeDominationDemo.Scripts.Text;
 using EuropeDominationDemo.Scripts.UI.Events.GUI;
 using EuropeDominationDemo.Scripts.UI.Events.GUI.ProvinceEvents;
 using EuropeDominationDemo.Scripts.UI.Events.ToEngine;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
+using EuropeDominationDemo.Scripts.Utils.Text;
 using Godot;
+using CurvedLabel = EuropeDominationDemo.Scripts.Utils.Text.CurvedLabel;
 
 namespace EuropeDominationDemo.Scripts.Handlers;
 

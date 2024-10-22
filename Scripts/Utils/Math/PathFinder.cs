@@ -2,10 +2,21 @@ using System.Collections.Generic;
 using System.Linq;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 
-namespace EuropeDominationDemo.Scripts.Math;
+namespace EuropeDominationDemo.Scripts.Utils.Math;
 
+/// <summary>
+/// Path finder utility class.
+/// </summary>
 public static class PathFinder
 {
+    /// <summary>
+    /// Finds the path from a to b.
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <param name="provinces"></param>
+    /// <param name="eps"></param>
+    /// <returns></returns>
     public static int[] FindPathFromAToB(int a, int b, ProvinceData[] provinces, float eps = 0.1f)
     {
         // O(V^2) Dijkstra algorithm implementation  
@@ -71,6 +82,13 @@ public static class PathFinder
         return path.ToArray();
     }
 
+    /// <summary>
+    /// Checks the connection from a to b.
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <param name="provinces"></param>
+    /// <returns></returns>
     public static bool CheckConnectionFromAToB(int a, int b, ProvinceData[] provinces)
     {
         var provinceDictionary = new Dictionary<int, ProvinceData>();
@@ -83,6 +101,12 @@ public static class PathFinder
         return visited[b];
     }
 
+    /// <summary>
+    /// Depth-first search algorithm.
+    /// </summary>
+    /// <param name="currProvince"></param>
+    /// <param name="provinceDictionary"></param>
+    /// <param name="visited"></param>
     private static void _dfs(int currProvince, Dictionary<int, ProvinceData> provinceDictionary,
         Dictionary<int, bool> visited)
     {
@@ -94,6 +118,12 @@ public static class PathFinder
     }
 
 
+    /// <summary>
+    /// Checks the connection from a to others.
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="provinces"></param>
+    /// <returns></returns>
     public static Dictionary<int, bool> CheckConnectionFromAToOthers(int a, ProvinceData[] provinces)
     {
         var provinceDictionary = new Dictionary<int, ProvinceData>();

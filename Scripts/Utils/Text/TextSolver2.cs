@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using EuropeDominationDemo.Scripts.Math;
 using Godot;
 
-namespace EuropeDominationDemo.Scripts.Text;
+namespace EuropeDominationDemo.Scripts.Utils.Text;
 
 public class TextSolver2
 {

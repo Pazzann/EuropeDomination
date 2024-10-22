@@ -2,15 +2,29 @@ using System.Collections.Generic;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using Godot;
 
-namespace EuropeDominationDemo.Scripts.Math;
+namespace EuropeDominationDemo.Scripts.Utils.Math;
 
+/// <summary>
+/// Utility class for game math.
+/// </summary>
 public class GameMath
 {
+	/// <summary>
+	/// Gets the province ID from a color.
+	/// </summary>
+	/// <param name="color"></param>
+	/// <returns></returns>
 	public static int GetProvinceId(Color color)
 	{
 		return (int)((color.R + color.G * 256.0f + color.B * 256.0f * 256.0f) * 255.0f) - 1;
 	}
 
+	/// <summary>
+	/// Calculates the center of provinces based on the map texture.
+	/// </summary>
+	/// <param name="mapTexture"></param>
+	/// <param name="provinceCount"></param>
+	/// <returns></returns>
 	public static Vector2[] CalculateCenterOfProvinceWeight(Image mapTexture, int provinceCount)
 	{
 		var xCoords = new int[provinceCount];
@@ -41,79 +55,12 @@ public class GameMath
 		return centers;
 	}
 
-	// public static Vector2 CalculateCenterOfStateWeight(Image mapTexture, HashSet<int> provincesIdsOfState)
-	// {
-	// 	var xCoords = 0;
-	// 	var yCoords = 0;
-	// 	var sumPixels = 0;
-	// 	for (var y = 1; y < mapTexture.GetHeight(); y++)
-	// 	{
-	// 		for (var x = 1; x < mapTexture.GetWidth(); x++)
-	// 		{
-	// 			var pixel = mapTexture.GetPixelv(new Vector2I(x, y));
-	// 			
-	// 			if (pixel.A < 1.0f)
-	// 				continue;
-	// 			
-	// 			var tileId = GetProvinceId(pixel);
-	// 			
-	// 			if (provincesIdsOfState.Contains(tileId))
-	// 			{
-	// 				xCoords += x;
-	// 				yCoords += y;
-	// 				sumPixels++;
-	// 			}
-	// 		}
-	// 	}
-	//
-	// 	if (sumPixels == 0)
-	// 	{
-	// 		return Vector2.Zero;
-	// 	}
-	//
-	// 	return new Vector2(xCoords / sumPixels, yCoords / sumPixels);
-	// }
-	//
-	// public static int ClosestIdCenterToPoint(ProvinceData[] countryProvinces, Vector2 center)
-	// {
-	// 	int res = 0;
-	// 	for (int i = 0; i < countryProvinces.Length; i++)
-	// 	{
-	// 		if ((center - countryProvinces[res].CenterOfWeight).Length() >
-	// 			(center - countryProvinces[i].CenterOfWeight).Length())
-	// 		{
-	// 			res = i;
-	// 		}
-	// 	}
-	//
-	// 	return res;
-	// }
-	//
-	// public static (IPath, float) FindSuitableTextPath(int stateId, StateMap map, float letterAspectRatio, int letterCount, Image mapImg) {
-	// 	
-	// }
-
-	// public static Vector2[] FindSquarePointsInsideState(ProvinceData[] countryProvinces, Image mapTexture,
-	// 	int squareSide)
-	// {
-	// 	List<Vector2> points = new List<Vector2>();
-	// 	var ids = ListIdsFromProvinces(countryProvinces);
-	// 	for (int y = squareSide; y < mapTexture.GetHeight(); y += squareSide)
-	// 	{
-	// 		for (int x = squareSide; x < mapTexture.GetWidth(); x += squareSide)
-	// 		{
-	// 			Color pixel = mapTexture.GetPixelv(new Vector2I(x, y));
-	// 			if (pixel.A < 1.0f)
-	// 				continue;
-	// 			var tileId = GetProvinceId(pixel);
-	// 			if (ids.Contains(tileId))
-	// 				points.Add(new Vector2(x, y));
-	// 		}
-	// 	}
-	//
-	// 	return points.ToArray();
-	// }
-
+	/// <summary>
+	/// Calculates the border provinces based on the map texture.
+	/// </summary>
+	/// <param name="map"></param>
+	/// <param name="mapTexture"></param>
+	/// <returns></returns>
 	public static ProvinceData[] CalculateBorderProvinces(ProvinceData[] map, Image mapTexture)
 	{
 		var borders = new Dictionary<int, List<int>>();
@@ -161,6 +108,12 @@ public class GameMath
 		return map;
 	}
 
+	
+	/// <summary>
+	/// Gets the list of province IDs from a list of provinces.
+	/// </summary>
+	/// <param name="provinces"></param>
+	/// <returns></returns>
 	public static HashSet<int> ListIdsFromProvinces(ProvinceData[] provinces)
 	{
 		var ids = new HashSet<int>();

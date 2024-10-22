@@ -4,9 +4,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios;
+using EuropeDominationDemo.Scripts.Utils.Math;
 using Godot;
 
-namespace EuropeDominationDemo.Scripts.Text;
+namespace EuropeDominationDemo.Scripts.Utils.Text;
 
 public interface ILayer
 {

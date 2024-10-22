@@ -8,6 +8,7 @@ using EuropeDominationDemo.Scripts.UI.Events.ToEngine;
 using EuropeDominationDemo.Scripts.UI.Events.ToGUI;
 using EuropeDominationDemo.Scripts.UI.GUIHandlers;
 using EuropeDominationDemo.Scripts.Utils;
+using EuropeDominationDemo.Scripts.Utils.Math;
 using Godot;
 
 namespace EuropeDominationDemo.Scripts;

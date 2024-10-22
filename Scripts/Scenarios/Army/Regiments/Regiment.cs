@@ -87,6 +87,33 @@ public abstract class Regiment
     public float MaxDefense => MaxModifier("Defense", 1f);
     public float Attack => CurrentMaxModifier("Attack", 1f);
     public float MaxAttack => MaxModifier("Attack", 1f);
+
+    public int Range => 2;
+    public int Step => 1;
+
+    #nullable enable
+    public Regiment? Target { get; set; }
+    public Vector2I? Position { get; set; }
+    
+    
+    // todo: for future updates movement logic is different for each regiment type
+    
+    
+    public void Move()
+    {
+        
+    }
+
+    public void AttackTarget()
+    {
+        
+    }
+
+    public int DistanceTo(Vector2I position)
+    {
+        return Mathf.Max(Mathf.Abs(position.X - Position?.X ?? 0), Mathf.Abs(position.Y - Position?.Y ?? 0));
+    }
+    
     public abstract void Consume();
     public abstract void Recalculate();
     public abstract void ChangeTemplate();

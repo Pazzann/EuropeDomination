@@ -6,6 +6,7 @@ using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.Units;
+using EuropeDominationDemo.Scripts.Utils.Math;
 using Godot;
 using Godot.Collections;
 

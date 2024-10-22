@@ -19,32 +19,37 @@ public class BattleData
         Attacker = attacker;
         Defender = defender;
 
-        _battleDataPlacement(18, 19, attacker);
-        _battleDataPlacement(1, 0, defender);
+        _placeUnit(18, 19, attacker);
+        _placeUnit(1, 0, defender);
+        _setTargets();
     }
 
     public Regiment[,] Battlefield { get; }
-    public UnitData Attacker { get; }
-    public UnitData Defender { get; }
+    public ArmyUnitData Attacker { get; }
+    public ArmyUnitData Defender { get; }
+    
+    public List<ArmyRegiment> placedAttackers { get; }
+    public List<ArmyRegiment> placedDefenders { get; }
 
-    private void _battleDataPlacement(int frontRow, int backRow, ArmyUnitData army)
+    private void _placeUnit(int frontRow, int backRow, ArmyUnitData army)
     {
         var infantry = new Stack<ArmyInfantryRegiment>(army.Regiments.OfType<ArmyInfantryRegiment>());
         var cavalry = new Stack<ArmyCavalryRegiment>(army.Regiments.OfType<ArmyCavalryRegiment>());
         var artillery = new Stack<ArmyArtilleryRegiment>(army.Regiments.OfType<ArmyArtilleryRegiment>());
 
+        var placedRegiments = new List<ArmyRegiment>();
+
         //placing corner cavalry
         Vector2I[] cavalryPrimaryPositions =
-        {
+        [
             new(frontRow, 0), new(frontRow, 19), new(frontRow, 1), new(frontRow, 18),
             new(backRow, 0), new(backRow, 19), new(backRow, 1), new(backRow, 18)
-        };
+        ];
         for (var positionIndex = 0;
              positionIndex < cavalryPrimaryPositions.Length && cavalry.Count > 0;
              positionIndex++)
         {
-            var position = cavalryPrimaryPositions[positionIndex];
-            Battlefield[position.X, position.Y] = cavalry.Pop();
+            _placeRegiment(cavalry.Pop(), cavalryPrimaryPositions[positionIndex]);
         }
 
         //filling front row
@@ -53,15 +58,19 @@ public class BattleData
              (infantry.Count > 0 || cavalry.Count > 0);
              rightPosition++)
         {
-            if (infantry.Count > 0) Battlefield[frontRow, rightPosition] = infantry.Pop();
-            else Battlefield[frontRow, rightPosition] = cavalry.Pop();
+            if (infantry.Count > 0)
+                _placeRegiment(infantry.Pop(), new(frontRow, rightPosition));
+            else
+                _placeRegiment(cavalry.Pop(), new(frontRow, rightPosition));
             if (infantry.Count > 0 || cavalry.Count > 0)
             {
                 var leftPosition = 19 - rightPosition;
                 if (Battlefield[frontRow, leftPosition] == null)
                 {
-                    if (infantry.Count > 0) Battlefield[frontRow, leftPosition] = infantry.Pop();
-                    else Battlefield[frontRow, leftPosition] = cavalry.Pop();
+                    if (infantry.Count > 0)
+                        _placeRegiment(infantry.Pop(), new(frontRow, leftPosition));
+                    else
+                        _placeRegiment(cavalry.Pop(), new(frontRow, leftPosition));
                 }
             }
         }
@@ -72,23 +81,54 @@ public class BattleData
              (artillery.Count > 0 || infantry.Count > 0 || cavalry.Count > 0);
              rightPosition++)
         {
-            if (artillery.Count > 0) Battlefield[backRow, rightPosition] = artillery.Pop();
-            else if (infantry.Count > 0) Battlefield[backRow, rightPosition] = infantry.Pop();
-            else Battlefield[backRow, rightPosition] = cavalry.Pop();
+            if (artillery.Count > 0)
+                _placeRegiment(artillery.Pop(), new(backRow, rightPosition));
+            else if (infantry.Count > 0)
+                _placeRegiment(infantry.Pop(), new(backRow, rightPosition));
+            else
+                _placeRegiment(cavalry.Pop(), new(backRow, rightPosition));
             if (artillery.Count > 0 || infantry.Count > 0 || cavalry.Count > 0)
             {
                 var leftPosition = 19 - rightPosition;
                 if (Battlefield[backRow, leftPosition] == null)
                 {
-                    if (artillery.Count > 0) Battlefield[backRow, leftPosition] = artillery.Pop();
-                    else if (infantry.Count > 0) Battlefield[backRow, leftPosition] = infantry.Pop();
-                    else Battlefield[backRow, leftPosition] = cavalry.Pop();
+                    if (artillery.Count > 0)
+                        _placeRegiment(artillery.Pop(), new(backRow, leftPosition));
+                    else if (infantry.Count > 0)
+                        _placeRegiment(infantry.Pop(), new(backRow, leftPosition));
+                    else
+                        _placeRegiment(cavalry.Pop(), new(backRow, leftPosition));
                 }
             }
         }
     }
 
+    private void _placeRegiment(ArmyRegiment regiment, Vector2I position)
+    {
+        regiment.Position = position;
+        Battlefield[position.X, position.Y] = regiment;
+    }
+
+    private void _setTargets()
+    {
+        foreach (var defenderRegiment in Defender.Regiments)
+            if (defenderRegiment.Position != null)
+            {
+                fr
+            }
+    }
+
     public void DayTick()
     {
+        for (var x = 0; x < 20; x++)
+        for (var y = 0; y < 20; y++)
+        {
+            
+        }
+        /*foreach (unit in Units)
+        {
+            if () Move(unit);
+            else Attack(unit,);
+        }*/
     }
 }

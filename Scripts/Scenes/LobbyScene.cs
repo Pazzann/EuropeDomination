@@ -8,6 +8,7 @@ using EuropeDominationDemo.Scripts.Scenarios.CreatedScenarios;
 using EuropeDominationDemo.Scripts.Scenarios.ProvinceData;
 using EuropeDominationDemo.Scripts.UI.GUIPrefabs;
 using EuropeDominationDemo.Scripts.Utils;
+using EuropeDominationDemo.Scripts.Utils.Math;
 using Godot;
 using Steamworks;
 using Steamworks.Data;

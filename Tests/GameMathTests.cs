@@ -1,6 +1,7 @@
 ﻿using System;
 using EuropeDominationDemo.Scripts.Math;
 using EuropeDominationDemo.Scripts.Scenes;
+using EuropeDominationDemo.Scripts.Utils.Math;
 using Godot;
 using NUnit.Framework;
 
