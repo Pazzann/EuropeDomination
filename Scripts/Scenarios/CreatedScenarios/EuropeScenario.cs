@@ -32,7 +32,7 @@ public class EuropeScenario : Scenario
             new HarvestedGood(1, "Wheat", new Vector3(0.7f, 0.8f, 0.0f), 3.5f),
             new HarvestedGood(2, "Wood", new Vector3(0.0f, 0.7f, 0.4f), 2.5f),
             new InfantryWeapon(3, "Iron Sword", new Vector3(1.0f, 0.2f, 0.3f), 1.5f, 0.01f, 0.01f, 0.0f, 1.0f,
-                Modifiers.DefaultModifiers(additionalTrainingEfficiency: 1.3f), 10),
+                Modifiers.DefaultModifiers(additionalTrainingEfficiency: 1.3f,  additionalTrainingBonus: 10)),
             new ConsumableGood(4, "Tea", new Vector3(0.7f, 0.9f, 0.3f), 0.5f, Modifiers.DefaultModifiers(productionEfficiency: 1.5f, maxManpowerEfficiency: 1.5f), 4f),
             new HarvestedGood(5, "Stone", new Vector3(0.0f, 0.5f, 0.7f), 2.5f),
             new HarvestedGood(6, "Flax", new Vector3(0.2f, 0.8f, 0.4f), 2.5f),

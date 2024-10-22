@@ -1,15 +1,16 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Naval;
 
 [Serializable]
 public class TransportShipTemplate : ShipTemplate
 {
-    public TransportShipTemplate(string name, int id) : base(name, id)
+    public TransportShipTemplate(string name, int id, int owner) : base(name, id, owner)
     {
     }
-
-    public override int TrainingTime { get; }
-
-    public override float Cost => 7f;
+    [JsonConstructor]
+    public TransportShipTemplate()
+    {
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon;
@@ -24,6 +25,11 @@ public class ArmyInfantryRegiment : ArmyRegiment
         Modifiers modifiers) : base(name, owner, templateId, timeFromStartOfTheTraining, trainingTime, isFinished,
         manpower,
         morale, resources, behavioralPattern, modifiers)
+    {
+    }
+    
+    [JsonConstructor]
+    public ArmyInfantryRegiment()
     {
     }
     

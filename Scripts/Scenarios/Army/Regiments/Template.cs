@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Reflection;
 using System.Text.Json.Serialization;
+using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
 using EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Naval;
+using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
 
@@ -18,13 +21,44 @@ public abstract class Template
 {
     public int Id { get; set; }
     public string Name { get; set; }
+    public int Owner { get; set; }
 
-    public Template(string name, int id)
+    public Template(string name, int id, int owner)
     {
         Name = name;
         Id = id;
+        Owner = owner;
+    }
+    [JsonConstructor]
+    public Template()
+    {
     }
 
-    public abstract int TrainingTime { get; }
-    public abstract float Cost { get; }
+    public int TrainingTime => Mathf.RoundToInt(MaxModifier("AdditionalTraining", 10));
+    public float Cost => MaxModifier("AdditionalTemplateCost", 10);
+    
+    public float MaxModifier(string propertyName, float defVal)
+    {
+        var combinedMaxModifiers = CombineMaxModifiers();
+        return (defVal + (float)combinedMaxModifiers.GetType().GetProperty(propertyName + "Bonus")!.GetValue(combinedMaxModifiers)!) * (float)combinedMaxModifiers.GetType().GetProperty(propertyName + "Efficiency")!.GetValue(combinedMaxModifiers)!;
+    }
+    public Modifiers CombineMaxModifiers()
+    {
+        var properties = GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+        
+        var modifiers = Modifiers.DefaultModifiers();
+        
+        for (int i = 0; i < 5; i++)
+        {
+            if (properties[i].GetValue(this) != null)
+                modifiers += (Modifiers)properties[i].GetType().GetProperty("Modifiers")!.GetValue(properties[i].GetValue(this));
+        }
+
+        modifiers += EngineState.MapInfo.Scenario.Countries[Owner].Modifiers;
+        modifiers += EngineState.MapInfo.Scenario.Countries[Owner].NationalIdeas;
+        modifiers += EngineState.MapInfo.Scenario.Countries[Owner].ConsumableGoodsModifiers;
+        
+        return modifiers;
+    }
+    
 }

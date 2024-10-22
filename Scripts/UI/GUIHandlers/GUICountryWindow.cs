@@ -657,17 +657,18 @@ public partial class GUICountryWindow : GUIHandler
 		}
 		else
 		{
-			var constructorArguments = new object[2 + properties.Length];
+			var constructorArguments = new object[3 + properties.Length];
 			constructorArguments[0] = _lineEditNameArmyTemplate.Text;
 			constructorArguments[1] = _currentEditingArmyTemplate?.Id ?? EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].RegimentTemplates.Count;
+			constructorArguments[2] = EngineState.PlayerCountryId;
 			for (int i = 0; i < 5; i++)
 			{
-				constructorArguments[2 + i] =
+				constructorArguments[3 + i] =
 					indexes[i] == -1 ? null : EngineState.MapInfo.Scenario.Goods[indexes[i]];
 			}
 
 			var newArmyRegimentTemplate = options[_optionButtonTypeArmyTemplate.Selected].GetConstructor(
-				new[] { typeof(string), typeof(int), properties[0].PropertyType, properties[1].PropertyType, properties[2].PropertyType,
+				new[] { typeof(string), typeof(int), typeof(int), properties[0].PropertyType, properties[1].PropertyType, properties[2].PropertyType,
 					properties[3].PropertyType, properties[4].PropertyType }).Invoke(constructorArguments);
 
 			if (_currentEditingArmyTemplate != null) EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].RegimentTemplates[_currentEditingArmyTemplate.Id] = newArmyRegimentTemplate as ArmyRegimentTemplate;

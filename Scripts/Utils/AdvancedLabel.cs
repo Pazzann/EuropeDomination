@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Reflection;
 using EuropeDominationDemo.Scripts.GlobalStates;
 using EuropeDominationDemo.Scripts.Scenarios;
@@ -33,26 +34,30 @@ public partial class AdvancedLabel : VBoxContainer
 	}
 
 	#region Builder
+	
+	// Clear the label
 	public AdvancedLabel Clear()
 	{
 		foreach (var child in GetChildren())
 			child.Free();
 		_lastReference = null;
 		return this;
-	}
-
+	} 
+	// Add a new line to the label
 	public AdvancedLabel NewLine()
 	{
 		_lastReference = _hBoxPrefab.Instantiate() as HBoxContainer;
 		AddChild(_lastReference);
 		return this;
 	}
-
+	// Validate if the last reference is not null
 	public void _validate()
 	{
 		if(_lastReference == null)
 			throw new Exception("You must call NewLine() before adding elements");
 	}
+	
+	// Add a header to the label
 	public AdvancedLabel Header(string text)
 	{
 		_validate();
@@ -68,7 +73,7 @@ public partial class AdvancedLabel : VBoxContainer
 		
 		return this;
 	}
-	
+	// Add a text to the label
 	public AdvancedLabel Append(string text)
 	{
 		_validate();
@@ -80,6 +85,7 @@ public partial class AdvancedLabel : VBoxContainer
 		_lastReference.AddChild(a);
 		return this;
 	}
+	// Add a colored text to the label
 	public AdvancedLabel AppendColored(string text, Color color){
 		_validate();
 		
@@ -93,7 +99,7 @@ public partial class AdvancedLabel : VBoxContainer
 		
 		return this;
 	}
-
+	// Add a good to the label
 	public AdvancedLabel AppendNonZeroGoods(double[] goods)
 	{
 		_validate();
@@ -105,7 +111,7 @@ public partial class AdvancedLabel : VBoxContainer
 		
 		return this;
 	}
-	
+	// Add a building image to the label
 	public AdvancedLabel ShowBuilding(int id)
 	{
 		_validate();
@@ -118,7 +124,7 @@ public partial class AdvancedLabel : VBoxContainer
 		
 		return this;
 	}
-	
+	// Add a good image to the label
 	public AdvancedLabel ShowGood(int id)
 	{
 		_validate();
@@ -130,7 +136,9 @@ public partial class AdvancedLabel : VBoxContainer
 		
 		return this;
 	}
-
+	
+	
+	// Add modifiers in text
 	public AdvancedLabel AppendModifiers(Modifiers modifiers)
 	{
 		_validate();
@@ -141,23 +149,29 @@ public partial class AdvancedLabel : VBoxContainer
 		{
 			var val = propertyInfo.GetValue(modifiers);
 			var defVal = propertyInfo.GetValue(defMod);
-			if ((float)val - (float)defVal > EngineVariables.Eps)
+
+
+
+			var hasNegativeMeaning = (bool)propertyInfo.CustomAttributes.Where(d => d.AttributeType == typeof(HasNegativeMeaning)).ToArray()[0]
+				.ConstructorArguments[0].Value!;
+			
+			if ((float)val! - (float)defVal! > EngineVariables.Eps)
 			{
 				NewLine();
 				Append($"{propertyInfo.Name}: ");
 				if (propertyInfo.Name.Contains("Bonus"))
 				{
 					if ((float)val >= 0)
-						AppendColored($"+{val}", new Color(0, 1, 0));
+						AppendColored($"+{val}", !hasNegativeMeaning ? new Color(0, 1, 0) : new Color(1, 0, 0));
 					else
-						AppendColored($"-{val}", new Color(1, 0, 0));
+						AppendColored($"-{val}", hasNegativeMeaning ? new Color(0, 1, 0) : new Color(1, 0, 0));
 				}
 				else
 				{
 					if ((float)val >= 1.0f)
-						AppendColored($"+{Mathf.RoundToInt(100 * ((float)val - 1.0f))}%", new Color(0, 1, 0));
+						AppendColored($"+{Mathf.RoundToInt(100 * ((float)val - 1.0f))}%", !hasNegativeMeaning ? new Color(0, 1, 0) : new Color(1, 0, 0));
 					else
-						AppendColored($"-{Mathf.RoundToInt(100 * ((float)val - 1.0f))}%", new Color(1, 0, 0));
+						AppendColored($"-{Mathf.RoundToInt(100 * ((float)val - 1.0f))}%", hasNegativeMeaning ? new Color(0, 1, 0) : new Color(1, 0, 0));
 				}
 			}
 		}
@@ -171,6 +185,8 @@ public partial class AdvancedLabel : VBoxContainer
 
 	#region Factory
 
+	
+	// Show the province data info box
 	public void ShowProvinceDataInfoBox(ProvinceData provinceData)
 	{
 		Clear().NewLine();
@@ -197,6 +213,8 @@ public partial class AdvancedLabel : VBoxContainer
 		}
 
 	}
+	
+	// Show the regiment data info box
 	public void ShowBattleRegimentData(Regiment armyRegiment)
 	{
 		Clear().NewLine();
@@ -225,6 +243,8 @@ public partial class AdvancedLabel : VBoxContainer
 		Append($"Manpower: {armyRegiment.Manpower}").NewLine();
 		Append($"Morale: {armyRegiment.Morale}");
 	}
+	
+	// Show the building data info box
 	public void ShowBuildingData(Building building)
 	{
 		Clear().NewLine()
@@ -234,6 +254,8 @@ public partial class AdvancedLabel : VBoxContainer
 			.Header("Modifiers:")
 			.AppendModifiers(building.Modifiers);
 	}
+	
+	// Show the technology data info box
 	public void ShowTechnologyData(Technology technology)
 	{
 		Clear().NewLine()
@@ -256,6 +278,7 @@ public partial class AdvancedLabel : VBoxContainer
 			Header("Modifiers:").AppendModifiers(technology.Modifiers);
 		
 	}
+	// Show the dev button data
 	public void ShowDevButtonData(LandColonizedProvinceData provinceData)
 	{
 		var req = EngineState.MapInfo.Scenario.Settings.ResourceAndCostRequirmentsToDev(provinceData.Development);

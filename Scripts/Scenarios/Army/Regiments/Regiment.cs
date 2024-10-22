@@ -56,6 +56,10 @@ public abstract class Regiment
         Modifiers = modifiers;
     }
 
+    [JsonConstructor]
+    public Regiment()
+    {
+    }
     
     
     public float MaxModifier(string propertyName, float defVal)

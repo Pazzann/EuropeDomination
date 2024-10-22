@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon;
 using EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon.LandWeapon;
@@ -21,7 +22,10 @@ public class ArmyCavalryRegiment : ArmyRegiment
     {
     }
 
-
+    [JsonConstructor]
+    public ArmyCavalryRegiment()
+    {
+    }
 
     public override void Recalculate()
     {

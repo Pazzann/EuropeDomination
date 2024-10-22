@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using EuropeDominationDemo.Scripts.Enums;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Land;
@@ -11,6 +12,11 @@ public abstract class ArmyRegiment : Regiment
         Modifiers modifiers) : base(name, owner, templateId, timeFromStartOfTheTraining, trainingTime, isFinished,
         manpower,
         morale, resources, behavioralPattern, modifiers)
+    {
+    }
+    
+    [JsonConstructor]
+    public ArmyRegiment()
     {
     }
 }

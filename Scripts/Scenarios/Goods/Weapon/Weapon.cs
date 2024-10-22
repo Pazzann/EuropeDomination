@@ -8,7 +8,7 @@ namespace EuropeDominationDemo.Scripts.Scenarios.Goods.Weapon;
 public class Weapon : Good
 {
     public Weapon(int id, string name, Vector3 color, float cost, float battleConsumption, float walkingConsumption,
-        float steadyConsumption, float neededToBuildUnit, Modifiers modifiers, int additionalTrainingTime) : base(id,
+        float steadyConsumption, float neededToBuildUnit, Modifiers modifiers) : base(id,
         name, color, cost)
     {
         BattleConsumption = battleConsumption;
@@ -16,7 +16,6 @@ public class Weapon : Good
         SteadyConsumption = steadyConsumption;
         NeededToBuildUnit = neededToBuildUnit;
         Modifiers = modifiers;
-        AdditionalTrainingTime = additionalTrainingTime;
     }
     [JsonConstructor]
     public Weapon()
@@ -29,6 +28,4 @@ public class Weapon : Good
     public float SteadyConsumption { get;init;  }
     public float NeededToBuildUnit { get;init;  }
     public Modifiers Modifiers { get;init;  }
-
-    public int AdditionalTrainingTime { get; init; }
 }

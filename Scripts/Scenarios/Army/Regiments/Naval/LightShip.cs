@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using EuropeDominationDemo.Scripts.Enums;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Naval;
@@ -14,7 +15,10 @@ public class LightShip : Ship
         morale, resources, behavioralPattern, modifiers)
     {
     }
-
+    [JsonConstructor]
+    public LightShip()
+    {
+    }
 
     public override void Recalculate()
     {
