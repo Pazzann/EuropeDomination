@@ -19,8 +19,8 @@ public class BattleData
         Attacker = attacker;
         Defender = defender;
 
-        _placeUnit(18, 19, attacker);
-        _placeUnit(1, 0, defender);
+        placedAttackers = _placeUnit(18, 19, attacker);
+        placedDefenders = _placeUnit(1, 0, defender);
         _setTargets();
     }
 
@@ -31,7 +31,7 @@ public class BattleData
     public List<ArmyRegiment> placedAttackers { get; }
     public List<ArmyRegiment> placedDefenders { get; }
 
-    private void _placeUnit(int frontRow, int backRow, ArmyUnitData army)
+    private List<ArmyRegiment> _placeUnit(int frontRow, int backRow, ArmyUnitData army)
     {
         var infantry = new Stack<ArmyInfantryRegiment>(army.Regiments.OfType<ArmyInfantryRegiment>());
         var cavalry = new Stack<ArmyCavalryRegiment>(army.Regiments.OfType<ArmyCavalryRegiment>());
