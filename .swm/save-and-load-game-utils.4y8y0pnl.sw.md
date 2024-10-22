@@ -18,15 +18,13 @@ We will cover:
 
 # Custom serializer options
 
-<SwmSnippet path="/Scripts/Utils/SaveLoadGamesUtils.cs" line="17">
+<SwmSnippet path="Scripts/Utils/SaveLoadGamesUtils.cs" line="19">
 
 ---
 
 The <SwmToken path="/Scripts/Utils/SaveLoadGamesUtils.cs" pos="19:7:7" line-data="    public static JsonSerializerOptions SerializerOptions =&gt; new()">`SerializerOptions`</SwmToken> property defines custom JSON serialization settings. These settings ensure that complex objects like vectors and IDs are correctly serialized and deserialized.
 
 ```
-public static class SaveLoadGamesUtils
-{
     public static JsonSerializerOptions SerializerOptions => new()
     { 
         ReferenceHandler = ReferenceHandler.Preserve,
@@ -42,36 +40,6 @@ public static class SaveLoadGamesUtils
             new JsonRecipeConverter()
         }
     };
-    
-    public static string GameDocumentFiles {
-        get
-        {
-            var myGames = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), "My Games");
-            if (!Directory.Exists(myGames))
-                Directory.CreateDirectory(myGames);
-            if(!Directory.Exists(Path.Combine(myGames, "Europe Domination")))
-                Directory.CreateDirectory(Path.Combine(myGames, "Europe Domination"));
-            return Path.Combine(myGames, "Europe Domination");
-        }
-    }
-    public static string SavesPath => Path.Combine(GameDocumentFiles, "Save_Games");
-    public static string ScenariosPath => Path.Combine(AppContext.BaseDirectory, "Scenarios");
-    public static string TempPath => Path.Combine(GameDocumentFiles, ".temp");
-    
-    
-    //loads scenario from zip
-    public static void LoadScenario(string scenarioName, bool isSaveFile = false)
-    {
-        CleanCache();   
-        
-        var dirPath = Path.Join(isSaveFile ? SavesPath : ScenariosPath, scenarioName + ".zip");
-        
-        ZipFile.ExtractToDirectory(dirPath, TempPath);
-        
-        GlobalResources.MapTexture = Image.LoadFromFile(Path.Join(TempPath, "map.png"));
-        GlobalResources.BuildingSpriteFrames = LoadSpriteFrames(Path.Join(TempPath, "Building"));
-        GlobalResources.GoodSpriteFrames = LoadSpriteFrames(Path.Join(TempPath, "Goods"));
-        GlobalResources.TechnologySpriteFrames = LoadSpriteFrames(Path.Join(TempPath, "Technology"));
 ```
 
 ---
@@ -80,31 +48,13 @@ public static class SaveLoadGamesUtils
 
 # File paths management
 
-<SwmSnippet path="/Scripts/Utils/SaveLoadGamesUtils.cs" line="17">
+<SwmSnippet path="Scripts/Utils/SaveLoadGamesUtils.cs" line="35">
 
 ---
 
 The class defines several properties to manage file paths for game documents, save files, scenarios, and temporary files. This ensures that all file operations are centralized and consistent.
 
 ```
-public static class SaveLoadGamesUtils
-{
-    public static JsonSerializerOptions SerializerOptions => new()
-    { 
-        ReferenceHandler = ReferenceHandler.Preserve,
-        WriteIndented = true,
-        IncludeFields = true,
-        PropertyNameCaseInsensitive = true,
-        
-        Converters =
-        {
-            new JsonGodotVector3Converter(),
-            new JsonGodotVector2Converter(),
-            new JsonSteamIdConverter(),
-            new JsonRecipeConverter()
-        }
-    };
-    
     public static string GameDocumentFiles {
         get
         {
@@ -120,20 +70,6 @@ public static class SaveLoadGamesUtils
     public static string ScenariosPath => Path.Combine(AppContext.BaseDirectory, "Scenarios");
     public static string TempPath => Path.Combine(GameDocumentFiles, ".temp");
     
-    
-    //loads scenario from zip
-    public static void LoadScenario(string scenarioName, bool isSaveFile = false)
-    {
-        CleanCache();   
-        
-        var dirPath = Path.Join(isSaveFile ? SavesPath : ScenariosPath, scenarioName + ".zip");
-        
-        ZipFile.ExtractToDirectory(dirPath, TempPath);
-        
-        GlobalResources.MapTexture = Image.LoadFromFile(Path.Join(TempPath, "map.png"));
-        GlobalResources.BuildingSpriteFrames = LoadSpriteFrames(Path.Join(TempPath, "Building"));
-        GlobalResources.GoodSpriteFrames = LoadSpriteFrames(Path.Join(TempPath, "Goods"));
-        GlobalResources.TechnologySpriteFrames = LoadSpriteFrames(Path.Join(TempPath, "Technology"));
 ```
 
 ---
@@ -142,48 +78,13 @@ public static class SaveLoadGamesUtils
 
 # Loading scenarios
 
-<SwmSnippet path="/Scripts/Utils/SaveLoadGamesUtils.cs" line="17">
+<SwmSnippet path="Scripts/Utils/SaveLoadGamesUtils.cs" line="52">
 
 ---
 
 The <SwmToken path="/Scripts/Utils/SaveLoadGamesUtils.cs" pos="52:7:7" line-data="    public static void LoadScenario(string scenarioName, bool isSaveFile = false)">`LoadScenario`</SwmToken> method extracts a scenario from a zip file, loads various resources, and updates the game state. This method is essential for initializing the game with the correct data.
 
 ```
-public static class SaveLoadGamesUtils
-{
-    public static JsonSerializerOptions SerializerOptions => new()
-    { 
-        ReferenceHandler = ReferenceHandler.Preserve,
-        WriteIndented = true,
-        IncludeFields = true,
-        PropertyNameCaseInsensitive = true,
-        
-        Converters =
-        {
-            new JsonGodotVector3Converter(),
-            new JsonGodotVector2Converter(),
-            new JsonSteamIdConverter(),
-            new JsonRecipeConverter()
-        }
-    };
-    
-    public static string GameDocumentFiles {
-        get
-        {
-            var myGames = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), "My Games");
-            if (!Directory.Exists(myGames))
-                Directory.CreateDirectory(myGames);
-            if(!Directory.Exists(Path.Combine(myGames, "Europe Domination")))
-                Directory.CreateDirectory(Path.Combine(myGames, "Europe Domination"));
-            return Path.Combine(myGames, "Europe Domination");
-        }
-    }
-    public static string SavesPath => Path.Combine(GameDocumentFiles, "Save_Games");
-    public static string ScenariosPath => Path.Combine(AppContext.BaseDirectory, "Scenarios");
-    public static string TempPath => Path.Combine(GameDocumentFiles, ".temp");
-    
-    
-    //loads scenario from zip
     public static void LoadScenario(string scenarioName, bool isSaveFile = false)
     {
         CleanCache();   
@@ -211,68 +112,18 @@ public static class SaveLoadGamesUtils
 
 # Cleaning the cache
 
-<SwmSnippet path="/Scripts/Utils/SaveLoadGamesUtils.cs" line="71">
+<SwmSnippet path="Scripts/Utils/SaveLoadGamesUtils.cs" line="73">
 
 ---
 
 The <SwmToken path="/Scripts/Utils/SaveLoadGamesUtils.cs" pos="73:7:7" line-data="    public static void CleanCache()">`CleanCache`</SwmToken> method ensures that the temporary directory is clean before and after loading or saving scenarios. This prevents leftover files from interfering with new operations.
 
 ```
-
-    //cleans temp folder
     public static void CleanCache()
     {
         if (Directory.Exists(TempPath))
             Directory.Delete(TempPath, true);
         Directory.CreateDirectory(TempPath);
-    }
-    
-    
-    //you can run it exclusively  with rider
-    public static void BuildScenario()
-    {
-        GlobalResources.MapTexture = GD.Load<CompressedTexture2D>("res://Sprites/EuropeMap.png").GetImage();
-        GlobalResources.BuildingSpriteFrames = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/Buildings.tres");
-        GlobalResources.GoodSpriteFrames = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/GoodSpriteFrames.tres");
-        GlobalResources.TechnologySpriteFrames = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/Technology.tres");
-        Scenario scenario = new EuropeScenario();
-        scenario.PlayerList = new Dictionary<ulong, int>();
-        EngineState.MapInfo = new MapData(scenario);
-        scenario.Settings.GameMode = GameModes.FullMapScenario;
-        scenario.Settings.ResourceMode = ResourceModes.ScenarioSpawn;
-        scenario.Init();
-        SaveGame("Europe1700", scenario);
-    }
-    
-    //checksums probably
-    //saves scenario
-    public static void SaveGame(string saveName, Scenario scenario)
-    {
-        
-        CleanCache();
-        if(!Directory.Exists(SavesPath))
-            Directory.CreateDirectory(SavesPath);
-        //creating save cache
-        File.WriteAllText(Path.Join(TempPath, "index.json"), JsonSerializer.Serialize(scenario, SerializerOptions));
-        GlobalResources.MapTexture.SavePng(Path.Join(TempPath, "map.png"));
-        Directory.CreateDirectory(Path.Join(TempPath, "Goods"));
-        Directory.CreateDirectory(Path.Join(TempPath, "Technology"));
-        Directory.CreateDirectory(Path.Join(TempPath, "Building"));
-        SaveSpriteFrames(Path.Join(TempPath, "Goods"), GlobalResources.GoodSpriteFrames);
-        SaveSpriteFrames(Path.Join(TempPath, "Technology"), GlobalResources.TechnologySpriteFrames);
-        SaveSpriteFrames(Path.Join(TempPath, "Building"), GlobalResources.BuildingSpriteFrames);
-        //finishing
-        
-        //compressing it
-        
-        var dirPath = Path.Join(SavesPath, saveName + ".zip");
-        if (File.Exists(dirPath))
-            File.Delete(dirPath);
-        
-        ZipFile.CreateFromDirectory(TempPath, dirPath);
-        //end compression
-        
-        CleanCache();
     }
 ```
 
@@ -282,24 +133,13 @@ The <SwmToken path="/Scripts/Utils/SaveLoadGamesUtils.cs" pos="73:7:7" line-data
 
 # Building scenarios
 
-<SwmSnippet path="/Scripts/Utils/SaveLoadGamesUtils.cs" line="71">
+<SwmSnippet path="Scripts/Utils/SaveLoadGamesUtils.cs" line="82">
 
 ---
 
 The <SwmToken path="/Scripts/Utils/SaveLoadGamesUtils.cs" pos="82:7:7" line-data="    public static void BuildScenario()">`BuildScenario`</SwmToken> method initializes a new scenario, sets up game resources, and saves the scenario. This method is useful for creating new game scenarios programmatically.
 
 ```
-
-    //cleans temp folder
-    public static void CleanCache()
-    {
-        if (Directory.Exists(TempPath))
-            Directory.Delete(TempPath, true);
-        Directory.CreateDirectory(TempPath);
-    }
-    
-    
-    //you can run it exclusively  with rider
     public static void BuildScenario()
     {
         GlobalResources.MapTexture = GD.Load<CompressedTexture2D>("res://Sprites/EuropeMap.png").GetImage();
@@ -315,36 +155,6 @@ The <SwmToken path="/Scripts/Utils/SaveLoadGamesUtils.cs" pos="82:7:7" line-data
         SaveGame("Europe1700", scenario);
     }
     
-    //checksums probably
-    //saves scenario
-    public static void SaveGame(string saveName, Scenario scenario)
-    {
-        
-        CleanCache();
-        if(!Directory.Exists(SavesPath))
-            Directory.CreateDirectory(SavesPath);
-        //creating save cache
-        File.WriteAllText(Path.Join(TempPath, "index.json"), JsonSerializer.Serialize(scenario, SerializerOptions));
-        GlobalResources.MapTexture.SavePng(Path.Join(TempPath, "map.png"));
-        Directory.CreateDirectory(Path.Join(TempPath, "Goods"));
-        Directory.CreateDirectory(Path.Join(TempPath, "Technology"));
-        Directory.CreateDirectory(Path.Join(TempPath, "Building"));
-        SaveSpriteFrames(Path.Join(TempPath, "Goods"), GlobalResources.GoodSpriteFrames);
-        SaveSpriteFrames(Path.Join(TempPath, "Technology"), GlobalResources.TechnologySpriteFrames);
-        SaveSpriteFrames(Path.Join(TempPath, "Building"), GlobalResources.BuildingSpriteFrames);
-        //finishing
-        
-        //compressing it
-        
-        var dirPath = Path.Join(SavesPath, saveName + ".zip");
-        if (File.Exists(dirPath))
-            File.Delete(dirPath);
-        
-        ZipFile.CreateFromDirectory(TempPath, dirPath);
-        //end compression
-        
-        CleanCache();
-    }
 ```
 
 ---
@@ -353,41 +163,13 @@ The <SwmToken path="/Scripts/Utils/SaveLoadGamesUtils.cs" pos="82:7:7" line-data
 
 # Saving scenarios
 
-<SwmSnippet path="/Scripts/Utils/SaveLoadGamesUtils.cs" line="71">
+<SwmSnippet path="Scripts/Utils/SaveLoadGamesUtils.cs" line="99">
 
 ---
 
 The <SwmToken path="/Scripts/Utils/SaveLoadGamesUtils.cs" pos="94:1:1" line-data="        SaveGame(&quot;Europe1700&quot;, scenario);">`SaveGame`</SwmToken> method serializes the current game state, saves various resources, and compresses the data into a zip file. This method is crucial for preserving the game state between sessions.
 
 ```
-
-    //cleans temp folder
-    public static void CleanCache()
-    {
-        if (Directory.Exists(TempPath))
-            Directory.Delete(TempPath, true);
-        Directory.CreateDirectory(TempPath);
-    }
-    
-    
-    //you can run it exclusively  with rider
-    public static void BuildScenario()
-    {
-        GlobalResources.MapTexture = GD.Load<CompressedTexture2D>("res://Sprites/EuropeMap.png").GetImage();
-        GlobalResources.BuildingSpriteFrames = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/Buildings.tres");
-        GlobalResources.GoodSpriteFrames = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/GoodSpriteFrames.tres");
-        GlobalResources.TechnologySpriteFrames = GD.Load<SpriteFrames>("res://Prefabs/SpriteFrames/Technology.tres");
-        Scenario scenario = new EuropeScenario();
-        scenario.PlayerList = new Dictionary<ulong, int>();
-        EngineState.MapInfo = new MapData(scenario);
-        scenario.Settings.GameMode = GameModes.FullMapScenario;
-        scenario.Settings.ResourceMode = ResourceModes.ScenarioSpawn;
-        scenario.Init();
-        SaveGame("Europe1700", scenario);
-    }
-    
-    //checksums probably
-    //saves scenario
     public static void SaveGame(string saveName, Scenario scenario)
     {
         
@@ -424,15 +206,13 @@ The <SwmToken path="/Scripts/Utils/SaveLoadGamesUtils.cs" pos="94:1:1" line-data
 
 # Saving sprite frames
 
-<SwmSnippet path="/Scripts/Utils/SaveLoadGamesUtils.cs" line="127">
+<SwmSnippet path="Scripts/Utils/SaveLoadGamesUtils.cs" line="129">
 
 ---
 
 The <SwmToken path="/Scripts/Utils/SaveLoadGamesUtils.cs" pos="129:7:7" line-data="    public static void SaveSpriteFrames(string savePath, SpriteFrames spriteFrames)">`SaveSpriteFrames`</SwmToken> method saves sprite frames as individual PNG files in a directory structure. This allows for easy storage and retrieval of sprite animations.
 
 ```
-
-    //saves sprite frames as a folder tree
     public static void SaveSpriteFrames(string savePath, SpriteFrames spriteFrames)
     {
         foreach (var animation in spriteFrames.GetAnimationNames())
@@ -453,16 +233,13 @@ The <SwmToken path="/Scripts/Utils/SaveLoadGamesUtils.cs" pos="129:7:7" line-dat
 
 # Loading sprite frames
 
-<SwmSnippet path="/Scripts/Utils/SaveLoadGamesUtils.cs" line="141">
+<SwmSnippet path="Scripts/Utils/SaveLoadGamesUtils.cs" line="144">
 
 ---
 
 The <SwmToken path="/Scripts/Utils/SaveLoadGamesUtils.cs" pos="144:7:7" line-data="    public static SpriteFrames LoadSpriteFrames(string spriteFramesFolder)">`LoadSpriteFrames`</SwmToken> method loads sprite frames from a directory structure. This method is used to reconstruct sprite animations from saved files.
 
 ```
-
-    
-    //load sprite frames from a folder tree
     public static SpriteFrames LoadSpriteFrames(string spriteFramesFolder)
     {
         var animations = Directory.GetDirectories(spriteFramesFolder);
@@ -481,15 +258,6 @@ The <SwmToken path="/Scripts/Utils/SaveLoadGamesUtils.cs" pos="144:7:7" line-dat
 
         return spriteFrames;
     }
-    
-    public static string[] GetSavesList()
-    {
-        var dirPaths = Directory.GetFiles(SavesPath, "*.zip");
-        var dirs = new string[dirPaths.Length];
-        for (int i = 0; i < dirPaths.Length; i++)
-        {
-            dirs[i] = Path.GetFileName(dirPaths[i]).Split(".zip")[0];
-        }
 ```
 
 ---
@@ -498,17 +266,13 @@ The <SwmToken path="/Scripts/Utils/SaveLoadGamesUtils.cs" pos="144:7:7" line-dat
 
 # Listing saved games and scenarios
 
-<SwmSnippet path="Scripts/Utils/SaveLoadGamesUtils.cs" line="159">
+<SwmSnippet path="Scripts/Utils/SaveLoadGamesUtils.cs" line="163">
 
 ---
 
 The <SwmToken path="/Scripts/Utils/SaveLoadGamesUtils.cs" pos="163:9:9" line-data="    public static string[] GetSavesList()">`GetSavesList`</SwmToken> and <SwmToken path="/Scripts/Utils/SaveLoadGamesUtils.cs" pos="175:9:9" line-data="    public static string[] GetScenariosList()">`GetScenariosList`</SwmToken> methods return lists of saved games and scenarios, respectively. These methods are useful for displaying available options to the user.
 
 ```
-
-        return spriteFrames;
-    }
-    
     public static string[] GetSavesList()
     {
         var dirPaths = Directory.GetFiles(SavesPath, "*.zip");
@@ -532,7 +296,6 @@ The <SwmToken path="/Scripts/Utils/SaveLoadGamesUtils.cs" pos="163:9:9" line-dat
 
         return dirs;
     }
-}
 ```
 
 ---
