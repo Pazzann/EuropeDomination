@@ -54,9 +54,7 @@ public abstract class Template
                 modifiers += (Modifiers)properties[i].GetType().GetProperty("Modifiers")!.GetValue(properties[i].GetValue(this));
         }
 
-        modifiers += EngineState.MapInfo.Scenario.Countries[Owner].Modifiers;
-        modifiers += EngineState.MapInfo.Scenario.Countries[Owner].NationalIdeas;
-        modifiers += EngineState.MapInfo.Scenario.Countries[Owner].ConsumableGoodsModifiers;
+        modifiers += EngineState.MapInfo.Scenario.Countries[Owner].TotalModifiers;
         
         return modifiers;
     }

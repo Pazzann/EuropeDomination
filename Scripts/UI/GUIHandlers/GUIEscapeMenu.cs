@@ -67,5 +67,6 @@ public partial class GUIEscapeMenu : GUIHandler
 		if(_saveName.Text == "")
 			return;
 		SaveLoadGamesUtils.SaveGame(_saveName.Text, EngineState.MapInfo.Scenario);
+		_savesPanel.Visible = false;
 	}
 }

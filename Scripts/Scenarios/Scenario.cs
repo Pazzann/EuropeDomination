@@ -87,7 +87,6 @@ public abstract class Scenario
                     var b = a.ConvertToLandProvince();
                     b.Development = 10;
                     Map[a.Id] = b;
-                    country.Value.ResearchedTechnologies = GenerateTechnologyArray();
                 }
                 break;
             }
@@ -114,7 +113,6 @@ public abstract class Scenario
                         b.Development = 10;
                         Map[a.Id] = b;
                     }
-                    country.Value.ResearchedTechnologies = GenerateTechnologyArray();
                 }
                 break;
             }
@@ -134,7 +132,6 @@ public abstract class Scenario
                         b.Development = 10;   
                         Map[a.Id] = b;
                     }
-                    country.Value.ResearchedTechnologies = GenerateTechnologyArray();
                 }
                 break;
             }

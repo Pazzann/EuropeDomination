@@ -210,10 +210,12 @@ public partial class GUICountryWindow : GUIHandler
 			
 			_technologyTreeContainer.AddChild(technologyTreeInstance);
 		}
+		_updateTechnologyWindow();
 	}
 
 	private void _updateTechnologyWindow()
 	{
+
 		for (int x = 0; x < EngineState.MapInfo.Scenario.TechnologyTrees.Length; x++)
 		{
 			for (int y = 0; y < EngineState.MapInfo.Scenario.TechnologyTrees[x].TechnologyLevels.Count; y++)

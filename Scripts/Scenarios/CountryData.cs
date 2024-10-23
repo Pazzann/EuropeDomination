@@ -24,32 +24,115 @@ public class CountryData
     public Dictionary<int, List<DiplomacyAgreement>> DiplomacyAgreements { get; set; }
 
     public float Money { get; set; }
-    public int Manpower  { get; set; }
+    public int Manpower { get; set; }
     public Modifiers Modifiers { get; set; }
-
-    
-
     public string Name { get; set; }
-    
+
     public List<General> Generals { get; set; }
     public List<Template> RegimentTemplates { get; set; }
     public List<UnitData> Units { get; set; }
 
     public List<List<List<bool>>> ResearchedTechnologies { get; set; }
     public Dictionary<Vector3I, int> CurrentlyResearching { get; init; }
-    public List<int> UnlockedBuildings { get; init; }
-    public List<int> UnlockedRecipies { get; init; }
+
     
+
+    public Modifiers TotalModifiers
+    {
+        get
+        {
+            var a = Modifiers.DefaultModifiers();
+            a += Modifiers;
+            a += TechnologyModifiers;
+            a += NationalIdeas;
+            a += ConsumableGoodsModifiers;
+            return a;
+        }
+    }
+    
+    public Modifiers TechnologyModifiers
+    {
+        get
+        {
+            var a = Modifiers.DefaultModifiers();
+            for (int i = 0; i < EngineState.MapInfo.Scenario.TechnologyTrees.Length; i++)
+            {
+                var tree = EngineState.MapInfo.Scenario.TechnologyTrees[i];
+                for (int j = 0; j < tree.TechnologyLevels.Count; j++)
+                {
+                    var level = tree.TechnologyLevels[j];
+                    for (int k = 0; k < level.Technologies.Count; k++)
+                    {
+                        var technology = level.Technologies[k];
+                        if (ResearchedTechnologies[i][j][k])
+                            a += technology.Modifiers;
+                    }
+                }
+            }
+
+            return a;
+        }
+    }
+    
+    public List<int> UnlockedRecipies
+    {
+        get
+        {
+            var a = new List<int>();
+            for (int i = 0; i < EngineState.MapInfo.Scenario.TechnologyTrees.Length; i++)
+            {
+                var tree = EngineState.MapInfo.Scenario.TechnologyTrees[i];
+                for (int j = 0; j < tree.TechnologyLevels.Count; j++)
+                {
+                    var level = tree.TechnologyLevels[j];
+                    for (int k = 0; k < level.Technologies.Count; k++)
+                    {
+                        var technology = level.Technologies[k];
+                        if (technology.RecipyToUnlock > -1 && ResearchedTechnologies[i][j][k])
+                            a.Add(technology.RecipyToUnlock);
+                    }
+                }
+            }
+
+            return a;
+        }
+    }
+    public List<int> UnlockedBuildings
+    {
+        get
+        {
+            var a = new List<int>();
+            for (int i = 0; i < EngineState.MapInfo.Scenario.TechnologyTrees.Length; i++)
+            {
+                var tree = EngineState.MapInfo.Scenario.TechnologyTrees[i];
+                for (int j = 0; j < tree.TechnologyLevels.Count; j++)
+                {
+                    var level = tree.TechnologyLevels[j];
+                    for (int k = 0; k < level.Technologies.Count; k++)
+                    {
+                        var technology = level.Technologies[k];
+                        if (technology.BuildingToUnlock > -1 && ResearchedTechnologies[i][j][k])
+                            a.Add(technology.BuildingToUnlock);
+                    }
+                }
+            }
+
+            return a;
+        }
+    }
+
     public Modifiers NationalIdeas { get; init; }
-    
+
     //bool checks if the requirments for the next month are fullfilled
     public Dictionary<int, bool> ConsumableGoods { get; init; }
-    
+
     public int Id { get; init; }
 
     public CountryData(int id, string name, Vector3 color, Modifiers modifiers, int money, int manpower,
         List<General> generals, List<Admiral> admirals, List<UnitData> units, List<Template> templates,
-        Dictionary<int, List<DiplomacyAgreement>> diplomacyAgreements, int capitalId, Dictionary<Vector3I, int> currentlyResearching, List<int> unlockedBuildings, List<int> unlockedRecipies, Modifiers nationalIdeas, Dictionary<int, bool> consumableGoods)
+        Dictionary<int, List<DiplomacyAgreement>> diplomacyAgreements, int capitalId,
+        Dictionary<Vector3I, int> currentlyResearching, List<List<List<bool>>> researchedTechnologies,
+        Modifiers nationalIdeas, Dictionary<int, bool> consumableGoods)
     {
         Id = id;
         Name = name;
@@ -64,29 +147,20 @@ public class CountryData
         DiplomacyAgreements = diplomacyAgreements;
         CapitalId = capitalId;
         CurrentlyResearching = currentlyResearching;
-        UnlockedBuildings = unlockedBuildings;
-        UnlockedRecipies = unlockedRecipies;
+        ResearchedTechnologies = researchedTechnologies;
         NationalIdeas = nationalIdeas;
         ConsumableGoods = consumableGoods;
     }
 
-    
+
     [JsonConstructor]
     public CountryData()
     {
-        
     }
 
     public void ApplyResearchedTechnology(Vector3I technologyId)
     {
         CurrentlyResearching.Remove(technologyId);
-        var technology = EngineState.MapInfo.Scenario.TechnologyTrees[technologyId.X].TechnologyLevels[technologyId.Y]
-            .Technologies[technologyId.Z];
-        Modifiers.ApplyModifiers(technology.Modifiers);
-        if (technology.BuildingToUnlock > -1)
-            UnlockedBuildings.Add(technology.BuildingToUnlock);
-        if(technology.RecipyToUnlock > -1)
-            UnlockedRecipies.Add(technology.RecipyToUnlock);
         ResearchedTechnologies[technologyId.X][technologyId.Y][technologyId.Z] = true;
     }
 
@@ -95,18 +169,11 @@ public class CountryData
         get
         {
             var modifiers = Modifiers.DefaultModifiers();
-            foreach (var propertyInfo in modifiers.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+            foreach (var goodId in ConsumableGoods.Where(d => d.Value))
             {
-                foreach (var goodId in ConsumableGoods.Where(d=> d.Value))
-                {
-                    var good = EngineState.MapInfo.Scenario.Goods[goodId.Key] as ConsumableGood;
-                    if (propertyInfo.Name.Contains("Bonus"))
-                        propertyInfo.SetValue(modifiers, (float)propertyInfo.GetValue(modifiers) + (float)propertyInfo.GetValue(good.Modifiers));
-                    else
-                        propertyInfo.SetValue(modifiers, (float)propertyInfo.GetValue(modifiers) * (float)propertyInfo.GetValue(good.Modifiers));
-                }
+                var good = EngineState.MapInfo.Scenario.Goods[goodId.Key] as ConsumableGood;
+                modifiers += good.Modifiers;
             }
-            
             return modifiers;
         }
     }
@@ -114,13 +181,13 @@ public class CountryData
     public UncolonizedProvinceData[] GetAvailibaleProvincesToColonize()
     {
         var a = new List<UncolonizedProvinceData>();
-        foreach (UncolonizedProvinceData uncolonizedProvinceData in EngineState.MapInfo.MapProvinces(ProvinceTypes.UncolonizedProvinces))
+        foreach (UncolonizedProvinceData uncolonizedProvinceData in EngineState.MapInfo.MapProvinces(ProvinceTypes
+                     .UncolonizedProvinces))
         {
-            if(uncolonizedProvinceData.CanBeColonizedByCountry(Id))
+            if (uncolonizedProvinceData.CanBeColonizedByCountry(Id))
                 a.Add(uncolonizedProvinceData);
         }
 
         return a.ToArray();
     }
-
 }

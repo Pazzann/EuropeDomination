@@ -137,9 +137,7 @@ public abstract class Regiment
                                                 (float)properties[i].GetType().GetProperty("NeededToBuildUnit").GetValue(properties[i].GetValue(this)), 1);
         }
 
-        modifiers += EngineState.MapInfo.Scenario.Countries[Owner].Modifiers;
-        modifiers += EngineState.MapInfo.Scenario.Countries[Owner].NationalIdeas;
-        modifiers += EngineState.MapInfo.Scenario.Countries[Owner].ConsumableGoodsModifiers;
+        modifiers += EngineState.MapInfo.Scenario.Countries[Owner].TotalModifiers;
         
         return modifiers;
     }
@@ -157,10 +155,7 @@ public abstract class Regiment
                 modifiers += (Modifiers)properties[i].GetType().GetProperty("Modifiers").GetValue(properties[i].GetValue(this));
         }
 
-        modifiers += EngineState.MapInfo.Scenario.Countries[Owner].Modifiers;
-        modifiers += EngineState.MapInfo.Scenario.Countries[Owner].NationalIdeas;
-        modifiers += EngineState.MapInfo.Scenario.Countries[Owner].ConsumableGoodsModifiers;
-        
+        modifiers += EngineState.MapInfo.Scenario.Countries[Owner].TotalModifiers;
         return modifiers;
     }
 
