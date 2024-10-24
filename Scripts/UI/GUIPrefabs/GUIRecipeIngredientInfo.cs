@@ -11,7 +11,7 @@ public partial class GUIRecipeIngredientInfo : PanelContainer
 	{
 		GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0).SpriteFrames = GlobalResources.GoodSpriteFrames;
 		GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0).SetFrame(good.Id);
-		GetChild(0).GetChild<Label>(1).Text = good.ToString();
+		GetChild(0).GetChild<Label>(1).Text = good.Name;
 		GetChild(0).GetChild<Label>(2).Text = amount.ToString("N1");
 	}
 }

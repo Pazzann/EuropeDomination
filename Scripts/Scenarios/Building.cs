@@ -38,6 +38,13 @@ public class Building
 
     public Modifiers Modifiers { get; init; }
 
+    public void DayTick()
+    {
+        BuildingTime++;
+        if (BuildingTime >= TimeToBuild) IsFinished = true;
+    }
+    
+    
     public Building Clone()
     {
         return new Building(Name, Id, Cost, ResourceCost, TimeToBuild, 0, false, Modifiers);

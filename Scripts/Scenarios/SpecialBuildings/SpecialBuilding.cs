@@ -14,6 +14,12 @@ public abstract class SpecialBuilding
     public int BuildingTime { get; set; }
     public abstract int Cost { get; }
     public bool IsFinished { get; set; }
+    
+    public void DayTick()
+    {
+        BuildingTime++;
+        if (BuildingTime >= TimeToBuild) IsFinished = true;
+    }
 
     public SpecialBuilding( int buildingTime, bool isFinished)
     {

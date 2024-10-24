@@ -23,9 +23,9 @@ public partial class GUIResources : VBoxContainer
 		for (var i = 0; i < resourceCount; i++)
 		{
 			var a = GUIResource.Instantiate();
-			(a.GetChild(0).GetChild(0).GetChild(0) as AnimatedTextureRect).SpriteFrames =
+			a.GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0).SpriteFrames =
 				GlobalResources.GoodSpriteFrames;
-			(a.GetChild(0).GetChild(0).GetChild(0) as AnimatedTextureRect).SetFrame(i);
+			a.GetChild(0).GetChild(0).GetChild<AnimatedTextureRect>(0).SetFrame(i);
 			AddChild(a);
 		}
 	}
@@ -40,7 +40,7 @@ public partial class GUIResources : VBoxContainer
 	}
 
 	
-	//rewrite
+	//TODO: rewrite; writes ultimatly false info
 	public void DrawResources(LandColonizedProvinceData data)
 	{
 		var AllResourcesChange = new double[EngineState.MapInfo.Scenario.Goods.Length];

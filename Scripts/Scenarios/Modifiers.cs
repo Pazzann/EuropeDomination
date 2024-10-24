@@ -9,17 +9,21 @@ namespace EuropeDominationDemo.Scripts.Scenarios;
 [Serializable]
 public class Modifiers
 {
+    private static Type _type = typeof(Modifiers);
+    private static PropertyInfo[] _properties = _type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+    
     [JsonConstructor]
     public Modifiers()
     {
         
     }
-    public Modifiers(float productionEfficiency, float transportationBonus, float additionalTrainingEfficiency, float additionalTrainingBonus, float additionalTemplateCostEfficiency, float additionalTemplateCostBonus,
+    public Modifiers(float productionEfficiency, float productionBonus, float transportationBonus, float additionalTrainingEfficiency, float additionalTrainingBonus, float additionalTemplateCostEfficiency, float additionalTemplateCostBonus,
         float maxMoraleBonus, float maxMoraleEfficiency, float moraleIncreaseEfficiency, int maxManpowerBonus,
         float maxManpowerEfficiency, float manpowerIncreaseEfficiency, float attackEfficiency, float attackBonus,
         float defenseEfficiency, float defenseBonus)
     {
         ProductionEfficiency = productionEfficiency;
+        ProductionBonus = productionBonus;
         TransportationBonus = transportationBonus;
         AdditionalTrainingEfficiency = additionalTrainingEfficiency;
         AdditionalTrainingBonus = additionalTrainingBonus;
@@ -38,6 +42,8 @@ public class Modifiers
     }
     [HasNegativeMeaning(false)]
     public float ProductionEfficiency { get; set; }
+    [HasNegativeMeaning(false)]
+    public float ProductionBonus { get; set; }
     [HasNegativeMeaning(false)]
     public float TransportationBonus { get; set; }
     [HasNegativeMeaning(true)]
@@ -69,13 +75,13 @@ public class Modifiers
     [HasNegativeMeaning(false)]
     public float DefenseBonus { get; set; }
 
-    public static Modifiers DefaultModifiers(float productionEfficiency = 1.0f, float transportationCapacity = 0.0f,
+    public static Modifiers DefaultModifiers(float productionEfficiency = 1.0f,  float productionBonus  = 0.0f, float transportationCapacity = 0.0f,
         float additionalTrainingEfficiency = 1.0f, float additionalTrainingBonus = 0f, float additionalTemplateCostEfficiency = 1.0f, float additionalTemplateCostBonus = 0f, float maxMoraleBonus = 0.0f, float maxMoraleEfficiency = 1.0f,
         float moraleIncreaseEfficiency = 1.0f,
         int maxManpowerBonus = 0, float maxManpowerEfficiency = 1.0f, float manpowerIncreaseEfficiency = 1.0f, float attackEfficiency = 1.0f, float attackBonus = 0.0f,
         float defenseEfficiency = 1.0f, float defenseBonus = 0.0f)
     {
-        return new Modifiers(productionEfficiency, transportationCapacity, additionalTrainingEfficiency, additionalTrainingBonus, additionalTemplateCostEfficiency, additionalTemplateCostBonus,
+        return new Modifiers(productionEfficiency, productionBonus, transportationCapacity, additionalTrainingEfficiency, additionalTrainingBonus, additionalTemplateCostEfficiency, additionalTemplateCostBonus,
             maxMoraleBonus, maxMoraleEfficiency, moraleIncreaseEfficiency, maxManpowerBonus, maxManpowerEfficiency,
             manpowerIncreaseEfficiency, attackEfficiency, attackBonus, defenseEfficiency, defenseBonus);
     }
@@ -84,11 +90,11 @@ public class Modifiers
     public static bool IsDifferentFromDefault(Modifiers modifiers)
     {
         var defMod = DefaultModifiers();
-        foreach (var propertyInfo in modifiers.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+        foreach (var propertyInfo in _properties)
         {
             var val = propertyInfo.GetValue(modifiers);
             var defVal = propertyInfo.GetValue(defMod);
-            if (Mathf.Abs((float)val - (float)defVal) > EngineVariables.Eps)
+            if (Mathf.Abs((float)val! - (float)defVal!) > EngineVariables.Eps)
                 return true;
         }
 
@@ -97,13 +103,13 @@ public class Modifiers
 
     public Modifiers ApplyModifiers(Modifiers modifiers)
     {
-        foreach (var propertyInfo in modifiers.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+        foreach (var propertyInfo in _properties)
         {
             var val = propertyInfo.GetValue(modifiers);
             propertyInfo.SetValue(this,
                 propertyInfo.Name.Contains("Bonus")
-                    ? ((float)propertyInfo.GetValue(this) + (float)val)
-                    : ((float)propertyInfo.GetValue(this) * (float)val));
+                    ? ((float)propertyInfo.GetValue(this)! + (float)val)
+                    : ((float)propertyInfo.GetValue(this)! * (float)val));
         }
 
         return this;
@@ -111,7 +117,7 @@ public class Modifiers
 
     public Modifiers MultiplyByValue(float value)
     {
-        foreach (var propertyInfo in GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+        foreach (var propertyInfo in _properties)
         {
             propertyInfo.SetValue(this, (float)propertyInfo.GetValue(this) * value);
         }

@@ -17,7 +17,7 @@ public class ScenarioSettings
     public int MaxRegimentWidthInBattle { get; set; }
     public float TaxEarningPerDev { get; set; }
     public float ManpowerPerDev { get; set; }
-    public float InitialProduction { get; set; }
+    public float InitialProductionPerDev{ get; set; }
     public float MoraleRecoveryPerDay { get; set; }
     public List<KeyValuePair<int, double>> ResourceRequirmentsPer10Dev { get; set; }
     public int CostIncrementPerDev { get; set; }
@@ -71,7 +71,7 @@ public class ScenarioSettings
         MaxRegimentWidthInBattle = 20;
         TaxEarningPerDev = 0.02f;
         ManpowerPerDev = 0.5f;
-        InitialProduction = 1.0f;
+        InitialProductionPerDev = 0.1f;
         MoraleRecoveryPerDay = 0.01f;
         ResourceRequirmentsPer10Dev = new()
         {

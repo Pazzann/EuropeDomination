@@ -8,6 +8,7 @@ namespace EuropeDominationDemo.Scripts.Scenarios.SpecialBuildings;
 public class StockAndTrade : SpecialBuilding
 {
     public override int Cost => 100;
+
     public override int TimeToBuild => 100;
     public int RouteId { get; set; }
     public TransportationRoute[] TransportationRoutes { get; set; }
@@ -25,12 +26,20 @@ public class StockAndTrade : SpecialBuilding
         RouteId = 0;
     }
 
+    public void Transport(Modifiers modifiers)
+    {
+        foreach (var route in TransportationRoutes)
+            if (route != null)
+                route.TransportOnce(modifiers);
+            
+    }
+
     public static TransportationRoute[] DefaultRoutes()
     {
-        return new TransportationRoute[10]
-        {
+        return
+        [
             null, null, null, null, null, null, null, null, null, null
-        };
+        ];
     }
 
     public static KeyValuePair<int, double>[] DefaultSellingSlots()

@@ -31,6 +31,7 @@ public class Factory : SpecialBuilding
     {
         TransportationRoute = transportationRoute;
     }
+    
 }
 
 [Serializable]

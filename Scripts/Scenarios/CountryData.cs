@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text.Json.Serialization;
 using EuropeDominationDemo.Scripts.Enums;
 using EuropeDominationDemo.Scripts.GlobalStates;
@@ -35,7 +34,6 @@ public class CountryData
     public List<List<List<bool>>> ResearchedTechnologies { get; set; }
     public Dictionary<Vector3I, int> CurrentlyResearching { get; init; }
 
-    
 
     public Modifiers TotalModifiers
     {
@@ -49,7 +47,7 @@ public class CountryData
             return a;
         }
     }
-    
+
     public Modifiers TechnologyModifiers
     {
         get
@@ -73,7 +71,7 @@ public class CountryData
             return a;
         }
     }
-    
+
     public List<int> UnlockedRecipies
     {
         get
@@ -97,6 +95,7 @@ public class CountryData
             return a;
         }
     }
+
     public List<int> UnlockedBuildings
     {
         get
@@ -120,6 +119,9 @@ public class CountryData
             return a;
         }
     }
+
+    public LandColonizedProvinceData Capital =>
+        EngineState.MapInfo.Scenario.Map[CapitalId] as LandColonizedProvinceData;
 
     public Modifiers NationalIdeas { get; init; }
 
@@ -158,6 +160,57 @@ public class CountryData
     {
     }
 
+    public void ResearchDayTick()
+    {
+        foreach (var research in CurrentlyResearching)
+        {
+            CurrentlyResearching[research.Key] += 1;
+            if (CurrentlyResearching[research.Key] >= EngineState.MapInfo.Scenario
+                    .TechnologyTrees[research.Key.X].TechnologyLevels[research.Key.Y].Technologies[research.Key.Z]
+                    .ResearchTime)
+                ApplyResearchedTechnology(research.Key);
+        }
+    }
+
+    public void UpdateConsumableGoods()
+    {
+        foreach (var good in ConsumableGoods)
+        {
+            var consumableGood = (EngineState.MapInfo.Scenario.Goods[good.Key] as ConsumableGood);
+            if (Good.CheckIfMeetsRequirements(Capital!.Resources, Good.DefaultGoods(
+                    EngineState.MapInfo.Scenario.Goods.Length,
+                    new Dictionary<int, double>()
+                    {
+                        { good.Key, consumableGood!.ConsumptionPerMonthToActivateBonus }
+                    })))
+            {
+                Capital!.Resources =
+                    Good.DecreaseGoodsByGoods(Capital!.Resources, Good.DefaultGoods(
+                        EngineState.MapInfo.Scenario.Goods.Length,
+                        new Dictionary<int, double>()
+                        {
+                            { good.Key, consumableGood!.ConsumptionPerMonthToActivateBonus }
+                        }));
+                ConsumableGoods[good.Key] = true;
+            }
+            else
+            {
+                ConsumableGoods[good.Key] = false;
+            }
+        }
+    }
+
+    public void MonthMoneyDecrease()
+    {
+        Money -= EngineState.MapInfo.Scenario.Settings.MoneyConsumptionPerMonthColony(EngineState.MapInfo.
+            MapProvinces(ProvinceTypes.UncolonizedProvinces).Count(d =>
+                (d as UncolonizedProvinceData).CurrentlyColonizedByCountry != -1 &&
+                (d as UncolonizedProvinceData).CurrentlyColonizedByCountry == Id));
+
+        Money -=
+            EngineState.MapInfo.Scenario.Settings.MoneyConsumptionPerResearch(CurrentlyResearching.Count);
+    }
+
     public void ApplyResearchedTechnology(Vector3I technologyId)
     {
         CurrentlyResearching.Remove(technologyId);
@@ -174,6 +227,7 @@ public class CountryData
                 var good = EngineState.MapInfo.Scenario.Goods[goodId.Key] as ConsumableGood;
                 modifiers += good.Modifiers;
             }
+
             return modifiers;
         }
     }

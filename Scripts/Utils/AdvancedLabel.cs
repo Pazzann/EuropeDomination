@@ -132,7 +132,7 @@ public partial class AdvancedLabel : VBoxContainer
 		_validate();
 		for (var id = 0; id < goods.Length; id++)
 			if (goods[id] > 0)
-				ShowGood(id).Append($": {goods[id]}");
+				ShowGood(id).Append($": {goods[id]:F}");
 
 		NewLine();
 		

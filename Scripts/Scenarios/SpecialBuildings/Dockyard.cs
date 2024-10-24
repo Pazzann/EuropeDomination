@@ -17,7 +17,14 @@ public class Dockyard : SpecialBuilding
         WaterTransportationRoutes = waterTransportationRoutes;
         RouteId = 0;
     }
-
+    
+    public void Transport(Modifiers modifiers)
+    {
+        foreach (var route in WaterTransportationRoutes)
+            if (route != null)
+                route.TransportOnce(modifiers);
+    }
+    
     public void SetRoute(TransportationRoute transportationRoute)
     {
         WaterTransportationRoutes[RouteId] = (WaterTransportationRoute)transportationRoute;

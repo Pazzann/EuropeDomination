@@ -30,8 +30,8 @@ public partial class MapHandler : GameHandler
 
     private PackedScene _devScene;
     private Node2D _devSpawner;
-    private Dictionary<int, AnimatedSprite2D> _devStorage = new ();
-    
+    private Dictionary<int, AnimatedSprite2D> _devStorage = new();
+
     private ShaderMaterial _fogMaterial;
     private Sprite2D _fogSprite;
 
@@ -62,7 +62,7 @@ public partial class MapHandler : GameHandler
         _fogSprite = GetNode<Sprite2D>("Map3");
         _fogMaterial = _fogSprite.Material as ShaderMaterial;
         _fogMaterial.SetShaderParameter("timescale", 0.01f);
-        _fogMaterial.SetShaderParameter("lowQualityMode", GameSettings.PerformaceMode == GraphicPreset.LowQualityMode );
+        _fogMaterial.SetShaderParameter("lowQualityMode", GameSettings.PerformaceMode == GraphicPreset.LowQualityMode);
 
 
         _textScene = (PackedScene)GD.Load("res://Prefabs/Text.tscn");
@@ -85,7 +85,7 @@ public partial class MapHandler : GameHandler
         _mapMaterial.SetShaderParameter("colors", EngineState.MapInfo.MapColors);
         _mapMaterial.SetShaderParameter("selectedID", -1);
 
-        
+
         _clearCountryText();
         _clearProvinceText();
         Task.Run(_updateCountryText);
@@ -169,8 +169,8 @@ public partial class MapHandler : GameHandler
         {
             bool isPossibleToColonize = uncolonizedProvinceData.CanBeColonizedByCountry(EngineState.PlayerCountryId);
             InvokeToGUIEvent(new ToGUIShowUncolonizedProvinceData(uncolonizedProvinceData, isPossibleToColonize));
-
         }
+
         return false;
     }
 
@@ -275,10 +275,12 @@ public partial class MapHandler : GameHandler
                 {
                     EngineState.MapInfo.Scenario.TechnologyTrees[e.TechnologyId.X].TechnologyLevels[e.TechnologyId.Y]
                         .Technologies[e.TechnologyId.Z].ReduceByRequirments(EngineState.PlayerCountryId);
-                    EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].CurrentlyResearching.Add(e.TechnologyId, 0);
+                    EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].CurrentlyResearching
+                        .Add(e.TechnologyId, 0);
                     InvokeToGUIEvent(new ToGUIUpdateCountryWindow());
                     InvokeToGUIEvent(new ToGUIUpdateCountryInfo());
                 }
+
                 return;
             }
             case GUIChangeConsumableGoodStatus e:
@@ -294,6 +296,7 @@ public partial class MapHandler : GameHandler
                     EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].ConsumableGoods
                         .Add(e.GoodId, false);
                 }
+
                 InvokeToGUIEvent(new ToGUIUpdateCountryWindow());
                 return;
             }
@@ -303,6 +306,7 @@ public partial class MapHandler : GameHandler
                 return;
             }
         }
+
         if (EngineState.MapInfo.CurrentSelectedProvinceId < 0)
             return;
         if (EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] is UncolonizedProvinceData
@@ -310,7 +314,6 @@ public partial class MapHandler : GameHandler
         {
             switch (@event)
             {
-                
                 case GUIColonizeProvince e:
                     var country = EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId];
                     if (country.Money > EngineState.MapInfo.Scenario.Settings.InitialMoneyCostColony &&
@@ -318,14 +321,18 @@ public partial class MapHandler : GameHandler
                     {
                         country.Money -= EngineState.MapInfo.Scenario.Settings.InitialMoneyCostColony;
                         country.Manpower -= EngineState.MapInfo.Scenario.Settings.InitialManpowerCostColony;
-                        (EngineState.MapInfo.Scenario.Map[e.ProvinceId] as UncolonizedProvinceData).CurrentlyColonizedByCountry =
-                            EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].Id;   
-                        InvokeToGUIEvent(new ToGUIShowUncolonizedProvinceData((EngineState.MapInfo.Scenario.Map[e.ProvinceId] as UncolonizedProvinceData), false));
+                        (EngineState.MapInfo.Scenario.Map[e.ProvinceId] as UncolonizedProvinceData)
+                            .CurrentlyColonizedByCountry =
+                            EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].Id;
+                        InvokeToGUIEvent(new ToGUIShowUncolonizedProvinceData(
+                            (EngineState.MapInfo.Scenario.Map[e.ProvinceId] as UncolonizedProvinceData), false));
                         InvokeToGUIEvent(new ToGUIUpdateCountryInfo());
                     }
+
                     return;
             }
         }
+
         if (EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] is LandColonizedProvinceData
             data)
             switch (@event)
@@ -365,7 +372,7 @@ public partial class MapHandler : GameHandler
 
                     return;
                 }
-                    
+
                 case GUIGoodTransportChange e:
                     _goodToTransport = e.GoodToTransport;
                     _transportationAmount = e.Amount;
@@ -391,9 +398,10 @@ public partial class MapHandler : GameHandler
                             militaryTrainingCamp.TrainingList.Enqueue(new ArmyInfantryRegiment(
                                 currentSelectedTemplate.Name,
                                 EngineState.PlayerCountryId, currentSelectedTemplate.Id, 0,
-                                currentSelectedTemplate.TrainingTime, false, 0, 0, Good.DefaultGoods(EngineState.MapInfo.Scenario.Goods.Length),
+                                currentSelectedTemplate.TrainingTime, false, 0, 0,
+                                Good.DefaultGoods(EngineState.MapInfo.Scenario.Goods.Length),
                                 BehavioralPatterns.Attack, Modifiers.DefaultModifiers()));
-                            
+
                             return;
                         }
                         case ArmyCavalryRegimentTemplate template:
@@ -401,7 +409,8 @@ public partial class MapHandler : GameHandler
                             militaryTrainingCamp.TrainingList.Enqueue(new ArmyCavalryRegiment(
                                 currentSelectedTemplate.Name,
                                 EngineState.PlayerCountryId, currentSelectedTemplate.Id, 0,
-                                currentSelectedTemplate.TrainingTime, false, 0, 0, Good.DefaultGoods(EngineState.MapInfo.Scenario.Goods.Length),
+                                currentSelectedTemplate.TrainingTime, false, 0, 0,
+                                Good.DefaultGoods(EngineState.MapInfo.Scenario.Goods.Length),
                                 BehavioralPatterns.Attack, Modifiers.DefaultModifiers()));
                             return;
                         }
@@ -410,7 +419,8 @@ public partial class MapHandler : GameHandler
                             militaryTrainingCamp.TrainingList.Enqueue(new ArmyArtilleryRegiment(
                                 currentSelectedTemplate.Name,
                                 EngineState.PlayerCountryId, currentSelectedTemplate.Id, 0,
-                                currentSelectedTemplate.TrainingTime, false, 0, 0, Good.DefaultGoods(EngineState.MapInfo.Scenario.Goods.Length),
+                                currentSelectedTemplate.TrainingTime, false, 0, 0,
+                                Good.DefaultGoods(EngineState.MapInfo.Scenario.Goods.Length),
                                 BehavioralPatterns.Attack, Modifiers.DefaultModifiers()));
                             return;
                         }
@@ -425,27 +435,30 @@ public partial class MapHandler : GameHandler
                     switch (e.SpecialBuildingId)
                     {
                         case 0:
-                            b = new StockAndTrade(0, false,  StockAndTrade.DefaultRoutes(), StockAndTrade.DefaultSellingSlots(), StockAndTrade.DefaultBuyingSlots());
-                            
+                            b = new StockAndTrade(0, false, StockAndTrade.DefaultRoutes(),
+                                StockAndTrade.DefaultSellingSlots(), StockAndTrade.DefaultBuyingSlots());
+
                             break;
                         case 1:
-                            b = new Factory(-1, 0, false, 0.1f,  null);
+                            b = new Factory(-1, 0, false, 0.1f, null);
                             break;
                         case 2:
-                            b = new Dockyard(0, false,  Dockyard.DefaultWaterTransportationRoutes());
+                            b = new Dockyard(0, false, Dockyard.DefaultWaterTransportationRoutes());
                             break;
                         case 3:
-                            b = new MilitaryTrainingCamp(0, false,  new Queue<ArmyRegiment>());
+                            b = new MilitaryTrainingCamp(0, false, new Queue<ArmyRegiment>());
                             break;
                         default:
                             return;
                     }
+
                     if (EngineState.MapInfo.Scenario.Countries[province.Owner].Money - b.Cost >
                         -EngineVariables.Eps)
                     {
                         EngineState.MapInfo.Scenario.Countries[province.Owner].Money -= b.Cost;
                         province.SpecialBuildings[e.TabId] = b;
                     }
+
                     InvokeToGUIEvent(new ToGUIUpdateCountryInfo());
                     return;
                 }
@@ -478,8 +491,9 @@ public partial class MapHandler : GameHandler
                 case GUIDevProvinceEvent e:
                 {
                     var province = (LandColonizedProvinceData)EngineState.MapInfo.Scenario.Map[e.ProvinceId];
-                    
-                    var requirments = EngineState.MapInfo.Scenario.Settings.ResourceAndCostRequirmentsToDev(province.Development);
+
+                    var requirments =
+                        EngineState.MapInfo.Scenario.Settings.ResourceAndCostRequirmentsToDev(province.Development);
                     if (EngineState.MapInfo.Scenario.Countries[province.Owner].Money - requirments.Key >= 0f &&
                         Good.CheckIfMeetsRequirements(province.Resources, requirments.Value))
                     {
@@ -488,6 +502,7 @@ public partial class MapHandler : GameHandler
                             Good.DecreaseGoodsByGoods(province.Resources, requirments.Value);
                         province.Development++;
                     }
+
                     return;
                 }
                 default:
@@ -517,7 +532,6 @@ public partial class MapHandler : GameHandler
 
     private void _updateProvinceText()
     {
-
         var mapContours = new MapContours(EngineState.MapInfo, GlobalResources.MapTexture);
         var allLabels = new ConcurrentBag<CurvedText>();
 
@@ -690,53 +704,36 @@ public partial class MapHandler : GameHandler
 
     public override void DayTick()
     {
-        foreach (LandColonizedProvinceData data in EngineState.MapInfo.MapProvinces(ProvinceTypes.ColonizedProvinces))
+        foreach (LandColonizedProvinceData provinceData in EngineState.MapInfo.MapProvinces(ProvinceTypes
+                     .ColonizedProvinces))
         {
-            foreach (var building in data.Buildings.Where(building => !building.IsFinished))
-            {
-                building.BuildingTime++;
-                if (building.BuildingTime >= building.TimeToBuild) building.IsFinished = true;
-            }
+            provinceData.ConstructionDayTick();
 
-            foreach (var specialBuilding in data.SpecialBuildings.Where(d => d != null))
+            foreach (MilitaryTrainingCamp camp in provinceData.SpecialBuildings.Where(d => d is MilitaryTrainingCamp))
             {
-                if (!specialBuilding.IsFinished)
+                if (camp.IsFinished && camp.TrainingList.Count > 0 && camp.TrainingList.Peek().DayTick())
                 {
-                    specialBuilding.BuildingTime++;
-                    if (specialBuilding.BuildingTime >= specialBuilding.TimeToBuild) specialBuilding.IsFinished = true;
+                    var a = camp.TrainingList.Dequeue();
+                    a.IsFinished = true;
+                    var b = new ArmyUnitData("test", provinceData.Owner, provinceData.Id, Modifiers.DefaultModifiers(),
+                        new List<ArmyRegiment> { a }, null, new List<KeyValuePair<int, int>>(), 0,
+                        UnitStates.Standing);
+                    EngineState.MapInfo.Scenario.Countries[provinceData.Owner].Units.Add(b);
+                    InvokeToEngineEvent(new ToEngineAddArmyUnitEvent(b));
                 }
-                
-                if (specialBuilding is MilitaryTrainingCamp camp && camp.IsFinished)
-                    if (camp.TrainingList.Count > 0 && camp.TrainingList.Peek().DayTick())
-                    {
-                        var a = camp.TrainingList.Dequeue();
-                        a.IsFinished = true;
-                        var b = new ArmyUnitData("test", data.Owner, data.Id, Modifiers.DefaultModifiers(),
-                            new List<ArmyRegiment> { a }, null, new List<KeyValuePair<int, int>>(), 0,
-                            UnitStates.Standing);
-                        EngineState.MapInfo.Scenario.Countries[data.Owner].Units.Add(b);
-                        InvokeToEngineEvent(new ToEngineAddArmyUnitEvent(b));
-                    }
             }
-                
         }
 
         foreach (var country in EngineState.MapInfo.Scenario.Countries)
         {
-            foreach (var research in country.Value.CurrentlyResearching)
-            {
-                country.Value.CurrentlyResearching[research.Key] += 1;
-                if(country.Value.CurrentlyResearching[research.Key] >= EngineState.MapInfo.Scenario.TechnologyTrees[research.Key.X].TechnologyLevels[research.Key.Y].Technologies[research.Key.Z].ResearchTime)
-                    country.Value.ApplyResearchedTechnology(research.Key);
-            }
+            country.Value.ResearchDayTick();
         }
+
         InvokeToGUIEvent(new ToGUIUpdateCountryWindow());
 
         if (EngineState.MapInfo.CurrentSelectedProvinceId > -1 &&
             EngineState.MapInfo.Scenario.Map[EngineState.MapInfo.CurrentSelectedProvinceId] is LandColonizedProvinceData
                 landData) InvokeToGUIEvent(new ToGUIUpdateLandProvinceDataEvent(landData));
-        
-        
     }
 
 
@@ -745,150 +742,61 @@ public partial class MapHandler : GameHandler
         var shouldTheMapBeUpdated = false;
         foreach (var country in EngineState.MapInfo.Scenario.Countries)
         {
-            country.Value.Money -= EngineState.MapInfo.Scenario.Settings.MoneyConsumptionPerMonthColony(EngineState.MapInfo
-                .MapProvinces(ProvinceTypes.UncolonizedProvinces).Count(d =>
-                    (d as UncolonizedProvinceData).CurrentlyColonizedByCountry != -1 &&
-                    (d as UncolonizedProvinceData).CurrentlyColonizedByCountry ==
-                    country.Key));
-
-            country.Value.Money -= EngineState.MapInfo.Scenario.Settings.MoneyConsumptionPerResearch(country.Value.CurrentlyResearching.Count);
+            country.Value.MonthMoneyDecrease();
         }
+
         foreach (UncolonizedProvinceData data in EngineState.MapInfo.MapProvinces(ProvinceTypes.UncolonizedProvinces))
         {
             if (data.CurrentlyColonizedByCountry != -1)
             {
-                
                 data.SettlersCombined += EngineState.MapInfo.Scenario.Settings.ColonyGrowth;
 
                 if (data.SettlersCombined >= data.SettlersNeeded)
                 {
                     EngineState.MapInfo.Scenario.Map[data.Id] = data.ConvertToLandProvince();
-                    if(EngineState.MapInfo.CurrentSelectedProvinceId == data.Id)InvokeToGUIEvent(new ToGuiShowLandProvinceDataEvent(EngineState.MapInfo.Scenario.Map[data.Id] as LandColonizedProvinceData));
+                    if (EngineState.MapInfo.CurrentSelectedProvinceId == data.Id)
+                        InvokeToGUIEvent(new ToGuiShowLandProvinceDataEvent(
+                            EngineState.MapInfo.Scenario.Map[data.Id] as LandColonizedProvinceData));
                     shouldTheMapBeUpdated = true;
                     var obj = _devScene.Instantiate() as AnimatedSprite2D;
-                    obj.Frame = (EngineState.MapInfo.Scenario.Map[data.Id] as LandColonizedProvinceData).Development - 1;
-                    obj.Position = (EngineState.MapInfo.Scenario.Map[data.Id] as LandColonizedProvinceData).CenterOfWeight;
+                    obj.Frame = (EngineState.MapInfo.Scenario.Map[data.Id] as LandColonizedProvinceData).Development -
+                                1;
+                    obj.Position = (EngineState.MapInfo.Scenario.Map[data.Id] as LandColonizedProvinceData)
+                        .CenterOfWeight;
                     _devSpawner.AddChild(obj);
                     _devStorage.Add(data.Id, obj);
                 }
                 else
                 {
-                    if (EngineState.MapInfo.CurrentSelectedProvinceId == data.Id) 
+                    if (EngineState.MapInfo.CurrentSelectedProvinceId == data.Id)
                         InvokeToGUIEvent(new ToGUIShowUncolonizedProvinceData(data, false));
                 }
-                
-                
             }
         }
-        
+
         //goodgenerationandtransportation and tax income
-        foreach (LandColonizedProvinceData data in EngineState.MapInfo.MapProvinces(ProvinceTypes.ColonizedProvinces))
+        foreach (LandColonizedProvinceData provinceData in EngineState.MapInfo.MapProvinces(ProvinceTypes
+                     .ColonizedProvinces))
         {
-            EngineState.MapInfo.Scenario.Countries[data.Owner].Money += data.TaxIncome;
-            EngineState.MapInfo.Scenario.Countries[data.Owner].Manpower += (int)data.ManpowerGrowth;
+            EngineState.MapInfo.Scenario.Countries[provinceData.Owner].Money += provinceData.TaxIncome;
+            EngineState.MapInfo.Scenario.Countries[provinceData.Owner].Manpower += (int)provinceData.ManpowerGrowth;
 
-
-            data.Resources[data.Good] += data.ProductionRate;
-            if (data.HarvestedTransport != null)
-            {
-                var diff = data.Resources[data.Good] -
-                           Mathf.Max(data.Resources[data.Good] - data.HarvestedTransport.Amount, 0);
-                data.Resources[data.Good] -= diff;
-                (EngineState.MapInfo.Scenario.Map[data.HarvestedTransport.ProvinceIdTo] as LandColonizedProvinceData)
-                    .Resources[data.HarvestedTransport.TransportationGood] += diff;
-            }
+            provinceData.Produce();
+            provinceData.Transport();
         }
 
         //factorystage
-        foreach (LandColonizedProvinceData data in EngineState.MapInfo.MapProvinces(ProvinceTypes.ColonizedProvinces))
-        foreach (var building in data.SpecialBuildings.Where(b => b != null))
-        {
-            if (building is Factory factory && factory.Recipe != -1)
-            {
-                if (EngineState.MapInfo.Scenario.Recipes[factory.Recipe].Ingredients.Where((ingredient) =>
-                            data.Resources[ingredient.Key] - ingredient.Value * factory.ProductionRate < 0).ToArray()
-                        .Length <= 0)
-                {
-                    foreach (var ingredient in EngineState.MapInfo.Scenario.Recipes[factory.Recipe].Ingredients)
-                        data.Resources[ingredient.Key] -= ingredient.Value * factory.ProductionRate;
-
-                    data.Resources[EngineState.MapInfo.Scenario.Recipes[factory.Recipe].Output] += EngineState.MapInfo.Scenario.Recipes[factory.Recipe].OutputAmount * factory.ProductionRate;
-                    factory.ProductionRate = Mathf.Min(factory.ProductionRate + factory.ProductionGrowthRate,
-                        factory.MaxProductionRate);
-                }
-                else
-                {
-                    factory.ProductionRate = Mathf.Max(factory.ProductionRate - factory.ProductionGrowthRate, 0.1f);
-                }
-
-                if (factory.TransportationRoute != null)
-                {
-                    var diff = data.Resources[EngineState.MapInfo.Scenario.Recipes[factory.Recipe].Output] -
-                               Mathf.Max(data.Resources[EngineState.MapInfo.Scenario.Recipes[factory.Recipe].Output] - factory.TransportationRoute.Amount,
-                                   0);
-                    data.Resources[EngineState.MapInfo.Scenario.Recipes[factory.Recipe].Output] -= diff;
-                    (EngineState.MapInfo.Scenario.Map[factory.TransportationRoute.ProvinceIdTo] as
-                        LandColonizedProvinceData).Resources[EngineState.MapInfo.Scenario.Recipes[factory.Recipe].Output] += diff;
-                }
-            }
-
-            if (building is StockAndTrade stockAndTrade)
-                foreach (var route in stockAndTrade.TransportationRoutes)
-                    if (route != null)
-                    {
-                        var diff = data.Resources[route.TransportationGood] -
-                                   Mathf.Max(data.Resources[route.TransportationGood] - route.Amount, 0);
-                        data.Resources[route.TransportationGood] -= diff;
-                        (EngineState.MapInfo.Scenario.Map[route.ProvinceIdTo] as LandColonizedProvinceData).Resources[
-                            route.TransportationGood] += diff;
-                    }
-
-            if (building is Dockyard dockyard)
-                foreach (var route in dockyard.WaterTransportationRoutes)
-                    if (route != null)
-                    {
-                        var diff = data.Resources[route.TransportationGood] -
-                                   Mathf.Max(data.Resources[route.TransportationGood] - route.Amount, 0);
-                        data.Resources[route.TransportationGood] -= diff;
-                        (EngineState.MapInfo.Scenario.Map[route.ProvinceIdTo] as LandColonizedProvinceData).Resources[
-                            route.TransportationGood] += diff;
-                    }
-        }
-
-        foreach (var country in EngineState.MapInfo.Scenario.Countries)
-        {
-            foreach (var good in country.Value.ConsumableGoods)
-            {
-                if (Good.CheckIfMeetsRequirements(
-                        (EngineState.MapInfo.Scenario.Map[country.Value.CapitalId] as LandColonizedProvinceData)
-                        .Resources, Good.DefaultGoods(EngineState.MapInfo.Scenario.Goods.Length,new Dictionary<int, double>()
-                        {
-                            {
-                                good.Key, (EngineState.MapInfo.Scenario.Goods[good.Key] as ConsumableGood)
-                                .ConsumptionPerMonthToActivateBonus
-                            }
-                        })))
-                {
-                    (EngineState.MapInfo.Scenario.Map[country.Value.CapitalId] as LandColonizedProvinceData).Resources =
-                        Good.DecreaseGoodsByGoods(
-                            (EngineState.MapInfo.Scenario.Map[country.Value.CapitalId] as LandColonizedProvinceData)
-                            .Resources, Good.DefaultGoods(EngineState.MapInfo.Scenario.Goods.Length,new Dictionary<int, double>()
-                            {
-                                {
-                                    good.Key, (EngineState.MapInfo.Scenario.Goods[good.Key] as ConsumableGood)
-                                    .ConsumptionPerMonthToActivateBonus
-                                }
-                            }));
-                    country.Value.ConsumableGoods[good.Key] = true;
-                }
-                else
-                {
-                    country.Value.ConsumableGoods[good.Key] = false;
-                }
-            }
-        }
+        foreach (LandColonizedProvinceData provinceData in EngineState.MapInfo.MapProvinces(ProvinceTypes.ColonizedProvinces))
+            provinceData.SpecialBuildingProduce();
         
-        if(shouldTheMapBeUpdated)
+        //transportation
+        foreach (LandColonizedProvinceData provinceData in EngineState.MapInfo.MapProvinces(ProvinceTypes.ColonizedProvinces))
+            provinceData.SpecialBuildingTransport();
+        
+        foreach (var country in EngineState.MapInfo.Scenario.Countries)
+            country.Value.UpdateConsumableGoods();
+
+        if (shouldTheMapBeUpdated)
             _updateMap();
 
         InvokeToGUIEvent(new ToGUIUpdateCountryInfo());
