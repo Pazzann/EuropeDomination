@@ -31,6 +31,7 @@ public class BattleData
     public List<ArmyRegiment> PlacedAttackerRegiments { get; }
     public List<ArmyRegiment> PlacedDefenderRegiments { get; }
 
+    //places the maximum possible amount of regiments of army using _placeRegiment
     private List<ArmyRegiment> _placeUnit(int frontRow, int backRow, ArmyUnitData army)
     {
         var infantry = new Stack<ArmyInfantryRegiment>(army.Regiments.OfType<ArmyInfantryRegiment>());
@@ -47,7 +48,7 @@ public class BattleData
         ];
         for (var positionIndex = 0;
              positionIndex < cavalryPrimaryPositions.Length && cavalry.Count > 0;
-             positionIndex++)
+             ++positionIndex)
         {
             _placeRegiment(cavalry.Pop(), cavalryPrimaryPositions[positionIndex], placedRegiments);
         }
@@ -56,7 +57,7 @@ public class BattleData
         for (var rightPosition = 10;
              rightPosition < 20 && Battlefield[frontRow, rightPosition] == null &&
              (infantry.Count > 0 || cavalry.Count > 0);
-             rightPosition++)
+             ++rightPosition)
         {
             if (infantry.Count > 0)
                 _placeRegiment(infantry.Pop(), new(frontRow, rightPosition), placedRegiments);
@@ -79,7 +80,7 @@ public class BattleData
         for (var rightPosition = 10;
              rightPosition < 20 && Battlefield[backRow, rightPosition] == null &&
              (artillery.Count > 0 || infantry.Count > 0 || cavalry.Count > 0);
-             rightPosition++)
+             ++rightPosition)
         {
             if (artillery.Count > 0)
                 _placeRegiment(artillery.Pop(), new(backRow, rightPosition), placedRegiments);
@@ -105,13 +106,15 @@ public class BattleData
         return placedRegiments;
     }
 
+    //sets regiment Position, adds it to Battlefield and placedRegiments
     private void _placeRegiment(ArmyRegiment regiment, Vector2I position, List<ArmyRegiment> placedRegiments)
     {
         regiment.Position = position;
         Battlefield[position.X, position.Y] = regiment;
         placedRegiments.Add(regiment);
     }
-
+    
+    //sets the Targets of PlacedAttackerRegiments & PlacedDefenderRegiments
     private void _setTargets()
     {
         foreach (var defenderRegiment in PlacedDefenderRegiments)
@@ -128,18 +131,32 @@ public class BattleData
                     attackerRegiment.DistanceTo(attackerRegiment.Target?.Position))
                     attackerRegiment.Target = defenderRegiment;
     }
+    
+    //reflects the move of the regiment on oldPosition (made by the corresponding Regiment method) on the Battlefield 
+    private void _moveRegimentOnBattlefield(Vector2I oldPosition)
+    {
+        var regiment = Battlefield[oldPosition.X, oldPosition.Y];
+        if (regiment.Position is { } newPosition)
+        {
+            Battlefield[newPosition.X, newPosition.Y] = regiment;
+            Battlefield[oldPosition.X, oldPosition.Y] = null;
+        }
+    }
+    
 
     public void DayTick()
     {
-        for (var x = 0; x < 20; x++)
-        for (var y = 0; y < 20; y++)
+        var placedRegiments = new List<ArmyRegiment>(PlacedAttackerRegiments);
+        placedRegiments.AddRange(PlacedDefenderRegiments);
+        foreach (var regiment in placedRegiments)
         {
-            
+            if (regiment.HasInRange(regiment.Target?.Position)) regiment.AttackRegiment(regiment.Target);
+            else
+                if (regiment.Position is { } oldPosition)      //formal check, regiment.Position must be set
+                {
+                    regiment.MoveToTarget(Battlefield);
+                    _moveRegimentOnBattlefield(oldPosition);
+                }
         }
-        /*foreach (unit in Units)
-        {
-            if () Move(unit);
-            else Attack(unit,);
-        }*/
     }
 }

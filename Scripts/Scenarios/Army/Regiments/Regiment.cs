@@ -89,7 +89,6 @@ public abstract class Regiment
     public float MaxAttack => MaxModifier("Attack", 1f);
 
     public int Range => 2;
-    public int Step => 1;
 
     #nullable enable
     public Regiment? Target { get; set; }
@@ -99,22 +98,27 @@ public abstract class Regiment
     // todo: for future updates movement logic is different for each regiment type
     
     
-    public void Move()
+    public void MoveToTarget(Regiment[,] battlefield)
     {
-        
+        //changes regiment Position in order to get closer to Target.Position, ensuring new position was empty
     }
 
-    public void AttackTarget()
+    public void AttackRegiment(Regiment? regimentToAttack)
     {
         
     }
 
     public int DistanceTo(Vector2I? destination)
     {
-        if (destination is Vector2I nonNullDestination && Position is Vector2I nonNullPosition)
+        if (destination is { } nonNullDestination && Position is { } nonNullPosition)
             return Mathf.Max(Mathf.Abs(nonNullDestination.X - nonNullPosition.X),
                 Mathf.Abs(nonNullDestination.Y - nonNullPosition.Y));
         else return -1;
+    }
+
+    public bool HasInRange(Vector2I? requestedPosition)
+    {
+        return requestedPosition != null && DistanceTo(requestedPosition) <= Range;
     }
     
     public abstract void Consume();
