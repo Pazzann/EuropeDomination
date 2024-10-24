@@ -8,6 +8,7 @@ using Godot;
 
 namespace EuropeDominationDemo.Scripts.Scenarios.Goods;
 
+
 [Serializable]
 [JsonPolymorphic]
 [JsonDerivedType(typeof(ConsumableGood), typeDiscriminator: "consumableGood")]
@@ -29,7 +30,8 @@ namespace EuropeDominationDemo.Scripts.Scenarios.Goods;
 [JsonDerivedType(typeof(LightNavalWeapon), typeDiscriminator: "lightNavalWeaponGood")]
 [JsonDerivedType(typeof(MediumNavalWeapon), typeDiscriminator: "mediumNavalWeaponGood")]
 [JsonDerivedType(typeof(NavalWeapon), typeDiscriminator: "navalWeaponGood")]
-public abstract class Good
+public class Good
+
 {
     public int Id { get;init;  }
     public Vector3 Color { get;init;  }

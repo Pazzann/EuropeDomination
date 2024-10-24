@@ -39,8 +39,10 @@ public class EuropeScenario : Scenario
             new HarvestedGood(6, "Flax", new Vector3(0.2f, 0.8f, 0.4f), 2.5f),
             new HarvestedGood(7, "Cotton", new Vector3(0.7f, 0.7f, 0.7f), 2.5f),
             new HarvestedGood(8, "Coal", new Vector3(0.1f, 0.1f, 0.1f), 2.5f),
-            new HarvestedGood(9, "Salt", new Vector3(0.9f, 0.9f, 0.9f), 2.5f)
+            new HarvestedGood(9, "Salt", new Vector3(0.9f, 0.9f, 0.9f), 2.5f),
+            new Good(10, "Steel", new Vector3(0.3f, 0.3f, 0.3f), 2.5f),
         ];
+
 
 
         Date = new DateTime(1700, 1, 1);
@@ -62,8 +64,13 @@ public class EuropeScenario : Scenario
             }, 3, 1f),
             new(1,new Dictionary<int, double>
             {
-                { 0, 1 }
-            }, 4, 4f)
+                {0, 1 }
+            }, 4, 4f),
+            new(2,new Dictionary<int, double>
+            {
+                { 8, 1 },
+                { 0, 10 }
+            }, 10, 1f),
         };
 
         Battles = new List<BattleData>();

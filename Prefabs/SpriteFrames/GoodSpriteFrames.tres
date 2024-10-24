@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=11 format=3 uid="uid://d3n4eikp6qnq7"]
+[gd_resource type="SpriteFrames" load_steps=12 format=3 uid="uid://d3n4eikp6qnq7"]
 
 [ext_resource type="Texture2D" uid="uid://bv8ai81boxxm8" path="res://Sprites/Good/Iron.png" id="1_lv1x1"]
 [ext_resource type="Texture2D" uid="uid://ita1qm2e07x0" path="res://Sprites/Good/Wheat.png" id="2_p77rr"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://doo2tsugvbrkl" path="res://Sprites/Good/Cotton.png" id="8_2klr8"]
 [ext_resource type="Texture2D" uid="uid://bn0c8qe3qckb5" path="res://Sprites/Good/Coal.png" id="9_cuyst"]
 [ext_resource type="Texture2D" uid="uid://bg5btdvpxjpht" path="res://Sprites/Good/Salt.png" id="10_amwq6"]
+[ext_resource type="Texture2D" uid="uid://cpemmm1qrq55k" path="res://Sprites/Good/Steel.png" id="11_ldihs"]
 
 [resource]
 animations = [{
@@ -43,6 +44,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("10_amwq6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_ldihs")
 }],
 "loop": true,
 "name": &"goods",
