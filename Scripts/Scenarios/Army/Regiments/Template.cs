@@ -19,14 +19,16 @@ namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
 [JsonDerivedType(typeof(MediumShipTemplate), typeDiscriminator: "medicalShipTemplate")]
 public abstract class Template
 {
+    private static int _idCounter = 0;
     public int Id { get; set; }
     public string Name { get; set; }
     public int Owner { get; set; }
 
-    public Template(string name, int id, int owner)
+    public Template(string name, int owner)
     {
+        _idCounter++;
         Name = name;
-        Id = id;
+        Id = _idCounter;
         Owner = owner;
     }
     [JsonConstructor]
