@@ -20,8 +20,10 @@ namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments;
 public abstract class Template
 {
     private static int _idCounter = 0;
-    public int Id { get; set; }
+    public int Id { get; init; }
     public string Name { get; set; }
+    
+    //todo: template probably should be stored just in scenario as well as diplomacy agreements
     public int Owner { get; set; }
 
     public Template(string name, int owner)

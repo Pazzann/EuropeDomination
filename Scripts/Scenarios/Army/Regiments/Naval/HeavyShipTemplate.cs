@@ -6,7 +6,7 @@ namespace EuropeDominationDemo.Scripts.Scenarios.Army.Regiments.Naval;
 [Serializable]
 public class HeavyShipTemplate : ShipTemplate
 {
-    public HeavyShipTemplate(string name, int id, int owner) : base(name, id, owner)
+    public HeavyShipTemplate(string name, int owner) : base(name, owner)
     {
     }
     [JsonConstructor]

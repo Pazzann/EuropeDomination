@@ -14,8 +14,8 @@ public class ArmyCavalryRegimentTemplate : ArmyRegimentTemplate
     public Armor Armor{ get; set; }
     public AdditionalSlotGood Additional{ get; set; }
 
-    public ArmyCavalryRegimentTemplate(string name, int id, int owner, InfantryWeapon weapon, Horse horse, Helmet helmet,
-        Armor armor, AdditionalSlotGood additionalSlotGood) : base(name, id,  owner)
+    public ArmyCavalryRegimentTemplate(string name, int owner, InfantryWeapon weapon, Horse horse, Helmet helmet,
+        Armor armor, AdditionalSlotGood additionalSlotGood) : base(name, owner)
     {
         Weapon = weapon;
         Horse = horse;

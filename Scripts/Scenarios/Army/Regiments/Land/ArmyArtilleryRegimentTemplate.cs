@@ -14,8 +14,8 @@ public class ArmyArtilleryRegimentTemplate : ArmyRegimentTemplate
     public Wheel Wheel{ get; set; }
     public AdditionalSlotGood Additional{ get; set; }
 
-    public ArmyArtilleryRegimentTemplate(string name, int id, int owner, ArtilleryWeapon weapon, Boots boots, Armor armor,
-        Wheel wheel, AdditionalSlotGood additionalSlotGood) : base(name, id, owner)
+    public ArmyArtilleryRegimentTemplate(string name, int owner, ArtilleryWeapon weapon, Boots boots, Armor armor,
+        Wheel wheel, AdditionalSlotGood additionalSlotGood) : base(name, owner)
     {
         Weapon = weapon;
         Boots = boots;

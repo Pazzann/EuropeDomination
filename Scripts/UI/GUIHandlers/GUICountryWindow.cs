@@ -309,7 +309,7 @@ public partial class GUICountryWindow : GUIHandler
 	private void _onEditArmyTemplatePressed(int templateId)
 	{
 		var armyTemplate =
-			EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].RegimentTemplates[templateId] as
+			EngineState.MapInfo.Scenario.Countries[EngineState.PlayerCountryId].RegimentTemplates.Where(i=>i.Id==templateId).ToArray()[0] as
 				ArmyRegimentTemplate;
 		
 		_templateDesignerPanel.Visible = true;
@@ -432,7 +432,7 @@ public partial class GUICountryWindow : GUIHandler
 			constructorArguments[2] = EngineState.PlayerCountryId;
 			for (int i = 0; i < 5; i++)
 			{
-				constructorArguments[3 + i] =
+				constructorArguments[2 + i] =
 					indexes[i] == -1 ? null : EngineState.MapInfo.Scenario.Goods[indexes[i]];
 			}
 
