@@ -1,24 +1,24 @@
 [gd_scene load_steps=14 format=3 uid="uid://c3x72scirbeqy"]
 
-[ext_resource type="Script" path="res://Scripts/GlobalStrategyEngine.cs" id="1_5tgh5"]
+[ext_resource type="Script" uid="uid://bb7dts0xvssnj" path="res://Scripts/GlobalStrategyEngine.cs" id="1_5tgh5"]
 [ext_resource type="PackedScene" uid="uid://db5dbn7ovemhi" path="res://Prefabs/Camera.tscn" id="1_r2m0f"]
 [ext_resource type="Material" uid="uid://bsh6h6v5qetxa" path="res://Shaders/map.tres" id="1_vjql8"]
 [ext_resource type="PackedScene" uid="uid://dx2y3s8dsllua" path="res://Prefabs/GUI/GUI.tscn" id="2_dggd8"]
-[ext_resource type="Script" path="res://Scripts/Handlers/SelectorBoxHandler.cs" id="3_kipe6"]
-[ext_resource type="Script" path="res://Scripts/Handlers/MapHandler.cs" id="3_kk5wj"]
-[ext_resource type="Shader" path="res://Shaders/occupiedmap.gdshader" id="5_q4tx4"]
+[ext_resource type="Script" uid="uid://cp5wjya6ix4s5" path="res://Scripts/Handlers/SelectorBoxHandler.cs" id="3_kipe6"]
+[ext_resource type="Script" uid="uid://whx0v7gsdq2g" path="res://Scripts/Handlers/MapHandler.cs" id="3_kk5wj"]
+[ext_resource type="Shader" uid="uid://duqlshxmc5w0h" path="res://Shaders/occupiedmap.gdshader" id="5_q4tx4"]
 [ext_resource type="Texture2D" uid="uid://bgv4y6i4ul1k" path="res://Sprites/EuropeMap.png" id="6_d2n0v"]
-[ext_resource type="Script" path="res://Scripts/Handlers/ArmyHandler.cs" id="8_7wvqb"]
-[ext_resource type="Shader" path="res://Shaders/fogOfWar.gdshader" id="8_m7kc7"]
-[ext_resource type="Script" path="res://Scripts/Handlers/AiHandler.cs" id="10_ra4as"]
+[ext_resource type="Script" uid="uid://dm4hu61s3m6gs" path="res://Scripts/Handlers/ArmyHandler.cs" id="8_7wvqb"]
+[ext_resource type="Shader" uid="uid://c6dp11cv0iyej" path="res://Shaders/fogOfWar.gdshader" id="8_m7kc7"]
+[ext_resource type="Script" uid="uid://cbrhbx2dxkelp" path="res://Scripts/Handlers/AiHandler.cs" id="10_ra4as"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hr6fk"]
 shader = ExtResource("5_q4tx4")
-shader_parameter/colors = null
+shader_parameter/colors = PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uxn0h"]
 shader = ExtResource("8_m7kc7")
-shader_parameter/colors = null
+shader_parameter/colors = PackedInt32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 shader_parameter/colorMode = 0
 shader_parameter/lowQualityMode = false
 shader_parameter/timescale = 0.2

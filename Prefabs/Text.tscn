@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cfhjx86a1prto"]
 
-[ext_resource type="Script" path="res://Scripts/Utils/Text/CurvedLabel.cs" id="1_kfk1h"]
+[ext_resource type="Script" uid="uid://k864q52undvo" path="res://Scripts/Utils/Text/CurvedLabel.cs" id="1_kfk1h"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_drjep"]
 

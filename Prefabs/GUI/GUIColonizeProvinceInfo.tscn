@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cde2bs281f5yu"]
 
-[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUIColonizeProvinceInfo.cs" id="1_dshiy"]
+[ext_resource type="Script" uid="uid://cy35hh8qp5mju" path="res://Scripts/UI/GUIHandlers/GUIColonizeProvinceInfo.cs" id="1_dshiy"]
 [ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_nytu3"]
 
 [node name="GuiColonizeProvinceInfo" type="Control"]

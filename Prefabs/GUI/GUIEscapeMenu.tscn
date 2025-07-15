@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://g0mkengr4fqi"]
 
-[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUIEscapeMenu.cs" id="1_1nkey"]
+[ext_resource type="Script" uid="uid://crvp2bld4bkx0" path="res://Scripts/UI/GUIHandlers/GUIEscapeMenu.cs" id="1_1nkey"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_gcwf5"]
 font_size = 24

@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://bw0gswtlmq4km"]
 
 [ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_frl1o"]
-[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUICountryWindow.cs" id="1_w0fs2"]
+[ext_resource type="Script" uid="uid://gffsu0bayc13" path="res://Scripts/UI/GUIHandlers/GUICountryWindow.cs" id="1_w0fs2"]
 [ext_resource type="Texture2D" uid="uid://cjeqbeq2oyx8h" path="res://Sprites/closeButton.png" id="2_gq7lc"]
 [ext_resource type="PackedScene" uid="uid://dcl8ke0y26dfo" path="res://Prefabs/GUI/Modules/GUIGoodTemplate.tscn" id="3_8yous"]
 [ext_resource type="PackedScene" uid="uid://b7s78d0eetwll" path="res://Prefabs/CustomNodes/AdvancedLabel/AdvancedLabel.tscn" id="3_73s4o"]

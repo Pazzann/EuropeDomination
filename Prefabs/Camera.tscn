@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://db5dbn7ovemhi"]
 
-[ext_resource type="Script" path="res://Scripts/Utils/Camera.cs" id="1_ihiyk"]
+[ext_resource type="Script" uid="uid://dr67tifknyd0m" path="res://Scripts/Utils/Camera.cs" id="1_ihiyk"]
 
 [node name="Camera" type="Camera2D"]
 drag_left_margin = 0.0

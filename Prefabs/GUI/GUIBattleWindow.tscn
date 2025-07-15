@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://byyevu11tjyjw"]
 
-[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUIBattleWindow.cs" id="1_22l3g"]
+[ext_resource type="Script" uid="uid://cslmehel18f0q" path="res://Scripts/UI/GUIHandlers/GUIBattleWindow.cs" id="1_22l3g"]
 
 [node name="GuiBattleWindow" type="Control"]
 layout_mode = 3

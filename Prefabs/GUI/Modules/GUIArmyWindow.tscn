@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c7c04tkqvrhno"]
 
 [ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_wdfw5"]
-[ext_resource type="Script" path="res://Scripts/UI/GUIPrefabs/GUIArmyWindow.cs" id="2_6ak3e"]
+[ext_resource type="Script" uid="uid://b75vn5vqbanc4" path="res://Scripts/UI/GUIPrefabs/GUIArmyWindow.cs" id="2_6ak3e"]
 [ext_resource type="PackedScene" uid="uid://cwa0e16eej7ad" path="res://Prefabs/GUI/Modules/GUIRegimentInfo.tscn" id="2_liwau"]
 
 [node name="GuiArmyViewer" type="VBoxContainer"]

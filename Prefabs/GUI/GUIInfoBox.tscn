@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bji08w2m23kup"]
 
-[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUIInfoBox.cs" id="1_jax1u"]
+[ext_resource type="Script" uid="uid://bg1krf10m03up" path="res://Scripts/UI/GUIHandlers/GUIInfoBox.cs" id="1_jax1u"]
 [ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="2_tpqg3"]
 [ext_resource type="PackedScene" uid="uid://b7s78d0eetwll" path="res://Prefabs/CustomNodes/AdvancedLabel/AdvancedLabel.tscn" id="3_weydx"]
 

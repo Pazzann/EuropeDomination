@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://78r2g0kghbxj"]
 
 [ext_resource type="Texture2D" uid="uid://buwuqxb5gqot3" path="res://Sprites/MainMenuBackground.png" id="1_qbtr7"]
-[ext_resource type="Script" path="res://Scripts/Scenes/MainScene.cs" id="2_gkmux"]
+[ext_resource type="Script" uid="uid://ud51r88d3fjq" path="res://Scripts/Scenes/MainScene.cs" id="2_gkmux"]
 [ext_resource type="Texture2D" uid="uid://bnd4e7vteqv4y" path="res://Sprites/MainMenuLogo.png" id="2_qry0n"]
 [ext_resource type="PackedScene" uid="uid://bu7xxga0a3bgt" path="res://Prefabs/ScenesPrefabs/LobbyListOneScene.tscn" id="3_t6sr5"]
 

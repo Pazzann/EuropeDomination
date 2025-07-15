@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://byvrlg7fanh0g"]
 
-[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUICountryInfo.cs" id="1_cgdqq"]
+[ext_resource type="Script" uid="uid://b5rawpvmbxg0m" path="res://Scripts/UI/GUIHandlers/GUICountryInfo.cs" id="1_cgdqq"]
 [ext_resource type="Texture2D" uid="uid://brnibn5nj2tns" path="res://Sprites/MainUI.png" id="1_umr7a"]
 [ext_resource type="Texture2D" uid="uid://cnih0d5o2swp6" path="res://Sprites/MainUIRes.png" id="2_e6emn"]
 [ext_resource type="Texture2D" uid="uid://behrgfw5t15pc" path="res://Sprites/Flags/France.png" id="2_qby8s"]

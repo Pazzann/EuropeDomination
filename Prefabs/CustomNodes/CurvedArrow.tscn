@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dct87g74iw5ol"]
 
-[ext_resource type="Script" path="res://Scripts/Utils/CurvedArrow.cs" id="1_onx32"]
+[ext_resource type="Script" uid="uid://8wgcht73vapu" path="res://Scripts/Utils/CurvedArrow.cs" id="1_onx32"]
 [ext_resource type="Texture2D" uid="uid://8a42n8at3v4g" path="res://Sprites/arrow.png" id="2_y1pk1"]
 
 [node name="CurvedArrow" type="Node2D"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dymefddwea3kf"]
 
-[ext_resource type="Script" path="res://Scripts/UI/GUIPrefabs/GuiLoadPanel.cs" id="1_4evgw"]
+[ext_resource type="Script" uid="uid://cm73sq5jdpf1n" path="res://Scripts/UI/GUIPrefabs/GuiLoadPanel.cs" id="1_4evgw"]
 [ext_resource type="PackedScene" uid="uid://dpitt5u1h7a7w" path="res://Prefabs/ScenesPrefabs/ChooseSave.tscn" id="1_iispe"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_t0su5"]

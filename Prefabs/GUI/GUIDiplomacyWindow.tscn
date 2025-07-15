@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cy5i4t644rhfa"]
 
-[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUIDiplomacyWindow.cs" id="1_5uoy7"]
+[ext_resource type="Script" uid="uid://c2rdx5xyvf1tw" path="res://Scripts/UI/GUIHandlers/GUIDiplomacyWindow.cs" id="1_5uoy7"]
 [ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_mdxku"]
 
 [node name="GuiDiplomacyWindow" type="Control"]

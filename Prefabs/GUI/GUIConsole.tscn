@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://djlumxa1btokx"]
 
-[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUIConsole.cs" id="1_ws8xt"]
+[ext_resource type="Script" uid="uid://ckukdm4j4xvv8" path="res://Scripts/UI/GUIHandlers/GUIConsole.cs" id="1_ws8xt"]
 
 [node name="Console" type="Control"]
 visible = false

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cpfjytkgv6w6s"]
 
-[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUIArmyViewer.cs" id="1_5bna0"]
+[ext_resource type="Script" uid="uid://cjdxqn058622v" path="res://Scripts/UI/GUIHandlers/GUIArmyViewer.cs" id="1_5bna0"]
 [ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_6qqn8"]
 
 [node name="GuiArmyViewer" type="Control"]

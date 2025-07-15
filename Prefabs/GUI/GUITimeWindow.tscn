@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dvoue6tv3eufp"]
 
 [ext_resource type="Texture2D" uid="uid://cl6ct65sf2h4y" path="res://Sprites/GameDate.png" id="1_7bot5"]
-[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUITimeWindow.cs" id="1_38y6p"]
+[ext_resource type="Script" uid="uid://bpqto0ykn7pgd" path="res://Scripts/UI/GUIHandlers/GUITimeWindow.cs" id="1_38y6p"]
 [ext_resource type="Texture2D" uid="uid://dlb81vrmrgbsi" path="res://Sprites/Pause.png" id="2_wv6ef"]
 
 [node name="GuiTimeWindow" type="Control"]

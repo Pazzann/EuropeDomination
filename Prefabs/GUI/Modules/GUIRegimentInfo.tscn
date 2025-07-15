@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cwa0e16eej7ad"]
 
-[ext_resource type="Script" path="res://Scripts/UI/GUIPrefabs/GUIRegimentInfo.cs" id="1_rcn5x"]
+[ext_resource type="Script" uid="uid://cqbqc1wdqyl5l" path="res://Scripts/UI/GUIPrefabs/GUIRegimentInfo.cs" id="1_rcn5x"]
 
 [node name="GuiRegimentInfo" type="PanelContainer"]
 custom_minimum_size = Vector2(279, 40)

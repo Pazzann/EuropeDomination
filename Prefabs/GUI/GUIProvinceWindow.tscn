@@ -1,7 +1,7 @@
 [gd_scene load_steps=30 format=3 uid="uid://bgb7s0ynl6r2t"]
 
 [ext_resource type="Texture2D" uid="uid://ckhuxliwwap7v" path="res://Sprites/ProvinceControl.png" id="1_dqhfl"]
-[ext_resource type="Script" path="res://Scripts/UI/GUIHandlers/GUILandProvinceWindow.cs" id="1_y47fr"]
+[ext_resource type="Script" uid="uid://dxhcqpiufgex6" path="res://Scripts/UI/GUIHandlers/GUILandProvinceWindow.cs" id="1_y47fr"]
 [ext_resource type="FontFile" uid="uid://ft4ay1jb3o8h" path="res://Fonts/VeniceClassic.ttf" id="2_eb8im"]
 [ext_resource type="PackedScene" uid="uid://upcl6eoioqff" path="res://Prefabs/Good.tscn" id="3_j1a0c"]
 [ext_resource type="PackedScene" uid="uid://dkgvwnddhvy7n" path="res://Prefabs/Flag.tscn" id="4_fkosd"]

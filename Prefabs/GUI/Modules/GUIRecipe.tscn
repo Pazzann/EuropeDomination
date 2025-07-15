@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cfdjt7s0om1aq"]
 
 [ext_resource type="Theme" uid="uid://la71syjda30l" path="res://Prefabs/Themes/CustomTheme.tres" id="1_7lyw0"]
-[ext_resource type="Script" path="res://Scripts/UI/GUIPrefabs/GUIRecipe.cs" id="2_lngyq"]
+[ext_resource type="Script" uid="uid://dso5fgmxx6xql" path="res://Scripts/UI/GUIPrefabs/GUIRecipe.cs" id="2_lngyq"]
 [ext_resource type="PackedScene" uid="uid://csnvq4hwnhy3q" path="res://Prefabs/GUI/Modules/GUIGood.tscn" id="2_uxhg6"]
 [ext_resource type="Texture2D" uid="uid://dx08b2wttihu" path="res://Sprites/Building/Lock.png" id="4_3qu2o"]
 

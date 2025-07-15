@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cmlwtmi3kr8pe"]
 
-[ext_resource type="Script" path="res://Scripts/Units/ArmyUnit.cs" id="1_mwmb8"]
+[ext_resource type="Script" uid="uid://dmvr2se1430np" path="res://Scripts/Units/ArmyUnit.cs" id="1_mwmb8"]
 [ext_resource type="PackedScene" uid="uid://131wbsnepnwu" path="res://Prefabs/PathHandler.tscn" id="3_k617r"]
 [ext_resource type="Texture2D" uid="uid://88yvgpg0gtnh" path="res://Sprites/Units/FrenchGrenadier.png" id="3_rlhmj"]
 

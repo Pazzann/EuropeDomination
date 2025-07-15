@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://dx2y3s8dsllua"]
 
-[ext_resource type="Script" path="res://Scripts/UI/GUI.cs" id="1_itu4p"]
+[ext_resource type="Script" uid="uid://cv208kk52w7rg" path="res://Scripts/UI/GUI.cs" id="1_itu4p"]
 [ext_resource type="PackedScene" uid="uid://bgb7s0ynl6r2t" path="res://Prefabs/GUI/GUIProvinceWindow.tscn" id="2_8vun8"]
 [ext_resource type="PackedScene" uid="uid://dvoue6tv3eufp" path="res://Prefabs/GUI/GUITimeWindow.tscn" id="3_wch6m"]
 [ext_resource type="PackedScene" uid="uid://byvrlg7fanh0g" path="res://Prefabs/GUI/GUICountryInfo.tscn" id="4_21vin"]
