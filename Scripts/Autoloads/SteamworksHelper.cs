@@ -12,7 +12,7 @@ public partial class SteamworksHelper : Node
     public override void _Ready()
     {
         
-        if(EngineState.EnableSteamDebugLogging)
+        /*if(EngineState.EnableSteamDebugLogging)
             Dispatch.OnDebugCallback = (type, str, server) =>
             {
                 GD.Print($"[Callback {type} {(server ? "server" : "client")}]");
@@ -31,7 +31,7 @@ public partial class SteamworksHelper : Node
         {
             GD.Print("Steam API Error:" + e.Message);
             GetTree().Quit();
-        }
+        }*/
         
     }
 

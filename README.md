@@ -4,7 +4,7 @@
 
 **A turn-based grand strategy game built with Godot Engine and C#.**
 
-![demo](https://media.discordapp.net/attachments/541691734833496084/1474407755195351100/Untitled.gif?ex=6999bcba&is=69986b3a&hm=cbda362aaeb488ff54f70e37f2d780602077c8f81bb386c89f38f6c035238b8f&=&width=270&height=151)
+![demo](./demo.gif)
 
 </div>
 
@@ -40,6 +40,7 @@ While grand strategy games are fun to play, they require rigorous software engin
 * **Strict State Management:** Using C# to manage complex game states, ensuring that turns, resources, and territory ownership remain perfectly synchronized without race conditions.
 * **Engine Integration:** Bridging Godot's built-in Node architecture with custom C# scripts for optimized performance and clean code separation.
 * **Event-Driven UI:** Implementing signal-based UI updates to keep the player informed without locking the main game loop.
+* **Custom Map shaders and text fitters:** Implemented shaders to change the map and auto fitting text objects.
 
 ---
 
@@ -63,12 +64,6 @@ Click the **Build** button in the top right corner of the editor to compile the 
 
 ---
 
-<div align="center">
-<i>Developed by Anton Matiash</i>
 
 
-
-
-<a href="[https://linkedin.com/in/anton-matiash-bfg](https://www.google.com/search?q=https://linkedin.com/in/anton-matiash-bfg)">LinkedIn</a> • <a href="[https://github.com/Pazzann](https://www.google.com/search?q=https://github.com/Pazzann)">GitHub</a>
-</div>
 
