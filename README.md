@@ -1,5 +1,74 @@
-# EuropeDomination
+<div align="center">
 
-### This is my future game, realized on Godot 4.3.
-It uses only UI from Godot, Most of the game logic runs on a sub-engine for grand strategies specifically, designed by me.
-It should have multiplayer  using steamworks.
+# 🌍 Europe Domination
+
+**A turn-based grand strategy game built with Godot Engine and C#.**
+
+![demo](https://media.discordapp.net/attachments/541691734833496084/1474407755195351100/Untitled.gif?ex=6999bcba&is=69986b3a&hm=cbda362aaeb488ff54f70e37f2d780602077c8f81bb386c89f38f6c035238b8f&=&width=270&height=151)
+
+</div>
+
+---
+
+## 📌 About The Project
+
+**Europe Domination** is a turn-based grand strategy game where players manage resources, expand territories, and outmaneuver opponents across a map of Europe.
+
+Developed as a deep dive into game engine architecture and object-oriented design, the project demonstrates complex UI management, interactive map logic, and robust game state persistence.
+
+### ✨ Key Features
+
+* **Interactive Map System:** Dynamic territory selection, highlighting, and control mechanics.
+* **Turn-Based Logic:** Structured game loops governing resource generation, troop movements, and player phases.
+* **Resource & Economy Management:** Core systems for tracking and updating player economies in real-time.
+* **Custom UI Architecture:** Responsive user interface elements built specifically for grand strategy gameplay data.
+
+---
+
+## 🛠️ Built With
+
+* **Game Engine:** [Godot Engine](https://www.google.com/search?q=https://godotengine.org/) (v4.x)
+* **Language:** [C#](https://www.google.com/search?q=https://docs.microsoft.com/en-us/dotnet/csharp/)
+* **Architecture:** Object-Oriented Programming (OOP), Node-based component system.
+
+---
+
+## 🧠 Technical Highlights (For Developers)
+
+While grand strategy games are fun to play, they require rigorous software engineering under the hood. This project highlights:
+
+* **Strict State Management:** Using C# to manage complex game states, ensuring that turns, resources, and territory ownership remain perfectly synchronized without race conditions.
+* **Engine Integration:** Bridging Godot's built-in Node architecture with custom C# scripts for optimized performance and clean code separation.
+* **Event-Driven UI:** Implementing signal-based UI updates to keep the player informed without locking the main game loop.
+
+---
+
+## 🚀 Getting Started
+
+To explore the code or run the game locally on your machine:
+
+### Prerequisites
+
+* [Godot Engine](https://www.google.com/search?q=https://godotengine.org/download) (.NET version is required to compile C# code).
+* .NET SDK installed on your system.
+
+### Installation & Running
+
+1. **Clone the repository:**
+`git clone https://github.com/Pazzann/EuropeDomination.git`
+2. **Import into Godot:**
+Open the Godot Engine, click **Import**, and select the `project.godot` file located in the cloned folder.
+3. **Build and Play:**
+Click the **Build** button in the top right corner of the editor to compile the C# scripts, then press **Play** (or `F5`) to launch the game.
+
+---
+
+<div align="center">
+<i>Developed by Anton Matiash</i>
+
+
+
+
+<a href="[https://linkedin.com/in/anton-matiash-bfg](https://www.google.com/search?q=https://linkedin.com/in/anton-matiash-bfg)">LinkedIn</a> • <a href="[https://github.com/Pazzann](https://www.google.com/search?q=https://github.com/Pazzann)">GitHub</a>
+</div>
+
